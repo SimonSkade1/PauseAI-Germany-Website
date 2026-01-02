@@ -301,7 +301,7 @@ function QuotesSection() {
 
 function ProblemSolutionSection() {
   return (
-    <section className="bg-[#FF9416] py-16 md:py-24">
+    <section className="bg-[#FFA033] py-16 md:py-24">
       <div className="max-w-6xl mx-auto px-6 md:px-12">
         <div className="grid md:grid-cols-2 gap-8">
           {/* Problem Card - White text on black */}
