@@ -402,10 +402,8 @@ function ActionSection() {
               bei
             </h3>
             <p className="font-body text-pause-black/80 text-base">
-              5min/Woche Aufwand die dennoch viel bewegen. Wenn du dich
-              registriert hast, gehe auf &ldquo;Profile&rdquo;, scroll zu
-              &ldquo;Organizations You Follow&rdquo;, und folge &ldquo;Pause AI
-              Germany&rdquo;.
+              5min/Woche Aufwand die dennoch viel bewegen. Deutsche Version kommt bald.
+              {/* Wenn du dich registriert hast, gehe auf "Profile", scroll zu "Organizations You Follow", und folge "Pause AI Germany". */}
             </p>
           </div>
 
