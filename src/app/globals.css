@@ -1,0 +1,232 @@
+@import "tailwindcss";
+
+:root {
+  --pause-orange: #FF9416;
+  --pause-orange-hover: #e88510;
+  --pause-black: #0a0a0a;
+  --pause-white: #ffffff;
+  --pause-gray-light: #f8f8f8;
+  --pause-gray-dark: #1a1a1a;
+  --pause-gray-footer: #141414;
+
+  --font-headline: var(--font-saira-condensed), sans-serif;
+  --font-section: var(--font-montserrat), sans-serif;
+  --font-body: var(--font-roboto-slab), serif;
+}
+
+@theme inline {
+  --color-pause-orange: var(--pause-orange);
+  --color-pause-black: var(--pause-black);
+  --color-pause-white: var(--pause-white);
+  --color-pause-gray-light: var(--pause-gray-light);
+  --color-pause-gray-dark: var(--pause-gray-dark);
+  --color-pause-gray-footer: var(--pause-gray-footer);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--pause-white);
+  color: var(--pause-black);
+  font-family: var(--font-body);
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+/* Headline font - Saira Condensed 700 for big impact headlines */
+.font-headline {
+  font-family: var(--font-headline);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1.05;
+}
+
+/* Section headers - Montserrat Black */
+.font-section {
+  font-family: var(--font-section);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Body text - Roboto Slab */
+.font-body {
+  font-family: var(--font-body);
+  font-weight: 300;
+}
+
+.font-body-bold {
+  font-family: var(--font-body);
+  font-weight: 700;
+}
+
+/* Custom scrollbar for quotes section */
+.quotes-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.quotes-scroll::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.quotes-scroll::-webkit-scrollbar-thumb {
+  background: var(--pause-orange);
+  border-radius: 3px;
+}
+
+.quotes-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--pause-orange-hover);
+}
+
+/* Newsletter input styling */
+.newsletter-input {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.newsletter-input:focus {
+  outline: none;
+  border-color: var(--pause-orange);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.newsletter-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Light version for action section */
+.newsletter-input-light {
+  background: white;
+  border: 2px solid #e5e5e5;
+  color: var(--pause-black);
+  transition: all 0.3s ease;
+}
+
+.newsletter-input-light:focus {
+  outline: none;
+  border-color: var(--pause-orange);
+}
+
+.newsletter-input-light::placeholder {
+  color: #999;
+}
+
+/* Orange background version */
+.newsletter-input-orange {
+  background: white;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  color: var(--pause-black);
+  transition: all 0.3s ease;
+}
+
+.newsletter-input-orange:focus {
+  outline: none;
+  border-color: black;
+}
+
+.newsletter-input-orange::placeholder {
+  color: #666;
+}
+
+/* Button hover effects */
+.btn-orange {
+  background: var(--pause-orange);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.btn-orange:hover {
+  background: var(--pause-orange-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 148, 22, 0.4);
+}
+
+/* Card hover effects */
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Smooth fade-in animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+/* Slide-in animation for quotes */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in {
+  animation: slideIn 0.4s ease-out forwards;
+}
+
+/* Staggered delays */
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+
+/* Quote card styles */
+.quote-card {
+  background: linear-gradient(145deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Hero overlay gradient */
+.hero-overlay {
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.2) 0%,
+    rgba(0, 0, 0, 0.4) 50%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+}
+
+/* Orange link styling */
+a.orange-link {
+  color: var(--pause-orange);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border-bottom: 2px solid transparent;
+}
+
+a.orange-link:hover {
+  border-bottom-color: var(--pause-orange);
+}

@@ -1,0 +1,504 @@
+"use client";
+
+import Image from "next/image";
+import React, { useState, useEffect, FormEvent } from "react";
+
+const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSet8gf61pTqCYv4Fa1OAKGt6BizTKBaeyTTqIyhdlbaoOf5iw/formResponse";
+const GOOGLE_FORM_EMAIL_ENTRY = "entry.1229172991";
+
+function NewsletterForm({ variant = "light" }: { variant?: "light" | "dark" | "orange" }) {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+
+    setStatus("loading");
+
+    try {
+      // Submit to Google Forms using no-cors mode
+      await fetch(GOOGLE_FORM_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          [GOOGLE_FORM_EMAIL_ENTRY]: email,
+        }),
+      });
+
+      // With no-cors we can't read the response, but if no error was thrown, assume success
+      setStatus("success");
+      setEmail("");
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  if (status === "success") {
+    return (
+      <p className={`font-body ${variant === "light" ? "text-pause-black" : variant === "orange" ? "text-black" : "text-white"}`}>
+        Danke für deine Anmeldung!
+      </p>
+    );
+  }
+
+  const inputClass = variant === "light" ? "newsletter-input-light" : variant === "orange" ? "newsletter-input-orange" : "newsletter-input";
+  const sizeClass = variant === "light" ? "px-4 py-3 text-base" : "px-4 py-2 text-sm";
+  const buttonSizeClass = variant === "light" ? "px-6 py-3 text-sm" : "px-4 py-2 text-xs";
+  const buttonClass = variant === "orange" ? "bg-black text-white hover:bg-gray-800" : "btn-orange";
+
+  return (
+    <form onSubmit={handleSubmit} className={`flex flex-col sm:flex-row ${variant === "light" ? "gap-3" : "gap-2"}`}>
+      <input
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder={variant === "light" ? "Deine E-Mail-Adresse" : "E-Mail-Adresse"}
+        className={`${inputClass} flex-1 ${sizeClass} rounded-lg font-body`}
+        required
+      />
+      <button
+        type="submit"
+        disabled={status === "loading"}
+        className={`${buttonClass} ${buttonSizeClass} rounded-lg font-section tracking-wider whitespace-nowrap disabled:opacity-50 transition-colors`}
+      >
+        {status === "loading" ? "..." : "Abonnieren"}
+      </button>
+    </form>
+  );
+}
+
+const quotes = [
+  {
+    quote:
+      "We call for a prohibition on the development of superintelligence, not lifted before there is broad scientific consensus that it will be done safely and controllably, and strong public buy-in.",
+    name: "Statement on Superintelligence",
+    title: "Signed by 130,000+ including AI researchers, political leaders, and industry figures",
+    image: "https://superintelligence-statement.org/favicon.ico",
+    link: "https://superintelligence-statement.org/",
+  },
+  {
+    quote:
+      "Mitigating the risk of extinction from AI should be a global priority alongside other societal-scale risks such as pandemics and nuclear war.",
+    name: "Statement on AI Risk",
+    title: "Signed by hundreds of AI experts from leading labs and institutions",
+    image: "/CAISlogo.png",
+    link: "https://aistatement.com/",
+  },
+  {
+    quote:
+      "It might be quite sensible to just stop developing these things any further.",
+    name: "Geoffrey Hinton",
+    title: 'Nobel Prize winner & "Godfather of AI"',
+    image: "https://pauseai.info/_app/immutable/assets/hinton.CATQdHCu.jpeg",
+  },
+  {
+    quote:
+      "The development of full artificial intelligence could spell the end of the human race.",
+    name: "Stephen Hawking",
+    title: "Theoretical physicist and cosmologist",
+    image: "https://pauseai.info/_app/immutable/assets/hawking.CjUk02YF.jpeg",
+  },
+  {
+    quote: "We should have to expect the machines to take control.",
+    name: "Alan Turing",
+    title: "Inventor of the modern computer",
+    image: "https://pauseai.info/_app/immutable/assets/turing.CU9lsOWi.jpeg",
+  },
+  {
+    quote:
+      "Banning powerful AI systems beyond GPT-4 abilities with autonomy would be a good start.",
+    name: "Yoshua Bengio",
+    title: "AI Turing Award winner",
+    image: "https://pauseai.info/_app/immutable/assets/bengio.CI8A1hfU.jpeg",
+  },
+];
+
+function Header() {
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const target = document.getElementById("was-du-tun-kannst");
+    if (target) {
+      const headerOffset = 80;
+      const elementPosition = target.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  return (
+    <header className="fixed top-0 left-0 right-0 z-50 bg-[#FF9416]">
+      <div className="max-w-5xl mx-auto flex items-center justify-between px-6 py-4">
+      <a href="/" className="flex items-center gap-3">
+        <Image
+          src="/Logo Outlined.png"
+          alt="PauseAI Logo"
+          width={140}
+          height={40}
+          className="h-10 w-auto"
+          priority
+        />
+      </a>
+      <nav>
+        <a
+          href="#was-du-tun-kannst"
+          onClick={scrollToSection}
+          className="font-section text-sm tracking-wider text-black transition-colors hover:text-white md:text-base"
+        >
+          Hilf mit
+        </a>
+      </nav>
+      </div>
+    </header>
+  );
+}
+
+function HeroSection() {
+  return (
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background image */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/demo_amsterdam_front.jpeg"
+          alt="PauseAI Demo Amsterdam"
+          fill
+          className="object-cover"
+          priority
+        />
+        {/* Dark gradient overlay for text readability */}
+        <div className="hero-overlay absolute inset-0" />
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10 max-w-5xl mx-auto px-6 py-32 text-center md:px-12">
+        <h1 className="font-headline text-4xl text-white mb-6 md:text-6xl lg:text-7xl xl:text-8xl animate-fade-in-up">
+          Wir sind nicht bereit
+          <br />
+          für Superintelligenz
+        </h1>
+        <p className="font-body text-lg text-white/90 max-w-2xl mx-auto md:text-xl lg:text-2xl animate-fade-in-up delay-200">
+          Wir bei PauseAI Deutschland klären die Bevölkerung und Politik über KI
+          Risiken auf, insbesondere über existenzielles Risiko.
+        </p>
+      </div>
+
+      </section>
+  );
+}
+
+function QuotesSection() {
+  const [currentQuote, setCurrentQuote] = useState(0);
+  const [resetKey, setResetKey] = useState(0);
+
+  // Auto-advance every 8 seconds, resets when resetKey changes
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentQuote((prev) => (prev + 1) % quotes.length);
+    }, 8000);
+    return () => clearInterval(timer);
+  }, [resetKey]);
+
+  const nextQuote = () => {
+    setCurrentQuote((prev) => (prev + 1) % quotes.length);
+    setResetKey((k) => k + 1);
+  };
+
+  const prevQuote = () => {
+    setCurrentQuote((prev) => (prev - 1 + quotes.length) % quotes.length);
+    setResetKey((k) => k + 1);
+  };
+
+  const goToQuote = (index: number) => {
+    setCurrentQuote(index);
+    setResetKey((k) => k + 1);
+  };
+
+  const q = quotes[currentQuote];
+
+  return (
+    <section className="bg-pause-gray-dark py-16 md:py-24">
+      <div className="max-w-4xl mx-auto px-6 md:px-12">
+        <div className="relative flex items-center">
+          {/* Left Arrow */}
+          <button
+            onClick={prevQuote}
+            className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#FF9416] transition-colors mr-4 md:mr-6"
+            aria-label="Previous quote"
+          >
+            <svg className="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+
+          {/* Quote Card */}
+          <div
+            key={currentQuote}
+            className="quote-card flex-1 rounded-2xl p-6 md:p-8 animate-slide-in"
+          >
+            <div className="flex items-start gap-4 mb-4">
+              <div className="relative w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden flex-shrink-0 border-2 border-[#FF9416] bg-white">
+                <Image
+                  src={q.image}
+                  alt={q.name}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-body-bold text-white text-base md:text-lg">
+                  {(q as { link?: string }).link ? (
+                    <a href={(q as { link?: string }).link} target="_blank" rel="noopener noreferrer" className="hover:text-[#FF9416] transition-colors">
+                      {q.name}
+                    </a>
+                  ) : (
+                    q.name
+                  )}
+                </h3>
+                <p className="font-body text-white/60 text-xs md:text-sm">{q.title}</p>
+              </div>
+            </div>
+            <blockquote className="font-body text-white/90 text-base md:text-lg leading-relaxed italic">
+              &ldquo;{q.quote}&rdquo;
+            </blockquote>
+          </div>
+
+          {/* Right Arrow */}
+          <button
+            onClick={nextQuote}
+            className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#FF9416] transition-colors ml-4 md:ml-6"
+            aria-label="Next quote"
+          >
+            <svg className="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Dots Indicator */}
+        <div className="flex justify-center gap-2 mt-6">
+          {quotes.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => goToQuote(index)}
+              className={`w-2 h-2 rounded-full transition-colors ${
+                index === currentQuote ? "bg-[#FF9416]" : "bg-white/30"
+              }`}
+              aria-label={`Go to quote ${index + 1}`}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ProblemSolutionSection() {
+  return (
+    <section className="bg-[#FF9416] py-16 md:py-24">
+      <div className="max-w-6xl mx-auto px-6 md:px-12">
+        <div className="grid md:grid-cols-2 gap-8">
+          {/* Problem Card - White text on black */}
+          <div className="card-hover bg-pause-black rounded-2xl p-8 md:p-10">
+            <h2 className="font-section text-2xl text-white mb-6 md:text-3xl">
+              Das Problem
+            </h2>
+            <p className="font-body text-white/90 text-lg leading-relaxed">
+              KI-Labore arbeiten auf eine künstliche Superintelligenz zu –
+              jedoch weiß niemand, wie diese kontrolliert werden kann. Viele
+              Forscher warnen, dass dies zur Auslöschung der Menschheit führen
+              könnte.
+            </p>
+          </div>
+
+          {/* Solution Card - Black text on white */}
+          <div className="card-hover bg-white rounded-2xl p-8 md:p-10">
+            <h2 className="font-section text-2xl text-pause-black mb-6 md:text-3xl">
+              Die Lösung
+            </h2>
+            <p className="font-body text-pause-black/80 text-lg leading-relaxed">
+              Ein internationales Abkommen, das die Entwicklung von
+              superintelligenter KI stoppt, bis diese sicher möglich ist. Wir
+              unterstützen den{" "}
+              <a
+                href="https://ifanyonebuildsit.com/treaty"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="orange-link font-body-bold"
+              >
+                Entwurf
+              </a>{" "}
+              des Machine Intelligence Research Instituts.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ActionSection() {
+  return (
+    <section
+      id="was-du-tun-kannst"
+      className="bg-pause-gray-light py-16 md:py-24"
+    >
+      <div className="max-w-4xl mx-auto px-6 md:px-12">
+        <h2 className="font-headline text-3xl text-pause-black text-center mb-12 md:text-5xl lg:text-6xl">
+          Was du tun kannst
+        </h2>
+
+        <div className="space-y-10">
+          {/* Newsletter */}
+          <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm">
+            <h3 className="font-section text-lg text-pause-black mb-3 md:text-xl">
+              Folge unserem Newsletter.
+            </h3>
+            <div className="mb-4">
+              <NewsletterForm variant="light" />
+            </div>
+            <p className="font-body text-pause-black/60 text-base">
+              Damit du über wichtige Neuigkeiten und Events informiert bleibst.
+            </p>
+          </div>
+
+          {/* Discord */}
+          <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm">
+            <h3 className="font-section text-lg text-pause-black mb-3 md:text-xl">
+              Trete unserem{" "}
+              <a
+                href="https://discord.gg/pvZ5PmRX4R"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="orange-link"
+              >
+                Discord
+              </a>{" "}
+              bei
+            </h3>
+            <p className="font-body text-pause-black/80 text-base">
+              Werde Teil unserer Community und hilf mit.
+            </p>
+          </div>
+
+          {/* Microcommit */}
+          <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm">
+            <h3 className="font-section text-lg text-pause-black mb-3 md:text-xl">
+              Trete{" "}
+              <a
+                href="https://microcommit.io"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="orange-link"
+              >
+                Microcommit.io
+              </a>{" "}
+              bei
+            </h3>
+            <p className="font-body text-pause-black/80 text-base">
+              5min/Woche Aufwand die dennoch viel bewegen. Wenn du dich
+              registriert hast, gehe auf &ldquo;Profile&rdquo;, scroll zu
+              &ldquo;Organizations You Follow&rdquo;, und folge &ldquo;Pause AI
+              Germany&rdquo;.
+            </p>
+          </div>
+
+          {/* Spenden */}
+          <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm">
+            <h3 className="font-section text-lg text-pause-black mb-3 md:text-xl">
+              Spenden
+            </h3>
+            <p className="font-body text-pause-black/80 text-base">
+              Deine Spende bringt uns weiter. Bei Interesse kontaktiere:{" "}
+              <a
+                href="mailto:germany@pauseai.info"
+                className="orange-link font-body-bold"
+              >
+                germany@pauseai.info
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="bg-[#FF9416] py-12 md:py-16">
+      <div className="max-w-6xl mx-auto px-6 md:px-12">
+        <div className="grid md:grid-cols-3 gap-10 md:gap-12">
+          {/* Logo & Description */}
+          <div>
+            <Image
+              src="/Logo Outlined.png"
+              alt="PauseAI Logo"
+              width={140}
+              height={40}
+              className="h-10 w-auto mb-4"
+            />
+            <p className="font-body text-black/70 text-sm">
+              Wir klären über KI-Risiken auf und setzen uns für sichere
+              KI-Entwicklung ein.
+            </p>
+          </div>
+
+          {/* Newsletter */}
+          <div>
+            <h4 className="font-section text-sm text-black mb-4 tracking-wider">
+              Newsletter
+            </h4>
+            <NewsletterForm variant="orange" />
+          </div>
+
+          {/* Links */}
+          <div>
+            <h4 className="font-section text-sm text-black mb-4 tracking-wider">
+              Links
+            </h4>
+            <ul className="space-y-2">
+              <li>
+                <a
+                  href="/impressum"
+                  className="font-body text-black/70 text-sm hover:text-white transition-colors"
+                >
+                  Impressum
+                </a>
+              </li>
+              {/* Easy to add more links here */}
+            </ul>
+          </div>
+        </div>
+
+        <div className="border-t border-black/10 mt-10 pt-8 text-center">
+          <p className="font-body text-black/50 text-sm">
+            &copy; {new Date().getFullYear()} PauseAI Germany. Alle Rechte
+            vorbehalten.
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+export default function Home() {
+  return (
+    <>
+      <Header />
+      <main>
+        <HeroSection />
+        <ProblemSolutionSection />
+        <QuotesSection />
+        <ActionSection />
+      </main>
+      <Footer />
+    </>
+  );
+}
