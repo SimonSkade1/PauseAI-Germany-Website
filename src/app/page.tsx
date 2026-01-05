@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import React, { useState, useEffect, FormEvent } from "react";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSet8gf61pTqCYv4Fa1OAKGt6BizTKBaeyTTqIyhdlbaoOf5iw/formResponse";
 const GOOGLE_FORM_EMAIL_ENTRY = "entry.1229172991";
@@ -117,48 +119,6 @@ const quotes = [
   },
 ];
 
-function Header() {
-  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    const target = document.getElementById("was-du-tun-kannst");
-    if (target) {
-      const headerOffset = 80;
-      const elementPosition = target.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
-    }
-  };
-
-  return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-[#FF9416]">
-      <div className="max-w-5xl mx-auto flex items-center justify-between px-6 py-4">
-      <a href="/" className="flex items-center gap-3">
-        <Image
-          src="/Logo Outlined.png"
-          alt="PauseAI Logo"
-          width={140}
-          height={40}
-          className="h-10 w-auto"
-          priority
-        />
-      </a>
-      <nav>
-        <a
-          href="#was-du-tun-kannst"
-          onClick={scrollToSection}
-          className="font-section text-sm tracking-wider text-black transition-colors hover:text-white md:text-base"
-        >
-          Hilf mit
-        </a>
-      </nav>
-      </div>
-    </header>
-  );
-}
 
 function HeroSection() {
   return (
@@ -424,63 +384,6 @@ function ActionSection() {
   );
 }
 
-function Footer() {
-  return (
-    <footer className="bg-[#FF9416] py-12 md:py-16">
-      <div className="max-w-6xl mx-auto px-6 md:px-12">
-        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-10 xl:gap-12">
-          {/* Logo & Description */}
-          <div>
-            <Image
-              src="/Logo Outlined.png"
-              alt="PauseAI Logo"
-              width={140}
-              height={40}
-              className="h-10 w-auto mb-4"
-            />
-            <p className="font-body text-black/70 text-sm">
-              Wir klären über KI-Risiken auf und setzen uns für sichere
-              KI-Entwicklung ein.
-            </p>
-          </div>
-
-          {/* Newsletter */}
-          <div>
-            <h4 className="font-section text-sm text-black mb-4 tracking-wider">
-              Newsletter
-            </h4>
-            <NewsletterForm variant="orange" />
-          </div>
-
-          {/* Links */}
-          <div>
-            <h4 className="font-section text-sm text-black mb-4 tracking-wider">
-              Links
-            </h4>
-            <ul className="space-y-2">
-              <li>
-                <a
-                  href="/impressum"
-                  className="font-body text-black/70 text-sm hover:text-white transition-colors"
-                >
-                  Impressum
-                </a>
-              </li>
-              {/* Easy to add more links here */}
-            </ul>
-          </div>
-        </div>
-
-        <div className="border-t border-black/10 mt-10 pt-8 text-center">
-          <p className="font-body text-black/50 text-sm">
-            &copy; {new Date().getFullYear()} PauseAI Germany. Alle Rechte
-            vorbehalten.
-          </p>
-        </div>
-      </div>
-    </footer>
-  );
-}
 
 export default function Home() {
   return (
