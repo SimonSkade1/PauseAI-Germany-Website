@@ -162,9 +162,9 @@ function Header() {
 
 function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-screen flex items-start justify-center overflow-hidden pt-20">
       {/* Background image */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0">
         <Image
           src="/demo_amsterdam_front.jpeg"
           alt="PauseAI Demo Amsterdam"
@@ -172,24 +172,20 @@ function HeroSection() {
           className="object-cover"
           priority
         />
-        {/* Dark gradient overlay for text readability */}
-        <div className="hero-overlay absolute inset-0" />
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 max-w-5xl mx-auto px-6 py-32 text-center md:px-12">
-        <h1 className="font-headline text-4xl text-white mb-6 md:text-6xl lg:text-7xl xl:text-8xl animate-fade-in-up">
-          Wir sind nicht bereit
-          <br />
-          für Superintelligenz
-        </h1>
-        <p className="font-body text-lg text-white/90 max-w-2xl mx-auto md:text-xl lg:text-2xl animate-fade-in-up delay-200">
-          Wir bei PauseAI Deutschland klären die Bevölkerung und Politik über KI
-          Risiken auf, insbesondere über existenzielles Risiko.
-        </p>
+      {/* Content with glass blur box */}
+      <div className="relative max-w-7xl mx-auto px-4 py-16 text-center md:px-8">
+        <div className="hero-glass-box inline-block px-6 py-6 md:px-12 md:py-10">
+          <h1 className="font-headline text-3xl text-white mb-6 md:text-5xl lg:text-5xl xl:text-6xl animate-fade-in-up">
+            Wir können den <br />KI-Kontrollverlust <br /> gemeinsam verhindern
+          </h1>
+          <p className="font-body text-lg text-white/90 max-w-3xl mx-auto md:text-xl lg:text-2xl justify-left animate-fade-in-up delay-200">
+            Niemand profitiert von der Entwicklung unkontrollierbarer Systeme. <br /> Hilf mit, jetzt Klarheit zu schaffen!
+          </p>
+        </div>
       </div>
-
-      </section>
+    </section>
   );
 }
 
