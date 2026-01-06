@@ -80,6 +80,7 @@ export default function AbgeordneteSelect({
   const [search, setSearch] = useState("");
   const [filters, setFilters] = useState<Record<string, string>>({});
   const [selected, setSelected] = useState<Row | null>(null);
+  const [clickedIndex, setClickedIndex] = useState<number | null>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -357,10 +358,20 @@ export default function AbgeordneteSelect({
                   return (
                     <li
                       key={idx}
-                      className={`px-3 py-2 border-b border-gray-100 last:border-b-0 cursor-pointer hover:bg-gray-50 ${selected === r ? "bg-gray-100" : ""}`}
+                      className={`px-3 py-2 border-b border-gray-100 last:border-b-0 cursor-pointer hover:bg-gray-50 transition-transform duration-150 ${
+                        selected === r ? "bg-orange-50" : ""
+                      }`}
+                      style={
+                        clickedIndex === idx
+                          ? { transform: 'scale(0.99)', boxShadow: '0 2px 6px rgba(0,0,0,0.04)', transition: 'transform 120ms ease, box-shadow 120ms ease' }
+                          : { transition: 'transform 120ms ease, box-shadow 120ms ease' }
+                      }
                       onClick={() => {
                         setSelected(r);
                         onSelect?.(r);
+                        // transient click feedback (subtle)
+                        setClickedIndex(idx);
+                        window.setTimeout(() => setClickedIndex((cur) => (cur === idx ? null : cur)), 120);
                       }}
                     >
                       <div className="flex flex-col">

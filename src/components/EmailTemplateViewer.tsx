@@ -59,6 +59,8 @@ export default function EmailPreviewPage({
   ]);
   const [templateRaw, setTemplateRaw] = useState<string | null>(null);
   const [loadingTemplate, setLoadingTemplate] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
+  const COLLAPSED_LINES = 3;
   // const [copied, setCopied] = useState(false);
 
   // load available templates manifest from public/email-templates/index.json (if present)
@@ -95,6 +97,8 @@ export default function EmailPreviewPage({
       .then((t) => {
         if (!mounted) return;
         setTemplateRaw(t);
+        // reset collapsed preview whenever we load a new template
+        setCollapsed(true);
       })
       .catch((e) => {
         console.error('Template load error', e);
@@ -106,59 +110,30 @@ export default function EmailPreviewPage({
     };
   }, [selectedTemplate, templates]);
   
-  const generateEmailHTML = () => {
-    const genericMessage = `I hope this message finds you well. I wanted to reach out and connect with you.\n\nI look forward to hearing from you soon.`;
+  const generateEmailHTML = (maxLines?: number) => {
+    const parts = getRenderedParts();
+    const subjectText = parts.subject;
+    let bodyText = parts.body;
 
-      const data: Record<string, string> = {
-        senderName: formData.senderName || '',
-        senderEmail: formData.senderEmail || '',
-        recipientName: formData.recipientName || '',
-        // always use generic message stored locally; we no longer expose an editable message box
-        message: genericMessage,
-      };
-
-    let subject = '';
-    let body = '';
-
-    if (templateRaw) {
-      // parse Subject: header if present
-      const m = templateRaw.match(/^Subject:(.*)\r?\n\r?\n([\s\S]*)/i);
-      if (m) {
-        subject = m[1].trim();
-        body = m[2];
-      } else {
-        body = templateRaw;
+    if (typeof maxLines === 'number' && maxLines > 0) {
+      const lines = String(bodyText).replace(/\r/g, '').split(/\n/);
+      if (lines.length > maxLines) {
+        bodyText = lines.slice(0, maxLines).join('\n') + '\n\n...';
       }
-    } else {
-      subject = '';
-      body = `Hi ${data.recipientName || ''},\n\n${data.message}`;
     }
 
-    // Replace placeholders like {{key}} with values (text form)
-    const renderText = (str: string) => {
-      return str.replace(/{{\s*([a-zA-Z0-9_]+)\s*}}/g, (_m, key) => (data[key] ?? ''));
-    };
-
-    const subjectText = renderText(subject);
-    const bodyText = renderText(body);
-
-    // For HTML preview we normalize whitespace, collapse multiple blank lines,
-    // and render paragraphs for more compact vertical spacing.
     const renderHtml = (str: string) => {
       const cleaned = String(str)
         .replace(/\r/g, '')
-        // collapse 3+ newlines into two (keep paragraph gaps)
         .replace(/\n{3,}/g, '\n\n')
         .trim();
-
-      // split into paragraphs on double newlines, escape each and convert single newlines to <br/>
       const paras = cleaned.split(/\n\s*\n/).map((p) => `<p>${escapeHtml(p).replace(/\n/g, '<br/>')}</p>`);
       return paras.join('\n');
     };
 
     const subjectHtml = escapeHtml(subjectText);
     const bodyHtml = renderHtml(bodyText);
-  
+
     return `
       <style>
         .email-preview-root *{box-sizing:border-box}
@@ -275,26 +250,36 @@ export default function EmailPreviewPage({
           {/* Preview Section (make generated email the outer panel) */}
           <div className="p-0">
             <div className="overflow-hidden">
-              <div
-                className="email-preview-embed"
-                // render the generated HTML fragment directly into the page
-                dangerouslySetInnerHTML={{ __html: generateEmailHTML() }}
-              />
-            </div>
-            <div className="mt-3">
-              <button
-                type="button"
-                onClick={openInMailApp}
-                aria-label="Abschicken"
-                className="w-full inline-flex justify-center items-center px-3 py-2 bg-orange-500 text-white rounded-md text-sm hover:bg-orange-600"
-              >
-                <svg className="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="M22 2L11 13" />
-                  <path d="M22 2l-7 20-4-9-9-4 20-7z" />
-                </svg>
-                Abschicken
-              </button>
-            </div>
+                <div
+                  className="email-preview-embed"
+                  // render the generated HTML fragment directly into the page
+                  dangerouslySetInnerHTML={{ __html: generateEmailHTML(collapsed ? COLLAPSED_LINES : undefined) }}
+                />
+              </div>
+              <div className="mt-2 flex items-center justify-between">
+                <button
+                  type="button"
+                  onClick={() => setCollapsed(!collapsed)}
+                  className="text-sm text-gray-700 underline"
+                >
+                  {collapsed ? 'View all lines' : 'Show less'}
+                </button>
+                <span className="text-xs text-gray-500">Preview {collapsed ? `(${COLLAPSED_LINES} lines)` : '(full)'}</span>
+              </div>
+              <div className="mt-3">
+                <button
+                  type="button"
+                  onClick={openInMailApp}
+                  aria-label="Abschicken"
+                  className="w-full inline-flex justify-center items-center px-3 py-2 bg-orange-500 text-white rounded-md text-sm hover:bg-orange-600"
+                >
+                  <svg className="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M22 2L11 13" />
+                    <path d="M22 2l-7 20-4-9-9-4 20-7z" />
+                  </svg>
+                  Abschicken
+                </button>
+              </div>
           </div>
         </div>
       </div>
