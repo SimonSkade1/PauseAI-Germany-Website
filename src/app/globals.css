@@ -229,3 +229,48 @@ a.orange-link {
 a.orange-link:hover {
   border-bottom-color: var(--pause-orange);
 }
+
+/* Global form control styles to match site design */
+input[type="text"],
+input[type="email"],
+input[type="search"],
+select,
+textarea {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb; /* tailwind gray-200 */
+  background: #ffffff;
+  color: var(--pause-black);
+  font-family: inherit;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease, transform 0.06s ease;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #9ca3af; /* gray-400 */
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--pause-orange);
+  box-shadow: 0 6px 18px rgba(255, 148, 22, 0.08);
+  transform: translateY(-1px);
+}
+
+/* smaller selects and inputs inside compact forms */
+.form-compact input,
+.form-compact select,
+.form-compact textarea {
+  padding: 0.4rem 0.6rem;
+  border-radius: 0.375rem;
+}
+
+/* Buttons - ensure consistent baseline */
+button {
+  font-family: inherit;
+}

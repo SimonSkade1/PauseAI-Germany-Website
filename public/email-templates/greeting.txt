@@ -1,0 +1,12 @@
+Subject: Greeting from {{senderName}}
+
+Hi {{recipientName}},
+
+I hope this message finds you well. I wanted to reach out and connect with you.
+
+I look forward to hearing from you soon.
+
+Best regards,
+{{senderName}}
+
+This message was sent by {{senderName}} ({{senderEmail}})

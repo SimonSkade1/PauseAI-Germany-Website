@@ -1,75 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState, useEffect, FormEvent } from "react";
-
-const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSet8gf61pTqCYv4Fa1OAKGt6BizTKBaeyTTqIyhdlbaoOf5iw/formResponse";
-const GOOGLE_FORM_EMAIL_ENTRY = "entry.1229172991";
-
-function NewsletterForm({ variant = "light" }: { variant?: "light" | "dark" | "orange" }) {
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-
-    setStatus("loading");
-
-    try {
-      // Submit to Google Forms using no-cors mode
-      await fetch(GOOGLE_FORM_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams({
-          [GOOGLE_FORM_EMAIL_ENTRY]: email,
-        }),
-      });
-
-      // With no-cors we can't read the response, but if no error was thrown, assume success
-      setStatus("success");
-      setEmail("");
-    } catch {
-      setStatus("error");
-    }
-  };
-
-  if (status === "success") {
-    return (
-      <p className={`font-body ${variant === "light" ? "text-pause-black" : variant === "orange" ? "text-black" : "text-white"}`}>
-        Danke für deine Anmeldung!
-      </p>
-    );
-  }
-
-  const inputClass = variant === "light" ? "newsletter-input-light" : variant === "orange" ? "newsletter-input-orange" : "newsletter-input";
-  const sizeClass = variant === "light" ? "px-4 py-3 text-base" : "px-4 py-2 text-sm";
-  const buttonSizeClass = variant === "light" ? "px-6 py-3 text-sm" : "px-4 py-2 text-xs";
-  const buttonClass = variant === "orange" ? "bg-black text-white hover:bg-gray-800" : "btn-orange";
-
-  return (
-    <form onSubmit={handleSubmit} className={`flex flex-col sm:flex-row ${variant === "light" ? "gap-3" : "gap-2"}`}>
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder={variant === "light" ? "Deine E-Mail-Adresse" : "E-Mail-Adresse"}
-        className={`${inputClass} flex-1 ${sizeClass} rounded-lg font-body`}
-        required
-      />
-      <button
-        type="submit"
-        disabled={status === "loading"}
-        className={`${buttonClass} ${buttonSizeClass} rounded-lg font-section tracking-wider whitespace-nowrap disabled:opacity-50 transition-colors`}
-      >
-        {status === "loading" ? "..." : "Abonnieren"}
-      </button>
-    </form>
-  );
-}
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import NewsletterForm from "../components/NewsletterForm";
 
 const quotes = [
   {
@@ -117,48 +53,7 @@ const quotes = [
   },
 ];
 
-function Header() {
-  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    const target = document.getElementById("was-du-tun-kannst");
-    if (target) {
-      const headerOffset = 80;
-      const elementPosition = target.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
-    }
-  };
-
-  return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-[#FF9416]">
-      <div className="max-w-5xl mx-auto flex items-center justify-between px-6 py-4">
-      <a href="/" className="flex items-center gap-3">
-        <Image
-          src="/Logo Outlined.png"
-          alt="PauseAI Logo"
-          width={140}
-          height={40}
-          className="h-10 w-auto"
-          priority
-        />
-      </a>
-      <nav>
-        <a
-          href="#was-du-tun-kannst"
-          onClick={scrollToSection}
-          className="font-section text-sm tracking-wider text-black transition-colors hover:text-white md:text-base"
-        >
-          Hilf mit
-        </a>
-      </nav>
-      </div>
-    </header>
-  );
-}
 
 function HeroSection() {
   return (
@@ -364,6 +259,26 @@ function ActionSection() {
             </p>
           </div>
 
+          {/* Contact Lawmakers (link to contact page) */}
+          <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div>
+                <h3 className="font-section text-lg text-pause-black mb-1 md:text-xl">
+                  Kontaktiere Abgeordnete
+                </h3>
+                <p className="font-body text-pause-black/80 text-base">
+                  Schreibe an Abgeordnete mit Vorlagen, Tipps und aktuellem Kontaktformular.
+                </p>
+              </div>
+
+              <div className="mt-2 md:mt-0">
+                <Link href="/contactlawmakers" className="btn-orange inline-flex items-center gap-2 px-4 py-2 rounded-lg font-section">
+                  <span>Zur Kontaktseite</span>
+                </Link>
+              </div>
+            </div>
+          </div>
+
           {/* Discord */}
           <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm">
             <h3 className="font-section text-lg text-pause-black mb-3 md:text-xl">
@@ -424,63 +339,7 @@ function ActionSection() {
   );
 }
 
-function Footer() {
-  return (
-    <footer className="bg-[#FF9416] py-12 md:py-16">
-      <div className="max-w-6xl mx-auto px-6 md:px-12">
-        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-10 xl:gap-12">
-          {/* Logo & Description */}
-          <div>
-            <Image
-              src="/Logo Outlined.png"
-              alt="PauseAI Logo"
-              width={140}
-              height={40}
-              className="h-10 w-auto mb-4"
-            />
-            <p className="font-body text-black/70 text-sm">
-              Wir klären über KI-Risiken auf und setzen uns für sichere
-              KI-Entwicklung ein.
-            </p>
-          </div>
 
-          {/* Newsletter */}
-          <div>
-            <h4 className="font-section text-sm text-black mb-4 tracking-wider">
-              Newsletter
-            </h4>
-            <NewsletterForm variant="orange" />
-          </div>
-
-          {/* Links */}
-          <div>
-            <h4 className="font-section text-sm text-black mb-4 tracking-wider">
-              Links
-            </h4>
-            <ul className="space-y-2">
-              <li>
-                <a
-                  href="/impressum"
-                  className="font-body text-black/70 text-sm hover:text-white transition-colors"
-                >
-                  Impressum
-                </a>
-              </li>
-              {/* Easy to add more links here */}
-            </ul>
-          </div>
-        </div>
-
-        <div className="border-t border-black/10 mt-10 pt-8 text-center">
-          <p className="font-body text-black/50 text-sm">
-            &copy; {new Date().getFullYear()} PauseAI Germany. Alle Rechte
-            vorbehalten.
-          </p>
-        </div>
-      </div>
-    </footer>
-  );
-}
 
 export default function Home() {
   return (
