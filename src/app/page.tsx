@@ -225,7 +225,7 @@ function QuotesSection() {
           {/* Left Arrow */}
           <button
             onClick={prevQuote}
-            className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#FF9416] transition-colors mr-4 md:mr-6"
+            className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#FF9416] transition-colors mr-1 md:mr-2"
             aria-label="Previous quote"
           >
             <svg className="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -268,7 +268,7 @@ function QuotesSection() {
           {/* Right Arrow */}
           <button
             onClick={nextQuote}
-            className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#FF9416] transition-colors ml-4 md:ml-6"
+            className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#FF9416] transition-colors ml-2 md:ml-3"
             aria-label="Next quote"
           >
             <svg className="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -320,8 +320,8 @@ function ProblemSolutionSection() {
             </h2>
             <p className="font-body text-pause-black/80 text-lg leading-relaxed">
               Ein internationales Abkommen, das die Entwicklung von
-              superintelligenter KI stoppt, bis diese sicher möglich ist. Wir
-              unterstützen den{" "}
+              superintelligenter KI stoppt, bis diese sicher möglich ist. Eine
+              mögliche Lösung ist der {" "}
               <a
                 href="https://ifanyonebuildsit.com/treaty"
                 target="_blank"
@@ -367,7 +367,7 @@ function ActionSection() {
           {/* Discord */}
           <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm">
             <h3 className="font-section text-lg text-pause-black mb-3 md:text-xl">
-              Trete unserem{" "}
+              Tritt unserem{" "}
               <a
                 href="https://discord.gg/pvZ5PmRX4R"
                 target="_blank"
@@ -386,7 +386,7 @@ function ActionSection() {
           {/* Microcommit */}
           <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm">
             <h3 className="font-section text-lg text-pause-black mb-3 md:text-xl">
-              Trete{" "}
+              Tritt{" "}
               <a
                 href="https://microcommit.io"
                 target="_blank"
