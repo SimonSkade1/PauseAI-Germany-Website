@@ -266,7 +266,7 @@ function ProblemSolutionSection() {
               Das Problem
             </h2>
             <p className="font-body text-white/90 text-lg leading-relaxed">
-              KI-Labore arbeiten auf eine künstliche Superintelligenz zu –
+              KI-Labore arbeiten auf eine künstliche Superintelligenz hin –
               jedoch weiß niemand, wie diese kontrolliert werden kann. Viele
               Forscher warnen, dass dies zur Auslöschung der Menschheit führen
               könnte.
