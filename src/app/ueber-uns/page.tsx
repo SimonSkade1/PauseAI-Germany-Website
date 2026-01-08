@@ -39,36 +39,37 @@ function ContentSection() {
     borderRadius: '0.25em',
     fontSize: '1.2em',
     display: 'inline-block',
+    marginTop: '0.5em',
   };
 
   const keyPointBaseStyle = {
     padding: '1.5rem 1.75rem',
     margin: '1rem',
     borderRadius: '1rem',
-    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
     fontSize: '1.25rem',
     fontWeight: 500,
     lineHeight: 1.6,
-    color: '#0a0a0a',
+    color: 'white',
   };
 
   const keyPointOrangeStyle = {
     ...keyPointBaseStyle,
-    backgroundColor: '#FFB347',
+    backgroundColor: '#FF8C00',
   };
 
   const keyPointPeachStyle = {
     ...keyPointBaseStyle,
-    backgroundColor: '#FFAB76',
+    backgroundColor: '#FF7F50',
   };
 
   const keyPointPinkStyle = {
     ...keyPointBaseStyle,
-    backgroundColor: '#FF85A2',
+    backgroundColor: '#E91E63',
   };
 
   return (
-    <section className="bg-pause-gray-light py-16 md:py-24">
+    <section style={{ backgroundColor: '#d8d8d8' }} className="py-16 md:py-24">
       <div className="max-w-4xl mx-auto px-6 space-y-8">
         {/* Unser Ziel */}
         <h2 className="font-headline text-2xl md:text-3xl text-black mb-4">
@@ -149,6 +150,7 @@ function MembersSection() {
     borderRadius: '0.25em',
     fontSize: '1.2em',
     display: 'inline-block',
+    marginTop: '0.5em',
   };
 
   return (
