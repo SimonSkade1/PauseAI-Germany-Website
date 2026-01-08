@@ -3,6 +3,8 @@
 :root {
   --pause-orange: #FF9416;
   --pause-orange-hover: #e88510;
+  --pause-pink: #FF6B9D;
+  --pause-peach: #FFAB76;
   --pause-black: #0a0a0a;
   --pause-white: #ffffff;
   --pause-gray-light: #f8f8f8;
@@ -16,6 +18,8 @@
 
 @theme inline {
   --color-pause-orange: var(--pause-orange);
+  --color-pause-pink: var(--pause-pink);
+  --color-pause-peach: var(--pause-peach);
   --color-pause-black: var(--pause-black);
   --color-pause-white: var(--pause-white);
   --color-pause-gray-light: var(--pause-gray-light);
@@ -228,4 +232,63 @@ a.orange-link {
 
 a.orange-link:hover {
   border-bottom-color: var(--pause-orange);
+}
+
+/* Large paragraph text for content pages */
+.text-content {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  line-height: 1.75;
+  color: #374151;
+}
+
+@media (min-width: 768px) {
+  .text-content {
+    font-size: 1.25rem;
+  }
+}
+
+/* Highlight style for heading emphasis (white text on pink background) */
+@layer utilities {
+  .text-highlight {
+    background-color: var(--pause-pink);
+    color: white;
+    padding: 0.1em 0.4em;
+    border-radius: 0.25em;
+  }
+}
+
+/* Key point boxes */
+@layer components {
+  .key-point-box {
+    padding: 1.5rem 1.75rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: var(--font-body);
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.6;
+    color: var(--pause-black);
+  }
+
+  @media (min-width: 768px) {
+    .key-point-box {
+      font-size: 1.375rem;
+    }
+  }
+
+  .key-point-orange {
+    background: linear-gradient(135deg, #FFD699 0%, #FFB347 100%);
+    border-left: 5px solid var(--pause-orange);
+  }
+
+  .key-point-peach {
+    background: linear-gradient(135deg, #FFCBA4 0%, #FF9966 100%);
+    border-left: 5px solid var(--pause-peach);
+  }
+
+  .key-point-pink {
+    background: linear-gradient(135deg, #FFB6C1 0%, #FF85A2 100%);
+    border-left: 5px solid var(--pause-pink);
+  }
 }

@@ -138,7 +138,7 @@ function HeroSection() {
       <div className="relative max-w-7xl mx-auto px-4 py-16 text-center md:px-8">
         <div className="hero-glass-box inline-block px-6 py-6 md:px-12 md:py-10">
           <h1 className="font-headline text-3xl text-white mb-6 md:text-5xl lg:text-5xl xl:text-6xl animate-fade-in-up">
-            Wir können den <br />KI-Kontrollverlust <br /> gemeinsam verhindern
+            Wir können den <br />KI-Kontrollverlust <br /> noch verhindern
           </h1>
           <p className="font-body text-lg text-white/90 max-w-3xl mx-auto md:text-xl lg:text-2xl justify-left animate-fade-in-up delay-200">
             Niemand profitiert von der Entwicklung unkontrollierbarer Systeme. <br /> Hilf mit, jetzt Klarheit zu schaffen!

@@ -7,19 +7,41 @@ interface MemberBlurbProps {
   image: string;
 }
 
+function renderQuote(quote: string) {
+  // Split by ** markers to find highlighted text
+  const parts = quote.split(/\*\*(.*?)\*\*/g);
+  
+  return parts.map((part, index) => {
+    // Odd indices are the highlighted parts (inside **)
+    if (index % 2 === 1) {
+      return (
+        <span key={index} className="font-body-bold text-[#FF9416] not-italic">
+          {part}
+        </span>
+      );
+    }
+    return <span key={index}>{part}</span>;
+  });
+}
+
 export default function MemberBlurb({ name, description, quote, image }: MemberBlurbProps) {
   return (
     <div className="member-blurb relative w-full">
-      {/* Profile Picture Circle */}
+      {/* Profile Picture Circle with Gradient Border */}
       <div className="relative z-10 w-32 h-32 md:w-40 md:h-40">
-        <div className="w-full h-full rounded-full border-4 border-[#FF9416] overflow-hidden bg-white">
-          <Image
-            src={image}
-            alt={name}
-            width={160}
-            height={160}
-            className="w-full h-full object-cover"
-          />
+        <div 
+          className="w-full h-full rounded-full p-1.5"
+          style={{ background: "linear-gradient(135deg in oklab, #FFA033, #FF6B6B)" }}
+        >
+          <div className="w-full h-full rounded-full overflow-hidden bg-white">
+            <Image
+              src={image}
+              alt={name}
+              width={160}
+              height={160}
+              className="w-full h-full object-cover"
+            />
+          </div>
         </div>
       </div>
 
@@ -33,7 +55,7 @@ export default function MemberBlurb({ name, description, quote, image }: MemberB
 
         {/* Quote */}
         <blockquote className="font-body text-white/90 text-sm md:text-base leading-loose text-left italic">
-          &ldquo;{quote}&rdquo;
+          &ldquo;{renderQuote(quote)}&rdquo;
         </blockquote>
       </div>
     </div>
