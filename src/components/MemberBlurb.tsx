@@ -54,7 +54,7 @@ export default function MemberBlurb({ name, description, quote, image }: MemberB
         </div>
 
         {/* Quote */}
-        <blockquote className="font-body text-white/90 text-sm md:text-base leading-loose text-left italic">
+        <blockquote className="font-body text-white/90 text-sm md:text-base leading-loose text-justify italic">
           &ldquo;{renderQuote(quote)}&rdquo;
         </blockquote>
       </div>

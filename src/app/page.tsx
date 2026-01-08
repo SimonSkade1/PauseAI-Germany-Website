@@ -220,7 +220,7 @@ function QuotesSection() {
                 <p className="font-body text-white/60 text-xs md:text-sm">{q.title}</p>
               </div>
             </div>
-            <blockquote className="font-body text-white/90 text-base md:text-lg leading-relaxed italic">
+            <blockquote className="font-body text-white/90 text-base md:text-lg leading-relaxed italic text-justify">
               &ldquo;{q.quote}&rdquo;
             </blockquote>
           </div>
@@ -265,7 +265,7 @@ function ProblemSolutionSection() {
             <h2 className="font-section text-2xl text-white mb-6 md:text-3xl">
               Das Problem
             </h2>
-            <p className="font-body text-white/90 text-lg leading-relaxed">
+            <p className="font-body text-white/90 text-lg leading-relaxed text-justify">
               KI-Labore arbeiten auf eine künstliche Superintelligenz hin –
               jedoch weiß niemand, wie diese kontrolliert werden kann. Viele
               Forscher warnen, dass dies zur Auslöschung der Menschheit führen
@@ -278,7 +278,7 @@ function ProblemSolutionSection() {
             <h2 className="font-section text-2xl text-pause-black mb-6 md:text-3xl">
               Die Lösung
             </h2>
-            <p className="font-body text-pause-black/80 text-lg leading-relaxed">
+            <p className="font-body text-pause-black/80 text-lg leading-relaxed text-justify">
               Ein internationales Abkommen, das die Entwicklung von
               superintelligenter KI stoppt, bis diese sicher möglich ist. Eine
               mögliche Lösung ist der {" "}

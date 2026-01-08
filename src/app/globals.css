@@ -235,16 +235,19 @@ a.orange-link:hover {
 }
 
 /* Large paragraph text for content pages */
-.text-content {
-  font-family: var(--font-body);
-  font-size: 1.125rem;
-  line-height: 1.75;
-  color: #374151;
-}
-
-@media (min-width: 768px) {
+@layer components {
   .text-content {
-    font-size: 1.25rem;
+    font-family: var(--font-body);
+    font-size: 1.125rem;
+    line-height: 1.75;
+    color: #374151;
+    text-align: justify;
+  }
+
+  @media (min-width: 768px) {
+    .text-content {
+      font-size: 1.25rem;
+    }
   }
 }
 

@@ -4,6 +4,8 @@ import Footer from "@/components/Footer";
 import MemberBlurb from "@/components/MemberBlurb";
 import PauseIconLattice from "@/components/PauseIconLattice";
 import AnimatedGradientHero from "@/components/AnimatedGradientHero";
+import PauseIconHeading from "@/components/PauseIconHeading";
+import KeyPointsSection from "@/components/KeyPointsSection";
 import members from "@/data/members.json";
 
 function HeroSection() {
@@ -33,7 +35,7 @@ function HeroSection() {
 
 function ContentSection() {
   const highlightStyle = {
-    backgroundColor: '#FF6B9D',
+    backgroundColor: '#e91e6eff',
     color: 'white',
     padding: '0.15em 0.5em',
     borderRadius: '0.25em',
@@ -42,43 +44,17 @@ function ContentSection() {
     marginTop: '0.5em',
   };
 
-  const keyPointBaseStyle = {
-    padding: '1.5rem 1.75rem',
-    margin: '1rem',
-    borderRadius: '1rem',
-    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-    fontSize: '1.25rem',
-    fontWeight: 500,
-    lineHeight: 1.6,
-    color: 'white',
-  };
-
-  const keyPointOrangeStyle = {
-    ...keyPointBaseStyle,
-    backgroundColor: '#FF8C00',
-  };
-
-  const keyPointPeachStyle = {
-    ...keyPointBaseStyle,
-    backgroundColor: '#FF7F50',
-  };
-
-  const keyPointPinkStyle = {
-    ...keyPointBaseStyle,
-    backgroundColor: '#E91E63',
-  };
 
   return (
     <section style={{ backgroundColor: '#d8d8d8' }} className="py-16 md:py-24">
       <div className="max-w-4xl mx-auto px-6 space-y-8">
         {/* Unser Ziel */}
-        <h2 className="font-headline text-2xl md:text-3xl text-black mb-4">
-          Unser Ziel:
-          <br />
-          <span className="flex justify-center">
+        <div className="mb-4">
+          <PauseIconHeading>Unser Ziel:</PauseIconHeading>
+          <span className="flex justify-center font-headline text-2xl md:text-3xl">
             <span style={highlightStyle}>KI-Kontrollverlust verhindern</span>
           </span>
-        </h2>
+        </div>
         <p className="text-content">
           Aktuell wird weltweit an KI-Systemen geforscht, die intelligenter sind als jeder Mensch. Aktuell lässt sich nicht abschätzen, wie weit wir davon entfernt sind, dass bei Experimenten, die bessere KI-Systeme entwickeln sollen, Systeme entstehen, die komplett eigenständig agieren können und deren Fähigkeiten ausreichen, um jeden Versuch, sie unter Kontrolle zu behalten, außer Kraft setzen können. Unser Ziel ist, Experimente, die den KI-Kontrollverlust riskieren, zu stoppen. Wir unterstützen die Forderung des Machinen Intelligence Research Institutes (MIRI), dass Maßnahmen enthält, um die Weiterentwicklung von KI weltweit zu pausieren:
           Report (englisch)
@@ -86,54 +62,57 @@ function ContentSection() {
         </p>
 
         {/* Unser Ansatz */}
-        <h2 className="font-headline text-2xl md:text-3xl text-black mb-4 mt-16">
-          Unser Ansatz:
-          <br />
-          <span className="flex justify-center">
+        <div className="mt-16 mb-4">
+          <PauseIconHeading>Unser Ansatz:</PauseIconHeading>
+          <span className="flex justify-center font-headline text-2xl md:text-3xl">
             <span style={highlightStyle}>Klarheit schaffen</span>
           </span>
-        </h2>
+        </div>
         <p className="text-content mb-6">
-          Das Risiko ist unberechenbar, denn wir wissen weder, wie schnell KI-Entwicklung tatsächlich fortschreiten wird, noch wissen wir, was nach der Entstehung unkontrollierbarer KI-Systeme als nächstes passiert. Um so wichtiger ist es, in den Punkten, in denen es möglich ist, Klarheit zu schaffen:
+          Künstliche Intelligenz hat bereits alles von Krebsforschung bis Kriegsführung verändert, bei diesem breiten Spektrum von Anwendungsbereichen gerät schnell das wesentliche aus dem Fokus: Den KI-Kontrollverlust zu verhindern ist die Grundvorrausetzung, um spezifische Probleme im Umgang mit KI nachhaltig anzugehen und das positive Potenzial der Technologie zu nutzen. Nur wer das größte Problem nicht verdrängt hat die Chance, sich wirksam davor zu schützen.
+        </p>
+        <p className="text-content mb-6">
+          Das Risiko ist unberechenbar, denn wir wissen weder, wie schnell KI-Entwicklung tatsächlich fortschreiten wird, noch wissen wir, was nach der Entstehung unkontrollierbarer KI-Systeme als nächstes passiert. Um so wichtiger ist es, in den Punkten, in denen es möglich ist, Klarheit zu schaffen.
         </p>
 
         {/* Key Points as colored boxes */}
-        <div className="space-y-4">
-          <div style={keyPointOrangeStyle}>
-            Jeder Schritt in Richtung eigenständig handelnder Systeme erhöht das Risiko eines Kontrollverlusts.
-          </div>
-          <div style={keyPointPeachStyle}>
-            Solange die Kontrolle über KI bei Menschen liegt, haben wir eine Chance sie zu behalten.
-          </div>
-          <div style={keyPointPinkStyle}>
-            Unsere Existenz ist es wert, geschützt zu werden.
-          </div>
-        </div>
+        <KeyPointsSection
+          title="Unser Fokus"
+          points={[
+            { text: "Jeder Schritt in Richtung eigenständig handelnder Systeme erhöht das Risiko eines Kontrollverlusts." },
+            { text: "Solange die Kontrolle über KI bei Menschen liegt, haben wir eine Chance sie zu behalten." },
+            { text: "Unsere Existenz ist es wert, geschützt zu werden." },
+          ]}
+          containerColor="#FF9416"
+          pointColor="#e91e6eff"
+        />
 
         <p className="text-content mt-6">
-          Künstliche Intelligenz hat bereits alles von Krebsforschung bis Kriegsführung verändert, bei diesem breiten Spektrum von Anwendungsbereichen gerät schnell das wesentliche aus dem Fokus: Den KI-Kontrollverlust zu verhindern ist die Grundvorrausetzung, um spezifische Probleme im Umgang mit KI nachhaltig anzugehen und das positive Potenzial der Technologie zu nutzen. Nur wer das größte Problem nicht verdrängt hat die Chance, sich wirksam davor zu schützen.
         </p>
 
         {/* Wie Du helfen kannst */}
-        <h2 className="font-headline text-2xl md:text-3xl text-black mb-4 mt-16">
-          Wie Du helfen kannst:
-          <br />
-          <span className="flex justify-center">
+        <div className="mt-16 mb-4">
+          <PauseIconHeading>Wie Du helfen kannst:</PauseIconHeading>
+          <span className="flex justify-center font-headline text-2xl md:text-3xl">
             <span style={highlightStyle}>Verantwortung annehmen</span>
           </span>
-        </h2>
+        </div>
         <p className="text-content">
           Das Risiko, bereits in den nächsten fünf Jahren die Kontrolle zu verlieren, ist real. Sobald sich KI-Systeme menschlicher Kontrolle entziehen, lässt sich die Entwicklung nicht rückgängig machen. Solange die relevanten Entscheidungen noch von Menschen getroffen werden, hat gesellschaftlicher Druck einen Entscheidenden Einfluss darauf, was passiert. Gesellschaftliche Veränderung setzt sich aus den Entscheidungen unzähliger Individuen zusammen. Jeder kann einen kleinen Beitrag dazu leisten, unsere Existenz zu schützen.
         </p>
 
         {/* Was wir tun */}
-        <h2 className="font-headline text-2xl md:text-3xl text-black mb-4 mt-16">Was wir tun</h2>
+        <div className="mt-16 mb-4">
+          <PauseIconHeading>Was wir tun</PauseIconHeading>
+        </div>
         <p className="text-content">
           Wir möchten möglichst viele Menschen erreichen, um den Spalt zwischen öffentlicher Debatte und Warnungen von Experten zu schließen. Wir halten öffentliche Vorträge, reden mit Politikern, stellen Informationsmaterial bereit und können Verbindungen zwischen Entscheidungsträgern und renommierten KI-Experten herstellen. Zu vergangenen Aktionen zählen auch Proteste, Tabling und Flyering.
         </p>
 
         {/* Wie wir uns organisieren */}
-        <h2 className="font-headline text-2xl md:text-3xl text-black mb-4 mt-16">Wie wir uns organisieren</h2>
+        <div className="mt-16 mb-4">
+          <PauseIconHeading>Wie wir uns organisieren</PauseIconHeading>
+        </div>
         <p className="text-content">
           PauseAI Germany ist Teil einer internationalen Bewegung. Aktuell organisieren wir uns im Wesentlichen über unseren Discord-Server. Dort gibt es Kanäle zu verschiedenen Projekten. Dort findet auch jeden Donnerstag um 18 Uhr ein Videomeeting statt, bei dem alle Interessenten herzlich eingeladen sind. Darüber hinaus treffen wir uns in einigen Städten regelmäßig in Person. (Infos zu einzelnen Städten folgen.)
         </p>
@@ -159,7 +138,7 @@ function MembersSection() {
 
       <div className="relative z-10 py-16 md:py-24">
         <div className="max-w-4xl mx-auto px-6 mb-16">
-          <h2 className="font-headline text-2xl md:text-3xl text-black mb-4 text-center">
+          <h2 className="font-headline text-2xl md:text-3xl text-black mb-4 text-left">
             Unser Wunsch:
             <br />
             <span className="flex justify-center">
