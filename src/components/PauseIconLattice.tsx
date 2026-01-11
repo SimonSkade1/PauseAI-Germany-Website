@@ -5,15 +5,15 @@ import React from "react";
 // ============================================
 const CONFIG = {
   // Icon dimensions
-  iconWidth: 22,           // Total width of the pause icon (px)
-  iconHeight: 30,          // Total height of the pause icon (px)
+  iconWidth: 11,           // Total width of the pause icon (px)
+  iconHeight: 15,          // Total height of the pause icon (px)
   
   // Pause bar proportions (relative to icon dimensions)
   barWidthRatio: 0.35,      // Width of each bar as ratio of iconWidth (0.3 = 30%)
   barGapRatio: 0.3,        // Gap between bars as ratio of iconWidth (0.4 = 40%)
   
   // Lattice spacing
-  cellSize: 80,            // Distance between icon centers (px)
+  cellSize: 25,            // Distance between icon centers (px)
   
   // Colors
   iconColor: "#0000000f",    // Light grey for pause icons (more visible)

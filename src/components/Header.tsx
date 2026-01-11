@@ -34,14 +34,15 @@ export default function Header() {
           />
         </Link>
         <nav className="flex items-center gap-6">
-          <Link
+          {/*<Link
             href="/ueber-uns"
             className="font-section text-sm tracking-wider text-black transition-colors hover:text-white md:text-base"
           >
             Über Uns
-          </Link>
+          </Link> Work in progress*/}
           <a
             href="/#was-du-tun-kannst"
+
             onClick={scrollToSection}
             className="font-section text-sm tracking-wider text-black transition-colors hover:text-white md:text-base"
           >
