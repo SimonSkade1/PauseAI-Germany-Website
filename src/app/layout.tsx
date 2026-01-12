@@ -24,11 +24,11 @@ const robotoSlab = Roboto_Slab({
 });
 
 export const metadata: Metadata = {
-  title: "PauseAI Germany | Wir sind nicht bereit für Superintelligenz",
+  title: "PauseAI Deutschland",
   description:
     "Wir bei PauseAI Deutschland klären die Bevölkerung und Politik über KI Risiken auf, insbesondere über existenzielles Risiko.",
   icons: {
-    icon: "/Logo_Circle_White.svg",
+    icon: "/Logo.png",
   },
 };
 

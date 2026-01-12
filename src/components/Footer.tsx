@@ -106,6 +106,14 @@ export default function Footer() {
                   Impressum
                 </a>
               </li>
+              <li>
+                <a
+                  href="/datenschutz"
+                  className="font-body text-black/70 text-sm hover:text-white transition-colors"
+                >
+                  Datenschutzerklärung
+                </a>
+              </li>
             </ul>
           </div>
         </div>
