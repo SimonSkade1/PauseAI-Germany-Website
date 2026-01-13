@@ -3,21 +3,42 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { usePathname, useRouter } from 'next/navigation';
 
 export default function Header() {
-  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    const target = document.getElementById("was-du-tun-kannst");
-    if (target) {
-      const headerOffset = 80;
-      const elementPosition = target.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+  const pathname = usePathname();
+  const router = useRouter();
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
+  const scrollToSection = async (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    // If we're already on the homepage, just scroll
+    if (pathname === "/") {
+      const target = document.getElementById("was-du-tun-kannst");
+      if (target) {
+        const headerOffset = 80;
+        const elementPosition = target.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth",
+        });
+      }
+      return;
     }
+
+    // Otherwise navigate to the homepage with the hash, then attempt to scroll.
+    // router.push returns when navigation completes; add a small delay to allow layout.
+    await router.push('/#was-du-tun-kannst');
+    setTimeout(() => {
+      const target = document.getElementById('was-du-tun-kannst');
+      if (target) {
+        const headerOffset = 80;
+        const elementPosition = target.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+      }
+    }, 50);
   };
 
   return (
@@ -35,17 +56,17 @@ export default function Header() {
         </a>
         <nav className="flex items-center gap-4">
           <a
-            href="#was-du-tun-kannst"
+            href="/#was-du-tun-kannst"
             onClick={scrollToSection}
             className="font-section text-sm tracking-wider text-black transition-colors hover:text-white md:text-base"
           >
-            Hilf mit
+            Mach mit
           </a>
           <Link
             href="/contactlawmakers"
             className="font-section text-sm tracking-wider text-black/90 hover:text-white md:text-base"
           >
-            Abgeordnete kontaktieren
+            Helfen
           </Link>
         </nav>
       </div>
