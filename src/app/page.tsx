@@ -122,26 +122,29 @@ const quotes = [
 
 function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-start justify-center overflow-hidden pt-20">
-      {/* Background image - pre-processed with Oklab hue-based selective saturation (±5° orange tolerance) */}
+    <section className="relative min-h-screen flex items-center overflow-hidden pt-20">
+      {/* Background image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/demo_amsterdam_front_orange.jpeg"
-          alt="PauseAI Demo Amsterdam"
+          src="/earth-europe.png"
+          alt="Earth from space showing Europe"
           fill
-          className="object-cover"
+          className="object-cover object-[25%_center] md:object-center"
           priority
+          unoptimized
         />
       </div>
 
-      {/* Content with glass blur box - single div with backdrop blur */}
-      <div className="relative z-10 inline-block mt-16 px-6 py-6 md:px-12 md:py-10 text-center rounded-2xl pause-orange/40 backdrop-blur-sm">
-        <h1 className="font-headline text-3xl text-white mb-6 md:text-5xl lg:text-5xl xl:text-6xl animate-fade-in-up">
-          Wir können den <br />KI-Kontrollverlust <br /> noch verhindern
-        </h1>
-        <p className="font-body text-lg text-white/90 max-w-3xl mx-auto md:text-xl lg:text-2xl justify-left animate-fade-in-up delay-200">
-          Niemand profitiert von der Entwicklung unkontrollierbarer Systeme. <br /> Hilf mit, jetzt Klarheit zu schaffen!
-        </p>
+      {/* Content: centered on mobile, right-aligned on desktop */}
+      <div className="relative z-10 w-full flex justify-center lg:justify-end px-6 md:px-12 lg:px-20 xl:px-32">
+        <div className="max-w-xl xl:max-w-2xl text-center lg:text-right">
+          <h1 className="font-headline text-3xl text-white mb-6 md:text-5xl lg:text-5xl xl:text-6xl animate-fade-in-up">
+            Wir können den <br />KI-Kontrollverlust <br /> noch verhindern
+          </h1>
+          <p className="font-body-bold text-lg text-white/90 md:text-xl lg:text-2xl animate-fade-in-up delay-200">
+            Hilf mit, jetzt Klarheit zu schaffen!
+          </p>
+        </div>
       </div>
     </section>
   );
