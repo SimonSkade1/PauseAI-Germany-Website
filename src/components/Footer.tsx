@@ -1,14 +1,74 @@
 "use client";
 
 import Image from "next/image";
-import React from "react";
-import NewsletterForm from "./NewsletterForm";
+import { useState, FormEvent } from "react";
+
+const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSet8gf61pTqCYv4Fa1OAKGt6BizTKBaeyTTqIyhdlbaoOf5iw/formResponse";
+const GOOGLE_FORM_EMAIL_ENTRY = "entry.1229172991";
+
+function NewsletterForm({ variant = "orange" }: { variant?: "orange" }) {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+
+    setStatus("loading");
+
+    try {
+      await fetch(GOOGLE_FORM_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          [GOOGLE_FORM_EMAIL_ENTRY]: email,
+        }),
+      });
+
+      setStatus("success");
+      setEmail("");
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  if (status === "success") {
+    return (
+      <p className="font-body text-black">
+        Danke für deine Anmeldung!
+      </p>
+    );
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2">
+      <input
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="E-Mail-Adresse"
+        className="newsletter-input-orange flex-1 px-4 py-2 text-sm rounded-lg font-body"
+        required
+      />
+      <button
+        type="submit"
+        disabled={status === "loading"}
+        className="bg-black text-white hover:bg-gray-800 px-4 py-2 text-xs rounded-lg font-section tracking-wider whitespace-nowrap disabled:opacity-50 transition-colors"
+      >
+        {status === "loading" ? "..." : "Abonnieren"}
+      </button>
+    </form>
+  );
+}
 
 export default function Footer() {
   return (
     <footer className="bg-[#FF9416] py-12 md:py-16">
       <div className="max-w-6xl mx-auto px-6 md:px-12">
-        <div className="grid md:grid-cols-3 gap-10 md:gap-12">
+        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-10 xl:gap-12">
           {/* Logo & Description */}
           <div>
             <Image
@@ -46,7 +106,14 @@ export default function Footer() {
                   Impressum
                 </a>
               </li>
-              {/* Easy to add more links here */}
+              <li>
+                <a
+                  href="/datenschutz"
+                  className="font-body text-black/70 text-sm hover:text-white transition-colors"
+                >
+                  Datenschutzerklärung
+                </a>
+              </li>
             </ul>
           </div>
         </div>

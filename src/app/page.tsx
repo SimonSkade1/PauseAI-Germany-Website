@@ -1,11 +1,77 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import NewsletterForm from "../components/NewsletterForm";
+import React, { useState, useEffect, FormEvent } from "react";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+
+const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSet8gf61pTqCYv4Fa1OAKGt6BizTKBaeyTTqIyhdlbaoOf5iw/formResponse";
+const GOOGLE_FORM_EMAIL_ENTRY = "entry.1229172991";
+
+function NewsletterForm({ variant = "light" }: { variant?: "light" | "dark" | "orange" }) {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+
+    setStatus("loading");
+
+    try {
+      // Submit to Google Forms using no-cors mode
+      await fetch(GOOGLE_FORM_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          [GOOGLE_FORM_EMAIL_ENTRY]: email,
+        }),
+      });
+
+      // With no-cors we can't read the response, but if no error was thrown, assume success
+      setStatus("success");
+      setEmail("");
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  if (status === "success") {
+    return (
+      <p className={`font-body ${variant === "light" ? "text-pause-black" : variant === "orange" ? "text-black" : "text-white"}`}>
+        Danke für deine Anmeldung!
+      </p>
+    );
+  }
+
+  const inputClass = variant === "light" ? "newsletter-input-light" : variant === "orange" ? "newsletter-input-orange" : "newsletter-input";
+  const sizeClass = variant === "light" ? "px-4 py-3 text-base" : "px-4 py-2 text-sm";
+  const buttonSizeClass = variant === "light" ? "px-6 py-3 text-sm" : "px-4 py-2 text-xs";
+  const buttonClass = variant === "orange" ? "bg-black text-white hover:bg-gray-800" : "btn-orange";
+
+  return (
+    <form onSubmit={handleSubmit} className={`flex flex-col sm:flex-row ${variant === "light" ? "gap-3" : "gap-2"}`}>
+      <input
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder={variant === "light" ? "Deine E-Mail-Adresse" : "E-Mail-Adresse"}
+        className={`${inputClass} flex-1 ${sizeClass} rounded-lg font-body`}
+        required
+      />
+      <button
+        type="submit"
+        disabled={status === "loading"}
+        className={`${buttonClass} ${buttonSizeClass} rounded-lg font-section tracking-wider whitespace-nowrap disabled:opacity-50 transition-colors`}
+      >
+        {status === "loading" ? "..." : "Abonnieren"}
+      </button>
+    </form>
+  );
+}
 
 const quotes = [
   {
@@ -58,10 +124,10 @@ const quotes = [
 function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-start justify-center overflow-hidden pt-20">
-      {/* Background image */}
-      <div className="absolute inset-0">
+      {/* Background image - pre-processed with Oklab hue-based selective saturation (±5° orange tolerance) */}
+      <div className="absolute inset-0 z-0">
         <Image
-          src="/demo_amsterdam_front.jpeg"
+          src="/demo_amsterdam_front_orange.jpeg"
           alt="PauseAI Demo Amsterdam"
           fill
           className="object-cover"
@@ -69,16 +135,14 @@ function HeroSection() {
         />
       </div>
 
-      {/* Content with glass blur box */}
-      <div className="relative max-w-7xl mx-auto px-4 py-16 text-center md:px-8">
-        <div className="hero-glass-box inline-block px-6 py-6 md:px-12 md:py-10">
-          <h1 className="font-headline text-3xl text-white mb-6 md:text-5xl lg:text-5xl xl:text-6xl animate-fade-in-up">
-            Wir können den <br />KI-Kontrollverlust <br /> gemeinsam verhindern
-          </h1>
-          <p className="font-body text-lg text-white/90 max-w-3xl mx-auto md:text-xl lg:text-2xl justify-left animate-fade-in-up delay-200">
-            Niemand profitiert von der Entwicklung unkontrollierbarer Systeme. <br /> Hilf mit, jetzt Klarheit zu schaffen!
-          </p>
-        </div>
+      {/* Content with glass blur box - single div with backdrop blur */}
+      <div className="relative z-10 inline-block mt-16 px-6 py-6 md:px-12 md:py-10 text-center rounded-2xl pause-orange/40 backdrop-blur-sm">
+        <h1 className="font-headline text-3xl text-white mb-6 md:text-5xl lg:text-5xl xl:text-6xl animate-fade-in-up">
+          Wir können den <br />KI-Kontrollverlust <br /> noch verhindern
+        </h1>
+        <p className="font-body text-lg text-white/90 max-w-3xl mx-auto md:text-xl lg:text-2xl justify-left animate-fade-in-up delay-200">
+          Niemand profitiert von der Entwicklung unkontrollierbarer Systeme. <br /> Hilf mit, jetzt Klarheit zu schaffen!
+        </p>
       </div>
     </section>
   );
@@ -120,7 +184,7 @@ function QuotesSection() {
           {/* Left Arrow */}
           <button
             onClick={prevQuote}
-            className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#FF9416] transition-colors mr-4 md:mr-6"
+            className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#FF9416] transition-colors mr-1 md:mr-2"
             aria-label="Previous quote"
           >
             <svg className="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -155,7 +219,7 @@ function QuotesSection() {
                 <p className="font-body text-white/60 text-xs md:text-sm">{q.title}</p>
               </div>
             </div>
-            <blockquote className="font-body text-white/90 text-base md:text-lg leading-relaxed italic">
+            <blockquote className="font-body text-white/90 text-base md:text-lg leading-relaxed italic text-justify">
               &ldquo;{q.quote}&rdquo;
             </blockquote>
           </div>
@@ -163,7 +227,7 @@ function QuotesSection() {
           {/* Right Arrow */}
           <button
             onClick={nextQuote}
-            className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#FF9416] transition-colors ml-4 md:ml-6"
+            className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#FF9416] transition-colors ml-2 md:ml-3"
             aria-label="Next quote"
           >
             <svg className="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -200,8 +264,8 @@ function ProblemSolutionSection() {
             <h2 className="font-section text-2xl text-white mb-6 md:text-3xl">
               Das Problem
             </h2>
-            <p className="font-body text-white/90 text-lg leading-relaxed">
-              KI-Labore arbeiten auf eine künstliche Superintelligenz zu –
+            <p className="font-body text-white/90 text-lg leading-relaxed text-justify">
+              KI-Labore arbeiten auf eine künstliche Superintelligenz hin –
               jedoch weiß niemand, wie diese kontrolliert werden kann. Viele
               Forscher warnen, dass dies zur Auslöschung der Menschheit führen
               könnte.
@@ -213,10 +277,10 @@ function ProblemSolutionSection() {
             <h2 className="font-section text-2xl text-pause-black mb-6 md:text-3xl">
               Die Lösung
             </h2>
-            <p className="font-body text-pause-black/80 text-lg leading-relaxed">
+            <p className="font-body text-pause-black/80 text-lg leading-relaxed text-justify">
               Ein internationales Abkommen, das die Entwicklung von
-              superintelligenter KI stoppt, bis diese sicher möglich ist. Wir
-              unterstützen den{" "}
+              superintelligenter KI stoppt, bis diese sicher möglich ist. Eine
+              mögliche Lösung ist der {" "}
               <a
                 href="https://ifanyonebuildsit.com/treaty"
                 target="_blank"
@@ -282,7 +346,7 @@ function ActionSection() {
           {/* Discord */}
           <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm">
             <h3 className="font-section text-lg text-pause-black mb-3 md:text-xl">
-              Trete unserem{" "}
+              Tritt unserem{" "}
               <a
                 href="https://discord.gg/pvZ5PmRX4R"
                 target="_blank"
@@ -301,7 +365,7 @@ function ActionSection() {
           {/* Microcommit */}
           <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm">
             <h3 className="font-section text-lg text-pause-black mb-3 md:text-xl">
-              Trete{" "}
+              Tritt{" "}
               <a
                 href="https://microcommit.io"
                 target="_blank"
@@ -338,7 +402,6 @@ function ActionSection() {
     </section>
   );
 }
-
 
 
 export default function Home() {

@@ -1,0 +1,30 @@
+[
+  {
+    "id": "dummy-member",
+    "name": "Dummy Member",
+    "description": "Vorstand von PauseAI Germany",
+    "quote": "[Dummy Entry] **Ich wünsche mir, zu erleben, wie Wissenschaftler eines Tages die Geheimnisse des mneschlichen Geistes entschlüsseln und vielleicht sogar einen kleinen Teil zu dieser Forschung beizutragen.**",
+    "image": "/profile-pics/simon.png"
+  },
+  {
+    "id": "adrian-glubrecht",
+    "name": "Adrian",
+    "description": "(23), Mathematikstudent; Bonn",
+    "quote": "Ich habe mir technischen Fortschritt immer als eine Art unaufhaltsame Naturgewalt vorgestellt, die alles unter sich begräbt. Heute sehe ich das anders: Eine Entwicklung, die von Menschen vorangetrieben wird, kann auch von Menschen gestoppt werden. **Ich wünschte, ich hätte mich schon viel früher gegen die Bedrohung eingesetzt, von der ich längst überzeugt war.**",
+    "image": "/profile-pics/adrian-glubrecht.jpg"
+  },
+  {
+    "id": "karen",
+    "name": "Karen",
+    "description": "Architekturstudentin",
+    "quote": "**Was ich mir wünsche ist eine Zukunft, in der ich mit Freunden ein Stück Land nachhaltig bewirtschafte und innovative Bauprojekte realisiere, die Resilienz und echte Lebensqualität schaffen.**",
+    "image": "/profile-pics/karen.png" 
+  },
+  {
+    "id": "oleg",
+    "name": "Dummy Member",
+    "description": "Politikstudent",
+    "quote": "**Ich habe die Hoffnung, dass wir, wenn unsere Staaten es schaffen, sich in dieser einen Sache abzustimmen, auch lernen können, andere globale Probleme koordiniert zu lösen.**",
+    "image": "/profile-pics/sphinx-of-black-quartz.png" 
+  }
+]
