@@ -1,6 +1,6 @@
 Subject: Handlungsappell zur Vermeidung extremer Risiken von KI
 
-Sehr geehrte {{recipientName}},
+{{anrede}}{{recipientTitle}}{{recipientName}},
 
 ich möchte Sie auf ein Thema aufmerksam machen, das mir große Sorgen bereitet. Künstliche Intelligenz stellt uns vor viele Herausforderungen. Die meisten können wir durch unsere eigene Gesetzgebung, wie den EU AI Act, sinnvoll regeln. Aber die schlimmsten Risiken wurden noch nicht adressiert und wirken über alle Ländergrenzen hinaus: dafür brauchen wir eine globale Lösung.
 "Mitigating the risk of extinction from AI should be a global priority alongside other societal-scale risks such as pandemics and nuclear war." (https://aistatement.com/)

@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 type Props = {
   initialRecipientName?: string;
   initialRecipientEmail?: string;
+  initialRecipientTitle?: string;
+  initialRecipientAnrede?: string;
   initialSenderName?: string;
   initialSenderEmail?: string;
   onChange?: (data: {
@@ -10,12 +12,16 @@ type Props = {
     senderEmail: string;
     recipientName: string;
     recipientEmail: string;
+    recipientTitle?: string;
+    recipientAnrede?: string;
   }) => void;
 };
 
 export default function EmailPreviewPage({
   initialRecipientName = '',
   initialRecipientEmail = '',
+  initialRecipientTitle = '',
+  initialRecipientAnrede = '',
   initialSenderName = '',
   initialSenderEmail = '',
   onChange,
@@ -25,13 +31,15 @@ export default function EmailPreviewPage({
     senderEmail: initialSenderEmail,
     recipientName: initialRecipientName,
     recipientEmail: initialRecipientEmail,
+    recipientTitle: initialRecipientTitle,
+    recipientAnrede: initialRecipientAnrede,
   });
 
   // preview will be rendered directly in DOM (no iframe)
 
   useEffect(() => {
-    setFormData((prev) => ({ ...prev, recipientName: initialRecipientName }));
-  }, [initialRecipientName]);
+    setFormData((prev) => ({ ...prev, senderName: initialSenderName }));
+  }, [initialSenderName]);
 
   useEffect(() => {
     setFormData((prev) => ({ ...prev, recipientEmail: initialRecipientEmail }));
@@ -109,6 +117,15 @@ export default function EmailPreviewPage({
       mounted = false;
     };
   }, [selectedTemplate, templates]);
+
+  // receive initial recipient title from parent
+  useEffect(() => {
+    setFormData((prev) => ({ ...prev, recipientTitle: initialRecipientTitle }));
+  }, [initialRecipientTitle]);
+
+  useEffect(() => {
+    setFormData((prev) => ({ ...prev, recipientAnrede: initialRecipientAnrede }));
+  }, [initialRecipientAnrede]);
   
   const generateEmailHTML = (maxLines?: number) => {
     const parts = getRenderedParts();
@@ -138,7 +155,7 @@ export default function EmailPreviewPage({
       <style>
         .email-preview-root *{box-sizing:border-box}
         .email-preview-root{width:100%;;background:transparent}
-  .email-preview-root .email-container{width:100%;max-width:600px;margin:0 auto;background:#fff;border-radius:8px;overflow:hidden;border:1px solid rgba(0, 0, 0, 0.04)}
+        .email-preview-root .email-container{width:100%;max-width:none;margin:0;background:#fff;border-radius:8px;overflow:hidden;border:1px solid rgba(0, 0, 0, 0.04)}
         .email-preview-root .email-content{padding:20px;font-family:inherit;color:#111}
         .email-preview-root .subject{font-weight:600;margin-bottom:8px}
         .email-preview-root .body{white-space:pre-wrap;word-break:break-word;color:#333}
@@ -158,10 +175,22 @@ export default function EmailPreviewPage({
   // Return the raw subject/body for copy/mailto actions
   const getRenderedParts = () => {
     const genericMessage = `I hope this message finds you well. I wanted to reach out and connect with you.\n\nI look forward to hearing from you soon.`;
+    const paddedTitle = (formData.recipientTitle || '').toString().trim()
+      ? ` ${formData.recipientTitle} `
+      : ' ';
     const data: Record<string, string> = {
       senderName: formData.senderName || '',
       senderEmail: formData.senderEmail || '',
       recipientName: formData.recipientName || '',
+      // keep both `title` and `recipientTitle` keys for backward compatibility
+      title: paddedTitle,
+      recipientTitle: paddedTitle,
+      anrede: (() => {
+        const a = (formData.recipientAnrede || '').toString().trim().toLowerCase();
+        if (a === 'frau') return 'Sehr geehrte Frau';
+        if (a === 'herr') return 'Sehr geehrter Herr';
+        return '';
+      })(),
       // always use genericMessage (we removed editable message box)
       message: genericMessage,
     };
@@ -213,73 +242,52 @@ export default function EmailPreviewPage({
   return (
     <div className="min-h-0 bg-transparent">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          {/* Form Section (styled like selector panels) */}
+        {/* Full-width preview with name input on top */}
+        <div className="mb-4">
           <div className="p-3 bg-white border border-gray-200 rounded-md">
-            <h3 className="block text-sm font-section mb-4">E-Mail Vorlage</h3>
-
-            <div className="space-y-3">
-              <div>
-                <label htmlFor="templateSelect" className="block text-xs font-medium text-gray-700 mb-1">Vorlage</label>
-                <select
-                  id="templateSelect"
-                  value={selectedTemplate}
-                  onChange={(e) => setSelectedTemplate(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400"
-                >
-                  {templates.map((t) => (
-                    <option key={t.id} value={t.id}>{t.label}</option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label htmlFor="senderName" className="block text-xs font-medium text-gray-700 mb-1">Ihr Name</label>
-                <input
-                  type="text"
-                  id="senderName"
-                  name="senderName"
-                  value={formData.senderName}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400"
-                  placeholder="Ihr Name"
-                />
-              </div>
-            </div>
+            <label htmlFor="senderName" className="block text-xs font-medium text-gray-700 mb-1">Ihr Name</label>
+            <input
+              type="text"
+              id="senderName"
+              name="senderName"
+              value={formData.senderName}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-400"
+              placeholder="Ihr Name"
+            />
           </div>
+        </div>
 
-          {/* Preview Section (make generated email the outer panel) */}
-          <div className="p-0">
-            <div className="overflow-hidden">
-                <div
-                  className="email-preview-embed"
-                  // render the generated HTML fragment directly into the page
-                  dangerouslySetInnerHTML={{ __html: generateEmailHTML(collapsed ? COLLAPSED_LINES : undefined) }}
-                />
-              </div>
-              <div className="mt-2 flex items-center justify-between">
-                <button
-                  type="button"
-                  onClick={() => setCollapsed(!collapsed)}
-                  className="text-sm text-gray-700 underline"
-                >
-                  {collapsed ? 'View all lines' : 'Show less'}
-                </button>
-                <span className="text-xs text-gray-500">Preview {collapsed ? `(${COLLAPSED_LINES} lines)` : '(full)'}</span>
-              </div>
-              <div className="mt-3">
-                <button
-                  type="button"
-                  onClick={openInMailApp}
-                  aria-label="Abschicken"
-                  className="w-full inline-flex justify-center items-center px-3 py-2 bg-orange-500 text-white rounded-md text-sm hover:bg-orange-600"
-                >
-                  <svg className="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <path d="M22 2L11 13" />
-                    <path d="M22 2l-7 20-4-9-9-4 20-7z" />
-                  </svg>
-                  Abschicken
-                </button>
-              </div>
+        <div className="p-0">
+          <div className="overflow-hidden">
+            <div
+              className="email-preview-embed"
+              dangerouslySetInnerHTML={{ __html: generateEmailHTML(collapsed ? COLLAPSED_LINES : undefined) }}
+            />
+          </div>
+          <div className="mt-2 flex items-center justify-between">
+            <button
+              type="button"
+              onClick={() => setCollapsed(!collapsed)}
+              className="text-sm text-gray-700 underline"
+            >
+              {collapsed ? 'View all lines' : 'Show less'}
+            </button>
+            <span className="text-xs text-gray-500">Preview {collapsed ? `(${COLLAPSED_LINES} lines)` : '(full)'}</span>
+          </div>
+          <div className="mt-3">
+            <button
+              type="button"
+              onClick={openInMailApp}
+              aria-label="Abschicken"
+              className="w-full inline-flex justify-center items-center px-3 py-2 bg-orange-500 text-white rounded-md text-sm hover:bg-orange-600"
+            >
+              <svg className="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M22 2L11 13" />
+                <path d="M22 2l-7 20-4-9-9-4 20-7z" />
+              </svg>
+              Abschicken
+            </button>
           </div>
         </div>
       </div>

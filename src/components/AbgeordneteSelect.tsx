@@ -84,39 +84,31 @@ export default function AbgeordneteSelect({
 
   useEffect(() => {
     let mounted = true;
-    fetch("/BTAbgeordnete.csv")
-      .then((r) => r.text())
-      .then((text) => {
-        if (!mounted) return;
-        const parsed = parseCSV(text);
-        // Treat CSV as headerless: create generic column keys (col0, col1, ...)
-        const colCount = parsed.headers.length;
-        const finalHeaders = Array.from({ length: colCount }, (_, i) => `col${i}`);
-        // The parser returned the first line as `headers`, so include it as the first row.
-        const firstRowArray = parsed.headers.slice();
-        const otherRowsArrays = parsed.rows.map((r) => parsed.headers.map((h) => r[h] ?? ""));
-        const allArrays = [firstRowArray, ...otherRowsArrays];
-        const finalRows = allArrays.map((arr) => {
-          const obj: Row = {};
-          finalHeaders.forEach((hh, i) => {
-            obj[hh] = arr[i] ?? "";
-          });
-          return obj;
-        });
-
-        setHeaders(finalHeaders);
-        setAllRows(finalRows);
-        // default random selection
-        if (finalRows.length) {
-          const rand = finalRows[Math.floor(Math.random() * finalRows.length)];
-          setSelected(rand);
-          onSelect?.(rand);
+    // Prefer processed CSV with headers, fallback to raw CSV
+    (async () => {
+      try {
+        const tryPaths = ['/BTAbgeordnete_with_bundesland.csv', '/BTAbgeordnete.csv'];
+        for (const p of tryPaths) {
+          const r = await fetch(p);
+          if (!r.ok) continue;
+          const text = await r.text();
+          if (!mounted) return;
+          const parsed = parseCSV(text);
+          // parsed.headers are real headers; parsed.rows are objects keyed by header
+          setHeaders(parsed.headers);
+          setAllRows(parsed.rows);
+          if (parsed.rows.length) {
+            const rand = parsed.rows[Math.floor(Math.random() * parsed.rows.length)];
+            setSelected(rand);
+            onSelect?.(rand);
+          }
+          break;
         }
-      })
-      .catch((err) => {
-        console.error("Failed to load CSV:", err);
+      } catch (err) {
+        console.error('Failed to load CSV:', err);
         setAllRows([]);
-      });
+      }
+    })();
     return () => {
       mounted = false;
     };
@@ -143,34 +135,32 @@ export default function AbgeordneteSelect({
     return fields;
   }, [allRows, headers]);
 
-  // extractRowInfo moved up so filtering can use it safely
+  // extractRowInfo: header-aware mapping to normalized fields
   function extractRowInfo(r: Row) {
-    const raw = (r[headers[0]] || "").toString().trim();
-
-    let first = (r[headers[1]] ?? "").toString().trim();
-    let last = (r[headers[0]] ?? "").toString().trim();
-    let full = "";
-    if (first && last) {
-      full = [first, last].filter(Boolean).join(" ");
-    }
-
-    const birthYear = (r[headers[2]] ?? "").toString().trim();
-    const party = (r[headers[3]] ?? "").toString().trim();
-    const district = (r[headers[4]] ?? "").toString().trim();
-    const email = (r[headers[5]] ?? "").toString().trim();
-
-    let bundesland = (r[headers[6]] ?? "").toString().trim();
-
-    return {
-      first,
-      last,
-      full,
-      birthYear,
-      party,
-      bundesland,
-      district,
-      email,
+    const get = (keys: string[]) => {
+      for (const k of keys) {
+        if (!k) continue;
+        // try exact key
+        if (r[k] != null && String(r[k]).trim() !== '') return String(r[k]).trim();
+        // try case-insensitive key
+        const found = Object.keys(r).find((h) => h.toLowerCase() === k.toLowerCase());
+        if (found && r[found] != null && String(r[found]).trim() !== '') return String(r[found]).trim();
+      }
+      return '';
     };
+
+    const first = get(['FirstName', 'Vorname', 'first', 'firstname', 'given_name']);
+    const last = get(['LastName', 'Nachname', 'last', 'lastname', 'family_name']);
+    const full = get(['Name', 'FullName', 'full', 'name']) || [first, last].filter(Boolean).join(' ');
+    const birthYear = get(['BirthYear', 'birthYear', 'geburtsjahr']);
+    const party = get(['Partei', 'party', 'Party']);
+    const district = get(['Wahlkreis', 'district', 'Wahlkreisnummer', 'WahlkreisNummer']);
+    const email = get(['Email', 'email', 'E-Mail', 'E_MAIL']);
+    const bundesland = get(['Bundesland', 'bundesland']);
+    const title = get(['Title', 'title']);
+    const anrede = get(['Anrede', 'anrede', 'Anrede/Geschlecht', 'Geschlecht']);
+
+    return { first, last, full, birthYear, party, bundesland, district, email, title, anrede };
   }
 
   const uniqueValues = useMemo(() => {
@@ -417,8 +407,10 @@ export default function AbgeordneteSelect({
                   const info = extractRowInfo(selected);
                   return (
                     <EmailTemplateViewer
-                      initialRecipientName={info.last}
+                      initialRecipientName={info.last || info.full}
                       initialRecipientEmail={info.email}
+                      initialRecipientTitle={info.title}
+                      initialRecipientAnrede={info.anrede}
                     />
                   );
                 })()}
