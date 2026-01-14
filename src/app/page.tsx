@@ -139,7 +139,7 @@ function HeroSection() {
       <div className="relative z-10 w-full flex justify-center lg:justify-end px-6 md:px-12 lg:px-20 xl:px-32">
         <div className="max-w-xl xl:max-w-2xl text-center lg:text-right">
           <h1 className="font-headline text-3xl text-white mb-6 md:text-5xl lg:text-5xl xl:text-6xl animate-fade-in-up">
-            Wir können den <br />KI-Kontrollverlust <br /> noch verhindern
+            Wir können den <br /><span className="whitespace-nowrap">KI-Kontrollverlust</span> <br /> noch verhindern
           </h1>
           <p className="font-body-bold text-lg text-white/90 md:text-xl lg:text-2xl animate-fade-in-up delay-200">
             Hilf mit, jetzt Klarheit zu schaffen!
