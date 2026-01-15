@@ -33,7 +33,7 @@ function HeroSection() {
           
           {/* Grayscale image overlay with clip-path animation */}
           <div 
-            className="absolute inset-0 transition-[clip-path] duration-[3000ms]"
+            className="absolute inset-0 transition-[clip-path] duration-[1500ms]"
             style={{
               clipPath: isLoaded ? 'inset(0 0 0 100%)' : 'inset(0 0 0 0)'
             }}
@@ -50,7 +50,7 @@ function HeroSection() {
           
           {/* White bar at the grayscale/color edge */}
           <div 
-            className="absolute inset-y-0 z-[2] w-1 bg-white transition-[left] duration-[3000ms]"
+            className="absolute inset-y-0 z-[2] w-1 bg-white transition-[left] duration-[1500ms]"
             style={{
               left: isLoaded ? '100%' : '0%'
             }}
@@ -120,9 +120,6 @@ function ContentSection() {
               <br />
               <br />
               Wir sehen eine Entwicklungspause als pragmatischen ersten Schritt, um den KI-Kontrollverlust langfristig zu verhindern. Die Probleme, die durch fortschreitende KI-Entwicklung verschärft werden, reichen von der Verdrängung sozialer Beziehungen bis hin zu vollautomatischer Kriegsführung, Totalüberwachung und extremer sozialer Ungleichheit. Wir unterstützen jede vernünftige Initiative, die den Schaden, der schon heute durch KI entsteht, begrenzen möchte, verlieren aber nicht den Fokus: den KI-Kontrollverlust zu verhindern. KI langfristig unter menschlicher Kontrolle zu halten ist die Grundvorrasusetzung für nachhaltig wirksame KI-Regulierung.
-              <br />
-              <br />
-              Wir glauben, die Menschheit hat das Potenzial, erwachsen zu werden, also kollektive Verantwortung für sich selbst zu übernehmen. Solange die relevanten Entscheidungen noch von Menschen getroffen werden, hat gesellschaftlicher Druck einen entscheidenden Einfluss auf das Weltgeschehen. Wir tragen alle eine doppelte Verantwortung für eine menschliche Zukunft: Jeder Mensch kann seine Handlungsfreiheit wirksam einsetzen, um unsere Zukunft zu schützen – und mit jeder unserer Entscheidungen prägen wir, was Menschsein überhaupt bedeutet.
             </>
           }
           className="scroll-mt-24"
