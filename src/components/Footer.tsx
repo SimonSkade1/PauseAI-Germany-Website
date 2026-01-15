@@ -67,7 +67,7 @@ function NewsletterForm({ variant = "orange" }: { variant?: "orange" }) {
 export default function Footer() {
   return (
     <footer className="bg-[#FF9416] py-12 md:py-16">
-      <div className="max-w-6xl mx-auto px-6 md:px-12">
+      <div className="px-8 md:px-16 lg:px-24">
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-10 xl:gap-12">
           {/* Logo & Description */}
           <div>
@@ -104,14 +104,6 @@ export default function Footer() {
                   className="font-body text-black/70 text-sm hover:text-white transition-colors"
                 >
                   Impressum
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/datenschutz"
-                  className="font-body text-black/70 text-sm hover:text-white transition-colors"
-                >
-                  Datenschutzerklärung
                 </a>
               </li>
             </ul>
