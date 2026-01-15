@@ -129,7 +129,7 @@ function ContentSection() {
         <TitleTextBlock
           id="was-wir-tun"
           smallHeading="Was wir tun"
-          largeHeading="Klarheit bringen"
+          largeHeading="Klarheit schaffen"
           text={
           <>
           Wir wollen den Spalt zwischen den dramatischen Warnungen von KI-Experten und der öffentlichen Debatte schließen. Unser wirksamstes Mittel ist, sachlich und lösungsorientiert über die Risiken von KI-Entwicklung aufzuklären. Immer mehr Mitglieder unterstützen uns aktiv bei der Organisation von Vorträgen und Flyeraktionen und zeigen damit, dass die kollektive Schockstarre durch Weitsicht und Pragmatismus durchbrochen werden kann. 
