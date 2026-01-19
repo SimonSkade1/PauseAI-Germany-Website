@@ -66,17 +66,17 @@ export default function MemberCarousel({ members }: MemberCarouselProps) {
   };
 
   return (
-    <div className="member-carousel">
+    <div className="member-carousel -mx-6">
       {/* Scrollable container */}
       <div
         ref={scrollContainerRef}
-        className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide"
+        className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {members.map((member) => (
           <div
             key={member.id}
-            className="flex-shrink-0 w-full snap-center"
+            className="flex-shrink-0 w-full px-6 snap-center"
             style={{ scrollSnapStop: "always" }}
           >
             <MemberBlurb
