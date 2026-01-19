@@ -244,9 +244,20 @@ a.orange-link:hover {
     text-align: justify;
   }
 
+  /* Mobile-specific smaller text for content sections */
+  .text-content-mobile {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
   @media (min-width: 768px) {
     .text-content {
       font-size: 1.25rem;
+    }
+    
+    .text-content-mobile {
+      font-size: 1.25rem;
+      line-height: 1.75;
     }
   }
 }
@@ -258,6 +269,16 @@ a.orange-link:hover {
     color: white;
     padding: 0.1em 0.4em;
     border-radius: 0.25em;
+  }
+  
+  /* Hide scrollbar for carousel */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
 }
 

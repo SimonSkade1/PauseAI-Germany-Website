@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MemberBlurb from "@/components/MemberBlurb";
+import MemberCarousel from "@/components/MemberCarousel";
 import TitleTextBlock from "@/components/TitleTextBlock";
 import members from "@/data/members.json";
 
@@ -17,9 +18,9 @@ function HeroSection() {
   }, []);
 
   return (
-    <section className="bg-[#1a1a1a] h-screen pt-20">
-      <div className="flex flex-col md:grid md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 px-8 md:px-16 lg:px-24 h-full md:justify-items-center pt-6 md:pt-8 pb-10 md:pb-24">
-        {/* Hero Image - full width on mobile, 50% on desktop */}
+    <section className="bg-[#1a1a1a] min-h-screen md:h-screen pt-20">
+      <div className="flex flex-col md:grid md:grid-cols-2 gap-6 md:gap-12 lg:gap-16 px-6 md:px-16 lg:px-24 h-full md:justify-items-center pt-6 md:pt-8 pb-10 md:pb-24">
+        {/* Hero Image - full width on mobile with margin, 50% on desktop */}
         <div className="relative overflow-hidden w-full aspect-[1193/889] md:max-w-[calc(50vw-6rem)] md:self-start">
           {/* Color image (bottom layer) */}
           <Image
@@ -57,18 +58,18 @@ function HeroSection() {
           />
         </div>
 
-        {/* Title - full width on mobile, 50% on desktop */}
-        <div className="flex flex-col items-start w-full flex-1 md:flex-none md:aspect-[1193/889] md:max-w-[calc(50vw-6rem)] md:overflow-hidden md:self-end md:justify-end">
+        {/* Title - full width on mobile (no aspect ratio constraint), 50% on desktop */}
+        <div className="flex flex-col items-start w-full md:flex-none md:aspect-[1193/889] md:max-w-[calc(50vw-6rem)] md:overflow-hidden md:self-end md:justify-end">
           <h1 className="font-headline text-4xl md:text-5xl lg:text-6xl text-white text-left leading-none">
             Wer Wir Sind
           </h1>
-          <p className="text-lg md:text-xl text-gray-300 mt-4 text-left">
+          <p className="text-base md:text-xl text-gray-300 mt-4 text-left">
             PauseAI Deutschland ist Teil einer <a href="https://pauseai.info" className="orange-link font-bold" target="_blank" rel="noopener noreferrer">internationalen Bewegung</a>, die sich gegen die Entwicklung gefährlicher KI-Systeme einsetzt. Wir sind parteipolitisch unabhängig, aber nicht wertneutral.
 Unser Maßstab sind wissenschaftliche Erkenntnisse, demokratische Grundwerte und die Souveränität der Menschheit.
           </p>
           
-          {/* Navigation Boxes */}
-          <div className="grid grid-cols-1 gap-8 mt-8 w-full flex-1">
+          {/* Navigation Boxes - hidden on mobile, shown on desktop */}
+          <div className="hidden md:grid grid-cols-1 gap-8 mt-8 w-full flex-1">
             <a href="#unser-ziel" className="group border-2 border-[#FF9416] px-4 py-3 relative hover:bg-[#FF9416]/10 transition-all">
               <span className="font-headline text-xl text-white">Unser Ziel</span>
               <span className="text-[#FF9416] transition-transform group-hover:translate-y-1 absolute bottom-2 right-2 text-2xl">↓</span>
@@ -88,10 +89,32 @@ Unser Maßstab sind wissenschaftliche Erkenntnisse, demokratische Grundwerte und
   );
 }
 
+function UebersichtSection() {
+  return (
+    <section className="md:hidden bg-[#1a1a1a] py-8 px-6">
+      <h2 className="font-headline text-2xl text-white mb-6">Übersicht</h2>
+      <div className="flex flex-col gap-4">
+        <a href="#unser-ziel" className="group border border-[#FF9416] px-4 py-3 relative hover:bg-[#FF9416]/10 transition-all">
+          <span className="font-headline text-lg text-white">Unser Ziel</span>
+          <span className="text-[#FF9416] transition-transform group-hover:translate-y-1 absolute bottom-2 right-2 text-xl">↓</span>
+        </a>
+        <a href="#unser-ansatz" className="group border border-[#FF9416] px-4 py-3 relative hover:bg-[#FF9416]/10 transition-all">
+          <span className="font-headline text-lg text-white">Unser Ansatz</span>
+          <span className="text-[#FF9416] transition-transform group-hover:translate-y-1 absolute bottom-2 right-2 text-xl">↓</span>
+        </a>
+        <a href="#was-wir-tun" className="group border border-[#FF9416] px-4 py-3 relative hover:bg-[#FF9416]/10 transition-all">
+          <span className="font-headline text-lg text-white">Was wir tun</span>
+          <span className="text-[#FF9416] transition-transform group-hover:translate-y-1 absolute bottom-2 right-2 text-xl">↓</span>
+        </a>
+      </div>
+    </section>
+  );
+}
+
 function ContentSection() {
   return (
-    <section className="bg-white py-24 md:py-40">
-      <div className="px-8 md:px-16 lg:px-24 space-y-32 md:space-y-48">
+    <section className="bg-white py-16 md:py-40">
+      <div className="px-6 md:px-16 lg:px-24 space-y-20 md:space-y-48">
         {/* Unser Ziel */}
         <TitleTextBlock
           id="unser-ziel"
@@ -146,12 +169,19 @@ function ContentSection() {
 
 function MembersSection() {
   return (
-    <section className="bg-white py-24 md:py-40">
-      <div className="px-8 md:px-16 lg:px-24">
-        <h2 className="font-headline text-3xl md:text-4xl lg:text-5xl text-black text-left mb-12">
+    <section className="bg-white py-16 md:py-40">
+      <div className="px-6 md:px-16 lg:px-24">
+        <h2 className="font-headline text-2xl md:text-4xl lg:text-5xl text-black text-left mb-8 md:mb-12">
           Wir wünschen uns eine Menschliche Zukunft
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-8 md:gap-10 lg:gap-12">
+        
+        {/* Mobile: Carousel */}
+        <div className="md:hidden">
+          <MemberCarousel members={members} />
+        </div>
+        
+        {/* Desktop: Grid */}
+        <div className="hidden md:grid md:grid-cols-2 2xl:grid-cols-4 gap-8 md:gap-10 lg:gap-12">
           {members.map((member) => (
             <MemberBlurb
               key={member.id}
@@ -173,6 +203,7 @@ export default function UeberUns() {
       <Header />
       <main>
         <HeroSection />
+        <UebersichtSection />
         <MembersSection />
         <ContentSection />
       </main>

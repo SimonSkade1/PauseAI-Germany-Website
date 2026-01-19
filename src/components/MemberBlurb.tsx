@@ -14,7 +14,7 @@ export default function MemberBlurb({ name, description, quote, image }: MemberB
   return (
     <div className="member-blurb h-full">
       {/* Dark grey rectangle containing everything */}
-      <div className="border-2 border-[#333333] bg-white p-6 md:p-8 h-full flex flex-col">
+      <div className="border md:border-2 border-[#333333] bg-white p-6 md:p-8 h-full flex flex-col">
         {/* Quote - serif font with italic, no quote characters */}
         <blockquote className="font-body italic text-black text-base md:text-lg leading-relaxed mb-6 flex-grow text-justify">
           {cleanQuote}
