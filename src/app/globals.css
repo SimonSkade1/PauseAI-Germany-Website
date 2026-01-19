@@ -25,6 +25,11 @@
   --color-pause-gray-light: var(--pause-gray-light);
   --color-pause-gray-dark: var(--pause-gray-dark);
   --color-pause-gray-footer: var(--pause-gray-footer);
+  
+  /* Custom breakpoint for hero-wide (1446px) - when info text moves below title */
+  --breakpoint-hero-wide: 1446px;
+  /* Custom breakpoint for 3xl (1792px) */
+  --breakpoint-3xl: 1792px;
 }
 
 * {
@@ -279,6 +284,35 @@ a.orange-link:hover {
   
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
+  }
+}
+
+/* Hero info text responsive visibility */
+/* Left column: visible only between lg (1024px) and 1446px */
+.hero-info-left {
+  display: none;
+}
+
+/* Right column: visible below lg AND above 1446px */
+.hero-info-right {
+  display: block;
+}
+
+@media (min-width: 1024px) {
+  .hero-info-left {
+    display: block;
+  }
+  .hero-info-right {
+    display: none;
+  }
+}
+
+@media (min-width: 1446px) {
+  .hero-info-left {
+    display: none;
+  }
+  .hero-info-right {
+    display: block;
   }
 }
 

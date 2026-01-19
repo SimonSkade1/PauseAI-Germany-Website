@@ -17,70 +17,86 @@ function HeroSection() {
     setIsLoaded(true);
   }, []);
 
+  const infoText = (
+    <>
+      PauseAI Deutschland ist Teil einer <a href="https://pauseai.info" className="orange-link font-bold" target="_blank" rel="noopener noreferrer">internationalen Bewegung</a>, die sich gegen die Entwicklung gefährlicher KI-Systeme einsetzt. Wir sind parteipolitisch unabhängig, aber nicht wertneutral.
+      Unser Maßstab sind wissenschaftliche Erkenntnisse, demokratische Grundwerte und die Souveränität der Menschheit.
+    </>
+  );
+
   return (
-    <section className="bg-[#1a1a1a] min-h-screen md:h-screen pt-20">
-      <div className="flex flex-col md:grid md:grid-cols-2 gap-6 md:gap-12 lg:gap-16 px-6 md:px-16 lg:px-24 h-full md:justify-items-center pt-6 md:pt-8 pb-10 md:pb-24">
-        {/* Hero Image - full width on mobile with margin, 50% on desktop */}
-        <div className="relative overflow-hidden w-full aspect-[1193/889] md:max-w-[calc(50vw-6rem)] md:self-start">
-          {/* Color image (bottom layer) */}
-          <Image
-            src="/img_gruendung.jpg"
-            alt="PauseAI Germany Gründung"
-            width={1193}
-            height={889}
-            className="w-full h-full object-contain"
-            priority
-          />
-          
-          {/* Grayscale image overlay with clip-path animation */}
-          <div 
-            className="absolute inset-0 transition-[clip-path] duration-[1500ms]"
-            style={{
-              clipPath: isLoaded ? 'inset(0 0 0 100%)' : 'inset(0 0 0 0)'
-            }}
-          >
+    <section className="bg-[#1a1a1a] min-h-screen lg:h-screen pt-20">
+      <div className="flex flex-col lg:grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 xl:gap-16 px-6 sm:px-10 lg:px-16 xl:px-24 h-full lg:justify-items-center pt-6 lg:pt-8 pb-10 lg:pb-24">
+        {/* Left column: Hero Image + Description (on narrow two-column) */}
+        <div className="flex flex-col w-full sm:max-lg:flex-row sm:max-lg:flex-wrap lg:max-w-[calc(50vw-6rem)] lg:self-start">
+          {/* Hero Image */}
+          <div className="relative overflow-hidden w-full sm:max-lg:w-1/2 sm:max-lg:float-right sm:max-lg:ml-auto aspect-[1193/889]">
+            {/* Color image (bottom layer) */}
             <Image
               src="/img_gruendung.jpg"
-              alt=""
+              alt="PauseAI Germany Gründung"
               width={1193}
               height={889}
-              className="w-full h-full object-contain grayscale"
+              className="w-full h-full object-contain"
               priority
             />
+            
+            {/* Grayscale image overlay with clip-path animation */}
+            <div 
+              className="absolute inset-0 transition-[clip-path] duration-[1500ms]"
+              style={{
+                clipPath: isLoaded ? 'inset(0 0 0 100%)' : 'inset(0 0 0 0)'
+              }}
+            >
+              <Image
+                src="/img_gruendung.jpg"
+                alt=""
+                width={1193}
+                height={889}
+                className="w-full h-full object-contain grayscale"
+                priority
+              />
+            </div>
+            
+            {/* White bar at the grayscale/color edge */}
+            <div 
+              className="absolute inset-y-0 z-[2] w-1 bg-white transition-[left] duration-[1500ms]"
+              style={{
+                left: isLoaded ? '100%' : '0%'
+              }}
+            />
           </div>
-          
-          {/* White bar at the grayscale/color edge */}
-          <div 
-            className="absolute inset-y-0 z-[2] w-1 bg-white transition-[left] duration-[1500ms]"
-            style={{
-              left: isLoaded ? '100%' : '0%'
-            }}
-          />
+
+          {/* Info text below image - only visible on two-column layout below hero-wide (1446px) */}
+          <p className="hero-info-left text-base sm:text-lg lg:text-lg text-gray-300 text-left mt-6">
+            {infoText}
+          </p>
         </div>
 
-        {/* Title - full width on mobile (no aspect ratio constraint), 50% on desktop */}
-        <div className="flex flex-col items-start w-full md:flex-none md:aspect-[1193/889] md:max-w-[calc(50vw-6rem)] md:overflow-hidden md:self-end md:justify-end">
-          <h1 className="font-headline text-4xl md:text-5xl lg:text-6xl text-white text-left leading-none">
+        {/* Right column: Title + Description (on wide/single-column) + Links */}
+        <div className="flex flex-col items-start w-full lg:flex-none lg:aspect-[1193/889] lg:max-w-[calc(50vw-6rem)] lg:overflow-hidden lg:self-end lg:justify-end">
+          <h1 className="font-headline text-4xl sm:text-[2.5rem] lg:text-5xl text-white text-left leading-none">
             Wer Wir Sind
           </h1>
-          <p className="text-base md:text-xl text-gray-300 mt-4 text-left">
-            PauseAI Deutschland ist Teil einer <a href="https://pauseai.info" className="orange-link font-bold" target="_blank" rel="noopener noreferrer">internationalen Bewegung</a>, die sich gegen die Entwicklung gefährlicher KI-Systeme einsetzt. Wir sind parteipolitisch unabhängig, aber nicht wertneutral.
-Unser Maßstab sind wissenschaftliche Erkenntnisse, demokratische Grundwerte und die Souveränität der Menschheit.
+          
+          {/* Info text below title - visible on single-column (< lg) AND on wide screens (>= 1446px) */}
+          <p className="hero-info-right text-base sm:text-lg lg:text-lg text-gray-300 mt-4 text-left">
+            {infoText}
           </p>
           
-          {/* Navigation Boxes - hidden on mobile, shown on desktop */}
-          <div className="hidden md:grid grid-cols-1 gap-8 mt-8 w-full flex-1">
-            <a href="#unser-ziel" className="group border-2 border-[#FF9416] px-4 py-3 relative hover:bg-[#FF9416]/10 transition-all">
-              <span className="font-headline text-xl text-white">Unser Ziel</span>
-              <span className="text-[#FF9416] transition-transform group-hover:translate-y-1 absolute bottom-2 right-2 text-2xl">↓</span>
+          {/* Navigation Boxes - hidden on small mobile, shown on tablet (sm) and up */}
+          <div className="hidden sm:grid grid-cols-1 gap-4 sm:gap-6 lg:gap-8 mt-6 sm:mt-8 w-full flex-1">
+            <a href="#unser-ziel" className="group border-2 border-[#FF9416] px-4 py-2 sm:py-3 relative hover:bg-[#FF9416]/10 transition-all">
+              <span className="font-headline text-lg sm:text-lg 3xl:text-xl text-white">Unser Ziel</span>
+              <span className="text-[#FF9416] transition-transform group-hover:translate-y-1 absolute bottom-2 right-2 text-xl sm:text-xl 3xl:text-2xl">↓</span>
             </a>
-            <a href="#unser-ansatz" className="group border-2 border-[#FF9416] px-4 py-3 relative hover:bg-[#FF9416]/10 transition-all">
-              <span className="font-headline text-xl text-white">Unser Ansatz</span>
-              <span className="text-[#FF9416] transition-transform group-hover:translate-y-1 absolute bottom-2 right-2 text-2xl">↓</span>
+            <a href="#unser-ansatz" className="group border-2 border-[#FF9416] px-4 py-2 sm:py-3 relative hover:bg-[#FF9416]/10 transition-all">
+              <span className="font-headline text-lg sm:text-lg 3xl:text-xl text-white">Unser Ansatz</span>
+              <span className="text-[#FF9416] transition-transform group-hover:translate-y-1 absolute bottom-2 right-2 text-xl sm:text-xl 3xl:text-2xl">↓</span>
             </a>
-            <a href="#was-wir-tun" className="group border-2 border-[#FF9416] px-4 py-3 relative hover:bg-[#FF9416]/10 transition-all">
-              <span className="font-headline text-xl text-white">Was wir tun</span>
-              <span className="text-[#FF9416] transition-transform group-hover:translate-y-1 absolute bottom-2 right-2 text-2xl">↓</span>
+            <a href="#was-wir-tun" className="group border-2 border-[#FF9416] px-4 py-2 sm:py-3 relative hover:bg-[#FF9416]/10 transition-all">
+              <span className="font-headline text-lg sm:text-lg 3xl:text-xl text-white">Was wir tun</span>
+              <span className="text-[#FF9416] transition-transform group-hover:translate-y-1 absolute bottom-2 right-2 text-xl sm:text-xl 3xl:text-2xl">↓</span>
             </a>
           </div>
         </div>
@@ -91,7 +107,7 @@ Unser Maßstab sind wissenschaftliche Erkenntnisse, demokratische Grundwerte und
 
 function UebersichtSection() {
   return (
-    <section className="md:hidden bg-[#1a1a1a] py-8 px-6">
+    <section className="sm:hidden bg-[#1a1a1a] py-8 px-6">
       <h2 className="font-headline text-2xl text-white mb-6">Übersicht</h2>
       <div className="flex flex-col gap-4">
         <a href="#unser-ziel" className="group border border-[#FF9416] px-4 py-3 relative hover:bg-[#FF9416]/10 transition-all">
@@ -113,8 +129,8 @@ function UebersichtSection() {
 
 function ContentSection() {
   return (
-    <section className="bg-white py-16 md:py-40">
-      <div className="px-6 md:px-16 lg:px-24 space-y-20 md:space-y-48">
+    <section className="bg-white py-16 sm:py-24 md:py-40">
+      <div className="px-6 sm:px-10 md:px-16 lg:px-24 space-y-20 sm:space-y-32 md:space-y-48">
         {/* Unser Ziel */}
         <TitleTextBlock
           id="unser-ziel"
@@ -169,9 +185,9 @@ function ContentSection() {
 
 function MembersSection() {
   return (
-    <section className="bg-white py-16 md:py-40">
-      <div className="px-6 md:px-16 lg:px-24">
-        <h2 className="font-headline text-2xl md:text-4xl lg:text-5xl text-black text-left mb-8 md:mb-12">
+    <section className="bg-white py-16 sm:py-24 md:py-40">
+      <div className="px-6 sm:px-10 md:px-16 lg:px-24">
+        <h2 className="font-headline text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-black text-left mb-8 md:mb-12">
           Wir wünschen uns eine Menschliche Zukunft
         </h2>
         
