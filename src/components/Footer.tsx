@@ -50,13 +50,13 @@ function NewsletterForm({ variant = "orange" }: { variant?: "orange" }) {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder="E-Mail-Adresse"
-        className="newsletter-input-orange flex-1 px-4 py-2 text-sm rounded-lg font-body"
+        className="newsletter-input-orange flex-1 px-4 py-2 text-sm font-body"
         required
       />
       <button
         type="submit"
         disabled={status === "loading"}
-        className="bg-black text-white hover:bg-gray-800 px-4 py-2 text-xs rounded-lg font-section tracking-wider whitespace-nowrap disabled:opacity-50 transition-colors"
+        className="bg-black text-white hover:bg-gray-800 px-4 py-2 text-xs font-section tracking-wider whitespace-nowrap disabled:opacity-50 transition-colors"
       >
         {status === "loading" ? "..." : "Abonnieren"}
       </button>

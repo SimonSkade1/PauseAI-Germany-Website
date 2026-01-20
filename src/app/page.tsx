@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState, useEffect, FormEvent } from "react";
+import React, { useState, useEffect, useRef, FormEvent } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -59,13 +59,89 @@ function NewsletterForm({ variant = "light" }: { variant?: "light" | "dark" | "o
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder={variant === "light" ? "Deine E-Mail-Adresse" : "E-Mail-Adresse"}
-        className={`${inputClass} flex-1 ${sizeClass} rounded-lg font-body`}
+        className={`${inputClass} flex-1 ${sizeClass} font-body`}
         required
       />
       <button
         type="submit"
         disabled={status === "loading"}
-        className={`${buttonClass} ${buttonSizeClass} rounded-lg font-section tracking-wider whitespace-nowrap disabled:opacity-50 transition-colors`}
+        className={`${buttonClass} ${buttonSizeClass} font-section tracking-wider whitespace-nowrap disabled:opacity-50 transition-colors`}
+      >
+        {status === "loading" ? "..." : "Abonnieren"}
+      </button>
+    </form>
+  );
+}
+
+function NewsletterFormWithRef({ 
+  variant = "light", 
+  inputRef,
+  glowing,
+  cardHovered = false
+}: { 
+  variant?: "light" | "dark" | "orange";
+  inputRef: React.RefObject<HTMLInputElement | null>;
+  glowing: boolean;
+  cardHovered?: boolean;
+}) {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+
+    setStatus("loading");
+
+    try {
+      await fetch(GOOGLE_FORM_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          [GOOGLE_FORM_EMAIL_ENTRY]: email,
+        }),
+      });
+
+      setStatus("success");
+      setEmail("");
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  if (status === "success") {
+    return (
+      <p className={`font-body ${variant === "light" ? "text-pause-black" : variant === "orange" ? "text-black" : "text-white"}`}>
+        Danke für deine Anmeldung!
+      </p>
+    );
+  }
+
+  const inputClass = variant === "light" ? "newsletter-input-light" : variant === "orange" ? "newsletter-input-orange" : "newsletter-input";
+  const sizeClass = variant === "light" ? "px-4 py-3 text-base" : "px-4 py-2 text-sm";
+  const buttonSizeClass = variant === "light" ? "px-6 py-3 text-sm" : "px-4 py-2 text-xs";
+  const buttonClass = variant === "orange" ? "bg-black text-white hover:bg-gray-800" : "btn-orange";
+
+  return (
+    <form onSubmit={handleSubmit} className={`flex flex-col sm:flex-row ${variant === "light" ? "gap-3" : "gap-2"}`}>
+      <input
+        ref={inputRef}
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder={variant === "light" ? "Deine E-Mail-Adresse" : "E-Mail-Adresse"}
+        className={`${inputClass} flex-1 ${sizeClass} font-body transition-all duration-300 ${
+          glowing ? "ring-2 ring-[#FF9416] ring-offset-2" : ""
+        }`}
+        required
+      />
+      <button
+        type="submit"
+        disabled={status === "loading"}
+        className={`${buttonClass} ${buttonSizeClass} font-section tracking-wider whitespace-nowrap disabled:opacity-50 transition-colors ${cardHovered ? "bg-[#e88510]" : ""}`}
       >
         {status === "loading" ? "..." : "Abonnieren"}
       </button>
@@ -122,7 +198,7 @@ const quotes = [
 
 function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden pt-20">
+    <section className="relative min-h-screen flex items-start overflow-hidden pt-20">
       {/* Background image */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -135,9 +211,9 @@ function HeroSection() {
         />
       </div>
 
-      {/* Content: centered on mobile, right-aligned on desktop */}
-      <div className="relative z-10 w-full flex justify-center lg:justify-end px-6 md:px-12 lg:px-20 xl:px-32">
-        <div className="text-center lg:text-right">
+      {/* Content: right-aligned on all screen sizes, positioned at ~1/3 from top */}
+      <div className="relative z-10 w-full flex justify-end px-6 md:px-12 lg:px-20 xl:px-32 pt-[25vh] md:pt-[30vh]">
+        <div className="text-right">
           <h1 className="font-headline text-3xl text-white mb-6 md:text-5xl lg:text-5xl xl:text-6xl animate-fade-in-up">
             Wir können den <br />KI-Kontrollverlust<br /> noch verhindern
           </h1>
@@ -151,105 +227,175 @@ function HeroSection() {
 }
 
 function QuotesSection() {
-  const [currentQuote, setCurrentQuote] = useState(0);
-  const [resetKey, setResetKey] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const autoAdvanceRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Auto-advance every 8 seconds, resets when resetKey changes
+  // Handle scroll to update active index
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentQuote((prev) => (prev + 1) % quotes.length);
-    }, 8000);
-    return () => clearInterval(timer);
-  }, [resetKey]);
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      const scrollLeft = container.scrollLeft;
+      const itemWidth = container.offsetWidth;
+      const newIndex = Math.round(scrollLeft / itemWidth);
+      setActiveIndex(newIndex);
+    };
+
+    container.addEventListener("scroll", handleScroll);
+    return () => container.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Auto-advance every 8 seconds
+  useEffect(() => {
+    const startAutoAdvance = () => {
+      autoAdvanceRef.current = setInterval(() => {
+        scrollToIndex((activeIndex + 1) % quotes.length);
+      }, 8000);
+    };
+
+    startAutoAdvance();
+    return () => {
+      if (autoAdvanceRef.current) clearInterval(autoAdvanceRef.current);
+    };
+  }, [activeIndex]);
+
+  // Scroll to specific quote with animation
+  const scrollToIndex = (index: number) => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    
+    const itemWidth = container.offsetWidth;
+    const targetScroll = index * itemWidth;
+    const startScroll = container.scrollLeft;
+    const distance = targetScroll - startScroll;
+    const duration = 300;
+    let startTime: number | null = null;
+
+    const animateScroll = (currentTime: number) => {
+      if (startTime === null) startTime = currentTime;
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const easeOut = 1 - Math.pow(1 - progress, 3);
+      
+      container.scrollLeft = startScroll + distance * easeOut;
+      
+      if (progress < 1) {
+        requestAnimationFrame(animateScroll);
+      }
+    };
+
+    requestAnimationFrame(animateScroll);
+  };
 
   const nextQuote = () => {
-    setCurrentQuote((prev) => (prev + 1) % quotes.length);
-    setResetKey((k) => k + 1);
+    scrollToIndex((activeIndex + 1) % quotes.length);
   };
 
   const prevQuote = () => {
-    setCurrentQuote((prev) => (prev - 1 + quotes.length) % quotes.length);
-    setResetKey((k) => k + 1);
+    scrollToIndex((activeIndex - 1 + quotes.length) % quotes.length);
   };
 
-  const goToQuote = (index: number) => {
-    setCurrentQuote(index);
-    setResetKey((k) => k + 1);
-  };
-
-  const q = quotes[currentQuote];
+  const q = quotes[activeIndex];
 
   return (
-    <section className="bg-pause-gray-dark py-16 md:py-24">
-      <div className="max-w-4xl mx-auto px-6 md:px-12">
-        <div className="relative flex items-center">
-          {/* Left Arrow */}
-          <button
-            onClick={prevQuote}
-            className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#FF9416] transition-colors mr-1 md:mr-2"
-            aria-label="Previous quote"
-          >
-            <svg className="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
+    <section 
+      className="bg-pause-gray-dark py-8 md:py-12 group"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {/* Header with Logo/Photo and Name - left aligned */}
+      <div className="flex items-start gap-4 mb-6 md:mb-8 px-6 md:px-12">
+        <div className="relative w-16 h-16 md:w-20 md:h-20 flex-shrink-0 overflow-hidden bg-white">
+          <Image
+            src={q.image}
+            alt={q.name}
+            fill
+            className="object-cover"
+          />
+        </div>
+        <div className="flex flex-col justify-center">
+          <h3 className="font-headline text-white text-xl md:text-2xl lg:text-3xl">
+            {(q as { link?: string }).link ? (
+              <a href={(q as { link?: string }).link} target="_blank" rel="noopener noreferrer" className="hover:text-[#FF9416] transition-colors">
+                {q.name}
+              </a>
+            ) : (
+              q.name
+            )}
+          </h3>
+          <p className="font-body text-white/70 text-sm md:text-base mt-1">{q.title}</p>
+        </div>
+      </div>
 
-          {/* Quote Card */}
-          <div
-            key={currentQuote}
-            className="quote-card flex-1 rounded-2xl p-6 md:p-8 animate-slide-in"
-          >
-            <div className="flex items-start gap-4 mb-4">
-              <div className="relative w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden flex-shrink-0 border-2 border-[#FF9416] bg-white">
-                <Image
-                  src={q.image}
-                  alt={q.name}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="flex-1">
-                <h3 className="font-body-bold text-white text-base md:text-lg">
-                  {(q as { link?: string }).link ? (
-                    <a href={(q as { link?: string }).link} target="_blank" rel="noopener noreferrer" className="hover:text-[#FF9416] transition-colors">
-                      {q.name}
-                    </a>
-                  ) : (
-                    q.name
-                  )}
-                </h3>
-                <p className="font-body text-white/60 text-xs md:text-sm">{q.title}</p>
-              </div>
+      {/* Centered container for quote, arrows, and dots */}
+      <div className="flex justify-center px-10 md:px-12">
+        <div className="w-full" style={{ maxWidth: '60ch' }}>
+          {/* Quote row with arrows */}
+          <div className="flex items-center">
+            {/* Left Arrow - hidden on mobile, visible on hover on desktop */}
+            <button
+              onClick={prevQuote}
+              className={`hidden md:flex flex-shrink-0 w-10 h-10 items-center justify-center transition-opacity duration-200 -ml-12 ${
+                isHovered ? "opacity-100" : "opacity-0"
+              }`}
+              aria-label="Previous quote"
+            >
+              <svg className="w-8 h-8 text-white hover:text-[#FF9416] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+
+            {/* Scrollable quote container */}
+            <div
+              ref={scrollContainerRef}
+              className="flex-1 flex overflow-x-auto snap-x snap-mandatory scrollbar-hide -mx-6 md:mx-0"
+              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            >
+              {quotes.map((quote, index) => (
+                <div
+                  key={index}
+                  className="flex-shrink-0 w-full px-6 md:px-0 snap-center flex justify-center items-center"
+                  style={{ scrollSnapStop: "always", minHeight: 'calc(4 * 1.625em)' }}
+                >
+                  <blockquote 
+                    className="font-body text-white text-lg md:text-xl lg:text-2xl leading-relaxed text-center"
+                  >
+                    &quot;{quote.quote}&quot;
+                  </blockquote>
+                </div>
+              ))}
             </div>
-            <blockquote className="font-body text-white/90 text-base md:text-lg leading-relaxed italic text-justify">
-              &ldquo;{q.quote}&rdquo;
-            </blockquote>
+
+            {/* Right Arrow - hidden on mobile, visible on hover on desktop */}
+            <button
+              onClick={nextQuote}
+              className={`hidden md:flex flex-shrink-0 w-10 h-10 items-center justify-center transition-opacity duration-200 -mr-12 ${
+                isHovered ? "opacity-100" : "opacity-0"
+              }`}
+              aria-label="Next quote"
+            >
+              <svg className="w-8 h-8 text-white hover:text-[#FF9416] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
           </div>
 
-          {/* Right Arrow */}
-          <button
-            onClick={nextQuote}
-            className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#FF9416] transition-colors ml-2 md:ml-3"
-            aria-label="Next quote"
-          >
-            <svg className="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-        </div>
-
-        {/* Dots Indicator */}
-        <div className="flex justify-center gap-2 mt-6">
-          {quotes.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToQuote(index)}
-              className={`w-2 h-2 rounded-full transition-colors ${
-                index === currentQuote ? "bg-[#FF9416]" : "bg-white/30"
-              }`}
-              aria-label={`Go to quote ${index + 1}`}
-            />
-          ))}
+          {/* Square Dots Indicator - aligned with quote max-width */}
+          <div className="flex justify-between items-center h-6 mt-8 md:mt-10">
+            {quotes.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => scrollToIndex(index)}
+                className={`w-2.5 h-2.5 transition-all duration-150 ${
+                  index === activeIndex ? "bg-[#FF9416]" : "bg-white/40"
+                }`}
+                aria-label={`Go to quote ${index + 1}`}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -258,11 +404,12 @@ function QuotesSection() {
 
 function ProblemSolutionSection() {
   return (
-    <section className="bg-[#FFA033] py-16 md:py-24">
-      <div className="max-w-6xl mx-auto px-6 md:px-12">
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* Problem Card - White text on black */}
-          <div className="card-hover bg-pause-black rounded-2xl p-8 md:p-10">
+    <section className="min-h-screen bg-[#FF9416] px-2 md:px-3 lg:px-4 py-10 md:py-16 lg:py-20">
+      {/* Inner container with dark/light split */}
+      <div className="h-full min-h-[calc(100vh-5rem)] md:min-h-[calc(100vh-8rem)] lg:min-h-[calc(100vh-10rem)] flex flex-col md:flex-row">
+        {/* Problem Side - Dark background */}
+        <div className="flex-1 bg-[#1a1a1a] flex items-center justify-center p-8 md:p-12 lg:p-16">
+          <div className="max-w-md p-8 md:p-10">
             <h2 className="font-section text-2xl text-white mb-6 md:text-3xl">
               Das Problem
             </h2>
@@ -273,16 +420,18 @@ function ProblemSolutionSection() {
               könnte.
             </p>
           </div>
+        </div>
 
-          {/* Solution Card - Black text on white */}
-          <div className="card-hover bg-white rounded-2xl p-8 md:p-10">
+        {/* Solution Side - Light grey background */}
+        <div className="flex-1 bg-[#f5f5f5] flex items-center justify-center p-8 md:p-12 lg:p-16">
+          <div className="max-w-md p-8 md:p-10">
             <h2 className="font-section text-2xl text-pause-black mb-6 md:text-3xl">
               Die Lösung
             </h2>
             <p className="font-body text-pause-black/80 text-lg leading-relaxed text-justify">
               Ein internationales Abkommen, das die Entwicklung von
               superintelligenter KI stoppt, bis diese sicher möglich ist. Eine
-              mögliche Lösung ist der {" "}
+              mögliche Lösung ist der{" "}
               <a
                 href="https://ifanyonebuildsit.com/treaty"
                 target="_blank"
@@ -301,84 +450,129 @@ function ProblemSolutionSection() {
 }
 
 function ActionSection() {
+  const newsletterInputRef = useRef<HTMLInputElement>(null);
+  const [newsletterGlow, setNewsletterGlow] = useState(false);
+  const [newsletterHovered, setNewsletterHovered] = useState(false);
+
+  const handleNewsletterCardClick = (e: React.MouseEvent) => {
+    // Don't trigger if clicking on the input or button
+    if ((e.target as HTMLElement).tagName === 'INPUT' || (e.target as HTMLElement).tagName === 'BUTTON') {
+      return;
+    }
+    if (newsletterInputRef.current) {
+      newsletterInputRef.current.focus();
+      setNewsletterGlow(true);
+      setTimeout(() => setNewsletterGlow(false), 1000);
+    }
+  };
+
   return (
     <section
       id="was-du-tun-kannst"
-      className="bg-pause-gray-light py-16 md:py-24"
+      className="bg-white py-16 md:py-24"
     >
-      <div className="max-w-4xl mx-auto px-6 md:px-12">
-        <h2 className="font-headline text-3xl text-pause-black text-center mb-12 md:text-5xl lg:text-6xl">
+      <div className="max-w-[75vw] mx-auto px-6 md:px-12">
+        <h2 className="font-headline text-3xl text-pause-black text-left mb-12 md:text-5xl lg:text-6xl">
           Was du tun kannst
         </h2>
 
-        <div className="space-y-10">
+        <div className="space-y-6">
           {/* Newsletter */}
-          <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm">
-            <h3 className="font-section text-lg text-pause-black mb-3 md:text-xl">
-              Folge unserem Newsletter.
-            </h3>
-            <div className="mb-4">
-              <NewsletterForm variant="light" />
+          <div 
+            onClick={handleNewsletterCardClick}
+            onMouseEnter={() => setNewsletterHovered(true)}
+            onMouseLeave={() => setNewsletterHovered(false)}
+            className="group flex bg-white p-6 md:p-8 border border-[#1a1a1a] md:border-2 cursor-pointer hover:bg-[#FFFAF5] transition-colors min-h-[190px]"
+          >
+            <div className="flex items-start md:gap-4 flex-1">
+              <span className="hidden md:block text-[#FF9416] text-4xl md:text-5xl flex-shrink-0 leading-none mt-[-0.32em] transition-transform group-hover:translate-x-2">
+                →
+              </span>
+              <div className="flex-1 flex flex-col h-full">
+                <h3 className="font-section text-lg text-pause-black mb-3 md:text-xl">
+                  Folge unserem Newsletter
+                </h3>
+                <div className="mb-4">
+                  <NewsletterFormWithRef 
+                    variant="light" 
+                    inputRef={newsletterInputRef}
+                    glowing={newsletterGlow}
+                    cardHovered={newsletterHovered}
+                  />
+                </div>
+                <p className="font-body text-pause-black/80 text-base mt-auto text-right">
+                  Damit du über wichtige Neuigkeiten und Events informiert bleibst.
+                </p>
+              </div>
             </div>
-            <p className="font-body text-pause-black/60 text-base">
-              Damit du über wichtige Neuigkeiten und Events informiert bleibst.
-            </p>
           </div>
 
           {/* Discord */}
-          <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm">
-            <h3 className="font-section text-lg text-pause-black mb-3 md:text-xl">
-              Tritt unserem{" "}
-              <a
-                href="https://discord.gg/pvZ5PmRX4R"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="orange-link"
-              >
-                Discord
-              </a>{" "}
-              bei
-            </h3>
-            <p className="font-body text-pause-black/80 text-base">
-              Werde Teil unserer Community und hilf mit.
-            </p>
-          </div>
+          <a 
+            href="https://discord.gg/pvZ5PmRX4R"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex bg-white p-6 md:p-8 border border-[#1a1a1a] md:border-2 cursor-pointer hover:bg-[#FFFAF5] transition-colors min-h-[190px]"
+          >
+            <div className="flex items-start md:gap-4 flex-1">
+              <span className="hidden md:block text-[#FF9416] text-4xl md:text-5xl flex-shrink-0 leading-none mt-[-0.32em] transition-transform group-hover:translate-x-2">
+                →
+              </span>
+              <div className="flex-1 flex flex-col h-full">
+                <h3 className="font-section text-lg text-pause-black mb-3 md:text-xl">
+                  Tritt unserem <span className="text-[#FF9416] border-b-2 border-transparent group-hover:border-[#FF9416] transition-colors">Discord</span> bei
+                </h3>
+                <p className="font-body text-pause-black/80 text-base mt-auto text-right">
+                  Werde Teil unserer Community und hilf mit.
+                </p>
+              </div>
+            </div>
+          </a>
 
           {/* Microcommit */}
-          <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm">
-            <h3 className="font-section text-lg text-pause-black mb-3 md:text-xl">
-              Tritt{" "}
-              <a
-                href="https://microcommit.io"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="orange-link"
-              >
-                Microcommit.io
-              </a>{" "}
-              bei
-            </h3>
-            <p className="font-body text-pause-black/80 text-base">
-              5min/Woche Aufwand die dennoch viel bewegen. Deutsche Version kommt bald.
-              {/* Wenn du dich registriert hast, gehe auf "Profile", scroll zu "Organizations You Follow", und folge "Pause AI Germany". */}
-            </p>
-          </div>
+          <a 
+            href="https://microcommit.io"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex bg-white p-6 md:p-8 border border-[#1a1a1a] md:border-2 cursor-pointer hover:bg-[#FFFAF5] transition-colors min-h-[190px]"
+          >
+            <div className="flex items-start md:gap-4 flex-1">
+              <span className="hidden md:block text-[#FF9416] text-4xl md:text-5xl flex-shrink-0 leading-none mt-[-0.32em] transition-transform group-hover:translate-x-2">
+                →
+              </span>
+              <div className="flex-1 flex flex-col h-full">
+                <h3 className="font-section text-lg text-pause-black mb-3 md:text-xl">
+                  Tritt <span className="text-[#FF9416] border-b-2 border-transparent group-hover:border-[#FF9416] transition-colors">Microcommit.io</span> bei
+                </h3>
+                <p className="font-body text-pause-black/80 text-base mt-auto text-right">
+                  5min/Woche Aufwand die dennoch viel bewegen. Deutsche Version kommt bald.
+                </p>
+              </div>
+            </div>
+          </a>
 
           {/* Spenden */}
-          <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm">
-            <h3 className="font-section text-lg text-pause-black mb-3 md:text-xl">
-              Spenden
-            </h3>
-            <p className="font-body text-pause-black/80 text-base">
-              Deine Spende bringt uns weiter. Bei Interesse kontaktiere:{" "}
-              <a
-                href="mailto:germany@pauseai.info"
-                className="orange-link font-body-bold"
-              >
-                germany@pauseai.info
-              </a>
-            </p>
-          </div>
+          <a 
+            href="mailto:germany@pauseai.info"
+            className="group flex bg-white p-6 md:p-8 border border-[#1a1a1a] md:border-2 cursor-pointer hover:bg-[#FFFAF5] transition-colors min-h-[190px]"
+          >
+            <div className="flex items-start md:gap-4 flex-1">
+              <span className="hidden md:block text-[#FF9416] text-4xl md:text-5xl flex-shrink-0 leading-none mt-[-0.32em] transition-transform group-hover:translate-x-2">
+                →
+              </span>
+              <div className="flex-1 flex flex-col h-full">
+                <h3 className="font-section text-lg text-pause-black mb-3 md:text-xl">
+                  Spenden
+                </h3>
+                <p className="font-body text-pause-black/80 text-base mt-auto text-right">
+                  Deine Spende bringt uns weiter. Bei Interesse kontaktiere{" "}
+                  <span className="text-[#FF9416] border-b-2 border-transparent group-hover:border-[#FF9416] transition-colors font-body-bold">
+                    germany@pauseai.info
+                  </span>
+                </p>
+              </div>
+            </div>
+          </a>
         </div>
       </div>
     </section>
