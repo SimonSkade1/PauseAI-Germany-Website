@@ -2,9 +2,9 @@
   {
     "id": "simon",
     "name": "Simon",
-    "description": "Vorstand von PauseAI Germany",
-    "quote": "**Ich wünsche mir, zu erleben, wie Wissenschaftler eines Tages die Geheimnisse des menschlichen Geistes entschlüsseln und vielleicht sogar einen kleinen Teil zu dieser Forschung beizutragen. Tecnischer Fortschritt kann der Menschheit helfen, ihr volles Potenzial zu entfalten, aber wenn er nur kurzfristigen Interessen dient, bewirkt er das Gegenteil.**",
-    "image": "/profile-pics/simon.jpeg"
+    "description": "KI-Sicherheitsforscher und 2. Vorsitzender bei PauseAI Deutschland",
+    "quote": "Die Menschheit ist wie ein Funke in der Nacht, der entweder erlischt oder Licht in das Universum bringt. Wir haben so viel für das es sich zu kämpfen lohnt. Von Lachen zu Liebe, von Bewusstsein zu Sympathie. Lasst uns zusammen arbeiten, um den Funken zu bewahren und aufblühen zu lassen.",
+    "image": "/profile-pics/simon.png"
   },
   {
     "id": "adrian-glubrecht",
@@ -19,40 +19,5 @@
     "description": "Architekturstudentin",
     "quote": "**Was ich mir wünsche ist eine Zukunft, in der ich mit Freunden ein Stück Land nachhaltig bewirtschafte und innovative Bauprojekte realisiere, die Resilienz und echte Lebensqualität schaffen.**",
     "image": "/profile-pics/karen.png" 
-  },
-  {
-    "id": "oleg",
-    "name": "Finn",
-    "description": "Politikstudent",
-    "quote": "**Ich habe die Hoffnung, dass wir, wenn unsere Staaten es schaffen, sich in dieser einen Sache abzustimmen, auch lernen können, andere globale Probleme koordiniert zu lösen.**",
-    "image": "/profile-pics/adrian-glubrecht.jpg" 
-  },
-  {
-    "id": "lilly",
-    "name": "Lilly",
-    "description": "Medizinstudentin",
-    "quote": "Gesellschaften, in denen wir einander auf Augenhöhe begegnen sind Voraussetzung für alles, was uns als Menschen ausmacht. Immer dort, wo die zivilisatorische Ordnung zusammenbricht, wird klar, dass Menschen kaum mehr sind als eine Sammlung von Organen und Trieben. Für ein System, dass viel intelligenter ist als wir, werden wir nie mehr sein als ein Objekt - und verlieren damit jede Würde.",
-    "image": "/profile-pics/adrian-glubrecht.jpg"
-  },
-  {
-    "id": "ben",
-    "name": "Ben",
-    "description": "Entrepreneur",
-    "quote": "Wenn ich mit Politikern über die Gefahr eines Kontrollverlusts rede, renne ich inzwischen immer häufiger offene Türen ein und ich erkläre eher technische Grundlagen, für die Berufspolitiker leider sonst selten Zeit haben. Nichts ist mächtiger, als eine Idee, deren Zeit gekommen ist.",
-    "image": "/profile-pics/adrian-glubrecht.jpg"
-  },
-  {
-    "id": "rosa",
-    "name": "Rosa",
-    "description": "(?)",
-    "quote": "Ich glaube, die Menschheit hat das Potenzial, erwachsen zu werden, also Verantwortung für sich selbst zu übernehmen. Solange die relevanten Entscheidungen noch von Menschen getroffen werden, hat gesellschaftlicher Druck einen entscheidenden Einfluss auf das Weltgeschehen. Wir tragen alle eine doppelte Verantwortung für eine menschliche Zukunft: Jeder Mensch kann seine Handlungsfreiheit wirksam einsetzen, um unsere Zukunft zu schützen – und mit jeder unserer Entscheidungen prägen wir, was Menschsein überhaupt bedeutet.",
-    "image": "/profile-pics/adrian-glubrecht.jpg"
-  },
-  {
-    "id": "marina",
-    "name": "Marina",
-    "description": "Psychologiestudentin",
-    "quote": "Hot Take: Die Menschheit ist es wert, sie zu schützen! Aber im Ernst: Ich glaube, diese Form der 'kollektiven Selbstfürsorge' ist wirklich notwendig, um zu verinnerlichen, wie unvorstellbar wertvoll das ist, was wir haben.",
-    "image": "/profile-pics/adrian-glubrecht.jpg"
   }
 ]

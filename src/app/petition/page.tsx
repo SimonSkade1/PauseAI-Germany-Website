@@ -142,6 +142,7 @@ function SignatoryCard({
             src={image}
             alt={name}
             fill
+            sizes="(max-width: 768px) 112px, 128px"
             className="object-cover"
           />
         ) : (

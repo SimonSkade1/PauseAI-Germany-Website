@@ -91,7 +91,8 @@ export default function Header() {
               alt="PauseAI Logo"
               width={140}
               height={40}
-              className="h-10 w-auto"
+              className="h-10"
+              style={{ width: "auto" }}
               priority
             />
           </Link>

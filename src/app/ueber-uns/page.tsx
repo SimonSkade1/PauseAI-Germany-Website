@@ -138,10 +138,10 @@ function ContentSection() {
           largeHeading="Kontrollverlust verhindern"
           text={
             <>
-            Hunderte Milliarden fließen in den Wettlauf um die erste künstliche Intelligenz, die alle menschlichen Fähigkeiten übertrifft. Viele Forscher warnen, dass dies zur Auslöschung der Menschheit führen könnte. Auch wenn der schlimmste Fall nicht eintreten sollte, birgt KI katastrophale Risiken.
+            Milliardeninvestitionen fließen in den Wettlauf um die erste künstliche Intelligenz, die alle menschlichen Fähigkeiten übertrifft. Weltweit anerkannte KI-Experten  warnen, dass dies zur Auslöschung der Menschheit führen könnte. Selbst wenn der schlimmste Fall nicht eintreten sollte, birgt KI katastrophale Risiken.
             <br />
             <br />
-            Unser Ziel ist ein internationales Abkommen, dass die unkontrollierte Weiterentwicklung von künstlicher Intelligenz weltweit pausiert. Wir unterstützen die Etablierung verbindlicher <a href="https://red-lines.ai/" target="_blank" rel="noopener noreferrer" className="orange-link font-body-bold">roter Linien</a>, etwa bei der Entwicklung von Systemen, die sich eigenständig selbst verbessern können. Der <a href="https://ifanyonebuildsit.com/treaty" target="_blank" rel="noopener noreferrer" className="orange-link font-body-bold">Entwurf</a> des Machine Intelligence Research Institutes zeigt, wie dieses Abkommen aussehen könnte.
+            Unser Ziel ist ein internationales Abkommen, das die unkontrollierte Weiterentwicklung von künstlicher Intelligenz weltweit pausiert, bis angemessene Sicherheitsvorkehrungen implementiert wurden. Wir unterstützen die Etablierung verbindlicher <a href="https://red-lines.ai/" target="_blank" rel="noopener noreferrer" className="orange-link font-body-bold">roter Linien</a>, etwa bei der Entwicklung von Systemen, die sich eigenständig selbst verbessern können. Der <a href="https://ifanyonebuildsit.com/treaty" target="_blank" rel="noopener noreferrer" className="orange-link font-body-bold">Entwurf</a> des Machine Intelligence Research Institutes zeigt, wie dieses Abkommen aussehen könnte.
             </>
           }
           className="scroll-mt-24"
@@ -152,13 +152,19 @@ function ContentSection() {
         <TitleTextBlock
           id="unser-ansatz"
           smallHeading="Unser Ansatz"
-          largeHeading="Gemeinschaft wecken"
+          largeHeading="Schutzinteressen bündeln"
           text={
             <>
-              Die größten Risiken, die von KI ausgehen, bedrohen uns alle gleichermaßen. Sobald KI sich nicht mehr von Menschen kontrollieren lässt, ist das eine Gefahr für uns alle. Das bedeutet, dass jedes Land sich nur durch internationale Kooperation schützen kann. Wir möchten das Bewusstsein für dieses gemeinsame Interesse wecken. Nur so können wir globalen Zusammenhalt erreichen.
+              Sobald KI sich nicht mehr von Menschen kontrollieren lässt, ist das eine Gefahr für uns alle. Das bedeutet, dass jedes Land sich nur durch internationale Kooperation schützen kann. Für dieses gemeinsame Interesse möchten wir das Bewusstsein wecken. 
               <br />
               <br />
-              Wir sehen eine Entwicklungspause als pragmatischen ersten Schritt, um den KI-Kontrollverlust langfristig zu verhindern. Die Probleme, die durch fortschreitende KI-Entwicklung verschärft werden, reichen von der Verdrängung sozialer Beziehungen bis hin zu vollautomatischer Kriegsführung, Totalüberwachung und extremer sozialer Ungleichheit. Wir unterstützen jede vernünftige Initiative, die den Schaden, der schon heute durch KI entsteht, begrenzen möchte, verlieren aber nicht den Fokus: den KI-Kontrollverlust zu verhindern. KI langfristig unter menschlicher Kontrolle zu halten ist die Grundvorrasusetzung für nachhaltig wirksame KI-Regulierung.
+
+              Die fortschreitende KI-Entwicklung verschärft zahlreiche Probleme von der Verdrängung sozialer Beziehungen bis hin zu vollautomatischer Kriegsführung, Totalüberwachung und extremer Ungleichheit. Wir unterstützen jede vernünftige Initiative, die den Schaden, der schon heute durch KI entsteht, begrenzen möchte – aber unser Fokus bleibt. KI unter menschlicher Kontrolle zu behalten, ist die Voraussetzung, um echte Lösungen für alle weiteren Probleme zu finden.
+              <br />
+              <br />
+
+              Solange die relevanten Entscheidungen noch von Menschen getroffen werden, hat gesellschaftlicher Druck einen entscheidenden Einfluss auf das Weltgeschehen - deshalb sind wir hier! 
+
             </>
           }
           className="scroll-mt-24"
@@ -171,10 +177,10 @@ function ContentSection() {
           largeHeading="Klarheit schaffen"
           text={
           <>
-          Wir wollen den Spalt zwischen den dramatischen Warnungen von KI-Experten und der öffentlichen Debatte schließen. Unser wirksamstes Mittel ist, sachlich und lösungsorientiert über die Risiken von KI-Entwicklung aufzuklären. Immer mehr Mitglieder unterstützen uns aktiv bei der Organisation von Vorträgen und Flyeraktionen und zeigen damit, dass die kollektive Schockstarre durch Weitsicht und Pragmatismus durchbrochen werden kann. 
+          Wir wollen den Spalt zwischen den dramatischen Warnungen von KI-Experten und der öffentlichen Debatte schließen. Unser wirksamstes Mittel ist, sachlich und lösungsorientiert über die Risiken von KI-Entwicklung aufzuklären. Immer mehr Freiwillige tragen etwa mit Vorträgen oder Flyeraktionen dazu bei,  die kollektive Schockstarre zu überwinden.
           <br />
           <br />
-          Auf unserem <a href="https://discord.gg/pvZ5PmRX4R" target="_blank" rel="noopener noreferrer" className="orange-link font-body-bold">Discord-Server</a> erfährst Du mehr über aktuell laufende Projekte. Dort veranstalten wir auch jeden Donnerstag um 18 Uhr ein Videomeeting, zu dem Du herzlich eingeladen bist!
+          Auf unserem <a href="https://discord.gg/pvZ5PmRX4R" target="_blank" rel="noopener noreferrer" className="orange-link font-body-bold">Discord-Server</a> erfährst Du mehr über aktuell laufende Projekte. Dort treffen wir uns jeden Donnerstag um 18 Uhr für ein Videomeeting, zu dem Du herzlich eingeladen bist!
           </>}
           className="scroll-mt-24"
         />

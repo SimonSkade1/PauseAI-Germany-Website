@@ -205,6 +205,7 @@ function HeroSection() {
           src="/earth-europe.png"
           alt="Earth from space showing Europe"
           fill
+          sizes="100vw"
           className="object-cover object-[25%_center] md:object-center"
           priority
           unoptimized
@@ -214,7 +215,7 @@ function HeroSection() {
       {/* Content: right-aligned on all screen sizes, positioned at ~1/3 from top */}
       <div className="relative z-10 w-full flex justify-end px-6 md:px-12 lg:px-20 xl:px-32 pt-[25vh] md:pt-[30vh]">
         <div className="text-right">
-          <h1 className="font-headline text-3xl text-white mb-6 md:text-5xl lg:text-5xl xl:text-6xl animate-fade-in-up">
+          <h1 className="font-headline text-2xl text-white mb-6 md:text-5xl lg:text-5xl xl:text-6xl animate-fade-in-up">
             Wir können den <br />KI-Kontrollverlust<br /> noch verhindern
           </h1>
           <p className="font-body-bold text-lg text-white/90 md:text-xl lg:text-2xl animate-fade-in-up delay-200">
@@ -307,17 +308,18 @@ function QuotesSection() {
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Header with Logo/Photo and Name - left aligned */}
-      <div className="flex items-start gap-4 mb-6 md:mb-8 px-6 md:px-12">
+      <div className="flex items-start gap-6 md:gap-8 mb-6 md:mb-8 px-6 md:px-12 min-h-[150px] md:min-h-[100px]">
         <div className="relative w-16 h-16 md:w-20 md:h-20 flex-shrink-0 overflow-hidden bg-white">
           <Image
             src={q.image}
             alt={q.name}
             fill
+            sizes="(max-width: 768px) 64px, 80px"
             className="object-cover"
           />
         </div>
-        <div className="flex flex-col justify-center">
-          <h3 className="font-headline text-white text-xl md:text-2xl lg:text-3xl">
+        <div className="flex flex-col justify-center flex-1 min-h-[80px] md:min-h-[80px]">
+          <h3 className="font-headline text-white text-xl md:text-2xl lg:text-3xl leading-tight">
             {(q as { link?: string }).link ? (
               <a href={(q as { link?: string }).link} target="_blank" rel="noopener noreferrer" className="hover:text-[#FF9416] transition-colors">
                 {q.name}
@@ -326,19 +328,19 @@ function QuotesSection() {
               q.name
             )}
           </h3>
-          <p className="font-body text-white/70 text-sm md:text-base mt-1">{q.title}</p>
+          <p className="font-body text-white/70 text-sm md:text-base mt-1 leading-relaxed">{q.title}</p>
         </div>
       </div>
 
       {/* Centered container for quote, arrows, and dots */}
       <div className="flex justify-center px-10 md:px-12">
-        <div className="w-full" style={{ maxWidth: '60ch' }}>
+        <div className="relative w-full" style={{ maxWidth: 'calc(60ch + 8rem)' }}>
           {/* Quote row with arrows */}
-          <div className="flex items-center">
+          <div className="flex items-center justify-center">
             {/* Left Arrow - hidden on mobile, visible on hover on desktop */}
             <button
               onClick={prevQuote}
-              className={`hidden md:flex flex-shrink-0 w-10 h-10 items-center justify-center transition-opacity duration-200 -ml-12 ${
+              className={`hidden md:flex absolute left-0 flex-shrink-0 w-10 h-10 items-center justify-center transition-opacity duration-200 ${
                 isHovered ? "opacity-100" : "opacity-0"
               }`}
               aria-label="Previous quote"
@@ -351,14 +353,19 @@ function QuotesSection() {
             {/* Scrollable quote container */}
             <div
               ref={scrollContainerRef}
-              className="flex-1 flex overflow-x-auto snap-x snap-mandatory scrollbar-hide -mx-6 md:mx-0"
-              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+              className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide -mx-6 md:mx-0"
+              style={{ scrollbarWidth: "none", msOverflowStyle: "none", maxWidth: '60ch' }}
             >
               {quotes.map((quote, index) => (
                 <div
                   key={index}
                   className="flex-shrink-0 w-full px-6 md:px-0 snap-center flex justify-center items-center"
-                  style={{ scrollSnapStop: "always", minHeight: 'calc(4 * 1.625em)' }}
+                  style={{ 
+                    scrollSnapStop: "always", 
+                    minHeight: 'calc(4 * 1.625em)',
+                    width: '100%',
+                    maxWidth: '60ch'
+                  }}
                 >
                   <blockquote 
                     className="font-body text-white text-lg md:text-xl lg:text-2xl leading-relaxed text-center"
@@ -372,7 +379,7 @@ function QuotesSection() {
             {/* Right Arrow - hidden on mobile, visible on hover on desktop */}
             <button
               onClick={nextQuote}
-              className={`hidden md:flex flex-shrink-0 w-10 h-10 items-center justify-center transition-opacity duration-200 -mr-12 ${
+              className={`hidden md:flex absolute right-0 flex-shrink-0 w-10 h-10 items-center justify-center transition-opacity duration-200 ${
                 isHovered ? "opacity-100" : "opacity-0"
               }`}
               aria-label="Next quote"
@@ -384,7 +391,7 @@ function QuotesSection() {
           </div>
 
           {/* Square Dots Indicator - aligned with quote max-width */}
-          <div className="flex justify-between items-center h-6 mt-8 md:mt-10">
+          <div className="flex justify-between items-center h-6 mt-12 md:mt-16 mx-6 md:mx-0" style={{ maxWidth: '60ch', margin: '3rem auto 0' }}>
             {quotes.map((_, index) => (
               <button
                 key={index}
@@ -404,12 +411,22 @@ function QuotesSection() {
 
 function ProblemSolutionSection() {
   return (
-    <section className="min-h-screen bg-[#FF9416] px-2 md:px-3 lg:px-4 py-10 md:py-16 lg:py-20">
-      {/* Inner container with dark/light split */}
-      <div className="h-full min-h-[calc(100vh-5rem)] md:min-h-[calc(100vh-8rem)] lg:min-h-[calc(100vh-10rem)] flex flex-col md:flex-row">
-        {/* Problem Side - Dark background */}
-        <div className="flex-1 bg-[#1a1a1a] flex items-center justify-center p-8 md:p-12 lg:p-16">
-          <div className="max-w-md p-8 md:p-10">
+    <section className="bg-white py-20 md:py-32">
+      {/* Single orange dividing line */}
+      <div className="w-full flex justify-center mb-12 md:mb-16">
+        <div className="w-24 h-1 bg-[#FF9416]"></div>
+      </div>
+
+      {/* Two-column layout container */}
+      <div className="max-w-6xl mx-auto px-6 md:px-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 lg:gap-16">
+          {/* Problem Box - Black filled, clickable */}
+          <a
+            href="https://pauseai.info/xrisk"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative bg-[#1a1a1a] p-8 md:p-10 lg:p-12 hover:bg-[#2a2a2a] transition-colors cursor-pointer block"
+          >
             <h2 className="font-section text-2xl text-white mb-6 md:text-3xl">
               Das Problem
             </h2>
@@ -419,12 +436,17 @@ function ProblemSolutionSection() {
               Forscher warnen, dass dies zur Auslöschung der Menschheit führen
               könnte.
             </p>
-          </div>
-        </div>
+            {/* Orange arrow moved slightly left */}
+            <div className="absolute bottom-4 right-6 text-[#FF9416] text-2xl transition-transform group-hover:translate-x-2">
+              →
+            </div>
+          </a>
 
-        {/* Solution Side - Light grey background */}
-        <div className="flex-1 bg-[#f5f5f5] flex items-center justify-center p-8 md:p-12 lg:p-16">
-          <div className="max-w-md p-8 md:p-10">
+          {/* Solution Box - White with dark grey border, clickable */}
+          <div
+            onClick={() => window.open("https://pauseai.info/proposal", "_blank")}
+            className="group relative bg-white border-2 border-[#4a4a4a] p-8 md:p-10 lg:p-12 hover:bg-gray-100 transition-colors cursor-pointer"
+          >
             <h2 className="font-section text-2xl text-pause-black mb-6 md:text-3xl">
               Die Lösung
             </h2>
@@ -437,11 +459,16 @@ function ProblemSolutionSection() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="orange-link font-body-bold"
+                onClick={(e) => e.stopPropagation()}
               >
                 Entwurf
               </a>{" "}
               des Machine Intelligence Research Instituts.
             </p>
+            {/* Orange arrow moved slightly left */}
+            <div className="absolute bottom-4 right-6 text-[#FF9416] text-2xl transition-transform group-hover:translate-x-2">
+              →
+            </div>
           </div>
         </div>
       </div>
@@ -471,7 +498,7 @@ function ActionSection() {
       id="was-du-tun-kannst"
       className="bg-white py-16 md:py-24"
     >
-      <div className="max-w-[75vw] mx-auto px-6 md:px-12">
+      <div className="max-w-[75vw] mx-auto px-0 md:px-12">
         <h2 className="font-headline text-3xl text-pause-black text-left mb-12 md:text-5xl lg:text-6xl">
           Was du tun kannst
         </h2>
