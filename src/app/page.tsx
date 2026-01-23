@@ -59,7 +59,7 @@ function NewsletterForm({ variant = "light" }: { variant?: "light" | "dark" | "o
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder={variant === "light" ? "Deine E-Mail-Adresse" : "E-Mail-Adresse"}
-        className={`${inputClass} flex-1 ${sizeClass} font-body`}
+        className={`${inputClass} flex-1 min-w-0 w-full ${sizeClass} font-body`}
         required
       />
       <button
@@ -133,7 +133,7 @@ function NewsletterFormWithRef({
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder={variant === "light" ? "Deine E-Mail-Adresse" : "E-Mail-Adresse"}
-        className={`${inputClass} flex-1 ${sizeClass} font-body transition-all duration-300 ${
+        className={`${inputClass} flex-1 min-w-0 w-full ${sizeClass} font-body transition-all duration-300 ${
           glowing ? "ring-2 ring-[#FF9416] ring-offset-2" : ""
         }`}
         required
