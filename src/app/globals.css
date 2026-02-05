@@ -362,3 +362,19 @@ a.orange-link:hover {
     border-left: 5px solid var(--pause-pink);
   }
 }
+
+/* Role badge styles for leaderboard */
+.role-1 {
+  background: #2d4a3e;
+  color: #6bcf8e;
+}
+
+.role-2 {
+  background: #4a3d2d;
+  color: #cfaa6b;
+}
+
+.role-3 {
+  background: #4a2d4a;
+  color: #cf6bcf;
+}
