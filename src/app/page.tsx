@@ -168,6 +168,14 @@ const quotes = [
   },
   {
     quote:
+      "Ich halte es für notwendig, auf europäischer und globaler Ebene rote Linien für Anwendungen [von KI] zu ziehen, die fundamentale Sicherheits- oder Menschenrechtsrisiken erzeugen – etwa autonome Waffensysteme ohne echte menschliche Kontrolle, KI zur massiven Verhaltensmanipulation oder nicht kontrollierbare Systemarchitekturen.",
+    name: "Diana Herbstreuth",
+    title: "Bundestagsabgeordnete (CDU)",
+    image: "/neutral_profile_pic.png",
+    link: "https://www.abgeordnetenwatch.de/profile/diana-herbstreuth",
+  },
+  {
+    quote:
       "It might be quite sensible to just stop developing these things any further.",
     name: "Geoffrey Hinton",
     title: 'Nobel Prize winner & "Godfather of AI"',
@@ -175,10 +183,26 @@ const quotes = [
   },
   {
     quote:
+      "Verbindliche internationale Abkommen und ethische Grundlagen für den Einsatz von KI werden benötigt um ein Wettrennen zwischen den Staaten um die leistungsfähigste KI zu unterbinden.",
+    name: "Desiree Becker",
+    title: "Bundestagsabgeordnete (Die Linke)",
+    image: "/07_Desiree_Becker-nah-M.jpg",
+    link: "https://www.abgeordnetenwatch.de/profile/desiree-becker",
+  },
+  {
+    quote:
       "The development of full artificial intelligence could spell the end of the human race.",
     name: "Stephen Hawking",
     title: "Theoretical physicist and cosmologist",
     image: "https://pauseai.info/_app/immutable/assets/hawking.CjUk02YF.jpeg",
+  },
+  {
+    quote:
+      "International unterstütze ich Initiativen, die rote Linien für KI definieren, autonome Waffensysteme ächten und globale Sicherheitsstandards schaffen. Deutschland kann dabei gemeinsam mit europäischen Partnern wichtige Impulse setzen, etwa durch stärkere Forschung zu Sicherheit und Kontrollierbarkeit sowie internationale Transparenzregeln für besonders leistungsfähige Modelle.",
+    name: "Max Lucks",
+    title: "Bundestagsabgeordneter (Bündnis 90/Die Grünen)",
+    image: "/MaxLucks_credit_FinnKantus_07.jpg",
+    link: "https://www.abgeordnetenwatch.de/profile/max-lucks",
   },
   {
     quote: "We should have to expect the machines to take control.",

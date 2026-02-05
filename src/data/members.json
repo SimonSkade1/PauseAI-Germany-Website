@@ -1,5 +1,12 @@
 [
   {
+    "id": "hauke",
+    "name": "Hauke",
+    "description": "Student der Politikwissenschaften, Freiburg",
+    "quote": "Seit 2022 beschäftige ich mich mit den Risiken durch fortgeschrittene KI-Systeme, ob im Bluedot Impact AI Governance Kurs oder in meiner Bachelorarbeit zum EU AI Act. Mit meinem Engagement bei PauseAI möchte ich dazu beitragen, eine gesellschaftliche Debatte anzustoßen, die den großen Risiken dieser Technologie gerecht wird. Und mir macht Hoffnung, dass die Menschen in meinem Umfeld diese Risiken auch nicht akzeptieren wollen, wenn ich mit ihnen darüber rede. Ich wünsche mir, auch langfristig ein gutes Leben in einer demokratischen freiheitlichen Gesellschaft führen zu können.",
+    "image": "/profile-pics/hauke.jpeg"
+  },
+  {
     "id": "simon",
     "name": "Simon",
     "description": "KI-Sicherheitsforscher und 2. Vorsitzender bei PauseAI Deutschland",

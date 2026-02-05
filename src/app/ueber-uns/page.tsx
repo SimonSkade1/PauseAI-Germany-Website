@@ -26,9 +26,9 @@ function HeroSection() {
 
   return (
     <section className="bg-[#1a1a1a] min-h-screen lg:h-screen pt-20">
-      <div className="flex flex-col lg:grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 xl:gap-16 px-6 sm:px-10 lg:px-16 xl:px-24 h-full lg:justify-items-center pt-6 lg:pt-8 pb-10 lg:pb-24">
+      <div className="flex flex-col lg:grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 xl:gap-16 px-6 sm:px-10 lg:px-16 h-full lg:justify-items-center lg:justify-center pt-6 lg:pt-8 pb-10 lg:pb-24">
         {/* Left column: Hero Image + Description (on narrow two-column) */}
-        <div className="flex flex-col w-full sm:max-lg:flex-row sm:max-lg:flex-wrap lg:max-w-[calc(50vw-6rem)] lg:self-start">
+        <div className="flex flex-col w-full sm:max-lg:flex-row sm:max-lg:flex-wrap lg:max-w-[min(calc(50vw-6rem),700px)] lg:self-start">
           {/* Hero Image */}
           <div className="relative overflow-hidden w-full sm:max-lg:w-1/2 sm:max-lg:float-right sm:max-lg:ml-auto aspect-[1193/889]">
             {/* Color image (bottom layer) */}
@@ -74,10 +74,11 @@ function HeroSection() {
         </div>
 
         {/* Right column: Title + Description (on wide/single-column) + Links */}
-        <div className="flex flex-col items-start w-full lg:flex-none lg:aspect-[1193/889] lg:max-w-[calc(50vw-6rem)] lg:overflow-hidden lg:self-end lg:justify-end">
-          <h1 className="font-headline text-4xl sm:text-[2.5rem] lg:text-5xl text-white text-left leading-none">
+        <div className="flex flex-col items-start w-full lg:flex-none lg:aspect-[1193/889] lg:max-w-[min(calc(50vw-6rem),700px)] lg:overflow-hidden lg:self-end lg:justify-end">
+          <h1 className="font-headline text-4xl sm:text-[2.5rem] lg:text-5xl text-white text-left leading-none mt-[-0.41em]">
             Wer Wir Sind
           </h1>
+
           
           {/* Info text below title - visible on single-column (< lg) AND on wide screens (>= 1446px) */}
           <p className="hero-info-right text-base sm:text-lg lg:text-lg text-gray-300 mt-4 text-left">
@@ -130,7 +131,7 @@ function UebersichtSection() {
 function ContentSection() {
   return (
     <section className="bg-white py-16 sm:py-24 md:py-40">
-      <div className="px-6 sm:px-10 md:px-16 lg:px-24 space-y-20 sm:space-y-32 md:space-y-48">
+      <div className="px-6 sm:px-10 md:px-16 lg:px-16 space-y-20 sm:space-y-32 md:space-y-48">
         {/* Unser Ziel */}
         <TitleTextBlock
           id="unser-ziel"
@@ -192,8 +193,8 @@ function ContentSection() {
 function MembersSection() {
   return (
     <section className="bg-white py-16 sm:py-24 md:py-40">
-      <div className="px-6 sm:px-10 md:px-16 lg:px-24">
-        <h2 className="font-headline text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-black text-left mb-8 md:mb-12">
+      <div className="px-6 sm:px-10 md:px-16 lg:px-16">
+        <h2 className="font-headline text-xl sm:text-2xl md:text-4xl lg:text-4xl text-black text-left mb-8 md:mb-12">
           Wir wünschen uns eine Menschliche Zukunft
         </h2>
         
@@ -226,8 +227,8 @@ export default function UeberUns() {
       <main>
         <HeroSection />
         <UebersichtSection />
-        <MembersSection />
         <ContentSection />
+        <MembersSection />
       </main>
       <Footer />
     </>

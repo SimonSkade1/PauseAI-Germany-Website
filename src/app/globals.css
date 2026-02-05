@@ -288,16 +288,16 @@ a.orange-link:hover {
 }
 
 /* Hero info text responsive visibility */
-/* Left column: visible only between lg (1024px) and 1446px */
+/* Default: Right column visible (mobile/single column) */
 .hero-info-left {
   display: none;
 }
 
-/* Right column: visible below lg AND above 1446px */
 .hero-info-right {
   display: block;
 }
 
+/* Desktop (lg+): Left column visible by default */
 @media (min-width: 1024px) {
   .hero-info-left {
     display: block;
@@ -307,7 +307,19 @@ a.orange-link:hover {
   }
 }
 
+/* Wide screens (1446px+): Move text back to right column */
 @media (min-width: 1446px) {
+  .hero-info-left {
+    display: none;
+  }
+  .hero-info-right {
+    display: block;
+  }
+}
+
+/* SHORT SCREENS: Override to move text to right column */
+/* This catches wide-but-short screens (e.g., 1920x900, ultrawides) */
+@media (min-width: 1024px) and (max-height: 760px) {
   .hero-info-left {
     display: none;
   }
