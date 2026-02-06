@@ -7,7 +7,7 @@ export default function ActionPage() {
   return (
     <SessionProvider>
       <Header />
-      <main className="pt-20">
+      <main>
         <ActionPageContent />
       </main>
       <Footer />

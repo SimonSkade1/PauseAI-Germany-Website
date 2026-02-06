@@ -24,14 +24,6 @@ export interface TaskCompletionResponse {
   xp_earned: number;
 }
 
-// Leaderboard entry
-export interface LeaderboardEntry {
-  rank: number;
-  discord_name: string;
-  role: string;
-  total_xp: number;
-}
-
 // Role levels based on XP
 export type UserRole = "Besorgter Bürger" | "Aktivist" | "Beschützer der Menschheit";
 

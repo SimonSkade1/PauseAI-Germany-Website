@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useSession } from "next-auth/react";
+import { useSession, signIn } from "next-auth/react";
 import * as d3 from "d3";
 import { getTasks, getMe } from "@/lib/api";
 import { Task, User as UserType, getRoleForXp, getRoleClass } from "@/lib/types";
@@ -354,14 +354,17 @@ export function ActionTree() {
   }
 
   return (
-    <section className="bg-pause-gray-dark py-8 md:py-12">
+    <section className="bg-pause-gray-dark py-8 md:py-12 pt-20 md:pt-28">
       <div className="max-w-6xl mx-auto px-6">
         {/* Login prompt if not logged in */}
         {!session && (
           <div className="mb-6 text-center">
-            <p className="font-body text-gray-400">
-              <span className="text-[#FF9416]">Login mit Discord</span>, um Aufgaben zu erledigen und XP zu sammeln.
-            </p>
+            <button
+              onClick={() => signIn("discord")}
+              className="bg-[#FF9416] hover:bg-[#e08315] text-white font-semibold py-3 px-8 rounded-lg transition-colors"
+            >
+              Login mit Discord, um Aufgaben zu erledigen und XP zu sammeln
+            </button>
           </div>
         )}
 
@@ -369,7 +372,7 @@ export function ActionTree() {
         {session && userData && (
           <div className="mb-6 flex justify-center items-center gap-4">
             <span className="font-body text-gray-300">
-              {userData.discord_name}
+              Hi, {userData.discord_name}. Lass uns an die Arbeit!
             </span>
             <span className={`px-3 py-1 rounded-full text-sm ${getRoleClass(getRoleForXp(userData.total_xp))}`}>
               {getRoleForXp(userData.total_xp)}

@@ -1,4 +1,4 @@
-import { Task, User, TaskCompletionResponse, LeaderboardEntry } from "./types";
+import { Task, User, TaskCompletionResponse } from "./types";
 
 const API_BASE_URL = process.env.API_BASE_URL || "http://localhost:8000";
 
@@ -42,21 +42,6 @@ export async function getMe(cookies?: string): Promise<User | null> {
   } catch {
     return null;
   }
-}
-
-// Get leaderboard
-export async function getLeaderboard(): Promise<LeaderboardEntry[]> {
-  const response = await apiFetch("/api/leaderboard");
-  if (!response.ok) {
-    throw new Error("Failed to fetch leaderboard");
-  }
-  const data = await response.json();
-  return data.map((entry: any, index: number) => ({
-    rank: index + 1,
-    discord_name: entry.discord_name,
-    role: entry.role,
-    total_xp: entry.total_xp,
-  }));
 }
 
 // Complete a task
