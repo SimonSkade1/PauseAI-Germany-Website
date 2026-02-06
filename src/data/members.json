@@ -16,15 +16,15 @@
   {
     "id": "adrian-glubrecht",
     "name": "Adrian",
-    "description": "Mathematikstudent",
+    "description": "Mathematikstudent, Bonn",
     "quote": "Ich habe mir technischen Fortschritt immer als eine Art unaufhaltsame Naturgewalt vorgestellt, die alles unter sich begräbt. Heute sehe ich das anders: Eine Entwicklung, die von Menschen vorangetrieben wird, kann auch von Menschen gestoppt werden. **Ich wünschte, ich hätte mich schon viel früher gegen die Bedrohung eingesetzt, von der ich längst überzeugt war.**",
     "image": "/profile-pics/adrian-glubrecht.jpg"
   },
   {
     "id": "karen",
     "name": "Karen",
-    "description": "Architekturstudentin",
-    "quote": "**Was ich mir wünsche ist eine Zukunft, in der ich mit Freunden ein Stück Land nachhaltig bewirtschafte und innovative Bauprojekte realisiere, die Resilienz und echte Lebensqualität schaffen.**",
+    "description": "Architekturstudentin, Dresden",
+    "quote": "**Eigentlich möchte ich einfach nur mein Leben in Freiheit und Sicherheit leben. Wenn KI unsere Welt grundlegend verändern soll, haben wir allein schon aus Selbstschutz alle das Recht, mitzureden. Damit die Entwicklung uns nützt, statt uns zu gefährden, muss sie transparent unter breiter demokratischer und wissenschaftlicher Beteiligung stattfinden.**",
     "image": "/profile-pics/karen.png" 
   }
 ]
