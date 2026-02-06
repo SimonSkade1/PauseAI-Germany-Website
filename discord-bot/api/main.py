@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request, HTTPException
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse, RedirectResponse
+from fastapi.responses import RedirectResponse
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import aiosqlite
 import httpx
@@ -14,8 +14,16 @@ load_dotenv(Path(__file__).parent.parent / "bot" / ".env")
 
 app = FastAPI()
 
+# Enable CORS for Next.js frontend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000", "http://localhost:3001", "http://localhost:3002"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 DB_PATH = Path(__file__).parent.parent / "data" / "database.sqlite"
-STATIC_PATH = Path(__file__).parent.parent / "static"
 
 CLIENT_ID = os.getenv("CLIENT_ID")
 CLIENT_SECRET = os.getenv("CLIENT_SECRET")
@@ -36,7 +44,7 @@ TASKS = [
     {"id": "on1", "name": "Stelle dich im #welcome Channel vor", "path": "onboarding", "level": 0, "xp": 10, "repeatable": False, "icon": "player"},
     {"id": "on2", "name": "Lies das Onboarding-Dokument", "path": "onboarding", "level": 0, "xp": 15, "repeatable": False, "icon": "book"},
     {"id": "on3", "name": "Nimm an einem Welcome-Call teil", "path": "onboarding", "level": 0, "xp": 20, "repeatable": False, "icon": "conversation"},
-    
+
     # OUTREACH
     {"id": "o1", "name": "Teile ein PauseAI-Video mit einem Freund", "path": "outreach", "level": 1, "xp": 10, "repeatable": True, "icon": "share"},
     {"id": "o2", "name": "Poste über AI-Risiken auf Social Media", "path": "outreach", "level": 1, "xp": 15, "repeatable": True, "icon": "smartphone"},
@@ -44,7 +52,7 @@ TASKS = [
     {"id": "o4", "name": "Bringe ein neues Mitglied auf den Discord", "path": "outreach", "level": 2, "xp": 50, "repeatable": False, "icon": "person-add"},
     {"id": "o5", "name": "Organisiere ein lokales Meetup", "path": "outreach", "level": 2, "xp": 80, "repeatable": False, "icon": "round-table"},
     {"id": "o6", "name": "Halte einen Vortrag über AI-Sicherheit", "path": "outreach", "level": 3, "xp": 120, "repeatable": False, "icon": "podium"},
-    
+
     # LOBBYING
     {"id": "l1", "name": "Unterschreibe eine Petition", "path": "lobbying", "level": 1, "xp": 10, "repeatable": False, "icon": "scroll-signed"},
     {"id": "l2", "name": "Schreibe eine E-Mail an einen Abgeordneten", "path": "lobbying", "level": 1, "xp": 25, "repeatable": True, "icon": "envelope"},
@@ -52,7 +60,7 @@ TASKS = [
     {"id": "l4", "name": "Besuche eine politische Veranstaltung zum Thema AI", "path": "lobbying", "level": 2, "xp": 40, "repeatable": True, "icon": "capitol"},
     {"id": "l5", "name": "Triff dich persönlich mit einem Politiker/Mitarbeiter", "path": "lobbying", "level": 2, "xp": 100, "repeatable": False, "icon": "handshake"},
     {"id": "l6", "name": "Verfasse einen Meinungsartikel/Leserbrief", "path": "lobbying", "level": 3, "xp": 80, "repeatable": False, "icon": "newspaper"},
-    
+
     # SPECIAL
     {"id": "s1", "name": "Kleiner Beitrag", "path": "special", "level": 1, "xp": 30, "repeatable": True, "icon": "star"},
     {"id": "s2", "name": "Mittlerer Beitrag", "path": "special", "level": 1, "xp": 75, "repeatable": True, "icon": "double-star"},
@@ -99,10 +107,10 @@ async def post_to_discord(discord_id: str, discord_name: str, task_name: str, xp
             {"name": "Aufgabe", "value": task_name, "inline": False},
         ]
     }
-    
+
     if comment:
         embed["fields"].append({"name": "Kommentar", "value": comment, "inline": False})
-    
+
     async with httpx.AsyncClient() as client:
         await client.post(
             f"https://discord.com/api/v10/channels/{DID_A_THING_CHANNEL_ID}/messages",
@@ -152,19 +160,19 @@ async def callback(code: str):
             headers={"Content-Type": "application/x-www-form-urlencoded"}
         )
         token_data = token_response.json()
-        
+
         if "access_token" not in token_data:
             raise HTTPException(status_code=400, detail="OAuth fehlgeschlagen")
-        
+
         user_response = await client.get(
             "https://discord.com/api/users/@me",
             headers={"Authorization": f"Bearer {token_data['access_token']}"}
         )
         user_data = user_response.json()
-    
+
     discord_id = user_data["id"]
     discord_name = user_data.get("global_name") or user_data["username"]
-    
+
     async with aiosqlite.connect(DB_PATH) as db:
         cursor = await db.execute(
             "SELECT discord_id FROM users WHERE discord_id = ?",
@@ -176,15 +184,16 @@ async def callback(code: str):
                 (discord_id, discord_name)
             )
             await db.commit()
-    
+
     token = create_token(discord_id, discord_name)
-    response = RedirectResponse(url="/tree")
-    response.set_cookie(key="token", value=token, httponly=True, max_age=604800)
+    # Redirect to Next.js action page instead of /tree
+    response = RedirectResponse(url="http://localhost:3000/action")
+    response.set_cookie(key="token", value=token, httponly=True, max_age=604800, samesite="lax")
     return response
 
 @app.get("/auth/logout")
 async def logout():
-    response = RedirectResponse(url="/")
+    response = RedirectResponse(url="http://localhost:3000/action")
     response.delete_cookie("token")
     return response
 
@@ -193,23 +202,23 @@ async def get_me(request: Request):
     user = get_current_user(request)
     if not user:
         raise HTTPException(status_code=401, detail="Nicht eingeloggt")
-    
+
     async with aiosqlite.connect(DB_PATH) as db:
         cursor = await db.execute(
             "SELECT discord_id, discord_name, total_xp FROM users WHERE discord_id = ?",
             (user["discord_id"],)
         )
         row = await cursor.fetchone()
-        
+
         if not row:
             raise HTTPException(status_code=404, detail="User nicht gefunden")
-        
+
         cursor = await db.execute(
             "SELECT task_id FROM completed_tasks WHERE discord_id = ?",
             (user["discord_id"],)
         )
         completed = [r[0] for r in await cursor.fetchall()]
-    
+
     return {
         "discord_id": row[0],
         "discord_name": row[1],
@@ -223,19 +232,19 @@ async def complete_task(request: Request, body: CompleteTaskRequest):
     user = get_current_user(request)
     if not user:
         raise HTTPException(status_code=401, detail="Nicht eingeloggt")
-    
+
     task = next((t for t in TASKS if t["id"] == body.task_id), None)
     if not task:
         raise HTTPException(status_code=404, detail="Task nicht gefunden")
-    
+
     if task["path"] == "special":
         raise HTTPException(status_code=403, detail="Special Tasks können nur von Moderatoren vergeben werden")
-    
+
     discord_id = user["discord_id"]
     discord_name = user["discord_name"]
-    
+
     completed = await get_user_completed_tasks(discord_id)
-    
+
     if not task["repeatable"] and body.task_id in completed:
         raise HTTPException(status_code=400, detail="Task bereits erledigt")
 
@@ -249,14 +258,14 @@ async def complete_task(request: Request, body: CompleteTaskRequest):
             (task["xp"], discord_id)
         )
         await db.commit()
-        
+
         cursor = await db.execute(
             "SELECT total_xp FROM users WHERE discord_id = ?",
             (discord_id,)
         )
         row = await cursor.fetchone()
         total_xp = row[0]
-    
+
     await post_to_discord(
         discord_id=discord_id,
         discord_name=discord_name,
@@ -265,7 +274,7 @@ async def complete_task(request: Request, body: CompleteTaskRequest):
         comment=body.comment,
         total_xp=total_xp
     )
-    
+
     return {
         "success": True,
         "xp_earned": task["xp"],
@@ -280,7 +289,7 @@ async def get_leaderboard():
             "SELECT discord_id, discord_name, total_xp FROM users ORDER BY total_xp DESC"
         )
         rows = await cursor.fetchall()
-        
+
         return [
             {
                 "discord_id": r[0],
@@ -295,13 +304,6 @@ async def get_leaderboard():
 async def get_tasks():
     return TASKS
 
-app.mount("/css", StaticFiles(directory=STATIC_PATH / "css"), name="css")
-app.mount("/js", StaticFiles(directory=STATIC_PATH / "js"), name="js")
-
 @app.get("/")
 async def root():
-    return FileResponse(STATIC_PATH / "index.html")
-
-@app.get("/tree")
-async def tree_page():
-    return FileResponse(STATIC_PATH / "tree.html")
+    return {"message": "PauseAI Actions API", "status": "running"}
