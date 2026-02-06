@@ -26,10 +26,6 @@ TASKS = [
     {"id": "l5", "name": "Triff dich persönlich mit einem Politiker/Mitarbeiter", "path": "lobbying", "level": 2, "xp": 100, "repeatable": False, "icon": "handshake"},
     {"id": "l6", "name": "Verfasse einen Meinungsartikel/Leserbrief", "path": "lobbying", "level": 3, "xp": 80, "repeatable": False, "icon": "newspaper"},
     
-    # SPECIAL
-    {"id": "s1", "name": "Kleiner Beitrag", "path": "special", "level": 1, "xp": 30, "repeatable": True, "icon": "star"},
-    {"id": "s2", "name": "Mittlerer Beitrag", "path": "special", "level": 1, "xp": 75, "repeatable": True, "icon": "double-star"},
-    {"id": "s3", "name": "Großer Beitrag", "path": "special", "level": 1, "xp": 150, "repeatable": True, "icon": "triple-star"},
 ]
 
 async def init_db():
@@ -51,14 +47,6 @@ async def init_db():
                 xp_earned INTEGER,
                 comment TEXT,
                 FOREIGN KEY (discord_id) REFERENCES users(discord_id)
-            )
-        """)
-        await db.execute("""
-            CREATE TABLE IF NOT EXISTS awarded_reactions (
-                message_id TEXT NOT NULL,
-                emoji TEXT NOT NULL,
-                awarded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                PRIMARY KEY (message_id, emoji)
             )
         """)
         await db.commit()
@@ -94,9 +82,6 @@ async def complete_task(discord_id: str, discord_name: str, task_id: str, commen
     if not task:
         return {"success": False, "error": "Task nicht gefunden"}
     
-    if task["path"] == "special":
-        return {"success": False, "error": "Special Tasks können nur von Moderatoren vergeben werden"}
-    
     await get_or_create_user(discord_id, discord_name)
     completed = await get_user_completed_tasks(discord_id)
     
@@ -126,27 +111,6 @@ async def complete_task(discord_id: str, discord_name: str, task_id: str, commen
                 "success": False, 
                 "error": f"Du brauchst erst {required_count} verschiedene Level-{required_level}-Tasks im Bereich {path}"
             }
-    
-    async with aiosqlite.connect(DB_PATH) as db:
-        await db.execute(
-            "INSERT INTO completed_tasks (discord_id, task_id, xp_earned, comment) VALUES (?, ?, ?, ?)",
-            (discord_id, task_id, task["xp"], comment)
-        )
-        await db.execute(
-            "UPDATE users SET total_xp = total_xp + ? WHERE discord_id = ?",
-            (task["xp"], discord_id)
-        )
-        await db.commit()
-    
-    user = await get_or_create_user(discord_id, discord_name)
-    return {"success": True, "xp_earned": task["xp"], "total_xp": user["total_xp"], "task": task}
-
-async def add_special_xp(discord_id: str, discord_name: str, task_id: str, comment: str = ""):
-    if task_id not in ["s1", "s2", "s3"]:
-        return {"success": False, "error": "Ungültige Special-Task ID (s1, s2, s3)"}
-    
-    task = next((t for t in TASKS if t["id"] == task_id), None)
-    await get_or_create_user(discord_id, discord_name)
     
     async with aiosqlite.connect(DB_PATH) as db:
         await db.execute(
@@ -193,18 +157,3 @@ def get_role_for_xp(xp: int):
     else:
         return 1
 
-async def is_message_already_awarded(message_id: str, emoji: str):
-    async with aiosqlite.connect(DB_PATH) as db:
-        cursor = await db.execute(
-            "SELECT 1 FROM awarded_reactions WHERE message_id = ? AND emoji = ?",
-            (message_id, emoji)
-        )
-        return await cursor.fetchone() is not None
-
-async def mark_message_as_awarded(message_id: str, emoji: str):
-    async with aiosqlite.connect(DB_PATH) as db:
-        await db.execute(
-            "INSERT OR IGNORE INTO awarded_reactions (message_id, emoji) VALUES (?, ?)",
-            (message_id, emoji)
-        )
-        await db.commit()
