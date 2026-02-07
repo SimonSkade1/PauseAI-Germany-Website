@@ -13,6 +13,7 @@ export const authOptions: NextAuthOptions = {
       name: "Discord",
       type: "oauth",
       authorization: {
+        url: "https://discord.com/api/oauth2/authorize",
         params: { scope: "identify" },
       },
       token: "https://discord.com/api/oauth2/token",
