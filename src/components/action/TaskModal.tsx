@@ -2,17 +2,21 @@
 
 import React, { useState } from "react";
 import { useSession, signIn } from "next-auth/react";
+import { useMutation, useAction } from "convex/react";
+import { api } from "@/convex/_generated/api";
 import { Task } from "@/lib/types";
-import { completeTask } from "@/lib/api";
 
 interface TaskModalProps {
   task: Task | null;
   onClose: () => void;
-  onSuccess?: (newXp: number) => void;
 }
 
-export function TaskModal({ task, onClose, onSuccess }: TaskModalProps) {
+export function TaskModal({ task, onClose }: TaskModalProps) {
   const { data: session } = useSession();
+  const completeTask = useMutation(api.tasks.complete);
+  const assignRole = useAction(api.discord.assignRole);
+  const notifyTaskComplete = useAction(api.discord.notifyTaskComplete);
+
   const [comment, setComment] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -31,10 +35,30 @@ export function TaskModal({ task, onClose, onSuccess }: TaskModalProps) {
     setError(null);
 
     try {
-      // Get cookies from document
-      const cookies = document.cookie;
-      const result = await completeTask(task.id, comment, cookies);
-      onSuccess?.(result.total_xp);
+      const result = await completeTask({
+        taskId: task.id,
+        discordId: session.user.discordId,
+        discordName: session.user.name || "Unknown",
+        comment: comment || undefined,
+      });
+
+      // Send Discord notification
+      await notifyTaskComplete({
+        discordId: session.user.discordId,
+        discordName: session.user.name || "Unknown",
+        taskName: result.taskName,
+        xp: result.xpEarned,
+        totalXp: result.totalXp,
+        comment: comment || undefined,
+      });
+
+      // Assign role if threshold crossed
+      await assignRole({
+        discordId: session.user.discordId,
+        oldXp: result.oldXp,
+        newXp: result.totalXp,
+      });
+
       onClose();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Fehler beim Speichern");

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Saira_Condensed, Montserrat, Roboto_Slab } from "next/font/google";
+import { ConvexClientProvider } from "./ConvexClientProvider";
 import "./globals.css";
 
 const sairaCondensed = Saira_Condensed({
@@ -38,12 +39,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="de" className="scroll-smooth">
-      <body
-        className={`${sairaCondensed.variable} ${montserrat.variable} ${robotoSlab.variable} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
+    <ConvexClientProvider>
+      <html lang="de" className="scroll-smooth">
+        <body
+          className={`${sairaCondensed.variable} ${montserrat.variable} ${robotoSlab.variable} antialiased`}
+        >
+          {children}
+        </body>
+      </html>
+    </ConvexClientProvider>
   );
 }

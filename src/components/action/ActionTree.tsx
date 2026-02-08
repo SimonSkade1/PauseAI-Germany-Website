@@ -3,8 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import * as d3 from "d3";
-import { getTasks, getMe } from "@/lib/api";
-import { Task, User as UserType, getRoleForXp, getRoleClass } from "@/lib/types";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { getRoleForXp, getRoleClass } from "@/lib/types";
 import { TaskModal } from "./TaskModal";
 
 // Use CSS variables from globals.css
@@ -68,60 +69,49 @@ async function preloadIcons() {
 export function ActionTree() {
   const { data: session, status: sessionStatus } = useSession();
   const svgRef = useRef<SVGSVGElement>(null);
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [userData, setUserData] = useState<UserType | null>(null);
-  const [completedTasks, setCompletedTasks] = useState<Set<string>>(new Set());
-  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [refreshKey, setRefreshKey] = useState(0);
+
+  // Convex queries
+  const tasks = useQuery(api.tasks.list);
+  const userData = useQuery(
+    api.users.getMe,
+    session?.user?.discordId ? { discordId: session.user.discordId } : "skip"
+  );
+
+  const [selectedTask, setSelectedTask] = useState<{
+    _id: string;
+    _creationTime: number;
+    id: string;
+    name: string;
+    path: "onboarding" | "outreach" | "lobbying" | "special";
+    level: number;
+    xp: number;
+    icon: string;
+    repeatable: boolean;
+  } | null>(null);
   const [iconsLoaded, setIconsLoaded] = useState(false);
 
   const isSessionLoading = sessionStatus === "loading";
 
-  // Load tasks and user data
+  // Preload icons
   useEffect(() => {
-    async function loadData() {
-      try {
-        setLoading(true);
+    preloadIcons().then(() => setIconsLoaded(true));
+  }, []);
 
-        // Preload icons
-        await preloadIcons();
-        setIconsLoaded(true);
-
-        // Load tasks
-        const cookies = document.cookie;
-        const tasksData = await getTasks(cookies);
-        setTasks(tasksData);
-
-        // Load user data if logged in
-        if (session) {
-          const userData = await getMe(cookies);
-          if (userData) {
-            setUserData(userData);
-            setCompletedTasks(new Set(userData.completed_tasks));
-          }
-        }
-      } catch (err) {
-        console.error("Failed to load data:", err);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    loadData();
-  }, [session, refreshKey]);
+  // Extract completed tasks from user data
+  const completedTasks = new Set(userData?.completed_tasks || []);
+  const totalXp = userData?.total_xp ?? 0;
 
   // Calculate overall glow based on completed tasks
   const calculateOverallGlow = () => {
-    if (tasks.length === 0) return 0;
-    const mainTasks = tasks.filter(t => t.path !== "special");
-    const completedCount = mainTasks.filter(t => completedTasks.has(t.id)).length;
+    if (!tasks || tasks.length === 0) return 0;
+    const mainTasks = tasks.filter((t: typeof tasks[number]) => t.path !== "special");
+    const completedCount = mainTasks.filter((t: typeof tasks[number]) => completedTasks.has(t.id)).length;
     return Math.min(completedCount / mainTasks.length, 1);
   };
 
   // Draw the tree using D3
   useEffect(() => {
-    if (!svgRef.current || !iconsLoaded) return;
+    if (!svgRef.current || !iconsLoaded || !tasks) return;
 
     const svg = d3.select(svgRef.current);
     svg.selectAll("*").remove();
@@ -241,19 +231,19 @@ export function ActionTree() {
       .attr("fill", "white")
       .attr("font-size", "14px")
       .attr("font-weight", "bold")
-      .text(userData ? `${userData.total_xp} XP` : "Login");
+      .text(`${totalXp} XP`);
 
     // Draw tasks by level
     for (let level = 0; level <= 3; level++) {
       const radius = circleRadii[level as keyof typeof circleRadii];
-      const levelTasks = tasks.filter(t => t.level === level && t.path !== "special");
+      const levelTasks = tasks.filter((t: typeof tasks[number]) => t.level === level && t.path !== "special");
 
       if (levelTasks.length === 0) continue;
 
       const angleStep = (2 * Math.PI) / levelTasks.length;
       const startAngle = -Math.PI / 2;
 
-      levelTasks.forEach((task, index) => {
+      levelTasks.forEach((task: typeof tasks[number], index: number) => {
         const angle = startAngle + index * angleStep;
         const x = centerX + radius * Math.cos(angle);
         const y = centerY + radius * Math.sin(angle);
@@ -344,9 +334,11 @@ export function ActionTree() {
         .text(item.label);
     });
 
-  }, [tasks, completedTasks, userData, iconsLoaded]);
+  }, [tasks, completedTasks, totalXp, iconsLoaded]);
 
-  if (loading || isSessionLoading) {
+  const loading = !tasks || !iconsLoaded || isSessionLoading;
+
+  if (loading) {
     return (
       <section className="bg-pause-gray-dark py-12 md:py-16 min-h-[600px]">
         <div className="max-w-6xl mx-auto px-6 text-center">
@@ -436,7 +428,6 @@ export function ActionTree() {
         <TaskModal
           task={selectedTask}
           onClose={() => setSelectedTask(null)}
-          onSuccess={() => setRefreshKey(prev => prev + 1)}
         />
       )}
     </section>

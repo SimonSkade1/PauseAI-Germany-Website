@@ -1,4 +1,6 @@
-// Task types
+// Task types - path can be any of the values stored in Convex
+export type TaskPath = "onboarding" | "outreach" | "lobbying" | "special";
+
 export interface Task {
   id: string;
   name: string;
@@ -6,7 +8,7 @@ export interface Task {
   xp: number;
   icon: string;
   repeatable: boolean;
-  path: "regular" | "special";
+  path: TaskPath;
 }
 
 // User types
