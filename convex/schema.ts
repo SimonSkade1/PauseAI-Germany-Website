@@ -10,6 +10,7 @@ export default defineSchema({
     xp: v.number(),
     icon: v.string(),
     repeatable: v.boolean(),
+    link: v.optional(v.string()), // Optional link to more info (e.g., Notion page)
   }).index("by_task_id", ["id"]),
 
   users: defineTable({

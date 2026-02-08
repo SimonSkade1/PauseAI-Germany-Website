@@ -87,6 +87,7 @@ export function ActionTree() {
     xp: number;
     icon: string;
     repeatable: boolean;
+    link?: string;
   } | null>(null);
   const [iconsLoaded, setIconsLoaded] = useState(false);
 
@@ -209,19 +210,41 @@ export function ActionTree() {
       .attr("stroke", PAUSEAI_ORANGE)
       .attr("stroke-width", 2);
 
-    // User icon
-    const userIcon = iconCache.get("user");
-    if (userIcon) {
-      const clonedIcon = userGroup.node()!.appendChild(userIcon.cloneNode(true) as SVGElement);
-      d3.select(clonedIcon)
-        .attr("width", 50)
-        .attr("height", 50)
-        .attr("x", -25)
-        .attr("y", -25)
-        .selectAll("*")
-        .attr("fill", "none")
-        .attr("stroke", PAUSEAI_ORANGE)
-        .attr("stroke-width", "2");
+    // Discord profile image or fallback icon
+    if (session?.user?.image) {
+      // Use Discord avatar as clipPath
+      const defs = userGroup.append("defs");
+      const clipId = `avatar-clip-${centerX}-${centerY}`;
+      defs.append("clipPath")
+        .attr("id", clipId)
+        .append("circle")
+        .attr("r", 40)
+        .attr("cx", 0)
+        .attr("cy", 0);
+
+      userGroup.append("image")
+        .attr("href", session.user.image)
+        .attr("width", 80)
+        .attr("height", 80)
+        .attr("x", -40)
+        .attr("y", -40)
+        .attr("clip-path", `url(#${clipId})`)
+        .attr("preserveAspectRatio", "xMidYMid slice");
+    } else {
+      // Fallback to user icon
+      const userIcon = iconCache.get("user");
+      if (userIcon) {
+        const clonedIcon = userGroup.node()!.appendChild(userIcon.cloneNode(true) as SVGElement);
+        d3.select(clonedIcon)
+          .attr("width", 50)
+          .attr("height", 50)
+          .attr("x", -25)
+          .attr("y", -25)
+          .selectAll("*")
+          .attr("fill", "none")
+          .attr("stroke", PAUSEAI_ORANGE)
+          .attr("stroke-width", "2");
+      }
     }
 
     // XP text below
@@ -260,7 +283,7 @@ export function ActionTree() {
         const group = zoomLayer.append("g")
           .attr("transform", `translate(${x}, ${y})`)
           .style("cursor", "pointer")
-          .on("click", () => setSelectedTask(task));
+          .on("click", () => setSelectedTask(task as typeof selectedTask));
 
         const iconName = LUCIDE_MAP[task.icon] || "star";
         const cachedIcon = iconCache.get(iconName);
@@ -318,18 +341,24 @@ export function ActionTree() {
       { color: "#888888", label: "Verfügbar" }
     ];
 
+    // Check if mobile viewport for responsive legend
+    const isMobile = window.innerWidth < 640;
+    const legendSpacing = isMobile ? 140 : 140;
+    const legendFontSize = isMobile ? 22 : 14;
+    const legendCircleSize = isMobile ? 8 : 10;
+
     legendItems.forEach((item, i) => {
       legend.append("circle")
-        .attr("cx", i * 140)
+        .attr("cx", i * legendSpacing)
         .attr("cy", 0)
-        .attr("r", 10)
+        .attr("r", legendCircleSize)
         .attr("fill", item.color);
 
       legend.append("text")
-        .attr("x", i * 140 + 18)
-        .attr("y", 5)
+        .attr("x", i * legendSpacing + 18)
+        .attr("y", isMobile ? 4 : 5)
         .attr("fill", "white")
-        .attr("font-size", "14px")
+        .attr("font-size", `${legendFontSize}px`)
         .attr("font-weight", "500")
         .text(item.label);
     });
@@ -418,7 +447,7 @@ export function ActionTree() {
         {/* Instructions */}
         <div className="mt-6 p-4 border-l-2 border-pause-orange">
           <p className="font-body text-gray-300 text-sm md:text-base">
-            <span className="text-pause-orange font-headline">Anleitung:</span> Klicke auf Aufgaben im Action Tree, um sie zu erledigen. Wiederholbare Aufgaben bringen dir jedes Mal Punkte. Sammle Punkte und steige in den Rollen auf, um Teil unseres Core-Teams zu werden und PauseAI Germany aktiv mitzugestalten!
+            <span className="text-pause-orange font-headline">Anleitung:</span> Klicke auf Aufgaben, um sie zu erledigen. Wiederholbare Aufgaben bringen dir jedes Mal Punkte. Sammle Punkte und steige in den Rollen auf, um Teil unseres Teams zu werden und PauseAI Germany aktiv mitzugestalten!
           </p>
         </div>
       </div>

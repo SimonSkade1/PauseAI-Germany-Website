@@ -73,26 +73,37 @@ export function TaskModal({ task, onClose }: TaskModalProps) {
       onClick={onClose}
     >
       <div
-        className="bg-[#16213e] rounded-xl p-6 md:p-8 max-w-md w-full border border-[#FF9416] shadow-lg"
+        className="bg-[#1e1e2e] p-6 md:p-8 max-w-md w-full border-2 border-pause-orange shadow-lg"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="font-section text-xl text-white mb-4">{task.name}</h2>
+        <h2 className="font-headline text-xl text-white mb-4 uppercase">{task.name}</h2>
 
         <div className="flex gap-4 mb-4 text-sm">
-          <span className="text-[#FF9416] font-semibold">+{task.xp} XP</span>
-          <span className="text-gray-400">
-            {task.repeatable ? "🔄 Wiederholbar" : "Einmalig"}
+          <span className="text-pause-orange font-body-bold">+{task.xp} XP</span>
+          <span className="text-gray-400 font-body">
+            {task.repeatable ? "Wiederholbar" : "Einmalig"}
           </span>
         </div>
 
+        {task.link && (
+          <a
+            href={task.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block mb-4 p-3 bg-[#0a0a0a] border-l-4 border-pause-orange text-gray-300 font-body text-sm hover:bg-[#151515] transition-colors"
+          >
+            <span className="text-pause-orange font-headline uppercase text-xs">Mehr Infos:</span> Hier erfährst du mehr über diese Aufgabe und erhältst Tipps.
+          </a>
+        )}
+
         {!isLoggedIn ? (
           <div className="text-center py-4">
-            <p className="text-gray-300 mb-4">
-              Bitte logge dich ein, um diese Aufgabe zu erledigen.
+            <p className="font-body text-gray-300 mb-4">
+              Logge dich mit Discord ein, um diese Aufgabe zu erledigen und Punkte zu sammeln!
             </p>
             <button
               onClick={() => signIn("discord")}
-              className="w-full bg-[#FF9416] text-white font-section py-3 px-6 rounded-lg hover:bg-[#e88510] transition-colors"
+              className="w-full bg-[#5865F2] hover:bg-[#4752C4] text-white font-headline px-6 py-3 transition-all uppercase tracking-wider"
             >
               Login mit Discord
             </button>
@@ -103,11 +114,11 @@ export function TaskModal({ task, onClose }: TaskModalProps) {
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               placeholder="Optional: Beschreibe kurz was du gemacht hast..."
-              className="w-full px-4 py-3 bg-[#0f0f1a] border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#FF9416] resize-y min-h-[80px] mb-4"
+              className="w-full px-4 py-3 bg-[#0a0a0a] border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-pause-orange resize-y min-h-[80px] mb-4 font-body"
             />
 
             {error && (
-              <div className="mb-4 p-3 bg-red-500/20 border border-red-500 rounded-lg text-red-300 text-sm">
+              <div className="mb-4 p-3 bg-red-500/20 border-l-4 border-red-500 text-red-300 text-sm font-body">
                 {error}
               </div>
             )}
@@ -116,14 +127,14 @@ export function TaskModal({ task, onClose }: TaskModalProps) {
               <button
                 onClick={onClose}
                 disabled={isSubmitting}
-                className="flex-1 bg-transparent border border-gray-500 text-gray-400 font-section py-3 px-6 rounded-lg hover:border-gray-400 hover:text-gray-300 transition-colors disabled:opacity-50"
+                className="flex-1 bg-transparent border-2 border-gray-600 text-gray-400 font-headline py-3 px-6 hover:border-gray-500 hover:text-gray-300 transition-colors disabled:opacity-50 uppercase tracking-wider"
               >
                 Abbrechen
               </button>
               <button
                 onClick={handleSubmit}
                 disabled={isSubmitting}
-                className="flex-1 bg-[#FF9416] text-white font-section py-3 px-6 rounded-lg hover:bg-[#e88510] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 bg-pause-orange text-white font-headline py-3 px-6 hover:bg-pause-orange-hover transition-colors disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wider"
               >
                 {isSubmitting ? "Wird gespeichert..." : "Erledigt!"}
               </button>

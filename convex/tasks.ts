@@ -6,30 +6,33 @@ const INITIAL_TASKS = [
   // ONBOARDING
   {
     id: "on1",
-    name: "Stelle dich im #welcome Channel vor",
-    path: "onboarding",
-    level: 0,
-    xp: 10,
-    repeatable: false,
-    icon: "player",
-  },
-  {
-    id: "on2",
     name: "Lies das Onboarding-Dokument",
     path: "onboarding",
     level: 0,
     xp: 15,
     repeatable: false,
     icon: "book",
+    link: "https://pauseai.notion.site",
+  },
+  {
+    id: "on2",
+    name: "Stelle dich im #introductions Channel vor",
+    path: "onboarding",
+    level: 0,
+    xp: 10,
+    repeatable: false,
+    icon: "player",
+    link: undefined,
   },
   {
     id: "on3",
-    name: "Nimm an einem Welcome-Call teil",
+    name: "Vereinbare ein 1:1 Onboarding-Gespräch",
     path: "onboarding",
     level: 0,
     xp: 20,
     repeatable: false,
     icon: "conversation",
+    link: undefined,
   },
   // OUTREACH
   {
@@ -40,6 +43,7 @@ const INITIAL_TASKS = [
     xp: 10,
     repeatable: true,
     icon: "share",
+    link: "https://pauseai.notion.site",
   },
   {
     id: "o2",
@@ -49,6 +53,7 @@ const INITIAL_TASKS = [
     xp: 15,
     repeatable: true,
     icon: "smartphone",
+    link: "https://pauseai.notion.site",
   },
   {
     id: "o3",
@@ -58,6 +63,7 @@ const INITIAL_TASKS = [
     xp: 20,
     repeatable: true,
     icon: "talk",
+    link: "https://pauseai.notion.site",
   },
   {
     id: "o4",
@@ -67,6 +73,7 @@ const INITIAL_TASKS = [
     xp: 50,
     repeatable: false,
     icon: "person-add",
+    link: "https://pauseai.notion.site",
   },
   {
     id: "o5",
@@ -76,6 +83,7 @@ const INITIAL_TASKS = [
     xp: 80,
     repeatable: false,
     icon: "round-table",
+    link: "https://pauseai.notion.site",
   },
   {
     id: "o6",
@@ -85,6 +93,7 @@ const INITIAL_TASKS = [
     xp: 120,
     repeatable: false,
     icon: "podium",
+    link: "https://pauseai.notion.site",
   },
   // LOBBYING
   {
@@ -95,6 +104,7 @@ const INITIAL_TASKS = [
     xp: 10,
     repeatable: false,
     icon: "scroll-signed",
+    link: "https://pauseai.notion.site",
   },
   {
     id: "l2",
@@ -104,6 +114,7 @@ const INITIAL_TASKS = [
     xp: 25,
     repeatable: true,
     icon: "envelope",
+    link: "https://pauseai.notion.site",
   },
   {
     id: "l3",
@@ -113,6 +124,7 @@ const INITIAL_TASKS = [
     xp: 15,
     repeatable: true,
     icon: "video-conference",
+    link: undefined,
   },
   {
     id: "l4",
@@ -122,6 +134,7 @@ const INITIAL_TASKS = [
     xp: 40,
     repeatable: true,
     icon: "capitol",
+    link: "https://pauseai.notion.site",
   },
   {
     id: "l5",
@@ -131,6 +144,7 @@ const INITIAL_TASKS = [
     xp: 100,
     repeatable: false,
     icon: "handshake",
+    link: "https://pauseai.notion.site",
   },
   {
     id: "l6",
@@ -140,6 +154,7 @@ const INITIAL_TASKS = [
     xp: 80,
     repeatable: false,
     icon: "newspaper",
+    link: "https://pauseai.notion.site",
   },
   // SPECIAL
   {
@@ -150,6 +165,7 @@ const INITIAL_TASKS = [
     xp: 30,
     repeatable: true,
     icon: "star",
+    link: undefined,
   },
   {
     id: "s2",
@@ -159,6 +175,7 @@ const INITIAL_TASKS = [
     xp: 75,
     repeatable: true,
     icon: "double-star",
+    link: undefined,
   },
   {
     id: "s3",
@@ -168,6 +185,7 @@ const INITIAL_TASKS = [
     xp: 150,
     repeatable: true,
     icon: "triple-star",
+    link: undefined,
   },
 ] as const;
 
@@ -194,6 +212,24 @@ export const seed = mutation({
     }
 
     return { seeded: true, count: INITIAL_TASKS.length };
+  },
+});
+
+// Reseed tasks - deletes all existing tasks and inserts fresh ones from INITIAL_TASKS
+export const reseed = mutation({
+  handler: async (ctx) => {
+    // Delete all existing tasks
+    const existing = await ctx.db.query("tasks").collect();
+    for (const task of existing) {
+      await ctx.db.delete(task._id);
+    }
+
+    // Insert all tasks from INITIAL_TASKS
+    for (const task of INITIAL_TASKS) {
+      await ctx.db.insert("tasks", task);
+    }
+
+    return { reseeded: true, deleted: existing.length, inserted: INITIAL_TASKS.length };
   },
 });
 

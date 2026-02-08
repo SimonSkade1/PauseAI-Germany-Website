@@ -9,8 +9,8 @@ const ROLE_THRESHOLDS = [
 
 // Get role name for XP
 function getRoleForXp(xp: number): string {
-  if (xp >= 400) return "Beschützer der Menschheit";
-  if (xp >= 150) return "Aktivist";
+  if (xp >= 400) return "Aktivist";
+  if (xp >= 150) return "Engagierter Bürger";
   return "Besorgter Bürger";
 }
 
