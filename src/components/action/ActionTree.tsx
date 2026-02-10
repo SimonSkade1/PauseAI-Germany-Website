@@ -161,84 +161,135 @@ export function ActionTree() {
 
     // === BACKGROUND ===
 
-    // Base dark gradient background
+    // Deep space base gradient
     const bgGradient = defs.append("radialGradient")
       .attr("id", "bg-gradient")
       .attr("cx", "50%")
       .attr("cy", "50%")
-      .attr("r", "70%");
+      .attr("r", "80%");
 
     bgGradient.append("stop")
       .attr("offset", "0%")
-      .attr("stop-color", "#1a1005")
+      .attr("stop-color", "#0a0a12")
+      .attr("stop-opacity", 1);
+
+    bgGradient.append("stop")
+      .attr("offset", "50%")
+      .attr("stop-color", "#050508")
       .attr("stop-opacity", 1);
 
     bgGradient.append("stop")
       .attr("offset", "100%")
-      .attr("stop-color", "#0a0a0a")
+      .attr("stop-color", "#030305")
       .attr("stop-opacity", 1);
 
-    // Ambient glow layer based on completed tasks
+    // Purple nebula gradient
+    const purpleNebula = defs.append("radialGradient")
+      .attr("id", "purple-nebula")
+      .attr("cx", "30%")
+      .attr("cy", "40%")
+      .attr("r", "50%");
+
+    purpleNebula.append("stop")
+      .attr("offset", "0%")
+      .attr("stop-color", "#4a1a6b")
+      .attr("stop-opacity", 0.15);
+
+    purpleNebula.append("stop")
+      .attr("offset", "100%")
+      .attr("stop-color", "#4a1a6b")
+      .attr("stop-opacity", 0);
+
+    // Teal nebula gradient
+    const tealNebula = defs.append("radialGradient")
+      .attr("id", "teal-nebula")
+      .attr("cx", "70%")
+      .attr("cy", "60%")
+      .attr("r", "45%");
+
+    tealNebula.append("stop")
+      .attr("offset", "0%")
+      .attr("stop-color", "#1a4a5b")
+      .attr("stop-opacity", 0.12);
+
+    tealNebula.append("stop")
+      .attr("offset", "100%")
+      .attr("stop-color", "#1a4a5b")
+      .attr("stop-opacity", 0);
+
+    // Orange ambient glow layer based on completed tasks
     const ambientGlowGradient = defs.append("radialGradient")
       .attr("id", "ambient-glow-gradient")
       .attr("cx", "50%")
       .attr("cy", "50%")
-      .attr("r", "60%");
+      .attr("r", "55%");
 
     ambientGlowGradient.append("stop")
       .attr("offset", "0%")
       .attr("stop-color", PAUSEAI_ORANGE)
-      .attr("stop-opacity", 0.08 + glowIntensity * 0.15);
+      .attr("stop-opacity", 0.06 + glowIntensity * 0.12);
+
+    ambientGlowGradient.append("stop")
+      .attr("offset", "70%")
+      .attr("stop-color", PAUSEAI_ORANGE)
+      .attr("stop-opacity", 0.02);
 
     ambientGlowGradient.append("stop")
       .attr("offset", "100%")
       .attr("stop-color", PAUSEAI_ORANGE)
       .attr("stop-opacity", 0);
 
-    // Background layers (in background group)
-    const backgroundGroup = svg.append("g").attr("class", "background");
+    // Grid pattern definition
+    const gridPattern = defs.append("pattern")
+      .attr("id", "grid-pattern")
+      .attr("x", "0")
+      .attr("y", "0")
+      .attr("width", "60")
+      .attr("height", "60")
+      .attr("patternUnits", "userSpaceOnUse");
 
-    backgroundGroup.append("rect")
+    gridPattern.append("path")
+      .attr("d", "M 60 0 L 0 0 0 60")
+      .attr("fill", "none")
+      .attr("stroke", "#ffffff")
+      .attr("stroke-width", "0.5")
+      .attr("stroke-opacity", "0.03");
+
+    // Grid fade mask for edges
+    const gridFadeMask = defs.append("mask")
+      .attr("id", "grid-fade-mask");
+
+    const gridFadeGradient = defs.append("radialGradient")
+      .attr("id", "grid-fade-gradient")
+      .attr("cx", "50%")
+      .attr("cy", "50%")
+      .attr("r", "50%");
+
+    gridFadeGradient.append("stop")
+      .attr("offset", "0%")
+      .attr("stop-color", "white")
+      .attr("stop-opacity", 1);
+
+    gridFadeGradient.append("stop")
+      .attr("offset", "70%")
+      .attr("stop-color", "white")
+      .attr("stop-opacity", 0.4);
+
+    gridFadeGradient.append("stop")
+      .attr("offset", "100%")
+      .attr("stop-color", "white")
+      .attr("stop-opacity", 0);
+
+    gridFadeMask.append("rect")
       .attr("width", width)
       .attr("height", height)
-      .attr("fill", "url(#bg-gradient)");
+      .attr("fill", "url(#grid-fade-gradient)");
 
-    backgroundGroup.append("rect")
-      .attr("width", width)
-      .attr("height", height)
-      .attr("fill", "url(#ambient-glow-gradient)");
-
-    // Particle system for completed tasks (in background group)
-    const particlesGroup = backgroundGroup.append("g").attr("class", "particles");
-    const particleCount = Math.floor(completedTaskCount * 2);
-
-    for (let i = 0; i < particleCount; i++) {
-      const angle = (i / particleCount) * Math.PI * 2;
-      const distance = 100 + Math.random() * 400;
-      const px = centerX + Math.cos(angle) * distance;
-      const py = centerY + Math.sin(angle) * distance;
-      const size = Math.random() * 2 + 0.5;
-
-      const particle = particlesGroup.append("circle")
-        .attr("cx", px)
-        .attr("cy", py)
-        .attr("r", size)
-        .attr("fill", PAUSEAI_ORANGE)
-        .attr("opacity", Math.random() * 0.3 + 0.1);
-
-      const animateDuration = 3000 + Math.random() * 4000;
-      particle.append("animate")
-        .attr("attributeName", "opacity")
-        .attr("values", `${Math.random() * 0.15};${Math.random() * 0.4 + 0.15};${Math.random() * 0.15}`)
-        .attr("dur", `${animateDuration}ms`)
-        .attr("repeatCount", "indefinite");
-    }
-
-    // Create a single group for everything that zooms/pans together
+    // Create main group first (before background so background is at the bottom)
     const mainGroup = svg.append("g")
       .attr("class", "main-group");
 
-    // Setup zoom behavior on the entire main group
+    // Setup zoom behavior immediately so it applies to everything in mainGroup
     const zoom = d3.zoom<SVGSVGElement, unknown>()
       .scaleExtent([0.3, 3])
       .on("zoom", (event) => {
@@ -246,6 +297,143 @@ export function ActionTree() {
       });
 
     svg.call(zoom);
+
+    // Background layers (inside main group so they pan/zoom with the tree)
+    const backgroundGroup = mainGroup.append("g").attr("class", "background");
+
+    // Base deep space background
+    backgroundGroup.append("rect")
+      .attr("width", width)
+      .attr("height", height)
+      .attr("fill", "#030305");
+
+    backgroundGroup.append("rect")
+      .attr("width", width)
+      .attr("height", height)
+      .attr("fill", "url(#bg-gradient)");
+
+    // Purple nebula layer
+    backgroundGroup.append("ellipse")
+      .attr("cx", width * 0.3)
+      .attr("cy", height * 0.4)
+      .attr("rx", width * 0.5)
+      .attr("ry", height * 0.5)
+      .attr("fill", "url(#purple-nebula)");
+
+    // Teal nebula layer
+    backgroundGroup.append("ellipse")
+      .attr("cx", width * 0.7)
+      .attr("cy", height * 0.6)
+      .attr("rx", width * 0.45)
+      .attr("ry", height * 0.45)
+      .attr("fill", "url(#teal-nebula)");
+
+    // Orange ambient glow layer
+    backgroundGroup.append("rect")
+      .attr("width", width)
+      .attr("height", height)
+      .attr("fill", "url(#ambient-glow-gradient)");
+
+    // Subtle grid pattern with fade at edges
+    backgroundGroup.append("rect")
+      .attr("width", width)
+      .attr("height", height)
+      .attr("fill", "url(#grid-pattern)")
+      .attr("mask", "url(#grid-fade-mask)");
+
+    // === ENHANCED PARTICLE SYSTEM ===
+
+    const particlesGroup = backgroundGroup.append("g").attr("class", "particles");
+
+    // Base star particles (always present, more diverse)
+    const baseStarCount = 80;
+    for (let i = 0; i < baseStarCount; i++) {
+      const px = Math.random() * width;
+      const py = Math.random() * height;
+      const size = Math.random() * 1.5 + 0.3;
+
+      // Random star colors: white, blue-white, or subtle orange
+      const colors = ["#ffffff", "#e8f4ff", "#fff4e8", PAUSEAI_ORANGE];
+      const starColor = Math.random() > 0.85 ? colors[3] : colors[Math.floor(Math.random() * 3)];
+
+      const star = particlesGroup.append("circle")
+        .attr("cx", px)
+        .attr("cy", py)
+        .attr("r", size)
+        .attr("fill", starColor)
+        .attr("opacity", Math.random() * 0.4 + 0.1);
+
+      const twinkleDuration = 2000 + Math.random() * 5000;
+      star.append("animate")
+        .attr("attributeName", "opacity")
+        .attr("values", `${Math.random() * 0.15 + 0.05};${Math.random() * 0.5 + 0.2};${Math.random() * 0.15 + 0.05}`)
+        .attr("dur", `${twinkleDuration}ms`)
+        .attr("repeatCount", "indefinite");
+    }
+
+    // Energy particles for completed tasks (pulsing, glowing)
+    const energyParticleCount = completedTaskCount * 3;
+    for (let i = 0; i < energyParticleCount; i++) {
+      const angle = (i / energyParticleCount) * Math.PI * 2 + Math.random() * 0.5;
+      const distance = 80 + Math.random() * 450;
+      const px = centerX + Math.cos(angle) * distance;
+      const py = centerY + Math.sin(angle) * distance;
+      const size = Math.random() * 2.5 + 0.8;
+
+      // Energy particle glow filter
+      const particleGlowId = `particle-glow-${i}`;
+      const particleGlow = defs.append("filter")
+        .attr("id", particleGlowId)
+        .attr("x", "-100%")
+        .attr("y", "-100%")
+        .attr("width", "300%")
+        .attr("height", "300%");
+
+      particleGlow.append("feGaussianBlur")
+        .attr("stdDeviation", 2)
+        .attr("result", "blur");
+
+      const particleMerge = particleGlow.append("feMerge");
+      particleMerge.append("feMergeNode").attr("in", "blur");
+      particleMerge.append("feMergeNode").attr("in", "SourceGraphic");
+
+      const particle = particlesGroup.append("circle")
+        .attr("cx", px)
+        .attr("cy", py)
+        .attr("r", size)
+        .attr("fill", PAUSEAI_ORANGE)
+        .attr("opacity", Math.random() * 0.5 + 0.2)
+        .attr("filter", `url(#${particleGlowId})`);
+
+      // Pulsing animation for size and opacity
+      const pulseDuration = 2000 + Math.random() * 3000;
+      particle.append("animate")
+        .attr("attributeName", "opacity")
+        .attr("values", `${Math.random() * 0.2 + 0.1};${Math.random() * 0.6 + 0.3};${Math.random() * 0.2 + 0.1}`)
+        .attr("dur", `${pulseDuration}ms`)
+        .attr("repeatCount", "indefinite");
+
+      particle.append("animate")
+        .attr("attributeName", "r")
+        .attr("values", `${size};${size * 1.5};${size}`)
+        .attr("dur", `${pulseDuration}ms`)
+        .attr("repeatCount", "indefinite");
+
+      // Slow drift animation
+      const driftX = px + (Math.random() - 0.5) * 20;
+      const driftY = py + (Math.random() - 0.5) * 20;
+      particle.append("animate")
+        .attr("attributeName", "cx")
+        .attr("values", `${px};${driftX};${px}`)
+        .attr("dur", `${8000 + Math.random() * 4000}ms`)
+        .attr("repeatCount", "indefinite");
+
+      particle.append("animate")
+        .attr("attributeName", "cy")
+        .attr("values", `${py};${driftY};${py}`)
+        .attr("dur", `${8000 + Math.random() * 4000}ms`)
+        .attr("repeatCount", "indefinite");
+    }
 
     // Draw circles (outer to inner)
     [3, 2, 1, 0].forEach((level) => {
@@ -470,51 +658,45 @@ export function ActionTree() {
 
     // === LEGEND (pinned to viewport, not affected by zoom) ===
     const legendGroup = svg.append("g")
-      .attr("transform", `translate(50, ${LAYOUT.height - 45})`);
-
-    // Legend background
-    legendGroup.append("rect")
-      .attr("x", -10)
-      .attr("y", -18)
-      .attr("width", 280)
-      .attr("height", 36)
-      .attr("rx", 8)
-      .attr("fill", "rgba(30, 30, 46, 0.9)")
-      .attr("stroke", "rgba(255, 148, 22, 0.3)")
-      .attr("stroke-width", 1);
+      .attr("transform", `translate(50, ${LAYOUT.height - 30})`);
 
     const legendItems = [
       { color: PAUSEAI_ORANGE, label: "Erledigt", glow: true },
-      { color: "#888888", label: "Verfügbar", glow: false }
+      { color: "#666666", label: "Verfügbar", glow: false }
     ];
 
-    legendItems.forEach((item, i) => {
-      const xOffset = i * 130;
-
+    let xOffset = 0;
+    legendItems.forEach((item) => {
+      // Glow effect for completed items
       if (item.glow) {
         legendGroup.append("circle")
-          .attr("cx", xOffset)
+          .attr("cx", xOffset + 6)
           .attr("cy", 0)
-          .attr("r", 10)
+          .attr("r", 11)
           .attr("fill", PAUSEAI_ORANGE)
-          .attr("opacity", 0.15)
+          .attr("opacity", 0.2)
           .attr("filter", "url(#ambient-glow)");
       }
 
+      // Main circle
       legendGroup.append("circle")
-        .attr("cx", xOffset)
+        .attr("cx", xOffset + 6)
         .attr("cy", 0)
         .attr("r", 6)
         .attr("fill", item.color);
 
+      // Text (vertically centered with circle)
       legendGroup.append("text")
-        .attr("x", xOffset + 16)
-        .attr("y", 4)
-        .attr("fill", "white")
-        .attr("font-size", "13px")
+        .attr("x", xOffset + 22)
+        .attr("y", 1)
+        .attr("dy", "0.35em")
+        .attr("fill", "rgba(255, 255, 255, 0.7)")
+        .attr("font-size", "20px")
         .attr("font-weight", "400")
         .attr("font-family", "var(--font-body)")
         .text(item.label);
+
+      xOffset += 110;
     });
 
   }, [tasks, completedTasks, totalXp, iconsLoaded, session?.user?.image]);
@@ -533,12 +715,7 @@ export function ActionTree() {
   }
 
   return (
-    <section className="relative bg-gradient-to-b from-[#0a0a0a] via-[#14100a] to-[#0a0a0a] py-8 md:py-12 pt-20 md:pt-28 overflow-hidden">
-      {/* Animated background gradient effect */}
-      <div className="absolute inset-0 opacity-15 pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#FF9416] rounded-full blur-[150px] animate-pulse"></div>
-      </div>
-
+    <section className="relative bg-[#030305] py-8 md:py-12 pt-20 md:pt-28 overflow-hidden">
       <div className="relative max-w-6xl mx-auto px-6">
 
         {/* Header */}
