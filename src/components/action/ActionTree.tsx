@@ -707,7 +707,7 @@ export function ActionTree() {
     return (
       <section className="bg-pause-gray-dark py-12 md:py-16 min-h-[600px]">
         <div className="max-w-6xl mx-auto px-6 text-center">
-          <div className="inline-block w-8 h-8 border-2 border-pause-orange border-t-transparent rounded-full animate-spin"></div>
+          <div className="inline-block w-8 h-8 border-2 border-pause-orange border-t-transparent animate-spin"></div>
           <p className="font-body text-gray-400 mt-4">Lade Actions...</p>
         </div>
       </section>
@@ -730,7 +730,7 @@ export function ActionTree() {
 
         {/* Login prompt if not logged in */}
         {!session && (
-          <div className="mb-6 text-center flex flex-wrap items-center justify-center gap-4 p-4 rounded-xl bg-[#1e1e2e]/50 border border-[#FF9416]/20 backdrop-blur-sm">
+          <div className="mb-6 text-center flex flex-wrap items-center justify-center gap-4 p-4 bg-[#1e1e2e]/50 border border-[#FF9416]/20 backdrop-blur-sm">
             <span className="font-body text-gray-300">
               Wenn du willst, kannst du dich mit Discord einloggen, um deine Fortschritte zu speichern und Punkte zu sammeln.
             </span>
@@ -746,12 +746,12 @@ export function ActionTree() {
 
         {/* User info if logged in */}
         {session && (
-          <div className="mb-6 flex flex-wrap justify-center items-center gap-4 p-4 rounded-xl bg-[#1e1e2e]/50 border border-[#FF9416]/20 backdrop-blur-sm">
+          <div className="mb-6 flex flex-wrap justify-center items-center gap-4 p-4 bg-[#1e1e2e]/50 border border-[#FF9416]/20 backdrop-blur-sm">
             {session.user?.image && (
               <img
                 src={session.user.image}
                 alt="Discord Avatar"
-                className="w-12 h-12 rounded-full border-2 border-[#FF9416]"
+                className="w-12 h-12 border-2 border-[#FF9416]"
               />
             )}
             <div className="flex flex-col">
@@ -780,7 +780,7 @@ export function ActionTree() {
         )}
 
         {/* SVG Container with enhanced styling */}
-        <div className="relative rounded-xl overflow-hidden border-2 border-[#FF9416]/30 shadow-[0_0_60px_rgba(255,148,22,0.15)] hover:shadow-[0_0_80px_rgba(255,148,22,0.25)] transition-shadow duration-500" style={{ aspectRatio: "4/3" }}>
+        <div className="relative overflow-hidden border-2 border-[#FF9416]/30 shadow-[0_0_60px_rgba(255,148,22,0.15)] hover:shadow-[0_0_80px_rgba(255,148,22,0.25)] transition-shadow duration-500" style={{ aspectRatio: "4/3" }}>
           <svg
             ref={svgRef}
             className="w-full h-full"
@@ -788,7 +788,7 @@ export function ActionTree() {
         </div>
 
         {/* Instructions */}
-        <div className="mt-6 p-5 rounded-xl bg-[#1e1e2e]/50 border-l-4 border-[#FF9416] backdrop-blur-sm">
+        <div className="mt-6 p-5 bg-[#1e1e2e]/50 border-l-4 border-[#FF9416] backdrop-blur-sm">
           <p className="font-body text-gray-300 text-sm md:text-base">
             <span className="text-[#FF9416] font-headline font-bold">Anleitung:</span> Klicke auf Aufgaben, um sie zu erledigen. Wiederholbare Aufgaben bringen dir jedes Mal Punkte. Sammle Punkte und steige in den Rollen auf, um Teil unseres Teams zu werden und PauseAI Germany aktiv mitzugestalten!
           </p>
