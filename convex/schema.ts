@@ -5,7 +5,7 @@ export default defineSchema({
   tasks: defineTable({
     id: v.string(), // e.g., "on1", "o1"
     name: v.string(),
-    path: v.string(), // "onboarding", "outreach", "lobbying", "special"
+    path: v.string(), // "onboarding", "outreach", "lobbying"
     level: v.number(), // 0-3
     xp: v.number(),
     icon: v.string(),

@@ -9,9 +9,9 @@ const ROLE_THRESHOLDS = [
 
 // Get role name for XP
 function getRoleForXp(xp: number): string {
-  if (xp >= 400) return "Aktivist";
-  if (xp >= 150) return "Engagierter Bürger";
-  return "Besorgter Bürger";
+  if (xp >= 400) return "Aktives Mitglied";
+  if (xp >= 150) return "Engagiertes Mitglied";
+  return "Neues Mitglied";
 }
 
 // Notify Discord about task completion

@@ -156,37 +156,6 @@ const INITIAL_TASKS = [
     icon: "newspaper",
     link: "https://pauseai.notion.site",
   },
-  // SPECIAL
-  {
-    id: "s1",
-    name: "Kleiner Beitrag",
-    path: "special",
-    level: 1,
-    xp: 30,
-    repeatable: true,
-    icon: "star",
-    link: undefined,
-  },
-  {
-    id: "s2",
-    name: "Mittlerer Beitrag",
-    path: "special",
-    level: 1,
-    xp: 75,
-    repeatable: true,
-    icon: "double-star",
-    link: undefined,
-  },
-  {
-    id: "s3",
-    name: "Großer Beitrag",
-    path: "special",
-    level: 1,
-    xp: 150,
-    repeatable: true,
-    icon: "triple-star",
-    link: undefined,
-  },
 ] as const;
 
 // Get all tasks
@@ -250,11 +219,6 @@ export const complete = mutation({
 
     if (!task) {
       throw new Error("Task not found");
-    }
-
-    // Check if special task (can only be assigned by moderators)
-    if (task.path === "special") {
-      throw new Error("Special Tasks können nur von Moderatoren vergeben werden");
     }
 
     // Check if task is already completed (for non-repeatable tasks)

@@ -8,9 +8,8 @@ import { api } from "@/convex/_generated/api";
 import { getRoleForXp, getRoleClass, Task } from "@/lib/types";
 import { TaskModal } from "./TaskModal";
 
-// Use CSS variables from globals.css
-const PAUSEAI_ORANGE = "var(--pause-orange)";
-const DARK_BG = "var(--pause-gray-dark)";
+// Color constants matching the home page aesthetic
+const PAUSEAI_ORANGE = "#FF9416";
 const CARD_BG = "#1e1e2e";
 
 const LAYOUT = {
@@ -105,9 +104,8 @@ export function ActionTree() {
   // Calculate overall glow based on completed tasks
   function calculateOverallGlow(): number {
     if (!tasks?.length) return 0;
-    const mainTasks = tasks.filter((t) => t.path !== "special");
-    const completedCount = mainTasks.filter((t) => completedTasks.has(t.id)).length;
-    return Math.min(completedCount / mainTasks.length, 1);
+    const completedCount = tasks.filter((t) => completedTasks.has(t.id)).length;
+    return Math.min(completedCount / tasks.length, 1);
   }
 
   // Draw the tree using D3
@@ -122,60 +120,129 @@ export function ActionTree() {
 
     const defs = svg.append("defs");
 
-    // Overall glow filter
     const glowIntensity = calculateOverallGlow();
-    const mainFilter = defs.append("filter")
-      .attr("id", "main-glow")
+    const completedTaskCount = Array.from(completedTasks).filter(id =>
+      tasks.some(t => t.id === id)
+    ).length;
+
+    // === FILTERS ===
+
+    // Glow filter for completed nodes
+    const glowFilter = defs.append("filter")
+      .attr("id", "glow")
       .attr("x", "-50%")
       .attr("y", "-50%")
       .attr("width", "200%")
       .attr("height", "200%");
 
-    mainFilter.append("feGaussianBlur")
-      .attr("stdDeviation", 5 + glowIntensity * 15)
-      .attr("result", "coloredBlur");
+    glowFilter.append("feGaussianBlur")
+      .attr("stdDeviation", 6)
+      .attr("result", "blur");
 
-    const filterMerge = mainFilter.append("feMerge");
-    filterMerge.append("feMergeNode").attr("in", "coloredBlur");
-    filterMerge.append("feMergeNode").attr("in", "SourceGraphic");
+    const glowMerge = glowFilter.append("feMerge");
+    glowMerge.append("feMergeNode").attr("in", "blur");
+    glowMerge.append("feMergeNode").attr("in", "SourceGraphic");
 
-    // Background gradient
+    // Ambient glow filter
+    const ambientGlow = defs.append("filter")
+      .attr("id", "ambient-glow")
+      .attr("x", "-50%")
+      .attr("y", "-50%")
+      .attr("width", "200%")
+      .attr("height", "200%");
+
+    ambientGlow.append("feGaussianBlur")
+      .attr("stdDeviation", 15 + glowIntensity * 25)
+      .attr("result", "ambientBlur");
+
+    const ambientMerge = ambientGlow.append("feMerge");
+    ambientMerge.append("feMergeNode").attr("in", "ambientBlur");
+    ambientMerge.append("feMergeNode").attr("in", "SourceGraphic");
+
+    // === BACKGROUND ===
+
+    // Base dark gradient background
     const bgGradient = defs.append("radialGradient")
-      .attr("id", "bg-glow")
+      .attr("id", "bg-gradient")
       .attr("cx", "50%")
       .attr("cy", "50%")
-      .attr("r", "50%");
+      .attr("r", "70%");
 
     bgGradient.append("stop")
       .attr("offset", "0%")
-      .attr("stop-color", PAUSEAI_ORANGE)
-      .attr("stop-opacity", 0.05 + glowIntensity * 0.15);
+      .attr("stop-color", "#1a1005")
+      .attr("stop-opacity", 1);
 
     bgGradient.append("stop")
+      .attr("offset", "100%")
+      .attr("stop-color", "#0a0a0a")
+      .attr("stop-opacity", 1);
+
+    // Ambient glow layer based on completed tasks
+    const ambientGlowGradient = defs.append("radialGradient")
+      .attr("id", "ambient-glow-gradient")
+      .attr("cx", "50%")
+      .attr("cy", "50%")
+      .attr("r", "60%");
+
+    ambientGlowGradient.append("stop")
+      .attr("offset", "0%")
+      .attr("stop-color", PAUSEAI_ORANGE)
+      .attr("stop-opacity", 0.08 + glowIntensity * 0.15);
+
+    ambientGlowGradient.append("stop")
       .attr("offset", "100%")
       .attr("stop-color", PAUSEAI_ORANGE)
       .attr("stop-opacity", 0);
 
-    // Background (not in zoom layer)
-    svg.append("rect")
+    // Background layers (in background group)
+    const backgroundGroup = svg.append("g").attr("class", "background");
+
+    backgroundGroup.append("rect")
       .attr("width", width)
       .attr("height", height)
-      .attr("fill", DARK_BG);
+      .attr("fill", "url(#bg-gradient)");
 
-    svg.append("rect")
+    backgroundGroup.append("rect")
       .attr("width", width)
       .attr("height", height)
-      .attr("fill", "url(#bg-glow)");
+      .attr("fill", "url(#ambient-glow-gradient)");
 
-    // Create zoom layer
-    const zoomLayer = svg.append("g")
-      .attr("class", "zoom-layer");
+    // Particle system for completed tasks (in background group)
+    const particlesGroup = backgroundGroup.append("g").attr("class", "particles");
+    const particleCount = Math.floor(completedTaskCount * 2);
 
-    // Setup zoom behavior on zoom layer
+    for (let i = 0; i < particleCount; i++) {
+      const angle = (i / particleCount) * Math.PI * 2;
+      const distance = 100 + Math.random() * 400;
+      const px = centerX + Math.cos(angle) * distance;
+      const py = centerY + Math.sin(angle) * distance;
+      const size = Math.random() * 2 + 0.5;
+
+      const particle = particlesGroup.append("circle")
+        .attr("cx", px)
+        .attr("cy", py)
+        .attr("r", size)
+        .attr("fill", PAUSEAI_ORANGE)
+        .attr("opacity", Math.random() * 0.3 + 0.1);
+
+      const animateDuration = 3000 + Math.random() * 4000;
+      particle.append("animate")
+        .attr("attributeName", "opacity")
+        .attr("values", `${Math.random() * 0.15};${Math.random() * 0.4 + 0.15};${Math.random() * 0.15}`)
+        .attr("dur", `${animateDuration}ms`)
+        .attr("repeatCount", "indefinite");
+    }
+
+    // Create a single group for everything that zooms/pans together
+    const mainGroup = svg.append("g")
+      .attr("class", "main-group");
+
+    // Setup zoom behavior on the entire main group
     const zoom = d3.zoom<SVGSVGElement, unknown>()
       .scaleExtent([0.3, 3])
       .on("zoom", (event) => {
-        zoomLayer.attr("transform", event.transform);
+        mainGroup.attr("transform", event.transform);
       });
 
     svg.call(zoom);
@@ -183,26 +250,34 @@ export function ActionTree() {
     // Draw circles (outer to inner)
     [3, 2, 1, 0].forEach((level) => {
       const radius = circleRadii[level as keyof typeof circleRadii];
-      zoomLayer.append("circle")
+      const levelTasks = tasks.filter(t => t.level === level);
+      const levelHasCompletions = levelTasks.filter(t => completedTasks.has(t.id)).length > 0;
+
+      mainGroup.append("circle")
         .attr("cx", centerX)
         .attr("cy", centerY)
         .attr("r", radius)
         .attr("fill", "none")
-        .attr("stroke", ["#4a4a4a", "#3a3a3a", "#2a2a2a", "#1a1a1a"][level])
+        .attr("stroke", levelHasCompletions ? PAUSEAI_ORANGE : "#2a2a2a")
         .attr("stroke-width", 1)
-        .attr("stroke-opacity", 0.3);
+        .attr("stroke-opacity", levelHasCompletions ? 0.5 : 0.2);
     });
 
-    // Draw user avatar
-    const userGroup = zoomLayer.append("g")
+    // === USER AVATAR ===
+
+    const userGroup = mainGroup.append("g")
       .attr("transform", `translate(${centerX}, ${centerY})`);
 
-    // Background circle with glow
-    userGroup.append("circle")
-      .attr("r", 50)
-      .attr("fill", PAUSEAI_ORANGE)
-      .attr("opacity", 0.2)
-      .attr("filter", "url(#main-glow)");
+    // Outer glow ring (static, no pulsing)
+    if (glowIntensity > 0) {
+      userGroup.append("circle")
+        .attr("r", 52)
+        .attr("fill", "none")
+        .attr("stroke", PAUSEAI_ORANGE)
+        .attr("stroke-width", 1)
+        .attr("opacity", glowIntensity * 0.2)
+        .attr("filter", "url(#ambient-glow)");
+    }
 
     userGroup.append("circle")
       .attr("r", 45)
@@ -212,10 +287,9 @@ export function ActionTree() {
 
     // Discord profile image or fallback icon
     if (session?.user?.image) {
-      // Use Discord avatar as clipPath
-      const defs = userGroup.append("defs");
-      const clipId = `avatar-clip-${centerX}-${centerY}`;
-      defs.append("clipPath")
+      const userDefs = userGroup.append("defs");
+      const clipId = `avatar-clip`;
+      userDefs.append("clipPath")
         .attr("id", clipId)
         .append("circle")
         .attr("r", 40)
@@ -231,7 +305,6 @@ export function ActionTree() {
         .attr("clip-path", `url(#${clipId})`)
         .attr("preserveAspectRatio", "xMidYMid slice");
     } else {
-      // Fallback to user icon
       const userIcon = iconCache.get("user");
       if (userIcon) {
         const clonedIcon = userGroup.node()!.appendChild(userIcon.cloneNode(true) as SVGElement);
@@ -250,16 +323,40 @@ export function ActionTree() {
     // XP text below
     userGroup.append("text")
       .attr("text-anchor", "middle")
-      .attr("y", 65)
-      .attr("fill", "white")
-      .attr("font-size", "14px")
+      .attr("y", 62)
+      .attr("fill", PAUSEAI_ORANGE)
+      .attr("font-size", "13px")
       .attr("font-weight", "bold")
+      .attr("font-family", "var(--font-headline)")
       .text(`${totalXp} XP`);
 
-    // Draw tasks by level
+    // Connection lines from center to completed tasks
+    tasks.filter(t => completedTasks.has(t.id)).forEach(task => {
+      const radius = circleRadii[task.level as keyof typeof circleRadii];
+      const levelTasks = tasks.filter((t) => t.level === task.level);
+      const angleStep = (2 * Math.PI) / levelTasks.length;
+      const startAngle = -Math.PI / 2;
+      const index = levelTasks.findIndex(t => t.id === task.id);
+      const angle = startAngle + index * angleStep;
+      const x = centerX + radius * Math.cos(angle);
+      const y = centerY + radius * Math.sin(angle);
+
+      mainGroup.append("line")
+        .attr("x1", centerX)
+        .attr("y1", centerY)
+        .attr("x2", x)
+        .attr("y2", y)
+        .attr("stroke", PAUSEAI_ORANGE)
+        .attr("stroke-width", 1)
+        .attr("opacity", 0.15 + glowIntensity * 0.2)
+        .attr("stroke-dasharray", "4,4");
+    });
+
+    // === DRAW TASK NODES ===
+
     for (let level = 0; level <= 3; level++) {
       const radius = circleRadii[level as keyof typeof circleRadii];
-      const levelTasks = tasks.filter((t) => t.level === level && t.path !== "special");
+      const levelTasks = tasks.filter((t) => t.level === level);
 
       if (levelTasks.length === 0) continue;
 
@@ -272,12 +369,28 @@ export function ActionTree() {
         const y = centerY + radius * Math.sin(angle);
 
         const isCompleted = completedTasks.has(task.id);
-        const nodeColor = isCompleted ? PAUSEAI_ORANGE : "#4a4a4a";
 
-        const group = zoomLayer.append("g")
+        const group = mainGroup.append("g")
+          .attr("class", "node-group")
           .attr("transform", `translate(${x}, ${y})`)
-          .style("cursor", "pointer")
-          .on("click", () => setSelectedTask(task));
+          .style("cursor", "pointer");
+
+        // Transparent click area circle (no border)
+        group.append("circle")
+          .attr("class", "click-area")
+          .attr("r", LAYOUT.nodeRadius + 5)
+          .attr("fill", "transparent")
+          .style("pointer-events", "all");
+
+        // Glow effect for completed tasks (behind everything)
+        if (isCompleted) {
+          group.append("circle")
+            .attr("class", "glow-bg")
+            .attr("r", LAYOUT.nodeRadius + 6)
+            .attr("fill", PAUSEAI_ORANGE)
+            .attr("opacity", 0.25)
+            .attr("filter", "url(#glow)");
+        }
 
         const iconName = LUCIDE_MAP[task.icon] || "star";
         const cachedIcon = iconCache.get(iconName);
@@ -286,78 +399,125 @@ export function ActionTree() {
         if (cachedIcon) {
           const clonedIcon = group.node()!.appendChild(cachedIcon.cloneNode(true) as SVGElement);
           d3.select(clonedIcon)
+            .attr("class", "task-icon")
             .attr("width", iconSize)
             .attr("height", iconSize)
             .attr("x", -iconSize / 2)
             .attr("y", -iconSize / 2 - 8)
             .selectAll("*")
             .attr("fill", "none")
-            .attr("stroke", nodeColor)
+            .attr("stroke", isCompleted ? PAUSEAI_ORANGE : "#666666")
             .attr("stroke-width", "2");
         }
 
-        group.append("circle")
-          .attr("r", LAYOUT.nodeRadius)
-          .attr("fill", "transparent")
-          .attr("style", "pointer-events: all;");
-
+        // XP text
         group.append("text")
+          .attr("class", "xp-text")
           .attr("text-anchor", "middle")
-          .attr("dy", LAYOUT.nodeRadius - 8)
-          .attr("fill", "white")
+          .attr("y", LAYOUT.nodeRadius - 6)
+          .attr("fill", isCompleted ? PAUSEAI_ORANGE : "#888888")
           .attr("font-size", "11px")
-          .attr("font-weight", "bold")
+          .attr("font-weight", isCompleted ? "bold" : "normal")
+          .attr("font-family", "var(--font-headline)")
           .text(`${task.xp} XP`);
 
-        // Hover animations
+        // Hover effect - only scale the icon and text, not the click area
         group.on("mouseenter", function () {
-          d3.select(this)
+          d3.select(this).select(".task-icon")
             .transition()
             .duration(150)
-            .attr("transform", `translate(${x}, ${y}) scale(1.15)`);
+            .attr("transform", "scale(1.1)");
+
+          d3.select(this).select(".xp-text")
+            .transition()
+            .duration(150)
+            .attr("font-size", "12px");
+
+          if (isCompleted) {
+            d3.select(this).select(".glow-bg")
+              .transition()
+              .duration(150)
+              .attr("opacity", 0.4);
+          }
         });
 
         group.on("mouseleave", function () {
-          d3.select(this)
+          d3.select(this).select(".task-icon")
             .transition()
             .duration(150)
-            .attr("transform", `translate(${x}, ${y}) scale(1)`);
+            .attr("transform", "scale(1)");
+
+          d3.select(this).select(".xp-text")
+            .transition()
+            .duration(150)
+            .attr("font-size", "11px");
+
+          if (isCompleted) {
+            d3.select(this).select(".glow-bg")
+              .transition()
+              .duration(150)
+              .attr("opacity", 0.25);
+          }
+        });
+
+        // Click handler
+        group.on("click", (event) => {
+          event.stopPropagation();
+          setSelectedTask(task);
         });
       });
     }
 
-    // Legend (not in zoom layer - stays fixed)
-    const legend = svg.append("g")
-      .attr("transform", `translate(50, ${LAYOUT.height - 40})`);
+    // === LEGEND (pinned to viewport, not affected by zoom) ===
+    const legendGroup = svg.append("g")
+      .attr("transform", `translate(50, ${LAYOUT.height - 45})`);
+
+    // Legend background
+    legendGroup.append("rect")
+      .attr("x", -10)
+      .attr("y", -18)
+      .attr("width", 280)
+      .attr("height", 36)
+      .attr("rx", 8)
+      .attr("fill", "rgba(30, 30, 46, 0.9)")
+      .attr("stroke", "rgba(255, 148, 22, 0.3)")
+      .attr("stroke-width", 1);
 
     const legendItems = [
-      { color: PAUSEAI_ORANGE, label: "Erledigt" },
-      { color: "#888888", label: "Verfügbar" }
+      { color: PAUSEAI_ORANGE, label: "Erledigt", glow: true },
+      { color: "#888888", label: "Verfügbar", glow: false }
     ];
 
-    // Check if mobile viewport for responsive legend
-    const isMobile = window.innerWidth < 640;
-    const legendSpacing = isMobile ? 140 : 140;
-    const legendFontSize = isMobile ? 22 : 14;
-    const legendCircleSize = isMobile ? 8 : 10;
-
     legendItems.forEach((item, i) => {
-      legend.append("circle")
-        .attr("cx", i * legendSpacing)
+      const xOffset = i * 130;
+
+      if (item.glow) {
+        legendGroup.append("circle")
+          .attr("cx", xOffset)
+          .attr("cy", 0)
+          .attr("r", 10)
+          .attr("fill", PAUSEAI_ORANGE)
+          .attr("opacity", 0.15)
+          .attr("filter", "url(#ambient-glow)");
+      }
+
+      legendGroup.append("circle")
+        .attr("cx", xOffset)
         .attr("cy", 0)
-        .attr("r", legendCircleSize)
+        .attr("r", 6)
         .attr("fill", item.color);
 
-      legend.append("text")
-        .attr("x", i * legendSpacing + 18)
-        .attr("y", isMobile ? 4 : 5)
+      legendGroup.append("text")
+        .attr("x", xOffset + 16)
+        .attr("y", 4)
         .attr("fill", "white")
-        .attr("font-size", `${legendFontSize}px`)
-        .attr("font-weight", "500")
+        .attr("font-size", "13px")
+        .attr("font-weight", "400")
+        .attr("font-family", "var(--font-body)")
         .text(item.label);
     });
 
-  }, [tasks, completedTasks, totalXp, iconsLoaded]);
+  }, [tasks, completedTasks, totalXp, iconsLoaded, session?.user?.image]);
 
   const loading = !tasks || !iconsLoaded || isSessionLoading;
 
@@ -373,17 +533,33 @@ export function ActionTree() {
   }
 
   return (
-    <section className="bg-pause-gray-dark py-8 md:py-12 pt-20 md:pt-28">
-      <div className="max-w-6xl mx-auto px-6">
+    <section className="relative bg-gradient-to-b from-[#0a0a0a] via-[#14100a] to-[#0a0a0a] py-8 md:py-12 pt-20 md:pt-28 overflow-hidden">
+      {/* Animated background gradient effect */}
+      <div className="absolute inset-0 opacity-15 pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#FF9416] rounded-full blur-[150px] animate-pulse"></div>
+      </div>
+
+      <div className="relative max-w-6xl mx-auto px-6">
+
+        {/* Header */}
+        <div className="mb-8 text-center">
+          <h1 className="font-headline text-3xl md:text-4xl text-white mb-2">
+            Werde jetzt aktiv
+          </h1>
+          <p className="font-body text-gray-400 text-base md:text-lg">
+            Mit diesen Aktionen kannst du unsere Bewegung voranbringen.
+          </p>
+        </div>
+
         {/* Login prompt if not logged in */}
         {!session && (
-          <div className="mb-6 text-center flex items-center justify-center gap-4">
+          <div className="mb-6 text-center flex flex-wrap items-center justify-center gap-4 p-4 rounded-xl bg-[#1e1e2e]/50 border border-[#FF9416]/20 backdrop-blur-sm">
             <span className="font-body text-gray-300">
-              Logge dich mit Discord ein, um Aufgaben zu erledigen und Punkte zu sammeln
+              Wenn du willst, kannst du dich mit Discord einloggen, um deine Fortschritte zu speichern und Punkte zu sammeln.
             </span>
             <button
               onClick={() => signIn("discord")}
-              className="flex items-center gap-2 bg-[#5865F2] hover:bg-[#4752C4] text-white font-headline px-4 py-2 transition-all"
+              className="flex items-center gap-2 bg-[#5865F2] hover:bg-[#4752C4] text-white font-headline px-4 py-2 transition-all hover:scale-105"
             >
               <DiscordIcon />
               Login
@@ -393,12 +569,12 @@ export function ActionTree() {
 
         {/* User info if logged in */}
         {session && (
-          <div className="mb-6 flex flex-wrap justify-center items-center gap-4">
+          <div className="mb-6 flex flex-wrap justify-center items-center gap-4 p-4 rounded-xl bg-[#1e1e2e]/50 border border-[#FF9416]/20 backdrop-blur-sm">
             {session.user?.image && (
               <img
                 src={session.user.image}
                 alt="Discord Avatar"
-                className="w-10 h-10 rounded-full"
+                className="w-12 h-12 rounded-full border-2 border-[#FF9416]"
               />
             )}
             <div className="flex flex-col">
@@ -410,7 +586,7 @@ export function ActionTree() {
                   <span className={`px-2 py-0.5 rounded text-xs ${getRoleClass(getRoleForXp(userData.total_xp))}`}>
                     {getRoleForXp(userData.total_xp)}
                   </span>
-                  <span className="font-body text-pause-orange text-sm">
+                  <span className="font-body text-[#FF9416] text-sm font-bold">
                     {userData.total_xp} XP
                   </span>
                 </div>
@@ -418,7 +594,7 @@ export function ActionTree() {
             </div>
             <button
               onClick={() => signOut({ callbackUrl: '/action' })}
-              className="flex items-center gap-2 bg-[#5865F2] hover:bg-[#4752C4] text-white font-headline px-4 py-2 text-sm transition-all"
+              className="flex items-center gap-2 bg-[#5865F2] hover:bg-[#4752C4] text-white font-headline px-4 py-2 text-sm transition-all hover:scale-105"
             >
               <DiscordIcon size="w-4 h-4" />
               Logout
@@ -426,8 +602,8 @@ export function ActionTree() {
           </div>
         )}
 
-        {/* SVG Container */}
-        <div className="bg-[#1e1e2e] overflow-hidden border-2 border-pause-orange relative" style={{ aspectRatio: "4/3" }}>
+        {/* SVG Container with enhanced styling */}
+        <div className="relative rounded-xl overflow-hidden border-2 border-[#FF9416]/30 shadow-[0_0_60px_rgba(255,148,22,0.15)] hover:shadow-[0_0_80px_rgba(255,148,22,0.25)] transition-shadow duration-500" style={{ aspectRatio: "4/3" }}>
           <svg
             ref={svgRef}
             className="w-full h-full"
@@ -435,9 +611,9 @@ export function ActionTree() {
         </div>
 
         {/* Instructions */}
-        <div className="mt-6 p-4 border-l-2 border-pause-orange">
+        <div className="mt-6 p-5 rounded-xl bg-[#1e1e2e]/50 border-l-4 border-[#FF9416] backdrop-blur-sm">
           <p className="font-body text-gray-300 text-sm md:text-base">
-            <span className="text-pause-orange font-headline">Anleitung:</span> Klicke auf Aufgaben, um sie zu erledigen. Wiederholbare Aufgaben bringen dir jedes Mal Punkte. Sammle Punkte und steige in den Rollen auf, um Teil unseres Teams zu werden und PauseAI Germany aktiv mitzugestalten!
+            <span className="text-[#FF9416] font-headline font-bold">Anleitung:</span> Klicke auf Aufgaben, um sie zu erledigen. Wiederholbare Aufgaben bringen dir jedes Mal Punkte. Sammle Punkte und steige in den Rollen auf, um Teil unseres Teams zu werden und PauseAI Germany aktiv mitzugestalten!
           </p>
         </div>
       </div>

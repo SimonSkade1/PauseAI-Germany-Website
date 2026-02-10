@@ -1,5 +1,5 @@
 // Task types - path can be any of the values stored in Convex
-export type TaskPath = "onboarding" | "outreach" | "lobbying" | "special";
+export type TaskPath = "onboarding" | "outreach" | "lobbying";
 
 export interface Task {
   id: string;
@@ -28,21 +28,21 @@ export interface TaskCompletionResponse {
 }
 
 // Role levels based on XP
-export type UserRole = "Besorgter Bürger" | "Engagierter Bürger" | "Aktivist";
+export type UserRole = "Neues Mitglied" | "Engagiertes Mitglied" | "Aktives Mitglied";
 
 export function getRoleForXp(xp: number): UserRole {
-  if (xp >= 400) return "Aktivist";
-  if (xp >= 150) return "Engagierter Bürger";
-  return "Besorgter Bürger";
+  if (xp >= 400) return "Aktives Mitglied";
+  if (xp >= 150) return "Engagiertes Mitglied";
+  return "Neues Mitglied";
 }
 
 export function getRoleClass(role: UserRole): string {
   switch (role) {
-    case "Aktivist":
+    case "Aktives Mitglied":
       return "role-3";
-    case "Engagierter Bürger":
+    case "Engagiertes Mitglied":
       return "role-2";
-    case "Besorgter Bürger":
+    case "Neues Mitglied":
       return "role-1";
     default:
       return "role-1";
