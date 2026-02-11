@@ -1,11 +1,11 @@
 // Task interface for Notion-based tasks
 export interface Task {
-  id: string;          // Notion page ID
-  name: string;        // Task name from Notion
-  xp: number;          // Calculated from time investment (1h = 100xp)
-  icon: string;        // Lucide icon name (mapped from emoji)
-  emoji: string;       // Original emoji from Notion
-  link?: string;       // Link to Notion page
+  id: string;
+  name: string;
+  xp: number;
+  emoji: string;
+  link: string;
+  icon?: string;       // Computed from emoji via getLucideForEmoji()
 }
 
 // User types

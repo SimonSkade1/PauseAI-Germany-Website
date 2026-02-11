@@ -26,9 +26,10 @@ export function TaskModal({ task, onClose }: TaskModalProps) {
 
   // Convert kebab-case to PascalCase (e.g., "book-open" -> "BookOpen")
   const iconName = task.icon
-    .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join('');
+    ? task.icon.split('-')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join('')
+    : 'Star';
 
   // Get the Lucide icon component for this task
   const IconComponent = (LucideIcons as unknown as Record<string, React.ComponentType<{ className?: string }>>)[iconName] || LucideIcons.Star;
