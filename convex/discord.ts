@@ -9,8 +9,8 @@ const ROLE_THRESHOLDS = [
 
 // Get role name for XP
 function getRoleForXp(xp: number): string {
-  if (xp >= 400) return "Aktives Mitglied";
-  if (xp >= 150) return "Engagiertes Mitglied";
+  if (xp >= 900) return "Aktives Mitglied";
+  if (xp >= 300) return "Engagiertes Mitglied";
   return "Neues Mitglied";
 }
 

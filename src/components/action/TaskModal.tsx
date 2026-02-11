@@ -30,8 +30,6 @@ export function TaskModal({ task, onClose }: TaskModalProps) {
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join('');
 
-  console.log("[TaskModal] task.icon:", task.icon, "→ iconName:", iconName);
-
   // Get the Lucide icon component for this task
   const IconComponent = (LucideIcons as unknown as Record<string, React.ComponentType<{ className?: string }>>)[iconName] || LucideIcons.Star;
 

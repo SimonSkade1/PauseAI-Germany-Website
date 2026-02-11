@@ -564,10 +564,10 @@ export function ActionTree() {
         .attr("transform", `translate(${pos.x}, ${pos.y})`)
         .style("cursor", "pointer");
 
-      // Transparent click area circle
+      // Transparent click area (larger than icon for easier clicking)
       group.append("circle")
         .attr("class", "click-area")
-        .attr("r", LAYOUT.nodeRadius + 5)
+        .attr("r", 25)
         .attr("fill", "transparent")
         .style("pointer-events", "all");
 
@@ -575,21 +575,14 @@ export function ActionTree() {
       if (isCompleted) {
         group.append("circle")
           .attr("class", "glow-bg")
-          .attr("r", LAYOUT.nodeRadius + 6)
+          .attr("r", 22)
           .attr("fill", PAUSEAI_ORANGE)
           .attr("opacity", 0.25)
           .attr("filter", "url(#glow)");
       }
 
-      // Background circle for each node
-      group.append("circle")
-        .attr("r", LAYOUT.nodeRadius - 2)
-        .attr("fill", CARD_BG)
-        .attr("stroke", isCompleted ? PAUSEAI_ORANGE : "#333333")
-        .attr("stroke-width", 2);
-
       const cachedIcon = iconCache.get(task.icon);
-      const iconSize = LAYOUT.nodeRadius * 1.4;
+      const iconSize = 36;
 
       if (cachedIcon) {
         const clonedIcon = group.node()!.appendChild(cachedIcon.cloneNode(true) as SVGElement);
@@ -598,23 +591,12 @@ export function ActionTree() {
           .attr("width", iconSize)
           .attr("height", iconSize)
           .attr("x", -iconSize / 2)
-          .attr("y", -iconSize / 2 - 4)
+          .attr("y", -iconSize / 2)
           .selectAll("*")
           .attr("fill", "none")
           .attr("stroke", isCompleted ? PAUSEAI_ORANGE : "#666666")
           .attr("stroke-width", "2");
       }
-
-      // XP text
-      group.append("text")
-        .attr("class", "xp-text")
-        .attr("text-anchor", "middle")
-        .attr("y", LAYOUT.nodeRadius - 6)
-        .attr("fill", isCompleted ? PAUSEAI_ORANGE : "#888888")
-        .attr("font-size", "11px")
-        .attr("font-weight", isCompleted ? "bold" : "normal")
-        .attr("font-family", "var(--font-headline)")
-        .text(`${task.xp} XP`);
 
       // Hover effect
       group.on("mouseenter", function () {
@@ -622,11 +604,6 @@ export function ActionTree() {
           .transition()
           .duration(150)
           .attr("transform", "scale(1.1)");
-
-        d3.select(this).select(".xp-text")
-          .transition()
-          .duration(150)
-          .attr("font-size", "12px");
 
         if (isCompleted) {
           d3.select(this).select(".glow-bg")
@@ -641,11 +618,6 @@ export function ActionTree() {
           .transition()
           .duration(150)
           .attr("transform", "scale(1)");
-
-        d3.select(this).select(".xp-text")
-          .transition()
-          .duration(150)
-          .attr("font-size", "11px");
 
         if (isCompleted) {
           d3.select(this).select(".glow-bg")
@@ -708,10 +680,38 @@ export function ActionTree() {
 
   if (loading) {
     return (
-      <section className="bg-pause-gray-dark py-12 md:py-16 min-h-[600px]">
-        <div className="max-w-6xl mx-auto px-6 text-center">
-          <div className="inline-block w-8 h-8 border-2 border-pause-orange border-t-transparent animate-spin"></div>
-          <p className="font-body text-gray-400 mt-4">Lade Actions...</p>
+      <section className="bg-pause-gray-dark min-h-screen flex items-center justify-center">
+        <div className="flex flex-col items-center">
+          {/* Pause icon loading animation */}
+          <svg
+            className="w-24 h-24"
+            viewBox="0 0 100 100"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <ellipse cx="50" cy="50" rx="45" ry="45" fill="#FF9416" opacity="0.15" className="animate-pulse" />
+            <rect
+              x="28"
+              y="30"
+              width="16"
+              height="40"
+              rx="2"
+              fill="#FF9416"
+              className="animate-pulse"
+              style={{ animationDelay: '0ms' }}
+            />
+            <rect
+              x="56"
+              y="30"
+              width="16"
+              height="40"
+              rx="2"
+              fill="#FF9416"
+              className="animate-pulse"
+              style={{ animationDelay: '150ms' }}
+            />
+          </svg>
+          <p className="font-body text-gray-400 mt-6 text-lg">Lade Aktionen...</p>
         </div>
       </section>
     );
@@ -737,7 +737,7 @@ export function ActionTree() {
             Werde jetzt aktiv
           </h1>
           <p className="font-body text-gray-400 text-base md:text-lg">
-            Mit diesen Aktionen kannst du unsere Bewegung voranbringen.
+            Mit diesen Aktionen kannst du PauseAI voranbringen.
           </p>
         </div>
 

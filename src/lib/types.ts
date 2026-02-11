@@ -27,8 +27,8 @@ export interface TaskCompletionResponse {
 export type UserRole = "Neues Mitglied" | "Engagiertes Mitglied" | "Aktives Mitglied";
 
 export function getRoleForXp(xp: number): UserRole {
-  if (xp >= 400) return "Aktives Mitglied";
-  if (xp >= 150) return "Engagiertes Mitglied";
+  if (xp >= 900) return "Aktives Mitglied";
+  if (xp >= 300) return "Engagiertes Mitglied";
   return "Neues Mitglied";
 }
 
