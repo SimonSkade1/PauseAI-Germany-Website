@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@notionhq/client": "^5.9.0",
     "convex": "^1.31.7",
     "d3": "^7.9.0",
     "lucide-react": "^0.563.0",
