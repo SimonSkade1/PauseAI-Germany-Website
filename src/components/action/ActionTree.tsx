@@ -5,7 +5,7 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import * as d3 from "d3";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { getRoleForXp, getRoleClass, Task } from "@/lib/types";
+import { getRoleForXp, getRoleClass, Task, TaskPath } from "@/lib/types";
 import { TaskModal } from "./TaskModal";
 
 // Color constants matching the home page aesthetic
@@ -651,7 +651,16 @@ export function ActionTree() {
         // Click handler
         group.on("click", (event) => {
           event.stopPropagation();
-          setSelectedTask(task);
+          setSelectedTask({
+            id: task.id,
+            name: task.name,
+            level: task.level,
+            xp: task.xp,
+            icon: task.icon,
+            repeatable: task.repeatable,
+            path: task.path as TaskPath,
+            link: task.link,
+          });
         });
       });
     }

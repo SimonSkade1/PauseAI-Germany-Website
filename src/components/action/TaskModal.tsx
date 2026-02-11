@@ -26,7 +26,7 @@ export function TaskModal({ task, onClose }: TaskModalProps) {
   const isLoggedIn = !!session;
 
   const handleSubmit = async () => {
-    if (!isLoggedIn) {
+    if (!isLoggedIn || !session.user.discordId) {
       signIn("discord");
       return;
     }
