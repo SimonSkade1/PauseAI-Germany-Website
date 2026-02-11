@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { useSession, signIn } from "next-auth/react";
 import { useMutation, useAction } from "convex/react";
+import * as LucideIcons from "lucide-react";
 import { api } from "@/convex/_generated/api";
 import { Task } from "@/lib/types";
 
@@ -13,13 +14,26 @@ interface TaskModalProps {
 
 export function TaskModal({ task, onClose }: TaskModalProps) {
   const { data: session } = useSession();
-  const completeTask = useMutation(api.tasks.complete);
+  const completeTask = useMutation(api.completions.completeTask);
   const assignRole = useAction(api.discord.assignRole);
   const notifyTaskComplete = useAction(api.discord.notifyTaskComplete);
 
   const [comment, setComment] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  if (!task) return null;
+
+  // Convert kebab-case to PascalCase (e.g., "book-open" -> "BookOpen")
+  const iconName = task.icon
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join('');
+
+  console.log("[TaskModal] task.icon:", task.icon, "→ iconName:", iconName);
+
+  // Get the Lucide icon component for this task
+  const IconComponent = (LucideIcons as unknown as Record<string, React.ComponentType<{ className?: string }>>)[iconName] || LucideIcons.Star;
 
   if (!task) return null;
 
@@ -39,6 +53,7 @@ export function TaskModal({ task, onClose }: TaskModalProps) {
         taskId: task.id,
         discordId: session.user.discordId,
         discordName: session.user.name || "Unknown",
+        xp: task.xp,
         comment: comment || undefined,
       });
 
@@ -46,7 +61,7 @@ export function TaskModal({ task, onClose }: TaskModalProps) {
       await notifyTaskComplete({
         discordId: session.user.discordId,
         discordName: session.user.name || "Unknown",
-        taskName: result.taskName,
+        taskName: task.name,
         xp: result.xpEarned,
         totalXp: result.totalXp,
         comment: comment || undefined,
@@ -82,9 +97,7 @@ export function TaskModal({ task, onClose }: TaskModalProps) {
         {/* Header with icon */}
         <div className="flex items-start gap-4 mb-4 relative">
           <div className="w-12 h-12 bg-[#FF9416]/20 flex items-center justify-center border border-[#FF9416]/50">
-            <svg className="w-6 h-6 text-[#FF9416]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
+            <IconComponent className="w-6 h-6 text-[#FF9416]" />
           </div>
           <div className="flex-1">
             <h2 className="font-headline text-xl text-white uppercase">{task.name}</h2>
@@ -99,12 +112,9 @@ export function TaskModal({ task, onClose }: TaskModalProps) {
           </button>
         </div>
 
-        <div className="flex gap-4 mb-4 text-sm relative">
+        <div className="mb-4 text-sm relative">
           <span className="px-3 py-1 bg-[#FF9416]/20 text-[#FF9416] font-body-bold border border-[#FF9416]/30">
             +{task.xp} XP
-          </span>
-          <span className="px-3 py-1 bg-gray-700/50 text-gray-300 font-body border border-gray-600/30">
-            {task.repeatable ? "Wiederholbar" : "Einmalig"}
           </span>
         </div>
 

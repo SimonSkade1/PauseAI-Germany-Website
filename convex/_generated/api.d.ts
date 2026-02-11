@@ -8,9 +8,9 @@
  * @module
  */
 
+import type * as completions from "../completions.js";
 import type * as discord from "../discord.js";
 import type * as notion from "../notion.js";
-import type * as tasks from "../tasks.js";
 import type * as users from "../users.js";
 
 import type {
@@ -20,9 +20,9 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  completions: typeof completions;
   discord: typeof discord;
   notion: typeof notion;
-  tasks: typeof tasks;
   users: typeof users;
 }>;
 

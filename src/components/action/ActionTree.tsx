@@ -3,9 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import * as d3 from "d3";
-import { useQuery } from "convex/react";
+import { useAction, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { getRoleForXp, getRoleClass, Task, TaskPath } from "@/lib/types";
+import { getRoleForXp, getRoleClass, Task } from "@/lib/types";
+import { getLucideForEmoji } from "@/lib/emojiToIcon";
 import { TaskModal } from "./TaskModal";
 
 // Color constants matching the home page aesthetic
@@ -17,7 +18,8 @@ const LAYOUT = {
   height: 900,
   centerX: 600,
   centerY: 450,
-  circleRadii: { 0: 150, 1: 300, 2: 450, 3: 600 },
+  minRadius: 200,
+  maxRadius: 700,
   nodeRadius: 35,
 };
 
@@ -34,33 +36,13 @@ function DiscordIcon({ size = "w-5 h-5" }: { size?: string }) {
 
 const LUCIDE_BASE = "https://unpkg.com/lucide-static@latest/icons/";
 
-const LUCIDE_MAP: Record<string, string> = {
-  book: "book-open",
-  "capitol": "landmark",
-  "conversation": "message-circle",
-  "double-star": "award",
-  envelope: "mail",
-  handshake: "handshake",
-  newspaper: "newspaper",
-  "person-add": "user-plus",
-  player: "user",
-  podium: "presentation",
-  "round-table": "users",
-  "scroll-signed": "scroll-text",
-  share: "share-2",
-  smartphone: "smartphone",
-  star: "star",
-  talk: "megaphone",
-  "triple-star": "trophy",
-  "video-conference": "video",
-};
-
 // Icon cache for preloaded SVG icons
 const iconCache = new Map<string, SVGElement>();
 
-async function preloadIcons() {
-  const uniqueIcons = [...new Set(Object.values(LUCIDE_MAP))];
+async function preloadIcons(iconNames: string[]) {
+  const uniqueIcons = [...new Set(iconNames)];
   const promises = uniqueIcons.map(async (iconName) => {
+    if (iconCache.has(iconName)) return;
     try {
       const url = `${LUCIDE_BASE}${iconName}.svg`;
       const response = await fetch(url);
@@ -76,12 +58,90 @@ async function preloadIcons() {
   await Promise.all(promises);
 }
 
+// XP tier definitions with visible circles (like planets)
+const XP_TIERS = [
+  { maxXp: 10, radius: 200, label: "0-10" },
+  { maxXp: 25, radius: 270, label: "10-25" },
+  { maxXp: 50, radius: 340, label: "25-50" },
+  { maxXp: 100, radius: 410, label: "50-100" },
+  { maxXp: 200, radius: 480, label: "100-200" },
+  { maxXp: 400, radius: 550, label: "200-400" },
+  { maxXp: 600, radius: 620, label: "400-600" },
+  { maxXp: Infinity, radius: 690, label: "600+" },
+];
+
+// Get consistent hash for ordering tasks within the same tier
+function getTaskHash(taskId: string): number {
+  let hash = 0;
+  for (let i = 0; i < taskId.length; i++) {
+    hash = ((hash << 5) - hash) + taskId.charCodeAt(i);
+    hash = hash & hash;
+  }
+  return Math.abs(hash);
+}
+
+// Group tasks by tier and calculate positions
+function calculateTierLayout(tasks: Task[]) {
+  const tierGroups: Array<{ task: Task; tierIndex: number; angle: number }> = [];
+
+  // First, group tasks by tier
+  const tasksByTier: Task[][] = [];
+  for (let i = 0; i < XP_TIERS.length; i++) {
+    tasksByTier.push([]);
+  }
+
+  // Sort tasks by hash for consistent ordering
+  const sortedTasks = [...tasks].sort((a, b) => getTaskHash(a.id) - getTaskHash(b.id));
+
+  // Assign each task to its tier
+  sortedTasks.forEach((task) => {
+    for (let i = 0; i < XP_TIERS.length; i++) {
+      if (task.xp <= XP_TIERS[i].maxXp) {
+        tasksByTier[i].push(task);
+        break;
+      }
+    }
+  });
+
+  // Calculate positions: evenly distribute tasks along each ring
+  tasksByTier.forEach((tierTasks, tierIndex) => {
+    if (tierTasks.length === 0) return;
+
+    const count = tierTasks.length;
+    // Start angle offset based on tier index for visual variety
+    const startAngle = (tierIndex * Math.PI) / 8;
+    const angleStep = (Math.PI * 2) / count;
+
+    tierTasks.forEach((task, i) => {
+      const angle = startAngle + i * angleStep;
+      tierGroups.push({
+        task,
+        tierIndex,
+        angle,
+      });
+    });
+  });
+
+  return tierGroups;
+}
+
+// Calculate position for a task given its angle and tier radius
+function getPositionForTier(angle: number, tierRadius: number) {
+  const { centerX, centerY } = LAYOUT;
+  const x = centerX + tierRadius * Math.cos(angle);
+  const y = centerY + tierRadius * Math.sin(angle);
+  return { x, y };
+}
+
 export function ActionTree() {
   const { data: session, status: sessionStatus } = useSession();
   const svgRef = useRef<SVGSVGElement>(null);
 
-  // Convex queries
-  const tasks = useQuery(api.tasks.list);
+  // Get tasks from Notion
+  const getTasks = useAction(api.notion.getTasks);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [loadingTasks, setLoadingTasks] = useState(true);
+
   const userData = useQuery(
     api.users.getMe,
     session?.user?.discordId ? { discordId: session.user.discordId } : "skip"
@@ -92,10 +152,32 @@ export function ActionTree() {
 
   const isSessionLoading = sessionStatus === "loading";
 
-  // Preload icons
+  // Fetch tasks from Notion
   useEffect(() => {
-    preloadIcons().then(() => setIconsLoaded(true));
-  }, []);
+    getTasks()
+      .then((notionTasks) => {
+        // Map Notion tasks to Task interface with Lucide icons
+        const mappedTasks: Task[] = notionTasks.map((t: any) => ({
+          id: t.id,
+          name: t.name,
+          xp: t.xp,
+          emoji: t.emoji,
+          icon: getLucideForEmoji(t.emoji),
+          link: t.link,
+        }));
+        setTasks(mappedTasks);
+
+        // Preload icons
+        const iconNames = mappedTasks.map((t) => t.icon);
+        preloadIcons(iconNames).then(() => setIconsLoaded(true));
+      })
+      .catch((err) => {
+        console.error("Failed to load tasks from Notion:", err);
+        setTasks([]);
+        setIconsLoaded(true);
+      })
+      .finally(() => setLoadingTasks(false));
+  }, [getTasks]);
 
   // Extract completed tasks from user data
   const completedTasks = new Set(userData?.completed_tasks || []);
@@ -110,12 +192,12 @@ export function ActionTree() {
 
   // Draw the tree using D3
   useEffect(() => {
-    if (!svgRef.current || !iconsLoaded || !tasks) return;
+    if (!svgRef.current || !iconsLoaded || tasks.length === 0) return;
 
     const svg = d3.select(svgRef.current);
     svg.selectAll("*").remove();
 
-    const { width, height, centerX, centerY, circleRadii } = LAYOUT;
+    const { width, height, centerX, centerY } = LAYOUT;
     svg.attr("viewBox", `0 0 ${width} ${height}`);
 
     const defs = svg.append("defs");
@@ -182,40 +264,6 @@ export function ActionTree() {
       .attr("offset", "100%")
       .attr("stop-color", "#030305")
       .attr("stop-opacity", 1);
-
-    // Purple nebula gradient
-    const purpleNebula = defs.append("radialGradient")
-      .attr("id", "purple-nebula")
-      .attr("cx", "30%")
-      .attr("cy", "40%")
-      .attr("r", "50%");
-
-    purpleNebula.append("stop")
-      .attr("offset", "0%")
-      .attr("stop-color", "#4a1a6b")
-      .attr("stop-opacity", 0.15);
-
-    purpleNebula.append("stop")
-      .attr("offset", "100%")
-      .attr("stop-color", "#4a1a6b")
-      .attr("stop-opacity", 0);
-
-    // Teal nebula gradient
-    const tealNebula = defs.append("radialGradient")
-      .attr("id", "teal-nebula")
-      .attr("cx", "70%")
-      .attr("cy", "60%")
-      .attr("r", "45%");
-
-    tealNebula.append("stop")
-      .attr("offset", "0%")
-      .attr("stop-color", "#1a4a5b")
-      .attr("stop-opacity", 0.12);
-
-    tealNebula.append("stop")
-      .attr("offset", "100%")
-      .attr("stop-color", "#1a4a5b")
-      .attr("stop-opacity", 0);
 
     // Orange ambient glow layer based on completed tasks
     const ambientGlowGradient = defs.append("radialGradient")
@@ -289,7 +337,7 @@ export function ActionTree() {
     const mainGroup = svg.append("g")
       .attr("class", "main-group");
 
-    // Setup zoom behavior immediately so it applies to everything in mainGroup
+    // Setup zoom behavior
     const zoom = d3.zoom<SVGSVGElement, unknown>()
       .scaleExtent([0.3, 3])
       .on("zoom", (event) => {
@@ -312,22 +360,6 @@ export function ActionTree() {
       .attr("height", height)
       .attr("fill", "url(#bg-gradient)");
 
-    // Purple nebula layer
-    backgroundGroup.append("ellipse")
-      .attr("cx", width * 0.3)
-      .attr("cy", height * 0.4)
-      .attr("rx", width * 0.5)
-      .attr("ry", height * 0.5)
-      .attr("fill", "url(#purple-nebula)");
-
-    // Teal nebula layer
-    backgroundGroup.append("ellipse")
-      .attr("cx", width * 0.7)
-      .attr("cy", height * 0.6)
-      .attr("rx", width * 0.45)
-      .attr("ry", height * 0.45)
-      .attr("fill", "url(#teal-nebula)");
-
     // Orange ambient glow layer
     backgroundGroup.append("rect")
       .attr("width", width)
@@ -341,18 +373,17 @@ export function ActionTree() {
       .attr("fill", "url(#grid-pattern)")
       .attr("mask", "url(#grid-fade-mask)");
 
-    // === ENHANCED PARTICLE SYSTEM ===
+    // === PARTICLE SYSTEM ===
 
     const particlesGroup = backgroundGroup.append("g").attr("class", "particles");
 
-    // Base star particles (always present, more diverse)
+    // Base star particles
     const baseStarCount = 80;
     for (let i = 0; i < baseStarCount; i++) {
       const px = Math.random() * width;
       const py = Math.random() * height;
       const size = Math.random() * 1.5 + 0.3;
 
-      // Random star colors: white, blue-white, or subtle orange
       const colors = ["#ffffff", "#e8f4ff", "#fff4e8", PAUSEAI_ORANGE];
       const starColor = Math.random() > 0.85 ? colors[3] : colors[Math.floor(Math.random() * 3)];
 
@@ -371,7 +402,7 @@ export function ActionTree() {
         .attr("repeatCount", "indefinite");
     }
 
-    // Energy particles for completed tasks (pulsing, glowing)
+    // Energy particles for completed tasks
     const energyParticleCount = completedTaskCount * 3;
     for (let i = 0; i < energyParticleCount; i++) {
       const angle = (i / energyParticleCount) * Math.PI * 2 + Math.random() * 0.5;
@@ -380,7 +411,6 @@ export function ActionTree() {
       const py = centerY + Math.sin(angle) * distance;
       const size = Math.random() * 2.5 + 0.8;
 
-      // Energy particle glow filter
       const particleGlowId = `particle-glow-${i}`;
       const particleGlow = defs.append("filter")
         .attr("id", particleGlowId)
@@ -405,7 +435,6 @@ export function ActionTree() {
         .attr("opacity", Math.random() * 0.5 + 0.2)
         .attr("filter", `url(#${particleGlowId})`);
 
-      // Pulsing animation for size and opacity
       const pulseDuration = 2000 + Math.random() * 3000;
       particle.append("animate")
         .attr("attributeName", "opacity")
@@ -418,37 +447,21 @@ export function ActionTree() {
         .attr("values", `${size};${size * 1.5};${size}`)
         .attr("dur", `${pulseDuration}ms`)
         .attr("repeatCount", "indefinite");
-
-      // Slow drift animation
-      const driftX = px + (Math.random() - 0.5) * 20;
-      const driftY = py + (Math.random() - 0.5) * 20;
-      particle.append("animate")
-        .attr("attributeName", "cx")
-        .attr("values", `${px};${driftX};${px}`)
-        .attr("dur", `${8000 + Math.random() * 4000}ms`)
-        .attr("repeatCount", "indefinite");
-
-      particle.append("animate")
-        .attr("attributeName", "cy")
-        .attr("values", `${py};${driftY};${py}`)
-        .attr("dur", `${8000 + Math.random() * 4000}ms`)
-        .attr("repeatCount", "indefinite");
     }
 
-    // Draw circles (outer to inner)
-    [3, 2, 1, 0].forEach((level) => {
-      const radius = circleRadii[level as keyof typeof circleRadii];
-      const levelTasks = tasks.filter(t => t.level === level);
-      const levelHasCompletions = levelTasks.filter(t => completedTasks.has(t.id)).length > 0;
+    // === DRAW TIER CIRCLES ===
 
+    XP_TIERS.forEach((tier, tierIndex) => {
       mainGroup.append("circle")
+        .attr("class", `tier-circle tier-${tierIndex}`)
         .attr("cx", centerX)
         .attr("cy", centerY)
-        .attr("r", radius)
+        .attr("r", tier.radius)
         .attr("fill", "none")
-        .attr("stroke", levelHasCompletions ? PAUSEAI_ORANGE : "#2a2a2a")
+        .attr("stroke", PAUSEAI_ORANGE)
         .attr("stroke-width", 1)
-        .attr("stroke-opacity", levelHasCompletions ? 0.5 : 0.2);
+        .attr("stroke-opacity", 0.15)
+        .attr("stroke-dasharray", "3,3");
     });
 
     // === USER AVATAR ===
@@ -456,7 +469,7 @@ export function ActionTree() {
     const userGroup = mainGroup.append("g")
       .attr("transform", `translate(${centerX}, ${centerY})`);
 
-    // Outer glow ring (static, no pulsing)
+    // Outer glow ring
     if (glowIntensity > 0) {
       userGroup.append("circle")
         .attr("r", 52)
@@ -518,154 +531,138 @@ export function ActionTree() {
       .attr("font-family", "var(--font-headline)")
       .text(`${totalXp} XP`);
 
-    // Connection lines from center to completed tasks
-    tasks.filter(t => completedTasks.has(t.id)).forEach(task => {
-      const radius = circleRadii[task.level as keyof typeof circleRadii];
-      const levelTasks = tasks.filter((t) => t.level === task.level);
-      const angleStep = (2 * Math.PI) / levelTasks.length;
-      const startAngle = -Math.PI / 2;
-      const index = levelTasks.findIndex(t => t.id === task.id);
-      const angle = startAngle + index * angleStep;
-      const x = centerX + radius * Math.cos(angle);
-      const y = centerY + radius * Math.sin(angle);
-
-      mainGroup.append("line")
-        .attr("x1", centerX)
-        .attr("y1", centerY)
-        .attr("x2", x)
-        .attr("y2", y)
-        .attr("stroke", PAUSEAI_ORANGE)
-        .attr("stroke-width", 1)
-        .attr("opacity", 0.15 + glowIntensity * 0.2)
-        .attr("stroke-dasharray", "4,4");
-    });
-
     // === DRAW TASK NODES ===
 
-    for (let level = 0; level <= 3; level++) {
-      const radius = circleRadii[level as keyof typeof circleRadii];
-      const levelTasks = tasks.filter((t) => t.level === level);
+    // Calculate tier layout
+    const tierLayout = calculateTierLayout(tasks);
 
-      if (levelTasks.length === 0) continue;
+    // Connection lines from center to completed tasks
+    tierLayout
+      .filter(item => completedTasks.has(item.task.id))
+      .forEach(item => {
+        const pos = getPositionForTier(item.angle, XP_TIERS[item.tierIndex].radius);
 
-      const angleStep = (2 * Math.PI) / levelTasks.length;
-      const startAngle = -Math.PI / 2;
-
-      levelTasks.forEach((task, index: number) => {
-        const angle = startAngle + index * angleStep;
-        const x = centerX + radius * Math.cos(angle);
-        const y = centerY + radius * Math.sin(angle);
-
-        const isCompleted = completedTasks.has(task.id);
-
-        const group = mainGroup.append("g")
-          .attr("class", "node-group")
-          .attr("transform", `translate(${x}, ${y})`)
-          .style("cursor", "pointer");
-
-        // Transparent click area circle (no border)
-        group.append("circle")
-          .attr("class", "click-area")
-          .attr("r", LAYOUT.nodeRadius + 5)
-          .attr("fill", "transparent")
-          .style("pointer-events", "all");
-
-        // Glow effect for completed tasks (behind everything)
-        if (isCompleted) {
-          group.append("circle")
-            .attr("class", "glow-bg")
-            .attr("r", LAYOUT.nodeRadius + 6)
-            .attr("fill", PAUSEAI_ORANGE)
-            .attr("opacity", 0.25)
-            .attr("filter", "url(#glow)");
-        }
-
-        const iconName = LUCIDE_MAP[task.icon] || "star";
-        const cachedIcon = iconCache.get(iconName);
-        const iconSize = LAYOUT.nodeRadius * 1.6;
-
-        if (cachedIcon) {
-          const clonedIcon = group.node()!.appendChild(cachedIcon.cloneNode(true) as SVGElement);
-          d3.select(clonedIcon)
-            .attr("class", "task-icon")
-            .attr("width", iconSize)
-            .attr("height", iconSize)
-            .attr("x", -iconSize / 2)
-            .attr("y", -iconSize / 2 - 8)
-            .selectAll("*")
-            .attr("fill", "none")
-            .attr("stroke", isCompleted ? PAUSEAI_ORANGE : "#666666")
-            .attr("stroke-width", "2");
-        }
-
-        // XP text
-        group.append("text")
-          .attr("class", "xp-text")
-          .attr("text-anchor", "middle")
-          .attr("y", LAYOUT.nodeRadius - 6)
-          .attr("fill", isCompleted ? PAUSEAI_ORANGE : "#888888")
-          .attr("font-size", "11px")
-          .attr("font-weight", isCompleted ? "bold" : "normal")
-          .attr("font-family", "var(--font-headline)")
-          .text(`${task.xp} XP`);
-
-        // Hover effect - only scale the icon and text, not the click area
-        group.on("mouseenter", function () {
-          d3.select(this).select(".task-icon")
-            .transition()
-            .duration(150)
-            .attr("transform", "scale(1.1)");
-
-          d3.select(this).select(".xp-text")
-            .transition()
-            .duration(150)
-            .attr("font-size", "12px");
-
-          if (isCompleted) {
-            d3.select(this).select(".glow-bg")
-              .transition()
-              .duration(150)
-              .attr("opacity", 0.4);
-          }
-        });
-
-        group.on("mouseleave", function () {
-          d3.select(this).select(".task-icon")
-            .transition()
-            .duration(150)
-            .attr("transform", "scale(1)");
-
-          d3.select(this).select(".xp-text")
-            .transition()
-            .duration(150)
-            .attr("font-size", "11px");
-
-          if (isCompleted) {
-            d3.select(this).select(".glow-bg")
-              .transition()
-              .duration(150)
-              .attr("opacity", 0.25);
-          }
-        });
-
-        // Click handler
-        group.on("click", (event) => {
-          event.stopPropagation();
-          setSelectedTask({
-            id: task.id,
-            name: task.name,
-            level: task.level,
-            xp: task.xp,
-            icon: task.icon,
-            repeatable: task.repeatable,
-            path: task.path as TaskPath,
-            link: task.link,
-          });
-        });
+        mainGroup.append("line")
+          .attr("x1", centerX)
+          .attr("y1", centerY)
+          .attr("x2", pos.x)
+          .attr("y2", pos.y)
+          .attr("stroke", PAUSEAI_ORANGE)
+          .attr("stroke-width", 1)
+          .attr("opacity", 0.15 + glowIntensity * 0.2)
+          .attr("stroke-dasharray", "4,4");
       });
-    }
 
-    // === LEGEND (pinned to viewport, not affected by zoom) ===
+    // Draw task nodes
+    tierLayout.forEach(item => {
+      const task = item.task;
+      const isCompleted = completedTasks.has(task.id);
+      const pos = getPositionForTier(item.angle, XP_TIERS[item.tierIndex].radius);
+
+      const group = mainGroup.append("g")
+        .attr("class", "node-group")
+        .attr("transform", `translate(${pos.x}, ${pos.y})`)
+        .style("cursor", "pointer");
+
+      // Transparent click area circle
+      group.append("circle")
+        .attr("class", "click-area")
+        .attr("r", LAYOUT.nodeRadius + 5)
+        .attr("fill", "transparent")
+        .style("pointer-events", "all");
+
+      // Glow effect for completed tasks
+      if (isCompleted) {
+        group.append("circle")
+          .attr("class", "glow-bg")
+          .attr("r", LAYOUT.nodeRadius + 6)
+          .attr("fill", PAUSEAI_ORANGE)
+          .attr("opacity", 0.25)
+          .attr("filter", "url(#glow)");
+      }
+
+      // Background circle for each node
+      group.append("circle")
+        .attr("r", LAYOUT.nodeRadius - 2)
+        .attr("fill", CARD_BG)
+        .attr("stroke", isCompleted ? PAUSEAI_ORANGE : "#333333")
+        .attr("stroke-width", 2);
+
+      const cachedIcon = iconCache.get(task.icon);
+      const iconSize = LAYOUT.nodeRadius * 1.4;
+
+      if (cachedIcon) {
+        const clonedIcon = group.node()!.appendChild(cachedIcon.cloneNode(true) as SVGElement);
+        d3.select(clonedIcon)
+          .attr("class", "task-icon")
+          .attr("width", iconSize)
+          .attr("height", iconSize)
+          .attr("x", -iconSize / 2)
+          .attr("y", -iconSize / 2 - 4)
+          .selectAll("*")
+          .attr("fill", "none")
+          .attr("stroke", isCompleted ? PAUSEAI_ORANGE : "#666666")
+          .attr("stroke-width", "2");
+      }
+
+      // XP text
+      group.append("text")
+        .attr("class", "xp-text")
+        .attr("text-anchor", "middle")
+        .attr("y", LAYOUT.nodeRadius - 6)
+        .attr("fill", isCompleted ? PAUSEAI_ORANGE : "#888888")
+        .attr("font-size", "11px")
+        .attr("font-weight", isCompleted ? "bold" : "normal")
+        .attr("font-family", "var(--font-headline)")
+        .text(`${task.xp} XP`);
+
+      // Hover effect
+      group.on("mouseenter", function () {
+        d3.select(this).select(".task-icon")
+          .transition()
+          .duration(150)
+          .attr("transform", "scale(1.1)");
+
+        d3.select(this).select(".xp-text")
+          .transition()
+          .duration(150)
+          .attr("font-size", "12px");
+
+        if (isCompleted) {
+          d3.select(this).select(".glow-bg")
+            .transition()
+            .duration(150)
+            .attr("opacity", 0.4);
+        }
+      });
+
+      group.on("mouseleave", function () {
+        d3.select(this).select(".task-icon")
+          .transition()
+          .duration(150)
+          .attr("transform", "scale(1)");
+
+        d3.select(this).select(".xp-text")
+          .transition()
+          .duration(150)
+          .attr("font-size", "11px");
+
+        if (isCompleted) {
+          d3.select(this).select(".glow-bg")
+            .transition()
+            .duration(150)
+            .attr("opacity", 0.25);
+        }
+      });
+
+      // Click handler
+      group.on("click", (event) => {
+        event.stopPropagation();
+        setSelectedTask(task);
+      });
+    });
+
+    // === LEGEND ===
     const legendGroup = svg.append("g")
       .attr("transform", `translate(50, ${LAYOUT.height - 30})`);
 
@@ -676,7 +673,6 @@ export function ActionTree() {
 
     let xOffset = 0;
     legendItems.forEach((item) => {
-      // Glow effect for completed items
       if (item.glow) {
         legendGroup.append("circle")
           .attr("cx", xOffset + 6)
@@ -687,14 +683,12 @@ export function ActionTree() {
           .attr("filter", "url(#ambient-glow)");
       }
 
-      // Main circle
       legendGroup.append("circle")
         .attr("cx", xOffset + 6)
         .attr("cy", 0)
         .attr("r", 6)
         .attr("fill", item.color);
 
-      // Text (vertically centered with circle)
       legendGroup.append("text")
         .attr("x", xOffset + 22)
         .attr("y", 1)
@@ -710,7 +704,7 @@ export function ActionTree() {
 
   }, [tasks, completedTasks, totalXp, iconsLoaded, session?.user?.image]);
 
-  const loading = !tasks || !iconsLoaded || isSessionLoading;
+  const loading = loadingTasks || !iconsLoaded || isSessionLoading;
 
   if (loading) {
     return (
@@ -718,6 +712,16 @@ export function ActionTree() {
         <div className="max-w-6xl mx-auto px-6 text-center">
           <div className="inline-block w-8 h-8 border-2 border-pause-orange border-t-transparent animate-spin"></div>
           <p className="font-body text-gray-400 mt-4">Lade Actions...</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (tasks.length === 0) {
+    return (
+      <section className="bg-pause-gray-dark py-12 md:py-16 min-h-[600px]">
+        <div className="max-w-6xl mx-auto px-6 text-center">
+          <p className="font-body text-gray-400">Keine Aufgaben gefunden.</p>
         </div>
       </section>
     );
@@ -788,7 +792,7 @@ export function ActionTree() {
           </div>
         )}
 
-        {/* SVG Container with enhanced styling */}
+        {/* SVG Container */}
         <div className="relative overflow-hidden border-2 border-[#FF9416]/30 shadow-[0_0_60px_rgba(255,148,22,0.15)] hover:shadow-[0_0_80px_rgba(255,148,22,0.25)] transition-shadow duration-500" style={{ aspectRatio: "4/3" }}>
           <svg
             ref={svgRef}
@@ -799,7 +803,7 @@ export function ActionTree() {
         {/* Instructions */}
         <div className="mt-6 p-5 bg-[#1e1e2e]/50 border-l-4 border-[#FF9416] backdrop-blur-sm">
           <p className="font-body text-gray-300 text-sm md:text-base">
-            <span className="text-[#FF9416] font-headline font-bold">Anleitung:</span> Klicke auf Aufgaben, um sie zu erledigen. Wiederholbare Aufgaben bringen dir jedes Mal Punkte. Sammle Punkte und steige in den Rollen auf, um Teil unseres Teams zu werden und PauseAI Germany aktiv mitzugestalten!
+            <span className="text-[#FF9416] font-headline font-bold">Anleitung:</span> Klicke auf Aufgaben, um sie zu erledigen. Sammle Punkte und steige in den Rollen auf, um Teil unseres Teams zu werden und PauseAI Germany aktiv mitzugestalten!
           </p>
         </div>
       </div>

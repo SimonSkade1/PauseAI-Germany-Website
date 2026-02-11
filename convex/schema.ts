@@ -2,17 +2,6 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 export default defineSchema({
-  tasks: defineTable({
-    id: v.string(), // e.g., "on1", "o1"
-    name: v.string(),
-    path: v.string(), // "onboarding", "outreach", "lobbying"
-    level: v.number(), // 0-3
-    xp: v.number(),
-    icon: v.string(),
-    repeatable: v.boolean(),
-    link: v.optional(v.string()), // Optional link to more info (e.g., Notion page)
-  }).index("by_task_id", ["id"]),
-
   users: defineTable({
     discordId: v.string(),
     discordName: v.string(),

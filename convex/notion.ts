@@ -91,3 +91,55 @@ export const getPageContent = action({
     return blocks;
   },
 });
+
+// Get tasks from Notion database and transform them for the action tree
+export const getTasks = action({
+  args: {},
+  handler: async () => {
+    const notion = new Client({
+      auth: process.env.NOTION_API_KEY,
+    });
+
+    const response = await notion.dataSources.query({
+      data_source_id: process.env.NOTION_DATABASE_ID!,
+    });
+
+    const tasks = response.results
+      .map((page: any) => {
+        const props = page.properties;
+
+        // Extract task name from title property
+        const nameProp = Object.values(props).find(
+          (v: any) => v?.type === "title"
+        ) as any;
+        const name = nameProp?.title?.[0]?.plain_text ?? "";
+
+        // Extract time investment (Zeitinvestment in Stunden)
+        const timeProp = Object.values(props).find(
+          (v: any) => v?.type === "number"
+        ) as any;
+        const timeInvestment = timeProp?.number ?? 1;
+
+        // Calculate XP: 1 hour = 100 XP
+        const xp = Math.round(timeInvestment * 100);
+
+        // Extract emoji from page icon
+        const emoji = page.icon?.type === "emoji" ? page.icon.emoji : "⭐";
+
+        // Get Notion page URL
+        const link = page.url;
+
+        return {
+          id: page.id,
+          name,
+          xp,
+          emoji,
+          link,
+        };
+      })
+      .filter((task: any) => task.name.length > 0); // Filter out tasks without names
+
+    return tasks;
+  },
+});
+

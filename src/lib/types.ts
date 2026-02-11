@@ -1,15 +1,11 @@
-// Task types - path can be any of the values stored in Convex
-export type TaskPath = "onboarding" | "outreach" | "lobbying";
-
+// Task interface for Notion-based tasks
 export interface Task {
-  id: string;
-  name: string;
-  level: number;
-  xp: number;
-  icon: string;
-  repeatable: boolean;
-  path: TaskPath;
-  link?: string;
+  id: string;          // Notion page ID
+  name: string;        // Task name from Notion
+  xp: number;          // Calculated from time investment (1h = 100xp)
+  icon: string;        // Lucide icon name (mapped from emoji)
+  emoji: string;       // Original emoji from Notion
+  link?: string;       // Link to Notion page
 }
 
 // User types
