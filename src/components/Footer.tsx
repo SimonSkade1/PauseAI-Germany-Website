@@ -100,6 +100,14 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <a
+                  href="/kontakt"
+                  className="font-body text-black/70 text-sm hover:text-white transition-colors"
+                >
+                  Kontakt
+                </a>
+              </li>
+              <li>
+                <a
                   href="/impressum"
                   className="font-body text-black/70 text-sm hover:text-white transition-colors"
                 >

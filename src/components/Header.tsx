@@ -74,6 +74,7 @@ export default function Header() {
     },
     { href: "https://ki-risiken.de", label: "Mehr lernen", external: true },
     { href: "/#was-du-tun-kannst", label: "Hilf mit", external: false },
+    { href: "/kontakt", label: "Kontakt", external: false },
     { href: "https://pauseai.info", label: "International", external: true },
   ];
 
