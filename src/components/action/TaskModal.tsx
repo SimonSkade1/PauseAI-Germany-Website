@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { useSession, signIn } from "next-auth/react";
 import { useMutation, useAction } from "convex/react";
-import * as LucideIcons from "lucide-react";
 import { api } from "@/convex/_generated/api";
 import { Task } from "@/lib/types";
+import { DynamicIcon } from "@/components/ui/DynamicIcon";
 
 interface TaskModalProps {
   task: Task | null;
@@ -21,18 +21,6 @@ export function TaskModal({ task, onClose }: TaskModalProps) {
   const [comment, setComment] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  if (!task) return null;
-
-  // Convert kebab-case to PascalCase (e.g., "book-open" -> "BookOpen")
-  const iconName = task.icon
-    ? task.icon.split('-')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join('')
-    : 'Star';
-
-  // Get the Lucide icon component for this task
-  const IconComponent = (LucideIcons as unknown as Record<string, React.ComponentType<{ className?: string }>>)[iconName] || LucideIcons.Star;
 
   if (!task) return null;
 
@@ -97,7 +85,7 @@ export function TaskModal({ task, onClose }: TaskModalProps) {
         {/* Header with icon */}
         <div className="flex items-start gap-4 mb-4 relative">
           <div className="w-12 h-12 bg-[#FF9416]/20 flex items-center justify-center border border-[#FF9416]/50">
-            <IconComponent className="w-6 h-6 text-[#FF9416]" />
+            <DynamicIcon name={task.icon || "star"} className="w-6 h-6 text-[#FF9416]" />
           </div>
           <div className="flex-1">
             <h2 className="font-headline text-xl text-white uppercase">{task.name}</h2>

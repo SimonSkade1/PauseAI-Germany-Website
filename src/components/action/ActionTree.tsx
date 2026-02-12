@@ -7,7 +7,9 @@ import { useAction, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { getRoleForXp, getRoleClass, type Task } from "@/lib/types";
 import { getLucideForEmoji } from "@/lib/emojiToIcon";
+import { toPascalCase } from "@/lib/icons";
 import { TaskModal } from "./TaskModal";
+import * as lucideStatic from "lucide-static";
 
 // Color constants matching the home page aesthetic
 const PAUSEAI_ORANGE = "#FF9416";
@@ -34,35 +36,33 @@ function DiscordIcon({ size = "w-5 h-5" }: { size?: string }) {
   );
 }
 
-const LUCIDE_BASE = "https://unpkg.com/lucide-static@latest/icons/";
+/**
+ * Create an SVG element from a Lucide icon for D3 rendering
+ * Uses lucide-static to get raw SVG strings
+ */
+function createLucideSvgElement(iconName: string): SVGElement | null {
+  const pascalName = toPascalCase(iconName);
 
-async function preloadIcons(
-  iconNames: string[],
-  iconCache: Map<string, SVGElement>
-): Promise<void> {
-  const uniqueIcons = [...new Set(iconNames)];
-  const promises = uniqueIcons.map(async (iconName) => {
-    if (iconCache.has(iconName)) return;
-    try {
-      const url = `${LUCIDE_BASE}${iconName}.svg`;
-      const response = await fetch(url);
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      const svgText = await response.text();
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(svgText, "image/svg+xml");
-      const svgElement = doc.documentElement;
+  // lucide-static exports icons in PascalCase as SVG strings
+  const iconSvgString = (lucideStatic as Record<string, string>)[pascalName];
 
-      // Validate that we actually got an SVG element
-      if (!(svgElement instanceof SVGElement)) {
-        throw new Error("Parsed element is not an SVGElement");
-      }
+  if (!iconSvgString) {
+    console.warn(`Icon not found: ${iconName} (as ${pascalName})`);
+    return null;
+  }
 
-      iconCache.set(iconName, svgElement);
-    } catch (err) {
-      console.warn(`Failed to load icon: ${iconName}`, err);
-    }
-  });
-  await Promise.all(promises);
+  // Parse the SVG string
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(iconSvgString, "image/svg+xml");
+  const svgElement = doc.documentElement;
+
+  // Validate that we actually got an SVG element
+  if (!(svgElement instanceof SVGElement)) {
+    console.warn(`Parsed element is not an SVGElement for: ${iconName}`);
+    return null;
+  }
+
+  return svgElement;
 }
 
 // XP tier definitions with visible circles (like planets)
@@ -157,7 +157,6 @@ export function ActionTree() {
   );
 
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
-  const [iconsLoaded, setIconsLoaded] = useState<boolean>(false);
 
   const isSessionLoading = sessionStatus === "loading";
 
@@ -171,19 +170,11 @@ export function ActionTree() {
           icon: getLucideForEmoji(t.emoji),
         }));
         setTasks(tasksWithIcons);
-
-        // Preload icons
-        const iconNames = tasksWithIcons.map((t) => t.icon);
-        return preloadIcons(iconNames, iconCacheRef.current);
-      })
-      .then(() => {
-        setIconsLoaded(true);
       })
       .catch((err) => {
         console.error("Failed to load tasks from Notion:", err);
         setError("Failed to load tasks. Please try again later.");
         setTasks([]);
-        setIconsLoaded(true);
       })
       .finally(() => setLoadingTasks(false));
   }, [getTasks]);
@@ -192,7 +183,7 @@ export function ActionTree() {
 
   // Draw the tree using D3
   useEffect(() => {
-    if (!svgRef.current || !iconsLoaded || tasks.length === 0) return;
+    if (!svgRef.current || tasks.length === 0) return;
 
     // Create completedTasks Set inside useEffect to always get fresh data
     const completedTasks = new Set(userData?.completed_tasks || []);
@@ -580,11 +571,20 @@ export function ActionTree() {
 
       if (!task.icon) return;
 
-      const cachedIcon = iconCacheRef.current.get(task.icon);
+      // Get or create icon SVG element
+      let iconSvg = iconCacheRef.current.get(task.icon);
+      if (!iconSvg) {
+        const newSvg = createLucideSvgElement(task.icon);
+        if (newSvg) {
+          iconCacheRef.current.set(task.icon, newSvg);
+          iconSvg = newSvg;
+        }
+      }
+
       const iconSize = 36;
 
-      if (cachedIcon) {
-        const clonedIcon = group.node()!.appendChild(cachedIcon.cloneNode(true) as SVGElement);
+      if (iconSvg) {
+        const clonedIcon = group.node()!.appendChild(iconSvg.cloneNode(true) as SVGElement);
         d3.select(clonedIcon)
           .attr("class", "task-icon")
           .attr("width", iconSize)
@@ -601,36 +601,42 @@ export function ActionTree() {
       if (isRepeatable) {
         const badgeGroup = group.append("g")
           .attr("class", "repeatable-badge")
-          .attr("transform", "translate(12, -12)");
+          .attr("transform", "translate(20, -20)");
 
-        // Badge background circle
-        badgeGroup.append("circle")
-          .attr("r", 10)
-          .attr("fill", isCompleted ? "#FF9416" : "#666666")
-          .attr("stroke", "#0a0a12")
-          .attr("stroke-width", "2");
 
-        // Repeat icon (arrows in a circle) - using a simple path
-        badgeGroup.append("path")
-          .attr("d", "M 5.5 -2.5 L 5.5 0.5 L 7.5 0.5 L 4.5 3.5 L 1.5 0.5 L 3.5 0.5 L 3.5 -2.5")
-          .attr("fill", "none")
-          .attr("stroke", "#0a0a12")
-          .attr("stroke-width", "1.5")
-          .attr("stroke-linecap", "round")
-          .attr("stroke-linejoin", "round")
-          .attr("transform", "scale(1.2)");
-
-        // Completion count if > 0
-        if (completionCount > 0) {
-          badgeGroup.append("text")
-            .attr("text-anchor", "middle")
-            .attr("dy", "10")
-            .attr("fill", isCompleted ? "#FF9416" : "#666666")
-            .attr("font-size", "8px")
-            .attr("font-weight", "bold")
-            .attr("font-family", "var(--font-headline)")
-            .text(completionCount.toString());
+        // Use cached repeat icon
+        let repeatIcon = iconCacheRef.current.get("repeat");
+        if (!repeatIcon) {
+          const newSvg = createLucideSvgElement("repeat");
+          if (newSvg) {
+            iconCacheRef.current.set("repeat", newSvg);
+            repeatIcon = newSvg;
+          }
         }
+        if (repeatIcon) {
+          const clonedRepeatIcon = badgeGroup.node()!.appendChild(repeatIcon.cloneNode(true) as SVGElement);
+          d3.select(clonedRepeatIcon)
+            .attr("width", 20)
+            .attr("height", 20)
+            .attr("x", -10)
+            .attr("y", -10)
+            .selectAll("*")
+            .attr("fill", "none")
+            .attr("stroke", isCompleted ? PAUSEAI_ORANGE : "#666666")
+            .attr("stroke-width", "2")
+            .attr("stroke-linecap", "round")
+            .attr("stroke-linejoin", "round");
+        }
+
+        // Completion count - shown inside the repeat icon, transparent
+        const countText = badgeGroup.append("text")
+          .attr("text-anchor", "middle")
+          .attr("dy", "3")
+          .attr("fill", isCompleted ? PAUSEAI_ORANGE : "#666666")
+          .attr("font-size", "9px")
+          .attr("font-weight", "bold")
+          .attr("font-family", "var(--font-headline)")
+          .text(completionCount > 0 ? completionCount.toString() : "0");
       }
 
       // Hover effect
@@ -711,7 +717,14 @@ export function ActionTree() {
         .attr("clip-path", `url(#${clipId})`)
         .attr("preserveAspectRatio", "xMidYMid slice");
     } else {
-      const userIcon = iconCacheRef.current.get("user");
+      let userIcon = iconCacheRef.current.get("user");
+      if (!userIcon) {
+        const newSvg = createLucideSvgElement("user");
+        if (newSvg) {
+          iconCacheRef.current.set("user", newSvg);
+          userIcon = newSvg;
+        }
+      }
       if (userIcon) {
         const clonedIcon = userGroup.node()!.appendChild(userIcon.cloneNode(true) as SVGElement);
         d3.select(clonedIcon)
@@ -775,9 +788,9 @@ export function ActionTree() {
 
       xOffset += 110;
     });
-  }, [tasks, userData?.completed_tasks, userData?.completion_counts, totalXp, iconsLoaded, session?.user?.image]);
+  }, [tasks, userData?.completed_tasks, userData?.completion_counts, totalXp, session?.user?.image]);
 
-  const loading = loadingTasks || !iconsLoaded || isSessionLoading;
+  const loading = loadingTasks || isSessionLoading;
 
   // Show error state
   if (error) {
