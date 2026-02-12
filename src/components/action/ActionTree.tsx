@@ -535,6 +535,46 @@ export function ActionTree() {
         .attr("transform", `translate(${pos.x}, ${pos.y})`)
         .style("cursor", "pointer");
 
+      // Tooltip group (hidden by default, shown on hover)
+      const tooltipGroup = group.append("g")
+        .attr("class", "tooltip-group")
+        .attr("opacity", 0)
+        .style("pointer-events", "none");
+
+      // Estimate text width for background
+      const estimatedWidth = Math.min(task.name.length * 7 + 16, 200);
+
+      // Tooltip background
+      tooltipGroup.append("rect")
+        .attr("class", "tooltip-bg")
+        .attr("x", -estimatedWidth / 2)
+        .attr("y", -55)
+        .attr("width", estimatedWidth)
+        .attr("height", 24)
+        .attr("rx", 4)
+        .attr("fill", PAUSEAI_ORANGE)
+        .attr("opacity", 0.95);
+
+      // Tooltip text (centered in box: box is y=-55 to y=-31, text baseline with dy centers it)
+      tooltipGroup.append("text")
+        .attr("class", "tooltip-text")
+        .attr("text-anchor", "middle")
+        .attr("x", 0)
+        .attr("y", -43)
+        .attr("dy", "0.35em")
+        .attr("fill", "#030305")
+        .attr("font-size", "12px")
+        .attr("font-weight", "600")
+        .attr("font-family", "var(--font-headline)")
+        .text(task.name.length > 25 ? task.name.slice(0, 25) + "..." : task.name);
+
+      // Tooltip arrow pointing down
+      tooltipGroup.append("path")
+        .attr("class", "tooltip-arrow")
+        .attr("d", "M -6,-31 L 0,-25 L 6,-31")
+        .attr("fill", PAUSEAI_ORANGE)
+        .attr("opacity", 0.95);
+
       // Transparent click area (larger than icon for easier clicking)
       group.append("circle")
         .attr("class", "click-area")
@@ -649,6 +689,11 @@ export function ActionTree() {
           .duration(150)
           .attr("transform", "scale(1.1)");
 
+        d3.select(this).select(".tooltip-group")
+          .transition()
+          .duration(150)
+          .attr("opacity", 1);
+
         if (isCompleted) {
           d3.select(this).select(".glow-bg")
             .transition()
@@ -662,6 +707,11 @@ export function ActionTree() {
           .transition()
           .duration(150)
           .attr("transform", "scale(1)");
+
+        d3.select(this).select(".tooltip-group")
+          .transition()
+          .duration(150)
+          .attr("opacity", 0);
 
         if (isCompleted) {
           d3.select(this).select(".glow-bg")
