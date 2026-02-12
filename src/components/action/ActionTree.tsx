@@ -511,7 +511,7 @@ export function ActionTree() {
         gradient.append("stop")
           .attr("offset", "0%")
           .attr("stop-color", PAUSEAI_ORANGE)
-          .attr("stop-opacity", 0.6);
+          .attr("stop-opacity", 0.2);
 
         gradient.append("stop")
           .attr("offset", "100%")
@@ -797,6 +797,13 @@ export function ActionTree() {
           <p className="font-body text-gray-400 text-base md:text-lg">
             Mit diesen Aktionen kannst du PauseAI voranbringen. Je weiter die Aktion vom Zentrum entfernt ist, desto schwieriger ist sie.
           </p>
+          <a
+            href="https://www.notion.so/Werde-Jetzt-Aktiv-303661a5508180b49d55f245a16ca9b3"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block mt-2 text-[#FF9416] hover:text-[#FF9416]/80 font-body underline">
+            Hier findest du eine einfache Ansicht.
+          </a>
         </div>
 
         {/* Login prompt if not logged in */}
