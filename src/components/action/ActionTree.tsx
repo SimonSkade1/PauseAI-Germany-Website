@@ -74,7 +74,10 @@ const XP_TIERS = [
   { maxXp: 200, radius: 480, label: "100-200" },
   { maxXp: 400, radius: 550, label: "200-400" },
   { maxXp: 600, radius: 620, label: "400-600" },
-  { maxXp: Infinity, radius: 690, label: "600+" },
+  { maxXp: 1000, radius: 760, label: "600-1000" },
+  { maxXp: 2000, radius: 830, label: "1000-2000" },
+  { maxXp: 4000, radius: 900, label: "2000-4000" },
+  { maxXp: Infinity, radius: 3000, label: "4000+" }
 ];
 
 // Get consistent hash for ordering tasks within the same tier
@@ -353,7 +356,7 @@ export function ActionTree() {
 
     // Setup zoom behavior
     const zoom = d3.zoom<SVGSVGElement, unknown>()
-      .scaleExtent([0.3, 3])
+      .scaleExtent([0.15, 3])
       .on("zoom", (event) => {
         mainGroup.attr("transform", event.transform);
       });
