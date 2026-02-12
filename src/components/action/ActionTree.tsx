@@ -215,21 +215,38 @@ export function ActionTree() {
 
     // === FILTERS ===
 
-    // Glow filter for completed nodes
-    const glowFilter = defs.append("filter")
-      .attr("id", "glow")
-      .attr("x", "-50%")
-      .attr("y", "-50%")
-      .attr("width", "200%")
-      .attr("height", "200%");
+    // Radial gradient for completed task glow
+    const completedTaskGradient = defs.append("radialGradient")
+      .attr("id", "completed-task-glow")
+      .attr("cx", "0")
+      .attr("cy", "0")
+      .attr("r", "35")
+      .attr("gradientUnits", "userSpaceOnUse");
 
-    glowFilter.append("feGaussianBlur")
-      .attr("stdDeviation", 6)
-      .attr("result", "blur");
+    completedTaskGradient.append("stop")
+      .attr("offset", "0%")
+      .attr("stop-color", PAUSEAI_ORANGE)
+      .attr("stop-opacity", 0.8);
 
-    const glowMerge = glowFilter.append("feMerge");
-    glowMerge.append("feMergeNode").attr("in", "blur");
-    glowMerge.append("feMergeNode").attr("in", "SourceGraphic");
+    completedTaskGradient.append("stop")
+      .attr("offset", "100%")
+      .attr("stop-color", PAUSEAI_ORANGE)
+      .attr("stop-opacity", 0);
+
+    // Gradient for connection lines (center to node)
+    const lineGradient = defs.append("linearGradient")
+      .attr("id", "line-gradient")
+      .attr("gradientUnits", "userSpaceOnUse");
+
+    lineGradient.append("stop")
+      .attr("offset", "0%")
+      .attr("stop-color", PAUSEAI_ORANGE)
+      .attr("stop-opacity", 0.8);
+
+    lineGradient.append("stop")
+      .attr("offset", "100%")
+      .attr("stop-color", PAUSEAI_ORANGE)
+      .attr("stop-opacity", 0.1);
 
     // Ambient glow filter
     const ambientGlow = defs.append("filter")
@@ -470,7 +487,129 @@ export function ActionTree() {
         .attr("stroke-dasharray", "3,3");
     });
 
-    // === USER AVATAR ===
+    // === DRAW TASK NODES ===
+
+    // Calculate tier layout
+    const tierLayout = calculateTierLayout(tasks);
+
+    // Connection lines from center to completed tasks
+    tierLayout
+      .filter(item => completedTasks.has(item.task.id))
+      .forEach(item => {
+        const pos = getPositionForTier(item.angle, XP_TIERS[item.tierIndex].radius);
+
+        // Create unique gradient for this line
+        const gradientId = `line-gradient-${item.task.id}`;
+        const gradient = defs.append("linearGradient")
+          .attr("id", gradientId)
+          .attr("gradientUnits", "userSpaceOnUse")
+          .attr("x1", centerX)
+          .attr("y1", centerY)
+          .attr("x2", pos.x)
+          .attr("y2", pos.y);
+
+        gradient.append("stop")
+          .attr("offset", "0%")
+          .attr("stop-color", PAUSEAI_ORANGE)
+          .attr("stop-opacity", 0.6);
+
+        gradient.append("stop")
+          .attr("offset", "100%")
+          .attr("stop-color", PAUSEAI_ORANGE)
+          .attr("stop-opacity", 0);
+
+        mainGroup.append("line")
+          .attr("x1", centerX)
+          .attr("y1", centerY)
+          .attr("x2", pos.x)
+          .attr("y2", pos.y)
+          .attr("stroke", `url(#${gradientId})`)
+          .attr("stroke-width", 2)
+          .attr("stroke-linecap", "round");
+      });
+
+    // Draw task nodes
+    tierLayout.forEach((item) => {
+      const task = item.task;
+      const isCompleted = completedTasks.has(task.id);
+      const pos = getPositionForTier(item.angle, XP_TIERS[item.tierIndex].radius);
+
+      const group = mainGroup.append("g")
+        .attr("class", "node-group")
+        .attr("transform", `translate(${pos.x}, ${pos.y})`)
+        .style("cursor", "pointer");
+
+      // Transparent click area (larger than icon for easier clicking)
+      group.append("circle")
+        .attr("class", "click-area")
+        .attr("r", 25)
+        .attr("fill", "transparent")
+        .style("pointer-events", "all");
+
+      // Glow effect for completed tasks
+      if (isCompleted) {
+        group.append("circle")
+          .attr("class", "glow-bg")
+          .attr("r", 35)
+          .attr("fill", "url(#completed-task-glow)");
+      }
+
+      if (!task.icon) return;
+
+      const cachedIcon = iconCacheRef.current.get(task.icon);
+      const iconSize = 36;
+
+      if (cachedIcon) {
+        const clonedIcon = group.node()!.appendChild(cachedIcon.cloneNode(true) as SVGElement);
+        d3.select(clonedIcon)
+          .attr("class", "task-icon")
+          .attr("width", iconSize)
+          .attr("height", iconSize)
+          .attr("x", -iconSize / 2)
+          .attr("y", -iconSize / 2)
+          .selectAll("*")
+          .attr("fill", "none")
+          .attr("stroke", isCompleted ? PAUSEAI_ORANGE : "#666666")
+          .attr("stroke-width", "2");
+      }
+
+      // Hover effect
+      group.on("mouseenter", function () {
+        d3.select(this).select(".task-icon")
+          .transition()
+          .duration(150)
+          .attr("transform", "scale(1.1)");
+
+        if (isCompleted) {
+          d3.select(this).select(".glow-bg")
+            .transition()
+            .duration(150)
+            .attr("opacity", 0.9);
+        }
+      });
+
+      group.on("mouseleave", function () {
+        d3.select(this).select(".task-icon")
+          .transition()
+          .duration(150)
+          .attr("transform", "scale(1)");
+
+        if (isCompleted) {
+          d3.select(this).select(".glow-bg")
+            .transition()
+            .duration(150)
+            .attr("opacity", 1);
+        }
+      });
+
+      // Click handler
+      group.on("click", (event) => {
+        event.stopPropagation();
+        setSelectedTask(task);
+      });
+    });
+
+    // === USER AVATAR (drawn after lines to appear on top) ===
 
     const userGroup = mainGroup.append("g")
       .attr("transform", `translate(${centerX}, ${centerY})`);
@@ -536,111 +675,6 @@ export function ActionTree() {
       .attr("font-weight", "bold")
       .attr("font-family", "var(--font-headline)")
       .text(`${totalXp} XP`);
-
-    // === DRAW TASK NODES ===
-
-    // Calculate tier layout
-    const tierLayout = calculateTierLayout(tasks);
-
-    // Connection lines from center to completed tasks
-    tierLayout
-      .filter(item => completedTasks.has(item.task.id))
-      .forEach(item => {
-        const pos = getPositionForTier(item.angle, XP_TIERS[item.tierIndex].radius);
-
-        mainGroup.append("line")
-          .attr("x1", centerX)
-          .attr("y1", centerY)
-          .attr("x2", pos.x)
-          .attr("y2", pos.y)
-          .attr("stroke", PAUSEAI_ORANGE)
-          .attr("stroke-width", 1)
-          .attr("opacity", 0.15 + glowIntensity * 0.2)
-          .attr("stroke-dasharray", "4,4");
-      });
-
-    // Draw task nodes
-    tierLayout.forEach((item) => {
-      const task = item.task;
-      const isCompleted = completedTasks.has(task.id);
-      const pos = getPositionForTier(item.angle, XP_TIERS[item.tierIndex].radius);
-
-      const group = mainGroup.append("g")
-        .attr("class", "node-group")
-        .attr("transform", `translate(${pos.x}, ${pos.y})`)
-        .style("cursor", "pointer");
-
-      // Transparent click area (larger than icon for easier clicking)
-      group.append("circle")
-        .attr("class", "click-area")
-        .attr("r", 25)
-        .attr("fill", "transparent")
-        .style("pointer-events", "all");
-
-      // Glow effect for completed tasks
-      if (isCompleted) {
-        group.append("circle")
-          .attr("class", "glow-bg")
-          .attr("r", 22)
-          .attr("fill", PAUSEAI_ORANGE)
-          .attr("opacity", 0.25)
-          .attr("filter", "url(#glow)");
-      }
-
-      if (!task.icon) return;
-
-      const cachedIcon = iconCacheRef.current.get(task.icon);
-      const iconSize = 36;
-
-      if (cachedIcon) {
-        const clonedIcon = group.node()!.appendChild(cachedIcon.cloneNode(true) as SVGElement);
-        d3.select(clonedIcon)
-          .attr("class", "task-icon")
-          .attr("width", iconSize)
-          .attr("height", iconSize)
-          .attr("x", -iconSize / 2)
-          .attr("y", -iconSize / 2)
-          .selectAll("*")
-          .attr("fill", "none")
-          .attr("stroke", isCompleted ? PAUSEAI_ORANGE : "#666666")
-          .attr("stroke-width", "2");
-      }
-
-      // Hover effect
-      group.on("mouseenter", function () {
-        d3.select(this).select(".task-icon")
-          .transition()
-          .duration(150)
-          .attr("transform", "scale(1.1)");
-
-        if (isCompleted) {
-          d3.select(this).select(".glow-bg")
-            .transition()
-            .duration(150)
-            .attr("opacity", 0.4);
-        }
-      });
-
-      group.on("mouseleave", function () {
-        d3.select(this).select(".task-icon")
-          .transition()
-          .duration(150)
-          .attr("transform", "scale(1)");
-
-        if (isCompleted) {
-          d3.select(this).select(".glow-bg")
-            .transition()
-            .duration(150)
-            .attr("opacity", 0.25);
-        }
-      });
-
-      // Click handler
-      group.on("click", (event) => {
-        event.stopPropagation();
-        setSelectedTask(task);
-      });
-    });
 
     // === LEGEND ===
     const legendGroup = svg.append("g")
