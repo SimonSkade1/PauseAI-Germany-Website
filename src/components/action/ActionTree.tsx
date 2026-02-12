@@ -532,6 +532,8 @@ export function ActionTree() {
     tierLayout.forEach((item) => {
       const task = item.task;
       const isCompleted = completedTasks.has(task.id);
+      const isRepeatable = task.repeatable ?? false;
+      const completionCount = userData?.completion_counts?.[task.id] ?? 0;
       const pos = getPositionForTier(item.angle, XP_TIERS[item.tierIndex].radius);
 
       const group = mainGroup.append("g")
@@ -548,10 +550,32 @@ export function ActionTree() {
 
       // Glow effect for completed tasks
       if (isCompleted) {
+        // For repeatable tasks, use an orange glow that gets more intense with each completion
+        const glowOpacity = isRepeatable ? 0.5 + Math.min(completionCount * 0.1, 0.5) : 0.8;
+        const glowColor = isRepeatable ? "#FF9416" : PAUSEAI_ORANGE;
+
+        const glowGradientId = `glow-gradient-${task.id}`;
+        const glowGradient = defs.append("radialGradient")
+          .attr("id", glowGradientId)
+          .attr("cx", "0")
+          .attr("cy", "0")
+          .attr("r", "35")
+          .attr("gradientUnits", "userSpaceOnUse");
+
+        glowGradient.append("stop")
+          .attr("offset", "0%")
+          .attr("stop-color", glowColor)
+          .attr("stop-opacity", glowOpacity);
+
+        glowGradient.append("stop")
+          .attr("offset", "100%")
+          .attr("stop-color", glowColor)
+          .attr("stop-opacity", 0);
+
         group.append("circle")
           .attr("class", "glow-bg")
           .attr("r", 35)
-          .attr("fill", "url(#completed-task-glow)");
+          .attr("fill", `url(#${glowGradientId})`);
       }
 
       if (!task.icon) return;
@@ -571,6 +595,42 @@ export function ActionTree() {
           .attr("fill", "none")
           .attr("stroke", isCompleted ? PAUSEAI_ORANGE : "#666666")
           .attr("stroke-width", "2");
+      }
+
+      // Repeatable badge with counter (shown on top-right of icon)
+      if (isRepeatable) {
+        const badgeGroup = group.append("g")
+          .attr("class", "repeatable-badge")
+          .attr("transform", "translate(12, -12)");
+
+        // Badge background circle
+        badgeGroup.append("circle")
+          .attr("r", 10)
+          .attr("fill", isCompleted ? "#FF9416" : "#666666")
+          .attr("stroke", "#0a0a12")
+          .attr("stroke-width", "2");
+
+        // Repeat icon (arrows in a circle) - using a simple path
+        badgeGroup.append("path")
+          .attr("d", "M 5.5 -2.5 L 5.5 0.5 L 7.5 0.5 L 4.5 3.5 L 1.5 0.5 L 3.5 0.5 L 3.5 -2.5")
+          .attr("fill", "none")
+          .attr("stroke", "#0a0a12")
+          .attr("stroke-width", "1.5")
+          .attr("stroke-linecap", "round")
+          .attr("stroke-linejoin", "round")
+          .attr("transform", "scale(1.2)");
+
+        // Completion count if > 0
+        if (completionCount > 0) {
+          badgeGroup.append("text")
+            .attr("text-anchor", "middle")
+            .attr("dy", "10")
+            .attr("fill", isCompleted ? "#FF9416" : "#666666")
+            .attr("font-size", "8px")
+            .attr("font-weight", "bold")
+            .attr("font-family", "var(--font-headline)")
+            .text(completionCount.toString());
+        }
       }
 
       // Hover effect
@@ -715,7 +775,7 @@ export function ActionTree() {
 
       xOffset += 110;
     });
-  }, [tasks, userData?.completed_tasks, totalXp, iconsLoaded, session?.user?.image]);
+  }, [tasks, userData?.completed_tasks, userData?.completion_counts, totalXp, iconsLoaded, session?.user?.image]);
 
   const loading = loadingTasks || !iconsLoaded || isSessionLoading;
 

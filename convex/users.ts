@@ -22,11 +22,18 @@ export const getMe = query({
       .withIndex("by_discord_id", (q) => q.eq("discordId", args.discordId))
       .collect();
 
+    // Build completion count map (taskId -> count)
+    const completionCounts: Record<string, number> = {};
+    for (const c of completed) {
+      completionCounts[c.taskId] = (completionCounts[c.taskId] || 0) + 1;
+    }
+
     return {
       discord_id: user.discordId,
       discord_name: user.discordName,
       total_xp: user.totalXp,
       completed_tasks: completed.map((c) => c.taskId),
+      completion_counts: completionCounts,
     };
   },
 });

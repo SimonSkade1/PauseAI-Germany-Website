@@ -6,6 +6,7 @@ export interface Task {
   emoji: string;
   link: string;
   icon?: string;       // Computed from emoji via getLucideForEmoji()
+  repeatable?: boolean; // Whether the task can be completed multiple times
 }
 
 // User types
@@ -15,6 +16,7 @@ export interface User {
   total_xp: number;
   role: string;
   completed_tasks: string[];
+  completion_counts?: Record<string, number>; // taskId -> count
 }
 
 // Task completion response

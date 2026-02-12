@@ -129,12 +129,19 @@ export const getTasks = action({
         // Get Notion page URL
         const link = page.url;
 
+        // Extract "Wiederholbar" checkbox (repeatable)
+        const repeatableProp = Object.entries(props).find(
+          ([key, v]: [string, any]) => key === "Wiederholbar" || key === "repeatable"
+        )?.[1] as any;
+        const repeatable = repeatableProp?.type === "checkbox" ? repeatableProp.checkbox : false;
+
         return {
           id: page.id,
           name,
           xp,
           emoji,
           link,
+          repeatable,
         };
       })
       .filter((task: any) => task.name.length > 0); // Filter out tasks without names

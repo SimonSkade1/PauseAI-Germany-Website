@@ -54,6 +54,7 @@ export function TaskModal({ task, onClose }: TaskModalProps) {
         discordName: session.user.name || "Unknown",
         xp: task.xp,
         comment: comment || undefined,
+        repeatable: task.repeatable,
       });
 
       // Send Discord notification
@@ -111,10 +112,15 @@ export function TaskModal({ task, onClose }: TaskModalProps) {
           </button>
         </div>
 
-        <div className="mb-4 text-sm relative">
+        <div className="mb-4 text-sm relative flex items-center gap-2">
           <span className="px-3 py-1 bg-[#FF9416]/20 text-[#FF9416] font-body-bold border border-[#FF9416]/30">
             +{task.xp} XP
           </span>
+          {task.repeatable && (
+            <span className="px-3 py-1 bg-orange-500/20 text-orange-400 font-body-bold border border-orange-500/30">
+              Wiederholbar
+            </span>
+          )}
         </div>
 
         {task.link && (

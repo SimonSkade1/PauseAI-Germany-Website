@@ -9,6 +9,7 @@ export const completeTask = mutation({
     discordName: v.string(),
     xp: v.number(),
     comment: v.optional(v.string()),
+    repeatable: v.optional(v.boolean()),
   },
   handler: async (ctx, args) => {
     // Check if task is already completed
@@ -18,11 +19,12 @@ export const completeTask = mutation({
       .filter((q) => q.eq(q.field("taskId"), args.taskId))
       .first();
 
-    if (existing) {
+    // Only throw error if task is not repeatable and already completed
+    if (existing && !args.repeatable) {
       throw new Error("Task bereits erledigt");
     }
 
-    // Insert completed task record
+    // Insert completed task record (allow multiple for repeatable tasks)
     await ctx.db.insert("completedTasks", {
       discordId: args.discordId,
       taskId: args.taskId,
