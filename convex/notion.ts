@@ -76,7 +76,7 @@ export const getPage = action({
   },
 });
 
-// Get page content (blocks) by ID
+// Get page content (blocks) by ID - simplified for rendering
 export const getPageContent = action({
   args: { pageId: v.string() },
   handler: async (_, args) => {
@@ -88,7 +88,87 @@ export const getPageContent = action({
       block_id: args.pageId,
     });
 
-    return blocks;
+    // Simplify blocks for easier rendering in React
+    const simplifiedBlocks = blocks.results.map((block: any) => {
+      const type = block.type;
+      const content = block[type];
+      const result: Record<string, any> = { type };
+
+      switch (type) {
+        case "paragraph":
+        case "heading_1":
+        case "heading_2":
+        case "heading_3":
+        case "quote":
+          result.text = content?.rich_text?.map((t: any) => ({
+            content: t.plain_text,
+            annotations: t.annotations || {},
+            href: t.href,
+          })) || [];
+          result.plainText = content?.rich_text?.map((t: any) => t.plain_text).join("") || "";
+          break;
+
+        case "bulleted_list_item":
+        case "numbered_list_item":
+          result.text = content?.rich_text?.map((t: any) => ({
+            content: t.plain_text,
+            annotations: t.annotations || {},
+            href: t.href,
+          })) || [];
+          result.plainText = content?.rich_text?.map((t: any) => t.plain_text).join("") || "";
+          break;
+
+        case "to_do":
+          result.text = content?.rich_text?.map((t: any) => ({
+            content: t.plain_text,
+            annotations: t.annotations || {},
+            href: t.href,
+          })) || [];
+          result.plainText = content?.rich_text?.map((t: any) => t.plain_text).join("") || "";
+          result.checked = content?.checked || false;
+          break;
+
+        case "callout":
+          result.text = content?.rich_text?.map((t: any) => ({
+            content: t.plain_text,
+            annotations: t.annotations || {},
+            href: t.href,
+          })) || [];
+          result.plainText = content?.rich_text?.map((t: any) => t.plain_text).join("") || "";
+          result.icon = content?.icon?.emoji || null;
+          break;
+
+        case "code":
+          result.text = content?.rich_text?.map((t: any) => ({
+            content: t.plain_text,
+            annotations: t.annotations || {},
+            href: t.href,
+          })) || [];
+          result.plainText = content?.rich_text?.map((t: any) => t.plain_text).join("") || "";
+          result.language = content?.language || "text";
+          break;
+
+        case "divider":
+          // No additional content needed
+          break;
+
+        case "toggle":
+          result.text = content?.rich_text?.map((t: any) => ({
+            content: t.plain_text,
+            annotations: t.annotations || {},
+            href: t.href,
+          })) || [];
+          result.plainText = content?.rich_text?.map((t: any) => t.plain_text).join("") || "";
+          break;
+
+        default:
+          result.plainText = "";
+      }
+
+      return result;
+    });
+
+    return simplifiedBlocks;
   },
 });
 
