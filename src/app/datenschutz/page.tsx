@@ -1,34 +1,12 @@
-import Image from "next/image";
-import Link from "next/link";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 export default function Datenschutz() {
   return (
     <>
-      {/* Header */}
-      <header className="bg-[#FF9416] py-4">
-        <div className="max-w-5xl mx-auto flex items-center justify-between px-6">
-          <Link href="/" className="flex items-center gap-3">
-            <Image
-              src="/Logo Outlined.png"
-              alt="PauseAI Logo"
-              width={140}
-              height={40}
-              className="h-10 w-auto"
-              priority
-            />
-          </Link>
-          <nav>
-            <Link
-              href="/#was-du-tun-kannst"
-              className="font-section text-sm tracking-wider text-black transition-colors hover:text-white md:text-base"
-            >
-              Hilf mit
-            </Link>
-          </nav>
-        </div>
-      </header>
+      <Header />
 
-      <main className="bg-pause-gray-light min-h-screen py-16 md:py-24">
+      <main className="bg-pause-gray-light min-h-screen pt-24 pb-16 md:pb-24">
         <div className="max-w-3xl mx-auto px-6 md:px-12">
           <h1 className="font-headline text-4xl text-pause-black mb-12 md:text-5xl">
             Datenschutzerklärung
@@ -60,7 +38,7 @@ export default function Datenschutz() {
               </h4>
               <p className="font-body text-pause-black/80 text-justify">
                 Die Datenverarbeitung auf dieser Website erfolgt durch den Websitebetreiber. Dessen Kontaktdaten
-                können Sie dem Abschnitt „Hinweis zur Verantwortlichen Stelle" in dieser Datenschutzerklärung entnehmen.
+                können Sie dem Abschnitt „Hinweis zur Verantwortlichen Stelle“ in dieser Datenschutzerklärung entnehmen.
               </p>
 
               <h4 className="font-body-bold text-pause-black/90 mt-4 mb-2 text-sm">
@@ -81,7 +59,7 @@ export default function Datenschutz() {
               <p className="font-body text-pause-black/80 text-justify">
                 Ein Teil der Daten wird erhoben, um eine fehlerfreie Bereitstellung der Website zu gewährleisten. Andere
                 Daten können zur Analyse Ihres Nutzerverhaltens verwendet werden. Sofern über die Website Verträge
-                geschlossen oder angebahnt werden können, werden die übermittelten Daten auch für Vertragsangebote,
+                geschlossen oder abgeschlossen werden können, werden die übermittelten Daten auch für Vertragsangebote,
                 Bestellungen oder sonstige Auftragsanfragen verarbeitet.
               </p>
 
@@ -122,7 +100,7 @@ export default function Datenschutz() {
               <p className="font-body text-pause-black/80 mt-2 text-justify">
                 Das externe Hosting erfolgt zum Zwecke der Vertragserfüllung gegenüber unseren potenziellen und
                 bestehenden Kunden (Art. 6 Abs. 1 lit. b DSGVO) und im Interesse einer sicheren, schnellen und effizienten
-                Bereitstellung unseres Online-Angebots durch einen professionellen Anbieter (Art. 6 Abs. 1 lit. f DSGVO).
+                Bereitstellung unseres Online-Angebots durch einen professionellen Anbieter (Art. 6 Abs.1 lit. f DSGVO).
                 Sofern eine entsprechende Einwilligung abgefragt wurde, erfolgt die Verarbeitung ausschließlich auf
                 Grundlage von Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG, soweit die Einwilligung die Speicherung
                 von Cookies oder den Zugriff auf Informationen im Endgerät des Nutzers (z. B. Device-Fingerprinting) im
@@ -133,7 +111,7 @@ export default function Datenschutz() {
                 Leistungspflichten erforderlich ist und unsere Weisungen in Bezug auf diese Daten befolgen.
               </p>
               <p className="font-body text-pause-black/80 mt-2">
-                Wir setzen folgende(n) Hoster ein: <strong>Vercel</strong>
+                Wir setzen folgenden(n) Hoster ein: <strong>Vercel</strong>
               </p>
             </section>
 
@@ -190,7 +168,7 @@ export default function Datenschutz() {
                 Soweit innerhalb dieser Datenschutzerklärung keine speziellere Speicherdauer genannt wurde, verbleiben
                 Ihre personenbezogenen Daten bei uns, bis der Zweck für die Datenverarbeitung entfällt. Wenn Sie ein
                 berechtigtes Löschersuchen geltend machen oder eine Einwilligung zur Datenverarbeitung widerrufen,
-                werden Ihre Daten gelöscht, sofern wir keine anderen rechtlich zulässigen Gründe für die Speicherung Ihrer
+                werden Ihre Daten gelöscht, soweit wir keine anderen rechtlich zulässigen Gründe für die Speicherung Ihrer
                 personenbezogenen Daten haben (z. B. steuer- oder handelsrechtliche Aufbewahrungsfristen); im
                 letztgenannten Fall erfolgt die Löschung nach Fortfall dieser Gründe.
               </p>
@@ -199,15 +177,15 @@ export default function Datenschutz() {
                 Allgemeine Hinweise zu den Rechtsgrundlagen der Datenverarbeitung auf dieser Website
               </h3>
               <p className="font-body text-pause-black/80 text-justify">
-                Sofern Sie in die Datenverarbeitung eingewilligt haben, verarbeiten wir Ihre personenbezogenen Daten auf
-                Grundlage von Art. 6 Abs. 1 lit. a DSGVO bzw. Art. 9 Abs. 2 lit. a DSGVO, sofern besondere Datenkategorien
+                Soweit Sie in die Datenverarbeitung eingewilligt haben, verarbeiten wir Ihre personenbezogenen Daten auf
+                Grundlage von Art. 6 Abs. 1 lit. a DSGVO bzw. Art. 9 Abs. 2 lit. a DSGVO, soweit besondere Datenkategorien
                 nach Art. 9 Abs. 1 DSGVO verarbeitet werden. Im Falle einer ausdrücklichen Einwilligung in die Übertragung
                 personenbezogener Daten in Drittstaaten erfolgt die Datenverarbeitung außerdem auf Grundlage von Art.
-                49 Abs. 1 lit. a DSGVO. Sofern Sie in die Speicherung von Cookies oder in den Zugriff auf Informationen in
+                49 Abs. 1 lit. a DSGVO. Soweit Sie in die Speicherung von Cookies oder in den Zugriff auf Informationen in
                 Ihr Endgerät (z. B. via Device-Fingerprinting) eingewilligt haben, erfolgt die Datenverarbeitung zusätzlich
                 auf Grundlage von § 25 Abs. 1 TDDDG. Die Einwilligung ist jederzeit widerrufbar. Sind Ihre Daten zur
                 Vertragserfüllung oder zur Durchführung vorvertraglicher Maßnahmen erforderlich, verarbeiten wir Ihre
-                Daten auf Grundlage des Art. 6 Abs. 1 lit. b DSGVO. Des Weiteren verarbeiten wir Ihre Daten, sofern diese
+                Daten auf Grundlage des Art. 6 Abs. 1 lit. b DSGVO. Des Weiteren verarbeiten wir Ihre Daten, soweit diese
                 zur Erfüllung einer rechtlichen Verpflichtung erforderlich sind auf Grundlage von Art. 6 Abs. 1 lit. c DSGVO.
                 Die Datenverarbeitung kann ferner auf Grundlage unseres berechtigten Interesses nach Art. 6 Abs. 1 lit. f
                 DSGVO erfolgen. Über die jeweils im Einzelfall einschlägigen Rechtsgrundlagen wird in den folgenden
@@ -261,7 +239,7 @@ export default function Datenschutz() {
                   BETREFFENDER PERSONENBEZOGENER DATEN ZUM ZWECKE DERARTIGER WERBUNG
                   EINZULEGEN; DIES GILT AUCH FÜR DAS PROFILING, SOWEIT ES MIT SOLCHER DIREKTWERBUNG IN
                   VERBINDUNG STEHT. WENN SIE WIDERSPRECHEN, WERDEN IHRE PERSONENBEZOGENEN DATEN
-                  ANSCHLIESSEND NICHT MEHR ZUM ZWECKE DER DIREKTWERBUNG VERWENDET (WIDERSPRUCH
+                  ANSCHLIEßEND NICHT MEHR ZUM ZWECKE DER DIREKTWERBUNG VERWENDET (WIDERSPRUCH
                   NACH ART. 21 ABS. 2 DSGVO).
                 </p>
               </div>
@@ -282,7 +260,7 @@ export default function Datenschutz() {
               <p className="font-body text-pause-black/80 text-justify">
                 Sie haben das Recht, Daten, die wir auf Grundlage Ihrer Einwilligung oder in Erfüllung eines Vertrags
                 automatisiert verarbeiten, an sich oder an einen Dritten in einem gängigen, maschinenlesbaren Format
-                aushändigen zu lassen. Sofern Sie die direkte Übertragung der Daten an einen anderen Verantwortlichen
+                aushändigen zu lassen. Soweit Sie die direkte Übertragung der Daten an einen anderen Verantwortlichen
                 verlangen, erfolgt dies nur, soweit es technisch machbar ist.
               </p>
 
@@ -311,7 +289,7 @@ export default function Datenschutz() {
                   Einschränkung der Verarbeitung Ihrer personenbezogenen Daten zu verlangen.
                 </li>
                 <li>
-                  Wenn die Verarbeitung Ihrer personenbezogenen Daten unrechtmäßig geschah/geschieht, können Sie
+                  Wenn die Verarbeitung Ihrer personenbezogenen Daten unrechtmäßig geschieht/geschieht, können Sie
                   statt der Löschung die Einschränkung der Datenverarbeitung verlangen.
                 </li>
                 <li>
@@ -331,7 +309,7 @@ export default function Datenschutz() {
                 ihrer Speicherung abgesehen – nur mit Ihrer Einwilligung oder zur Geltendmachung, Ausübung oder
                 Verteidigung von Rechtsansprüchen oder zum Schutz der Rechte einer anderen natürlichen oder
                 juristischen Person oder aus Gründen eines wichtigen öffentlichen Interesses der Europäischen Union oder
-                eines Mitgliedstaats verarbeitet werden.
+                eines Mitgliedstaates verarbeitet werden.
               </p>
 
               <h3 className="font-body-bold text-pause-black mt-6 mb-2">
@@ -340,7 +318,7 @@ export default function Datenschutz() {
               <p className="font-body text-pause-black/80 text-justify">
                 Diese Seite nutzt aus Sicherheitsgründen und zum Schutz der Übertragung vertraulicher Inhalte, wie zum
                 Beispiel Bestellungen oder Anfragen, die Sie an uns als Seitenbetreiber senden, eine SSL- bzw. TLS-Verschlüsselung. Eine verschlüsselte Verbindung erkennen Sie daran, dass die Adresszeile des Browsers von
-                „http://" auf „https://" wechselt und an dem Schloss-Symbol in Ihrer Browserzeile.
+                „http://“ auf „https://“ wechselt und an dem Schloss-Symbol in Ihrer Browserzeile.
               </p>
               <p className="font-body text-pause-black/80 mt-2 text-justify">
                 Wenn die SSL- bzw. TLS-Verschlüsselung aktiviert ist, können die Daten, die Sie an uns übermitteln, nicht
@@ -367,12 +345,12 @@ export default function Datenschutz() {
                 Die Verarbeitung der in das Newsletteranmeldeformular eingegebenen Daten erfolgt ausschließlich auf
                 Grundlage Ihrer Einwilligung (Art. 6 Abs. 1 lit. a DSGVO). Die erteilte Einwilligung zur Speicherung der
                 Daten, der E-Mail-Adresse sowie deren Nutzung zum Versand des Newsletters können Sie jederzeit
-                widerrufen, etwa über den „Austragen"-Link im Newsletter. Die Rechtmäßigkeit der bereits erfolgten
+                widerrufen, etwa über den „Austragen“-Link im Newsletter. Die Rechtmäßigkeit der bereits erfolgten
                 Datenverarbeitungsvorgänge bleibt vom Widerruf unberührt.
               </p>
               <p className="font-body text-pause-black/80 mt-2 text-justify">
                 Die von Ihnen zum Zwecke des Newsletter-Bezugs bei uns hinterlegten Daten werden von uns bis zu Ihrer
-                Austragung aus dem Newsletter bei uns bzw. dem Newsletterdiensteanbieter gespeichert und nach der
+                Abmeldung aus dem Newsletter bei uns bzw. dem Newsletterdiensteanbieter gespeichert und nach der
                 Abbestellung des Newsletters oder nach Zweckfortfall aus der Newsletterverteilerliste gelöscht. Wir
                 behalten uns vor, E-Mail-Adressen aus unserem Newsletterverteiler nach eigenem Ermessen im Rahmen
                 unseres berechtigten Interesses nach Art. 6 Abs. 1 lit. f DSGVO zu löschen oder zu sperren.
@@ -381,13 +359,13 @@ export default function Datenschutz() {
                 Daten, die zu anderen Zwecken bei uns gespeichert wurden, bleiben hiervon unberührt.
               </p>
               <p className="font-body text-pause-black/80 mt-2 text-justify">
-                Nach Ihrer Austragung aus der Newsletterverteilerliste wird Ihre E-Mail-Adresse bei uns bzw. dem
-                Newsletterdiensteanbieter ggf. in einer Blacklist gespeichert, sofern dies zur Verhinderung künftiger
+                Nach Ihrer Abmeldung aus der Newsletterverteilerliste wird Ihre E-Mail-Adresse bei uns bzw. dem
+                Newsletterdiensteanbieter ggf. in einer Blacklist gespeichert, soweit dies zur Verhinderung künftiger
                 Mailings erforderlich ist. Die Daten aus der Blacklist werden nur für diesen Zweck verwendet und nicht mit
                 anderen Daten zusammengeführt. Dies dient sowohl Ihrem Interesse als auch unserem Interesse an der
                 Einhaltung der gesetzlichen Vorgaben beim Versand von Newslettern (berechtigtes Interesse im Sinne des
                 Art. 6 Abs. 1 lit. f DSGVO). Die Speicherung in der Blacklist ist zeitlich nicht befristet. Sie können der
-                Speicherung widersprechen, sofern Ihre Interessen unser berechtigtes Interesse überwiegen.
+                Speicherung widersprechen, soweit Ihre Interessen unser berechtigtes Interesse überwiegen.
               </p>
             </section>
 
@@ -430,25 +408,17 @@ export default function Datenschutz() {
 
           {/* Back link */}
           <div className="mt-8 text-center">
-            <Link
+            <a
               href="/"
               className="font-body text-pause-black/60 hover:text-[#FF9416] transition-colors"
             >
               ← Zurück zur Startseite
-            </Link>
+            </a>
           </div>
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="bg-[#FF9416] py-8">
-        <div className="max-w-6xl mx-auto px-6 text-center">
-          <p className="font-body text-black/50 text-sm">
-            © {new Date().getFullYear()} PauseAI Germany. Alle Rechte
-            vorbehalten.
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }
