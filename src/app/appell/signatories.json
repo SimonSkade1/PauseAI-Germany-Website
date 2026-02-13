@@ -1,0 +1,102 @@
+[
+  {
+    "name": "Peter Scholze",
+    "chair": "Fields-Medaillen-Träger (2018), Professor für Mathematik",
+    "university": "bonn"
+  },
+  {
+    "name": "Andrzej J. Buras",
+    "chair": "Max-Planck-Medaillen-Träger (2020), Professor emeritus für Theoretische Physik",
+    "university": "tum"
+  },
+  {
+    "name": "Tobias Bonhoeffer",
+    "chair": "Direktor am Max-Planck-Institut für biologische Intelligenz, Professor für Neurobiologie",
+    "university": "other"
+  },
+  {
+    "name": "Viola Priesemann",
+    "chair": "Forschungsgruppenleiterin am Max-Planck-Institut, Biophysik und Neurowissenschaften",
+    "university": "other"
+  },
+  {
+    "name": "Claudia Peus",
+    "chair": "Executive Vice President, Professorin für Forschungs- und Wissenschaftsmanagement",
+    "university": "tum"
+  },
+  {
+    "name": "Michael Zürn",
+    "chair": "Professor für Global Governance am WZB Berlin",
+    "university": "other"
+  },
+  {
+    "name": "Dieter Birnbacher",
+    "chair": "Professor für Praktische Philosophie (Dr. h.c.)",
+    "university": "other"
+  },
+  {
+    "name": "Katharina Morik",
+    "chair": "Professorin für Machine Learning",
+    "university": "other"
+  },
+  {
+    "name": "Albert Newen",
+    "chair": "Professor für Philosophie des Geistes",
+    "university": "other"
+  },
+  {
+    "name": "Joachim Funke",
+    "chair": "Senior-Professor für Allgemeine und Theoretische Psychologie (Dr. h.c.)",
+    "university": "heidelberg"
+  },
+  {
+    "name": "Rainer Banse",
+    "chair": "Lehrstuhlinhaber für Sozial- und Rechtspsychologie (Dr. h.c.)",
+    "university": "bonn"
+  },
+  {
+    "name": "Uwe Hampel",
+    "chair": "Professor für Bildgebende Messverfahren (Dr. h.c.)",
+    "university": "other"
+  },
+  {
+    "name": "Thomas Fuchs",
+    "chair": "Professor für Phänomenologische Psychopathologie und Philosophie (Dr. Dr.)",
+    "university": "heidelberg"
+  },
+  {
+    "name": "Otmar Venjakob",
+    "chair": "Dekan für Mathematik und Informatik",
+    "university": "heidelberg"
+  },
+  {
+    "name": "Georg Schmidt",
+    "chair": "Dekan für Physik",
+    "university": "other"
+  },
+  {
+    "name": "Thomas Kuner",
+    "chair": "Direktor des Instituts für Anatomie und Zellbiologie",
+    "university": "heidelberg"
+  },
+  {
+    "name": "Robert Mikutta",
+    "chair": "Geschäftsführender Direktor IAEW, Professor für Bodenkunde",
+    "university": "other"
+  },
+  {
+    "name": "Christoph Hubig",
+    "chair": "Professor für Technikphilosophie",
+    "university": "other"
+  },
+  {
+    "name": "Guenther Goerz",
+    "chair": "Professor für KI und Digital Humanities",
+    "university": "other"
+  },
+  {
+    "name": "Gregor Betz",
+    "chair": "Professor für Computationale Philosophie",
+    "university": "other"
+  }
+]
