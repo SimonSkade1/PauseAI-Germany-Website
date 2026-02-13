@@ -18,6 +18,7 @@ interface NotionBlock {
 
 interface TaskModalProps {
   task: Task | null;
+  completedTasks?: string[];
   onClose: () => void;
 }
 
@@ -175,7 +176,7 @@ function renderInlineContent(texts?: Array<{ content: string; annotations?: any;
   });
 }
 
-export function TaskModal({ task, onClose }: TaskModalProps) {
+export function TaskModal({ task, completedTasks = [], onClose }: TaskModalProps) {
   const { data: session } = useSession();
   const completeTask = useMutation(api.completions.completeTask);
   const assignRole = useAction(api.discord.assignRole);
@@ -183,10 +184,15 @@ export function TaskModal({ task, onClose }: TaskModalProps) {
   const getPageContent = useAction(api.notion.getPageContent);
 
   const [comment, setComment] = useState("");
+  const [shareOnDiscord, setShareOnDiscord] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [notionContent, setNotionContent] = useState<NotionBlock[] | null>(null);
   const [isLoadingContent, setIsLoadingContent] = useState(false);
+
+  // Check if task is already completed and not repeatable
+  const isCompleted = task?.id ? completedTasks.includes(task.id) : false;
+  const isTaskCompletedAndNotRepeatable = isCompleted && !task?.repeatable;
 
   useEffect(() => {
     if (task?.id) {
@@ -231,14 +237,17 @@ export function TaskModal({ task, onClose }: TaskModalProps) {
         repeatable: task.repeatable,
       });
 
-      await notifyTaskComplete({
-        discordId: session.user.discordId,
-        discordName: session.user.name || "Unknown",
-        taskName: task.name,
-        xp: result.xpEarned,
-        totalXp: result.totalXp,
-        comment: comment || undefined,
-      });
+      // Only notify in Discord if user opted in
+      if (shareOnDiscord) {
+        await notifyTaskComplete({
+          discordId: session.user.discordId,
+          discordName: session.user.name || "Unknown",
+          taskName: task.name,
+          xp: result.xpEarned,
+          totalXp: result.totalXp,
+          comment: comment || undefined,
+        });
+      }
 
       await assignRole({
         discordId: session.user.discordId,
@@ -383,6 +392,18 @@ export function TaskModal({ task, onClose }: TaskModalProps) {
               )}
             </div>
 
+            <label className="flex items-center gap-3 mb-4 cursor-pointer group">
+              <input
+                type="checkbox"
+                checked={shareOnDiscord}
+                onChange={(e) => setShareOnDiscord(e.target.checked)}
+                className="w-4 h-4 rounded border-gray-600 accent-[#FF9416]"
+              />
+              <span className="font-body text-gray-300 text-sm group-hover:text-gray-200 transition-colors">
+                Aufgabe inklusive Kommentar im Discord teilen
+              </span>
+            </label>
+
             {error && (
               <div className="mb-4 p-3 bg-red-500/20 border-l-4 border-red-500 text-red-300 text-sm font-body relative">
                 {error}
@@ -399,14 +420,16 @@ export function TaskModal({ task, onClose }: TaskModalProps) {
               </button>
               <button
                 onClick={handleSubmit}
-                disabled={isSubmitting || (task.kommentarNoetig && comment.length < 100)}
+                disabled={isSubmitting || isTaskCompletedAndNotRepeatable || (task.kommentarNoetig && comment.length < 100)}
                 className="flex-1 bg-gradient-to-r from-[#FF9416] to-[#FFAB76] text-white font-headline py-3 px-6 hover:from-[#e88510] hover:to-[#FF9416] transition-all disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wider hover:scale-105 hover:shadow-[0_0_20px_rgba(255,148,22,0.4)]"
               >
                 {isSubmitting
                   ? "Wird gespeichert..."
-                  : task.kommentarNoetig && comment.length < 100
-                    ? `Noch ${100 - comment.length} Zeichen...`
-                    : "Erledigt!"
+                  : isTaskCompletedAndNotRepeatable
+                    ? "Bereits erledigt"
+                    : task.kommentarNoetig && comment.length < 100
+                      ? `Noch ${100 - comment.length} Zeichen...`
+                      : "Erledigt!"
                 }
               </button>
             </div>
