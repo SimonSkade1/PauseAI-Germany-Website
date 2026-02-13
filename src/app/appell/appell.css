@@ -296,18 +296,45 @@
 }
 
 /* ============================================
-   Orange Links
+   Blue Links
    ============================================ */
 
 .appell-content-wrapper a:not(.appell-btn-primary) {
-  color: var(--appell-orange);
+  color: #0066cc;
   text-decoration: none;
   border-bottom: 1px solid transparent;
   transition: border-color 0.2s ease;
 }
 
 .appell-content-wrapper a:not(.appell-btn-primary):hover {
-  border-bottom-color: var(--appell-orange);
+  border-bottom-color: #0066cc;
+}
+
+/* ============================================
+   Citation Links (superscript style)
+   ============================================ */
+
+.appell-citation-link {
+  color: #0066cc;
+  font-weight: 600;
+  padding: 0 0.1rem;
+  border-bottom: none !important;
+}
+
+.appell-citation-link::after {
+  display: none;
+}
+
+.appell-citation-link:hover {
+  text-decoration: underline;
+}
+
+.appell-content-wrapper a:not(.appell-citation-link):not(.appell-btn-primary) {
+  color: #0066cc;
+}
+
+.appell-content-wrapper a:not(.appell-citation-link):not(.appell-btn-primary):hover {
+  border-bottom-color: #0066cc;
 }
 
 /* ============================================
@@ -873,8 +900,5 @@ details[open] .appell-faq-question::after {
    ============================================ */
 
 .appell-content-wrapper a[href^="http"][rel~="noopener"]::after {
-  content: " ↗";
-  font-size: 0.8em;
-  margin-left: 0.2em;
-  color: var(--appell-orange);
+  display: none;
 }
