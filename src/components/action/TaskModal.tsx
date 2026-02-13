@@ -212,6 +212,12 @@ export function TaskModal({ task, onClose }: TaskModalProps) {
       return;
     }
 
+    // Validate comment if required
+    if (task.kommentarNoetig && comment.length < 100) {
+      setError("Bitte füge einen Kommentar mit mindestens 100 Zeichen hinzu.");
+      return;
+    }
+
     setIsSubmitting(true);
     setError(null);
 
@@ -287,15 +293,46 @@ export function TaskModal({ task, onClose }: TaskModalProps) {
               Wiederholbar
             </span>
           )}
+          {task.kommentarNoetig && (
+            <span className="px-3 py-1 bg-red-500/20 text-red-400 font-body-bold border border-red-500/30">
+              Kommentar erforderlich
+            </span>
+          )}
         </div>
 
         {/* Notion Content Section */}
         <div className="flex-1 overflow-y-auto pr-2 relative mb-6 min-h-0 modal-content-scroll">
           {isLoadingContent ? (
             <div className="flex items-center justify-center py-8">
-              <div className="animate-pulse flex flex-col items-center gap-3">
-                <svg className="w-8 h-8 text-[#FF9416]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              <div className="flex flex-col items-center gap-4">
+                {/* Pause icon loading animation */}
+                <svg
+                  className="w-16 h-16"
+                  viewBox="0 0 100 100"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <ellipse cx="50" cy="50" rx="45" ry="45" fill="#FF9416" opacity="0.15" className="animate-pulse" />
+                  <rect
+                    x="28"
+                    y="30"
+                    width="16"
+                    height="40"
+                    rx="2"
+                    fill="#FF9416"
+                    className="animate-pulse"
+                    style={{ animationDelay: '0ms' }}
+                  />
+                  <rect
+                    x="56"
+                    y="30"
+                    width="16"
+                    height="40"
+                    rx="2"
+                    fill="#FF9416"
+                    className="animate-pulse"
+                    style={{ animationDelay: '150ms' }}
+                  />
                 </svg>
                 <span className="text-gray-400 text-sm">Lade Inhalt...</span>
               </div>
@@ -323,12 +360,28 @@ export function TaskModal({ task, onClose }: TaskModalProps) {
           </div>
         ) : (
           <>
-            <textarea
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              placeholder="Optional: Beschreibe kurz was du gemacht hast..."
-              className="w-full px-4 py-3 bg-[#0a0a0a] border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-[#FF9416] focus:ring-1 focus:ring-[#FF9416] resize-y min-h-[80px] mb-4 font-body transition-all flex-shrink-0"
-            />
+            <div className="relative flex-shrink-0 mb-4">
+              <textarea
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                placeholder={task.kommentarNoetig
+                  ? "Bitte beschreibe kurz was du gemacht hast (min. 100 Zeichen)..."
+                  : "Optional: Beschreibe kurz was du gemacht hast..."
+                }
+                className={`w-full px-4 py-3 bg-[#0a0a0a] text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-[#FF9416] resize-y min-h-[80px] font-body transition-all ${
+                  task.kommentarNoetig && comment.length > 0 && comment.length < 100
+                    ? "border-red-500"
+                    : "border-gray-700"
+                } focus:border-[#FF9416]`}
+              />
+              {task.kommentarNoetig && (
+                <div className={`absolute bottom-2 right-2 text-xs font-body ${
+                  comment.length >= 100 ? "text-green-400" : "text-gray-500"
+                }`}>
+                  {comment.length}/100
+                </div>
+              )}
+            </div>
 
             {error && (
               <div className="mb-4 p-3 bg-red-500/20 border-l-4 border-red-500 text-red-300 text-sm font-body relative">
@@ -346,10 +399,15 @@ export function TaskModal({ task, onClose }: TaskModalProps) {
               </button>
               <button
                 onClick={handleSubmit}
-                disabled={isSubmitting}
+                disabled={isSubmitting || (task.kommentarNoetig && comment.length < 100)}
                 className="flex-1 bg-gradient-to-r from-[#FF9416] to-[#FFAB76] text-white font-headline py-3 px-6 hover:from-[#e88510] hover:to-[#FF9416] transition-all disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wider hover:scale-105 hover:shadow-[0_0_20px_rgba(255,148,22,0.4)]"
               >
-                {isSubmitting ? "Wird gespeichert..." : "Erledigt!"}
+                {isSubmitting
+                  ? "Wird gespeichert..."
+                  : task.kommentarNoetig && comment.length < 100
+                    ? `Noch ${100 - comment.length} Zeichen...`
+                    : "Erledigt!"
+                }
               </button>
             </div>
           </>

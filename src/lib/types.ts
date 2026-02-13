@@ -7,6 +7,7 @@ export interface Task {
   link: string;
   icon?: string;       // Computed from emoji via getLucideForEmoji()
   repeatable?: boolean; // Whether the task can be completed multiple times
+  kommentarNoetig?: boolean; // Whether a comment (min 100 chars) is required
 }
 
 // User types

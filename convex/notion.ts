@@ -215,6 +215,12 @@ export const getTasks = action({
         )?.[1] as any;
         const repeatable = repeatableProp?.type === "checkbox" ? repeatableProp.checkbox : false;
 
+        // Extract "Kommentar notwendig" checkbox
+        const kommentarNoetigProp = Object.entries(props).find(
+          ([key, v]: [string, any]) => key === "Kommentar notwendig"
+        )?.[1] as any;
+        const kommentarNoetig = kommentarNoetigProp?.type === "checkbox" ? kommentarNoetigProp.checkbox : false;
+
         return {
           id: page.id,
           name,
@@ -222,6 +228,7 @@ export const getTasks = action({
           emoji,
           link,
           repeatable,
+          kommentarNoetig,
         };
       })
       .filter((task: any) => task.name.length > 0); // Filter out tasks without names
