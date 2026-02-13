@@ -5,6 +5,11 @@ import TableOfContents from "./TableOfContents";
 import AppellSection from "./AppellSection";
 import ZitateSection from "./ZitateSection";
 import UnterzeichnendeSection from "./UnterzeichnendeSection";
+import HintergrundSection from "./HintergrundSection";
+import FAQSection from "./FAQSection";
+import ExpertenSection from "./ExpertenSection";
+import PetitionSection from "./PetitionSection";
+import MedienSection from "./MedienSection";
 import { sections } from "./sections";
 import "./appell.css";
 
@@ -43,23 +48,23 @@ export default function AppellPage() {
             </section>
 
             <section id="hintergrund" className="appell-section">
-              {/* Hintergrund content */}
+              <HintergrundSection />
             </section>
 
             <section id="faq" className="appell-section">
-              {/* FAQ content */}
+              <FAQSection />
             </section>
 
             <section id="experten" className="appell-section">
-              {/* Experten content */}
+              <ExpertenSection />
             </section>
 
             <section id="petition" className="appell-section">
-              {/* Petition content */}
+              <PetitionSection />
             </section>
 
             <section id="medien" className="appell-section">
-              {/* Medien content */}
+              <MedienSection />
             </section>
 
           </article>

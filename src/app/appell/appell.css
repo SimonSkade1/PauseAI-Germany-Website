@@ -582,6 +582,170 @@
 }
 
 /* ============================================
+   FAQ Section
+   ============================================ */
+
+.appell-faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.appell-faq-item {
+  border-bottom: 1px solid #eee;
+}
+
+.appell-faq-item:last-child {
+  border-bottom: none;
+}
+
+.appell-faq-question {
+  font-family: var(--font-section);
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  cursor: pointer;
+  padding: 1rem 0;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: color 0.2s ease;
+}
+
+.appell-faq-question:hover {
+  color: var(--appell-orange);
+}
+
+.appell-faq-question::-webkit-details-marker {
+  display: none;
+}
+
+.appell-faq-question::after {
+  content: "+";
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--appell-orange);
+  transition: transform 0.2s ease;
+}
+
+details[open] .appell-faq-question::after {
+  transform: rotate(45deg);
+}
+
+.appell-faq-answer {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #2d2d2d;
+  margin: 0;
+  padding-bottom: 1.5rem;
+}
+
+/* ============================================
+   Experten Section (International Expert Quotes)
+   ============================================ */
+
+.appell-experten-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.appell-experten-quote {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+}
+
+.appell-experten-text {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #2d2d2d;
+  margin: 0 0 0.75rem 0;
+}
+
+.appell-experten-attribution {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.appell-experten-name {
+  font-family: var(--font-section);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.appell-experten-separator {
+  color: #999;
+}
+
+.appell-experten-role,
+.appell-experten-org {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.appell-experten-link {
+  font-family: var(--font-section);
+  font-size: 0.875rem;
+  color: var(--appell-orange);
+  text-decoration: none;
+  margin-left: 0.5rem;
+}
+
+.appell-experten-link:hover {
+  text-decoration: underline;
+}
+
+/* ============================================
+   Petition Section
+   ============================================ */
+
+.appell-petition-container {
+  text-align: center;
+}
+
+/* ============================================
+   Medien Section (Press Contact)
+   ============================================ */
+
+.appell-medien-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.appell-medien-email {
+  margin: 0;
+}
+
+.appell-medien-email a {
+  font-family: var(--font-section);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--appell-orange);
+  text-decoration: none;
+}
+
+.appell-medien-email a:hover {
+  text-decoration: underline;
+}
+
+.appell-medien-note {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: #666;
+  margin: 0;
+}
+
+/* ============================================
    Petition Button
    ============================================ */
 
