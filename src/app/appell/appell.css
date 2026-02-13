@@ -13,9 +13,7 @@
    ============================================ */
 
 .appell-layout {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2rem;
+  position: relative;
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
@@ -24,24 +22,18 @@
   padding-top: 5rem;
 }
 
-@media (min-width: 1024px) {
-  .appell-layout {
-    grid-template-columns: 240px 1fr;
-    gap: 4rem;
-  }
-}
-
 /* ============================================
-   Sidebar Table of Contents
+   Sidebar Table of Contents - Fixed position
    ============================================ */
 
 .appell-sidebar {
-  position: relative;
+  position: fixed;
+  left: max(1rem, calc((100% - 1200px) / 2 + 1rem));
+  top: 6rem;
+  width: 240px;
 }
 
 .appell-toc {
-  position: sticky;
-  top: 6rem;
   display: flex;
   flex-direction: column;
 }
@@ -202,6 +194,12 @@
   }
 }
 
+@media (min-width: 1024px) {
+  .appell-sidebar {
+    display: block;
+  }
+}
+
 .appell-toc-title {
   font-family: var(--font-section);
   font-size: 0.75rem;
@@ -248,13 +246,13 @@
    ============================================ */
 
 .appell-main {
-  min-width: 0; /* Prevent grid blowout */
-}
-
-.appell-content-wrapper {
   max-width: 720px;
   margin-left: auto;
   margin-right: auto;
+}
+
+.appell-content-wrapper {
+  /* Content wrapper now directly in main */
 }
 
 /* Serif text for long reading */
