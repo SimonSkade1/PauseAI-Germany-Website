@@ -1,0 +1,388 @@
+/* ============================================
+   Appell Page - Global Page Constraints
+   ============================================ */
+
+/* Page wrapper with centered readable column */
+.appell-page {
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* Serif text for long reading */
+.appell-page {
+  font-family: var(--font-body);
+}
+
+/* Sans-serif for UI elements (tabs, nav, labels) */
+.appell-ui-text {
+  font-family: var(--font-section);
+  font-weight: 600;
+}
+
+/* Dark gray body text (not black) */
+.appell-page {
+  color: #2d2d2d;
+}
+
+/* White background */
+.appell-page {
+  background: var(--pause-white);
+}
+
+/* Generous vertical spacing between sections */
+.appell-section {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+/* Orange accent - for links, active tab underline, small heading accent, petition button */
+:root {
+  --appell-orange: #FF9416;
+  --appell-orange-hover: #e88510;
+}
+
+/* Orange links */
+.appell-page a:not(.appell-btn-primary) {
+  color: var(--appell-orange);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+.appell-page a:not(.appell-btn-primary):hover {
+  border-bottom-color: var(--appell-orange);
+}
+
+/* Active tab underline */
+.appell-tab[aria-current="page"],
+.appell-tab[aria-pressed="true"] {
+  border-bottom: 2px solid var(--appell-orange);
+  color: var(--appell-orange);
+}
+
+/* Small heading accent */
+.appell-accent-line {
+  display: inline-block;
+  width: 2rem;
+  height: 3px;
+  background: var(--appell-orange);
+  margin-bottom: 1rem;
+}
+
+/* Petition button */
+.appell-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 2rem;
+  background: var(--appell-orange);
+  color: white;
+  font-family: var(--font-section);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.appell-btn-primary:hover {
+  background: var(--appell-orange-hover);
+  transform: translateY(-2px);
+}
+
+/* Page top padding to clear fixed navbar (approx 72px) */
+.appell-page {
+  padding-top: 5rem;
+}
+
+/* ============================================
+   Section Scroll Offset
+   ============================================ */
+
+/* Navbar height ~72px + jump bar height ~48px = ~120px */
+/* This prevents anchor links from landing under the navbar */
+.appell-section-wrapper {
+  scroll-margin-top: 120px;
+}
+
+/* ============================================
+   Section IDs (for anchor linking)
+   ============================================ */
+#appell,
+#zitate,
+#unterzeichnende,
+#hintergrund,
+#faq,
+#experten,
+#petition,
+#medien {
+  scroll-margin-top: 120px;
+}
+
+/* ============================================
+   In-Page Jump Bar
+   ============================================ */
+
+/* Sticky positioning - sticks below global navbar */
+.appell-jump-bar {
+  position: sticky;
+  top: 72px; /* Global navbar height */
+  z-index: 40;
+  background: var(--pause-white);
+  border-bottom: 1px solid #e5e5e5;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+/* Horizontal list of anchor links */
+.appell-jump-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.appell-jump-list li {
+  margin: 0;
+}
+
+/* Simple text links only (no pills, no boxes) */
+.appell-jump-link {
+  font-family: var(--font-section);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #666;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.appell-jump-link:hover {
+  color: var(--appell-orange);
+}
+
+/* Active item highlighted via orange underline */
+.appell-jump-link-active {
+  color: var(--appell-orange);
+  border-bottom-color: var(--appell-orange);
+}
+
+/* ============================================
+   Appell Section Styles
+   ============================================ */
+
+/* H1 headline - serif, prominent but not oversized */
+.appell-headline {
+  font-family: var(--font-body);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #1a1a1a;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .appell-headline {
+    font-size: 2.5rem;
+  }
+}
+
+/* Paragraph text - serif, readable */
+.appell-paragraph {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  line-height: 1.75;
+  color: #2d2d2d;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .appell-paragraph {
+    font-size: 1.25rem;
+  }
+}
+
+/* Credibility line - smaller, lighter color */
+.appell-credibility {
+  font-family: var(--font-section);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #666;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* Priorities container */
+.appell-priorities {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Priority item */
+.appell-priority {
+  display: flex;
+  gap: 1rem;
+  padding-left: 0.5rem;
+}
+
+/* Number styling */
+.appell-priority-number {
+  font-family: var(--font-section);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--appell-orange);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* Priority content */
+.appell-priority-content {
+  flex: 1;
+}
+
+/* Priority title */
+.appell-priority-title {
+  font-family: var(--font-section);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Priority text */
+.appell-priority-text {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #2d2d2d;
+  margin: 0;
+}
+
+/* Conclusion paragraph */
+.appell-conclusion {
+  font-family: var(--font-body);
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: #1a1a1a;
+  font-weight: 500;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .appell-conclusion {
+    font-size: 1.25rem;
+  }
+}
+
+/* Thin divider line below appell section */
+.appell-divider {
+  height: 1px;
+  background: #e5e5e5;
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+}
+
+/* ============================================
+   Zitate Section (Editorial Quotes)
+   ============================================ */
+
+/* Section heading with accent line */
+.appell-section-heading {
+  font-family: var(--font-section);
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #1a1a1a;
+  margin-top: 0;
+  margin-bottom: 2rem;
+}
+
+/* Quote container */
+.appell-quotes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Editorial quote styling */
+.appell-quote-editorial {
+  position: relative;
+  padding: 2rem;
+  background: #f8f8f8;
+  border-left: 4px solid var(--appell-orange);
+  margin: 0;
+}
+
+/* Small orange accent mark */
+.appell-quote-accent {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  width: 8px;
+  height: 8px;
+  background: var(--appell-orange);
+  border-radius: 50%;
+}
+
+/* Larger serif text for quotes */
+.appell-quote-text {
+  font-family: var(--font-body);
+  font-size: 1.25rem;
+  line-height: 1.75;
+  color: #2d2d2d;
+  margin: 0 0 1.5rem 0;
+  padding-left: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .appell-quote-text {
+    font-size: 1.375rem;
+  }
+}
+
+/* Quote attribution */
+.appell-quote-attribution {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-left: 1.5rem;
+}
+
+/* Name (bold) */
+.appell-quote-name {
+  font-family: var(--font-section);
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  font-style: normal;
+}
+
+/* Chair (smaller gray) */
+.appell-quote-chair {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: #666;
+  font-style: italic;
+}
