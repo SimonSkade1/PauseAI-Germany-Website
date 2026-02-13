@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import TableOfContents from "./TableOfContents";
 import AppellSection from "./AppellSection";
 import ZitateSection from "./ZitateSection";
+import { sections } from "./sections";
 import "./appell.css";
 
 export const metadata: Metadata = {
@@ -11,25 +12,17 @@ export const metadata: Metadata = {
   description: "Wir fordern die deutsche Delegation des bevorstehenden KI-Gipfels auf, sich öffentlich für ein globales Abkommen auszusprechen, das klare rote Linien und verbindliche Sicherheitsstandards verankert.",
 };
 
-const sections = [
-  { id: "appell", label: "Appell" },
-  { id: "zitate", label: "Zitate" },
-  { id: "unterzeichnende", label: "Unterzeichnende" },
-  { id: "hintergrund", label: "Hintergrund" },
-  { id: "faq", label: "FAQ" },
-  { id: "experten", label: "Experten" },
-  { id: "petition", label: "Petition" },
-  { id: "medien", label: "Presse" },
-];
-
 export default function AppellPage() {
   return (
     <>
       <Header />
       <div className="appell-layout">
-        {/* Sidebar table of contents */}
+        {/* Mobile TOC toggle and overlay */}
+        <TableOfContents sections={sections} />
+
+        {/* Desktop sidebar table of contents */}
         <aside className="appell-sidebar">
-          <TableOfContents sections={sections} />
+          <TableOfContents sections={sections} desktopOnly={true} />
         </aside>
 
         {/* Main content area */}

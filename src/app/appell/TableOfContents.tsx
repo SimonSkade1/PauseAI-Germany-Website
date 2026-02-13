@@ -1,18 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
-interface Section {
-  id: string;
-  label: string;
-}
+import { FileText, X } from "lucide-react";
+import { sections, type Section } from "./sections";
 
 interface Props {
   sections: Section[];
+  desktopOnly?: boolean;
 }
 
-export default function TableOfContents({ sections }: Props) {
+export default function TableOfContents({ sections: _sections, desktopOnly }: Props) {
   const [activeSection, setActiveSection] = useState(sections[0]?.id || "");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -43,24 +42,78 @@ export default function TableOfContents({ sections }: Props) {
     return () => observer.disconnect();
   }, [sections]);
 
+  // Desktop only - just render the sidebar TOC
+  if (desktopOnly) {
+    return (
+      <nav className="appell-toc">
+        <h2 className="appell-toc-title">Inhalt</h2>
+        <ul className="appell-toc-list">
+          {sections.map(({ id, label }) => (
+            <li key={id}>
+              <a
+                  href={`#${id}`}
+                  className={`appell-toc-link ${
+                    activeSection === id ? "appell-toc-link-active" : ""
+                  }`}
+                  aria-current={activeSection === id ? "true" : undefined}
+                >
+                  {label}
+                </a>
+              </li>
+            ))}
+        </ul>
+      </nav>
+    );
+  }
+
+  // Mobile version - floating button with menu
   return (
-    <nav className="appell-toc" aria-label="Inhaltsverzeichnis">
-      <h2 className="appell-toc-title">Inhalt</h2>
-      <ul className="appell-toc-list">
-        {sections.map(({ id, label }) => (
-          <li key={id}>
+    <>
+      {/* Backdrop overlay */}
+      {isMenuOpen && (
+        <div
+          className="appell-toc-backdrop"
+          onClick={() => setIsMenuOpen(false)}
+        />
+      )}
+
+      {/* Bottom menu panel */}
+      <div className={`appell-toc-menu ${isMenuOpen ? "appell-toc-menu-open" : ""}`}>
+        <div className="appell-toc-menu-header">
+          <span className="appell-toc-menu-title">Auf dieser Seite</span>
+          <button
+            className="appell-toc-menu-close"
+            onClick={() => setIsMenuOpen(false)}
+            aria-label="Schließen"
+          >
+            <X size={20} />
+          </button>
+        </div>
+        <nav className="appell-toc-menu-nav">
+          {sections.map(({ id, label }) => (
             <a
+              key={id}
               href={`#${id}`}
-              className={`appell-toc-link ${
-                activeSection === id ? "appell-toc-link-active" : ""
+              className={`appell-toc-menu-link ${
+                activeSection === id ? "appell-toc-menu-link-active" : ""
               }`}
-              aria-current={activeSection === id ? "true" : undefined}
+              onClick={() => setIsMenuOpen(false)}
             >
               {label}
             </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
+          ))}
+        </nav>
+      </div>
+
+      {/* Floating FAB button - toggles menu */}
+      <button
+        className="appell-toc-toggle"
+        onClick={() => setIsMenuOpen(!isMenuOpen)}
+        aria-label="Auf dieser Seite"
+        aria-expanded={isMenuOpen}
+      >
+        <FileText size={24} />
+      </button>
+    </>
   );
 }
