@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import TableOfContents from "./TableOfContents";
 import AppellSection from "./AppellSection";
 import ZitateSection from "./ZitateSection";
+import UnterzeichnendeSection from "./UnterzeichnendeSection";
 import { sections } from "./sections";
 import "./appell.css";
 
@@ -38,7 +39,7 @@ export default function AppellPage() {
             </section>
 
             <section id="unterzeichnende" className="appell-section">
-              {/* Unterzeichnende content */}
+              <UnterzeichnendeSection />
             </section>
 
             <section id="hintergrund" className="appell-section">
