@@ -221,6 +221,12 @@ export const getTasks = action({
         )?.[1] as any;
         const kommentarNoetig = kommentarNoetigProp?.type === "checkbox" ? kommentarNoetigProp.checkbox : false;
 
+        // Extract "Wichtig" (important) checkbox
+        const wichtigProp = Object.entries(props).find(
+          ([key, v]: [string, any]) => key === "Wichtig"
+        )?.[1] as any;
+        const wichtig = wichtigProp?.type === "checkbox" ? wichtigProp.checkbox : false;
+
         return {
           id: page.id,
           name,
@@ -229,6 +235,7 @@ export const getTasks = action({
           link,
           repeatable,
           kommentarNoetig,
+          wichtig,
         };
       })
       .filter((task: any) => task.name.length > 0); // Filter out tasks without names

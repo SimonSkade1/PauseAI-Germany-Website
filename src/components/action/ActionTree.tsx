@@ -13,6 +13,7 @@ import * as lucideStatic from "lucide-static";
 
 // Color constants matching the home page aesthetic
 const PAUSEAI_ORANGE = "#FF9416";
+const PAUSEAI_GOLD = "#FFD700";
 const CARD_BG = "#1e1e2e";
 
 const LAYOUT = {
@@ -257,6 +258,24 @@ export function ActionTree() {
     const ambientMerge = ambientGlow.append("feMerge");
     ambientMerge.append("feMergeNode").attr("in", "ambientBlur");
     ambientMerge.append("feMergeNode").attr("in", "SourceGraphic");
+
+    // Radial gradient for important (wichtig) task gold glow
+    const wichtigGradient = defs.append("radialGradient")
+      .attr("id", "wichtig-glow")
+      .attr("cx", "0")
+      .attr("cy", "0")
+      .attr("r", "40")
+      .attr("gradientUnits", "userSpaceOnUse");
+
+    wichtigGradient.append("stop")
+      .attr("offset", "0%")
+      .attr("stop-color", PAUSEAI_GOLD)
+      .attr("stop-opacity", 0.7);
+
+    wichtigGradient.append("stop")
+      .attr("offset", "100%")
+      .attr("stop-color", PAUSEAI_GOLD)
+      .attr("stop-opacity", 0);
 
     // === BACKGROUND ===
 
@@ -527,6 +546,7 @@ export function ActionTree() {
       const task = item.task;
       const isCompleted = completedTasks.has(task.id);
       const isRepeatable = task.repeatable ?? false;
+      const isWichtig = task.wichtig ?? false;
       const completionCount = userData?.completion_counts?.[task.id] ?? 0;
       const pos = getPositionForTier(item.angle, XP_TIERS[item.tierIndex].radius);
 
@@ -544,6 +564,9 @@ export function ActionTree() {
       // Estimate text width for background
       const estimatedWidth = Math.min(task.name.length * 7 + 16, 200);
 
+      // Important tasks get gold tooltip, others get orange
+      const tooltipColor = isWichtig ? PAUSEAI_GOLD : PAUSEAI_ORANGE;
+
       // Tooltip background
       tooltipGroup.append("rect")
         .attr("class", "tooltip-bg")
@@ -552,7 +575,7 @@ export function ActionTree() {
         .attr("width", estimatedWidth)
         .attr("height", 24)
         .attr("rx", 4)
-        .attr("fill", PAUSEAI_ORANGE)
+        .attr("fill", tooltipColor)
         .attr("opacity", 0.95);
 
       // Tooltip text (centered in box: box is y=-55 to y=-31, text baseline with dy centers it)
@@ -572,7 +595,7 @@ export function ActionTree() {
       tooltipGroup.append("path")
         .attr("class", "tooltip-arrow")
         .attr("d", "M -6,-31 L 0,-25 L 6,-31")
-        .attr("fill", PAUSEAI_ORANGE)
+        .attr("fill", tooltipColor)
         .attr("opacity", 0.95);
 
       // Transparent click area (larger than icon for easier clicking)
@@ -581,6 +604,37 @@ export function ActionTree() {
         .attr("r", 25)
         .attr("fill", "transparent")
         .style("pointer-events", "all");
+
+      // Important (wichtig) task effects: pulsing ring + gold glow
+      if (isWichtig && !isCompleted) {
+        // Pulsing ring animation
+        const pulsingRing = group.append("circle")
+          .attr("class", "wichtig-pulsing-ring")
+          .attr("r", 30)
+          .attr("fill", "none")
+          .attr("stroke", PAUSEAI_GOLD)
+          .attr("stroke-width", 2)
+          .attr("stroke-opacity", 0.6);
+
+        // Pulsing animation
+        pulsingRing.append("animate")
+          .attr("attributeName", "r")
+          .attr("values", "30;38;30")
+          .attr("dur", "2s")
+          .attr("repeatCount", "indefinite");
+
+        pulsingRing.append("animate")
+          .attr("attributeName", "stroke-opacity")
+          .attr("values", "0.6;0.2;0.6")
+          .attr("dur", "2s")
+          .attr("repeatCount", "indefinite");
+
+        // Gold glow background
+        group.append("circle")
+          .attr("class", "wichtig-glow-bg")
+          .attr("r", 35)
+          .attr("fill", "url(#wichtig-glow)");
+      }
 
       // Glow effect for completed tasks
       if (isCompleted) {
@@ -628,6 +682,8 @@ export function ActionTree() {
 
       if (iconSvg) {
         const clonedIcon = group.node()!.appendChild(iconSvg.cloneNode(true) as SVGElement);
+        // Completed tasks get orange stroke, all others get gray
+        const iconStrokeColor = isCompleted ? PAUSEAI_ORANGE : "#666666";
         d3.select(clonedIcon)
           .attr("class", "task-icon")
           .attr("width", iconSize)
@@ -636,7 +692,7 @@ export function ActionTree() {
           .attr("y", -iconSize / 2)
           .selectAll("*")
           .attr("fill", "none")
-          .attr("stroke", isCompleted ? PAUSEAI_ORANGE : "#666666")
+          .attr("stroke", iconStrokeColor)
           .attr("stroke-width", "2");
       }
 

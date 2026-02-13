@@ -297,6 +297,11 @@ export function TaskModal({ task, completedTasks = [], onClose }: TaskModalProps
           <span className="px-3 py-1 bg-[#FF9416]/20 text-[#FF9416] font-body-bold border border-[#FF9416]/30">
             +{task.xp} XP
           </span>
+          {task.wichtig && (
+            <span className="px-3 py-1 bg-yellow-500/20 text-yellow-400 font-body-bold border border-yellow-500/30">
+              Wichtig
+            </span>
+          )}
           {task.repeatable && (
             <span className="px-3 py-1 bg-orange-500/20 text-orange-400 font-body-bold border border-orange-500/30">
               Wiederholbar
