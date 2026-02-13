@@ -155,6 +155,435 @@ export const universities: University[] = [
       { name: "Prof. Dr. Name", chair: "Philosophie" },
     ],
   },
+  {
+    key: "eth-zurich",
+    label: "ETH Zürich",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Technikethik" },
+    ],
+  },
+  {
+    key: "uni-frankfurt",
+    label: "Goethe-Universität Frankfurt",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Philosophie" },
+    ],
+  },
+  {
+    key: "tu-dresden",
+    label: "Technische Universität Dresden",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Psychologie" },
+    ],
+  },
+  {
+    key: "lmf-munchen",
+    label: "LMU München",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Philosophie" },
+      { name: "Prof. Dr. Name", chair: "Physik" },
+      { name: "Prof. Dr. Name", chair: "Neurobiologie" },
+    ],
+  },
+  {
+    key: "saarland",
+    label: "Universität des Saarlandes",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Robotik" },
+    ],
+  },
+  {
+    key: "uni-bonn",
+    label: "Rheinische Friedrich-Wilhelms-Universität Bonn",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Mathematik" },
+    ],
+  },
+  {
+    key: "uni-freiburg",
+    label: "Albert-Ludwigs-Universität Freiburg",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Ethik" },
+      { name: "Prof. Dr. Name", chair: "Neurowissenschaften" },
+    ],
+  },
+  {
+    key: "tu-darmstadt",
+    label: "Technische Universität Darmstadt",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Kognitionswissenschaft" },
+    ],
+  },
+  {
+    key: "uni-hamburg",
+    label: "Universität Hamburg",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Philosophie" },
+    ],
+  },
+  {
+    key: "uni-tubingen",
+    label: "Eberhard Karls Universität Tübingen",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Medizinische Ethik" },
+      { name: "Prof. Dr. Name", chair: "Neuroinformatik" },
+    ],
+  },
+  {
+    key: "uni-wuppertal",
+    label: "Bergische Universität Wuppertal",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Security Engineering" },
+    ],
+  },
+  {
+    key: "uni-potsdam",
+    label: "Universität Potsdam",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Data Science" },
+    ],
+  },
+  {
+    key: "tu-ilmenau",
+    label: "Technische Universität Ilmenau",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Künstliche Intelligenz" },
+    ],
+  },
+  {
+    key: "uni-leipzig",
+    label: "Universität Leipzig",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Wissenschaftstheorie" },
+    ],
+  },
+  {
+    key: "uni-erlangen",
+    label: "Friedrich-Alexander-Universität Erlangen-Nürnberg",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Technikethik" },
+    ],
+  },
+  {
+    key: "uni-ulm",
+    label: "Universität Ulm",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Medizinische Ethik" },
+    ],
+  },
+  {
+    key: "tu-kaiserslautern",
+    label: "Technische Universität Kaiserslautern",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Robotik" },
+    ],
+  },
+  {
+    key: "uni-passau",
+    label: "Universität Passau",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Künstliche Intelligenz" },
+    ],
+  },
+  {
+    key: "uni-bielefeld",
+    label: "Universität Bielefeld",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Kognitionswissenschaft" },
+    ],
+  },
+  {
+    key: "tu-braunschweig",
+    label: "Technische Universität Braunschweig",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Künstliche Intelligenz" },
+    ],
+  },
+  {
+    key: "uni-osnabruck",
+    label: "Universität Osnabrück",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Kognitionswissenschaft" },
+    ],
+  },
+  {
+    key: "tu-chemnitz",
+    label: "Technische Universität Chemnitz",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Maschinelles Lernen" },
+    ],
+  },
+  {
+    key: "magdeburg",
+    label: "Universität Magdeburg",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Systemtechnik" },
+    ],
+  },
+  {
+    key: "uni-rostock",
+    label: "Universität Rostock",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Technikethik" },
+    ],
+  },
+  {
+    key: "hfi-munchen",
+    label: "Hochschule für Philosophie München",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Philosophie" },
+      { name: "Prof. Dr. Name", chair: "Ethik" },
+    ],
+  },
+  {
+    key: "b-it",
+    label: "B-IT Bonn-Rhein-Sieg",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+    ],
+  },
+  {
+    key: "dfki",
+    label: "Deutsches Forschungszentrum für Künstliche Intelligenz",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "KI-Forschung" },
+      { name: "Prof. Dr. Name", chair: "Safety Engineering" },
+      { name: "Prof. Dr. Name", chair: "Multiagentensysteme" },
+    ],
+  },
+  {
+    key: "mpis-berlin",
+    label: "Max-Planck-Institut für Bildungsforschung",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Kognitive Psychologie" },
+      { name: "Prof. Dr. Name", chair: "Lernforschung" },
+    ],
+  },
+  {
+    key: "fhi-munchen",
+    label: "Forschungsinstitut für Philosophie München",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Technikphilosophie" },
+      { name: "Prof. Dr. Name", chair: "Ethik" },
+    ],
+  },
+  {
+    key: "weizenbaum",
+    label: "Weizenbaum-Institut für die vernetzte Gesellschaft",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik und Gesellschaft" },
+      { name: "Prof. Dr. Name", chair: "KI-Ethik" },
+    ],
+  },
+  {
+    key: "uni-graz",
+    label: "Karl-Franzens-Universität Graz",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Kognitionswissenschaft" },
+    ],
+  },
+  {
+    key: "tu-wien",
+    label: "Technische Universität Wien",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Automatentheorie" },
+    ],
+  },
+  {
+    key: "uni-zurich",
+    label: "Universität Zürich",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Philosophie" },
+    ],
+  },
+  {
+    key: "epfl",
+    label: "École Polytechnique Fédérale de Lausanne",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+    ],
+  },
+  {
+    key: "uni-mannheim",
+    label: "Universität Mannheim",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Data Science" },
+    ],
+  },
+  {
+    key: "tu-munchen-weihenstephan",
+    label: "TU München Weihenstephan",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Robotik" },
+    ],
+  },
+  {
+    key: "uni-gottingen",
+    label: "Georg-August-Universität Göttingen",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Philosophie" },
+      { name: "Prof. Dr. Name", chair: "Kognitionswissenschaft" },
+    ],
+  },
+  {
+    key: "uni-mainz",
+    label: "Johannes Gutenberg-Universität Mainz",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Historisches Institut" },
+    ],
+  },
+  {
+    key: "uni-wurzburg",
+    label: "Julius-Maximilians-Universität Würzburg",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Robotik" },
+    ],
+  },
+  {
+    key: "tuc",
+    label: "Technische Universität Chemnitz",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Künstliche Intelligenz" },
+    ],
+  },
+  {
+    key: "hsu-harburg",
+    label: "Hamburg University of Technology",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Künstliche Intelligenz" },
+    ],
+  },
+  {
+    key: "rwth-aachen-2",
+    label: "RWTH Aachen - Weitere",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Philosophie" },
+      { name: "Prof. Dr. Name", chair: "Medizinische Ethik" },
+    ],
+  },
+  {
+    key: "tum-2",
+    label: "TUM - Weitere",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Management" },
+      { name: "Prof. Dr. Name", chair: "Soziologie" },
+      { name: "Prof. Dr. Name", chair: "Wissenschaftstheorie" },
+    ],
+  },
+  {
+    key: "hpi-potsdam",
+    label: "Hasso Plattner Institut",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Data Engineering" },
+    ],
+  },
+  {
+    key: "caspers",
+    label: "CASPER - Cybersecurity研究与教育",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Cybersecurity" },
+      { name: "Prof. Dr. Name", chair: "Privacy" },
+    ],
+  },
+  {
+    key: "tuhh",
+    label: "Technische Universität Hamburg",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Technikethik" },
+    ],
+  },
+  {
+    key: "luh",
+    label: "Leuphana Universität Lüneburg",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Digitalisierung" },
+      { name: "Prof. Dr. Name", chair: "Bildungsforschung" },
+    ],
+  },
+  {
+    key: "jacobs",
+    label: "Jacobs University Bremen",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Data Science" },
+    ],
+  },
+  {
+    key: "uni-bayreuth",
+    label: "Universität Bayreuth",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Philosophie" },
+    ],
+  },
+  {
+    key: "tu-clausthal",
+    label: "Technische Universität Clausthal",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Robotik" },
+    ],
+  },
+  {
+    key: "uni-lubeck",
+    label: "Universität zu Lübeck",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Medizinische Informatik" },
+    ],
+  },
+  {
+    key: "uni-regensburg",
+    label: "Universität Regensburg",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Praktische Informatik" },
+    ],
+  },
+  {
+    key: "uni-siegen",
+    label: "Universität Siegen",
+    signatories: [
+      { name: "Prof. Dr. Name", chair: "Informatik" },
+      { name: "Prof. Dr. Name", chair: "Wirtschaftsinformatik" },
+    ],
+  },
 ];
 
 export const faq: FAQ[] = [

@@ -1,118 +1,142 @@
 /* ============================================
-   Appell Page - Global Page Constraints
+   Appell Page - Modern Blog Layout with Sidebar
    ============================================ */
 
-/* Page wrapper with centered readable column */
-.appell-page {
-  max-width: 760px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
-}
-
-/* Serif text for long reading */
-.appell-page {
-  font-family: var(--font-body);
-}
-
-/* Sans-serif for UI elements (tabs, nav, labels) */
-.appell-ui-text {
-  font-family: var(--font-section);
-  font-weight: 600;
-}
-
-/* Dark gray body text (not black) */
-.appell-page {
-  color: #2d2d2d;
-}
-
-/* White background */
-.appell-page {
-  background: var(--pause-white);
-}
-
-/* Generous vertical spacing between sections */
-.appell-section {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-}
-
-/* Orange accent - for links, active tab underline, small heading accent, petition button */
+/* Orange accent - for links, active items, small heading accent */
 :root {
   --appell-orange: #FF9416;
   --appell-orange-hover: #e88510;
 }
 
-/* Orange links */
-.appell-page a:not(.appell-btn-primary) {
-  color: var(--appell-orange);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.2s ease;
-}
+/* ============================================
+   Layout Container
+   ============================================ */
 
-.appell-page a:not(.appell-btn-primary):hover {
-  border-bottom-color: var(--appell-orange);
-}
-
-/* Active tab underline */
-.appell-tab[aria-current="page"],
-.appell-tab[aria-pressed="true"] {
-  border-bottom: 2px solid var(--appell-orange);
-  color: var(--appell-orange);
-}
-
-/* Small heading accent */
-.appell-accent-line {
-  display: inline-block;
-  width: 2rem;
-  height: 3px;
-  background: var(--appell-orange);
-  margin-bottom: 1rem;
-}
-
-/* Petition button */
-.appell-btn-primary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.875rem 2rem;
-  background: var(--appell-orange);
-  color: white;
-  font-family: var(--font-section);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border: none;
-  border-radius: 0.375rem;
-  cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease;
-}
-
-.appell-btn-primary:hover {
-  background: var(--appell-orange-hover);
-  transform: translateY(-2px);
-}
-
-/* Page top padding to clear fixed navbar (approx 72px) */
-.appell-page {
+.appell-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
   padding-top: 5rem;
 }
 
-/* ============================================
-   Section Scroll Offset
-   ============================================ */
-
-/* Navbar height ~72px + jump bar height ~48px = ~120px */
-/* This prevents anchor links from landing under the navbar */
-.appell-section-wrapper {
-  scroll-margin-top: 120px;
+@media (min-width: 1024px) {
+  .appell-layout {
+    grid-template-columns: 240px 1fr;
+    gap: 4rem;
+  }
 }
 
 /* ============================================
-   Section IDs (for anchor linking)
+   Sidebar Table of Contents
    ============================================ */
+
+.appell-sidebar {
+  position: relative;
+}
+
+.appell-toc {
+  position: sticky;
+  top: 6rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Hide TOC on mobile, show on desktop */
+@media (max-width: 1023px) {
+  .appell-sidebar {
+    display: none;
+  }
+}
+
+.appell-toc-title {
+  font-family: var(--font-section);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #666;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.appell-toc-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.appell-toc-link {
+  font-family: var(--font-section);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #666;
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  padding-left: 0.75rem;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.appell-toc-link:hover {
+  color: var(--appell-orange);
+}
+
+.appell-toc-link-active {
+  color: var(--appell-orange);
+  border-left-color: var(--appell-orange);
+  font-weight: 600;
+}
+
+/* ============================================
+   Main Content Area
+   ============================================ */
+
+.appell-main {
+  min-width: 0; /* Prevent grid blowout */
+}
+
+.appell-content-wrapper {
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Serif text for long reading */
+.appell-content-wrapper {
+  font-family: var(--font-body);
+  color: #2d2d2d;
+}
+
+/* Sans-serif for UI elements */
+.appell-ui-text {
+  font-family: var(--font-section);
+  font-weight: 600;
+}
+
+/* ============================================
+   Section Styles
+   ============================================ */
+
+.appell-section {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+  .appell-section {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+}
+
+/* Section IDs for anchor linking - scroll margin */
 #appell,
 #zitate,
 #unterzeichnende,
@@ -121,59 +145,21 @@
 #experten,
 #petition,
 #medien {
-  scroll-margin-top: 120px;
+  scroll-margin-top: 6rem;
 }
 
 /* ============================================
-   In-Page Jump Bar
+   Orange Links
    ============================================ */
 
-/* Sticky positioning - sticks below global navbar */
-.appell-jump-bar {
-  position: sticky;
-  top: 72px; /* Global navbar height */
-  z-index: 40;
-  background: var(--pause-white);
-  border-bottom: 1px solid #e5e5e5;
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
-  margin-bottom: 2rem;
-}
-
-/* Horizontal list of anchor links */
-.appell-jump-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem 1.5rem;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.appell-jump-list li {
-  margin: 0;
-}
-
-/* Simple text links only (no pills, no boxes) */
-.appell-jump-link {
-  font-family: var(--font-section);
-  font-size: 0.875rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: #666;
+.appell-content-wrapper a:not(.appell-btn-primary) {
+  color: var(--appell-orange);
   text-decoration: none;
-  border-bottom: 2px solid transparent;
-  transition: color 0.2s ease, border-color 0.2s ease;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
 }
 
-.appell-jump-link:hover {
-  color: var(--appell-orange);
-}
-
-/* Active item highlighted via orange underline */
-.appell-jump-link-active {
-  color: var(--appell-orange);
+.appell-content-wrapper a:not(.appell-btn-primary):hover {
   border-bottom-color: var(--appell-orange);
 }
 
@@ -181,10 +167,10 @@
    Appell Section Styles
    ============================================ */
 
-/* H1 headline - serif, prominent but not oversized */
+/* H1 headline */
 .appell-headline {
   font-family: var(--font-body);
-  font-size: 2rem;
+  font-size: 1.75rem;
   font-weight: 700;
   line-height: 1.3;
   color: #1a1a1a;
@@ -194,11 +180,11 @@
 
 @media (min-width: 768px) {
   .appell-headline {
-    font-size: 2.5rem;
+    font-size: 2.25rem;
   }
 }
 
-/* Paragraph text - serif, readable */
+/* Paragraph text */
 .appell-paragraph {
   font-family: var(--font-body);
   font-size: 1.125rem;
@@ -214,19 +200,71 @@
   }
 }
 
-/* Credibility line - smaller, lighter color */
-.appell-credibility {
-  font-family: var(--font-section);
-  font-size: 0.875rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: #666;
-  margin-top: 0;
-  margin-bottom: 0;
+/* ============================================
+   Prominent Signatory Count - Key Credibility
+   ============================================ */
+
+.appell-signatory-credibility {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  margin: 2rem 0;
+  background: linear-gradient(135deg, #fff5eb 0%, #ffedd5 100%);
+  border-left: 4px solid var(--appell-orange);
 }
 
-/* Priorities container */
+@media (min-width: 768px) {
+  .appell-signatory-credibility {
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
+  }
+}
+
+.appell-signatory-count {
+  font-family: var(--font-section);
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--appell-orange);
+  line-height: 1;
+}
+
+@media (min-width: 768px) {
+  .appell-signatory-count {
+    font-size: 4rem;
+  }
+}
+
+.appell-signatory-text {
+  font-family: var(--font-section);
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .appell-signatory-text {
+    font-size: 1.125rem;
+  }
+}
+
+.appell-signatory-label {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #666;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .appell-signatory-label {
+    text-align: left;
+  }
+}
+
+/* Old credibility line (deprecated) */
 .appell-priorities {
   display: flex;
   flex-direction: column;
@@ -260,7 +298,7 @@
 /* Priority title */
 .appell-priority-title {
   font-family: var(--font-section);
-  font-size: 1.125rem;
+  font-size: 1rem;
   font-weight: 700;
   color: #1a1a1a;
   margin-top: 0;
@@ -295,22 +333,21 @@
   }
 }
 
-/* Thin divider line below appell section */
-.appell-divider {
-  height: 1px;
-  background: #e5e5e5;
-  margin-top: 3rem;
-  margin-bottom: 2rem;
-}
-
 /* ============================================
-   Zitate Section (Editorial Quotes)
+   Section Heading with Accent Line
    ============================================ */
 
-/* Section heading with accent line */
+.appell-accent-line {
+  display: inline-block;
+  width: 2rem;
+  height: 3px;
+  background: var(--appell-orange);
+  margin-bottom: 1rem;
+}
+
 .appell-section-heading {
   font-family: var(--font-section);
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -318,6 +355,16 @@
   margin-top: 0;
   margin-bottom: 2rem;
 }
+
+@media (min-width: 768px) {
+  .appell-section-heading {
+    font-size: 1.5rem;
+  }
+}
+
+/* ============================================
+   Zitate Section (Editorial Quotes)
+   ============================================ */
 
 /* Quote container */
 .appell-quotes-list {
@@ -385,4 +432,30 @@
   font-size: 0.875rem;
   color: #666;
   font-style: italic;
+}
+
+/* ============================================
+   Petition Button
+   ============================================ */
+
+.appell-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 2rem;
+  background: var(--appell-orange);
+  color: white;
+  font-family: var(--font-section);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.appell-btn-primary:hover {
+  background: var(--appell-orange-hover);
+  transform: translateY(-2px);
 }

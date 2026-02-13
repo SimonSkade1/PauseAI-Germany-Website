@@ -27,9 +27,12 @@ export default function AppellSection() {
 
       <p className="appell-conclusion">{appell.conclusion}</p>
 
-      <p className="appell-credibility">
-        Unterzeichnet von {totalSignatories} Professorinnen und Professoren
-      </p>
+      {/* Prominent signatory count - key credibility indicator */}
+      <div className="appell-signatory-credibility">
+        <span className="appell-signatory-count">{totalSignatories}</span>
+        <span className="appell-signatory-text">
+          Professorinnen und Professoren aus Deutschland <br/>haben unterschrieben</span>
+      </div>
     </div>
   );
 }

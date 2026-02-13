@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import JumpBar from "./JumpBar";
+import TableOfContents from "./TableOfContents";
 import AppellSection from "./AppellSection";
 import ZitateSection from "./ZitateSection";
 import "./appell.css";
@@ -11,68 +11,66 @@ export const metadata: Metadata = {
   description: "Wir fordern die deutsche Delegation des bevorstehenden KI-Gipfels auf, sich öffentlich für ein globales Abkommen auszusprechen, das klare rote Linien und verbindliche Sicherheitsstandards verankert.",
 };
 
+const sections = [
+  { id: "appell", label: "Appell" },
+  { id: "zitate", label: "Zitate" },
+  { id: "unterzeichnende", label: "Unterzeichnende" },
+  { id: "hintergrund", label: "Hintergrund" },
+  { id: "faq", label: "FAQ" },
+  { id: "experten", label: "Experten" },
+  { id: "petition", label: "Petition" },
+  { id: "medien", label: "Presse" },
+];
+
 export default function AppellPage() {
   return (
     <>
       <Header />
-      <main className="appell-page">
-        {/* Section wrappers with IDs for anchor linking */}
-        {/* Each has scroll-margin-top to prevent landing under navbar */}
+      <div className="appell-layout">
+        {/* Sidebar table of contents */}
+        <aside className="appell-sidebar">
+          <TableOfContents sections={sections} />
+        </aside>
 
-        <section id="appell" className="appell-section-wrapper">
-          <div className="appell-section">
-            <AppellSection />
-          </div>
-        </section>
+        {/* Main content area */}
+        <main className="appell-main">
+          <article className="appell-content-wrapper">
 
-        {/* Thin divider line */}
-        <hr className="appell-divider" />
+            <section id="appell" className="appell-section">
+              <AppellSection />
+            </section>
 
-        {/* Jump bar - sticky navigation to all sections */}
-        <JumpBar />
+            <section id="zitate" className="appell-section">
+              <ZitateSection />
+            </section>
 
-        <section id="zitate" className="appell-section-wrapper">
-          <div className="appell-section">
-            <ZitateSection />
-          </div>
-        </section>
+            <section id="unterzeichnende" className="appell-section">
+              {/* Unterzeichnende content */}
+            </section>
 
-        <section id="unterzeichnende" className="appell-section-wrapper">
-          <div className="appell-section">
-            {/* Unterzeichnende content */}
-          </div>
-        </section>
+            <section id="hintergrund" className="appell-section">
+              {/* Hintergrund content */}
+            </section>
 
-        <section id="hintergrund" className="appell-section-wrapper">
-          <div className="appell-section">
-            {/* Hintergrund content */}
-          </div>
-        </section>
+            <section id="faq" className="appell-section">
+              {/* FAQ content */}
+            </section>
 
-        <section id="faq" className="appell-section-wrapper">
-          <div className="appell-section">
-            {/* FAQ content */}
-          </div>
-        </section>
+            <section id="experten" className="appell-section">
+              {/* Experten content */}
+            </section>
 
-        <section id="experten" className="appell-section-wrapper">
-          <div className="appell-section">
-            {/* Experten content */}
-          </div>
-        </section>
+            <section id="petition" className="appell-section">
+              {/* Petition content */}
+            </section>
 
-        <section id="petition" className="appell-section-wrapper">
-          <div className="appell-section">
-            {/* Petition content */}
-          </div>
-        </section>
+            <section id="medien" className="appell-section">
+              {/* Medien content */}
+            </section>
 
-        <section id="medien" className="appell-section-wrapper">
-          <div className="appell-section">
-            {/* Medien content */}
-          </div>
-        </section>
-      </main>
+          </article>
+        </main>
+      </div>
       <Footer />
     </>
   );
