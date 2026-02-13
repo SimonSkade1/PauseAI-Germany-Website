@@ -6,7 +6,7 @@ export default function MedienSection() {
 
       <div className="appell-medien-content">
         <p className="appell-medien-email">
-          <a href="mailto:presse@pauseai.de">presse@pauseai.de</a>
+          <a href="mailto:germany@pauseai.info">germany@pauseai.info</a>
         </p>
 
         <p className="appell-medien-note">
