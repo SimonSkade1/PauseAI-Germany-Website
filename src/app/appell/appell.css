@@ -632,16 +632,19 @@
   font-weight: 600;
   color: #1a1a1a;
   cursor: pointer;
-  padding: 1rem 0;
+  padding: 1.25rem 0;
   list-style: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
   transition: color 0.2s ease;
+  border: none;
+  background: none;
+  width: 100%;
 }
 
 .appell-faq-question:hover {
-  color: var(--appell-orange);
+  color: #1a1a1a;
 }
 
 .appell-faq-question::-webkit-details-marker {
@@ -667,6 +670,39 @@ details[open] .appell-faq-question::after {
   color: #2d2d2d;
   margin: 0;
   padding-bottom: 1.5rem;
+}
+
+.appell-faq-answer p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.appell-faq-answer p:last-child {
+  margin-bottom: 0;
+}
+
+.appell-faq-answer ul,
+.appell-faq-answer ol {
+  margin: 0 0 1rem 0;
+  padding-left: 2rem;
+  list-style: disc;
+}
+
+.appell-faq-answer ol {
+  list-style: decimal;
+}
+
+.appell-faq-answer li {
+  margin-bottom: 0.75rem;
+  line-height: 1.7;
+}
+
+.appell-faq-answer li:last-child {
+  margin-bottom: 0;
+}
+
+.appell-faq-answer strong {
+  font-weight: 600;
 }
 
 /* ============================================
@@ -891,8 +927,7 @@ details[open] .appell-faq-question::after {
 .appell-faq-question:focus,
 .appell-btn-primary:focus,
 .appell-medien-email a:focus {
-  outline: 2px solid var(--appell-orange);
-  outline-offset: 2px;
+  outline: none;
 }
 
 /* ============================================
