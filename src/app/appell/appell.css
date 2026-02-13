@@ -770,3 +770,111 @@ details[open] .appell-faq-question::after {
   background: var(--appell-orange-hover);
   transform: translateY(-2px);
 }
+
+/* ============================================
+   Print Styles
+   ============================================ */
+
+@media print {
+  /* Hide global navbar and sticky elements */
+  .appell-sidebar,
+  .appell-toc-toggle,
+  .appell-toc-menu,
+  .appell-toc-backdrop,
+  header,
+  footer {
+    display: none !important;
+  }
+
+  /* Remove large paddings */
+  .appell-layout {
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+    max-width: 100%;
+  }
+
+  .appell-main {
+    max-width: 100%;
+  }
+
+  .appell-section {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    page-break-inside: avoid;
+  }
+
+  /* Ensure readable font sizes */
+  .appell-headline {
+    font-size: 1.5rem;
+  }
+
+  .appell-paragraph,
+  .appell-conclusion {
+    font-size: 0.9rem;
+  }
+
+  /* Expand FAQ answers */
+  .appell-faq-answer {
+    display: block !important;
+  }
+
+  .appell-faq-question::after {
+    display: none;
+  }
+
+  /* Hide buttons in print */
+  .appell-btn-primary {
+    display: none;
+  }
+
+  /* Show all signatories - remove any hiding/collapsing */
+  .appell-university-signatories[aria-hidden="true"],
+  .appell-university-signatories[hidden] {
+    display: block !important;
+    visibility: visible !important;
+  }
+
+  /* Ensure links are properly labeled */
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    word-break: break-all;
+  }
+
+  /* Quote attribution - ensure names show in print */
+  .appell-quote-attribution {
+    display: flex !important;
+    visibility: visible !important;
+  }
+
+  .appell-quote-name,
+  .appell-quote-chair {
+    display: block !important;
+    visibility: visible !important;
+  }
+}
+
+/* ============================================
+   Accessibility: Keyboard Focus
+   ============================================ */
+
+.appell-toc-link:focus,
+.appell-toc-menu-link:focus,
+.appell-faq-question:focus,
+.appell-btn-primary:focus,
+.appell-medien-email a:focus {
+  outline: 2px solid var(--appell-orange);
+  outline-offset: 2px;
+}
+
+/* ============================================
+   Accessibility: External Links
+   ============================================ */
+
+.appell-content-wrapper a[href^="http"][rel~="noopener"]::after {
+  content: " ↗";
+  font-size: 0.8em;
+  margin-left: 0.2em;
+  color: var(--appell-orange);
+}
