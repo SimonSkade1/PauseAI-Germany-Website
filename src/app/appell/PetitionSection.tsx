@@ -5,7 +5,7 @@ export default function PetitionSection() {
       <h2 className="appell-section-heading">Petition für Bürger:innen</h2>
 
       <p className="appell-paragraph">
-        Unterschreibe den Appell auf Change.org, um der deutschen Delegation zu zeigen, dass du dir mehr Sicherheit beim Thema KI wünschst.
+        Unterschreibe unsere parallele Petition auf Change.org, um der deutschen Delegation zu zeigen, dass du dir mehr Sicherheit beim Thema KI wünschst.
       </p>
 
       <a

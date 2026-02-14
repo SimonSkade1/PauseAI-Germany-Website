@@ -46,7 +46,8 @@ export default function AppellSection({
         </div>
       </div>
 
-      <p className="appell-conclusion">Sicherheit und Fortschritt gehören zusammen.</p>
+      <p className="appell-paragraph">Sicherheit und Fortschritt gehören zusammen.</p>
+
 
       <div className="appell-signatory-credibility" aria-live="polite">
         <div className="appell-signatory-count">{formattedProfessorCount}</div>
