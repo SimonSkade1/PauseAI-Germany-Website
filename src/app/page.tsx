@@ -220,6 +220,7 @@ const quotes = [
 ];
 
 
+
 function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-start overflow-hidden pt-20">
@@ -554,6 +555,26 @@ function ActionSection() {
                 <p className="font-body text-pause-black/80 text-base mt-auto text-right">
                   Damit du über wichtige Neuigkeiten und Events informiert bleibst.
                 </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Contact Lawmakers (link to contact page) */}
+          <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div>
+                <h3 className="font-section text-lg text-pause-black mb-1 md:text-xl">
+                  Kontaktiere Abgeordnete
+                </h3>
+                <p className="font-body text-pause-black/80 text-base">
+                  Schreibe an Abgeordnete mit Vorlagen, Tipps und aktuellem Kontaktformular.
+                </p>
+              </div>
+
+              <div className="mt-2 md:mt-0">
+                <a href="/contactlawmakers" className="btn-orange inline-flex items-center gap-2 px-4 py-2 rounded-lg font-section">
+                  <span>Zur Kontaktseite</span>
+                </a>
               </div>
             </div>
           </div>
