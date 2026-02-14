@@ -2,7 +2,7 @@ export default function HintergrundSection() {
   return (
     <div className="appell-zitate-container">
       <span className="appell-accent-line"></span>
-      <h2 className="appell-section-heading">Hintergrund</h2>
+      <h2 className="appell-section-heading">Kontext: Weshalb dieser Appell?</h2>
 
       <p className="appell-paragraph">
         KI steigert Produktivität und treibt medizinischen Fortschritt voran, doch die rasante Entwicklung
