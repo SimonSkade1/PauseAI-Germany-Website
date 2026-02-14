@@ -19,7 +19,7 @@ export default function QuoteCarouselSection({
   heading,
   quotes,
   dotsAriaLabel,
-  autoSwitchMs = 10000,
+  autoSwitchMs = 20000,
 }: QuoteCarouselSectionProps) {
   const [activeQuote, setActiveQuote] = useState(0);
   const touchStartX = useRef<number | null>(null);
