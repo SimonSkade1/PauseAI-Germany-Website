@@ -2,15 +2,16 @@
 
 import { useEffect, useState } from "react";
 import { FileText, X } from "lucide-react";
-import { sections, type Section } from "./sections";
+import { sections as defaultSections, type Section } from "./sections";
 
 interface Props {
   sections: Section[];
   desktopOnly?: boolean;
 }
 
-export default function TableOfContents({ sections: _sections, desktopOnly }: Props) {
-  const [activeSection, setActiveSection] = useState(sections[0]?.id || "");
+export default function TableOfContents({ sections, desktopOnly }: Props) {
+  const tocSections = sections.length > 0 ? sections : defaultSections;
+  const [activeSection, setActiveSection] = useState(tocSections[0]?.id || "");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -32,7 +33,7 @@ export default function TableOfContents({ sections: _sections, desktopOnly }: Pr
       }
     );
 
-    sections.forEach(({ id }) => {
+    tocSections.forEach(({ id }) => {
       const element = document.getElementById(id);
       if (element) {
         observer.observe(element);
@@ -40,7 +41,7 @@ export default function TableOfContents({ sections: _sections, desktopOnly }: Pr
     });
 
     return () => observer.disconnect();
-  }, [sections]);
+  }, [tocSections]);
 
   // Desktop only - just render the sidebar TOC
   if (desktopOnly) {
@@ -48,7 +49,7 @@ export default function TableOfContents({ sections: _sections, desktopOnly }: Pr
       <nav className="appell-toc">
         <h2 className="appell-toc-title">Inhalt</h2>
         <ul className="appell-toc-list">
-          {sections.map(({ id, label }) => (
+          {tocSections.map(({ id, label }) => (
             <li key={id}>
               <a
                   href={`#${id}`}
@@ -90,7 +91,7 @@ export default function TableOfContents({ sections: _sections, desktopOnly }: Pr
           </button>
         </div>
         <nav className="appell-toc-menu-nav">
-          {sections.map(({ id, label }) => (
+          {tocSections.map(({ id, label }) => (
             <a
               key={id}
               href={`#${id}`}

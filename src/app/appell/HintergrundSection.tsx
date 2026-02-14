@@ -20,15 +20,15 @@ export default function HintergrundSection() {
 
       <p className="appell-paragraph">
         Beim ersten AI Safety Summit (Bletchley 2023) warnte die <a href="https://www.gov.uk/government/publications/ai-safety-summit-2023-the-bletchley-declaration/the-bletchley-declaration-by-countries-attending-the-ai-safety-summit-1-2-november-2023" target="_blank" rel="noopener" title="The Bletchley Declaration">Erklärung</a> vor dem „Potenzial für
-        schwerwiegende, sogar katastrophale Schäden", und die Unterzeichner beschlossen,
+        schwerwiegende, sogar katastrophale Schäden&quot;, und die Unterzeichner beschlossen,
         gemeinsam sichere KI zu gewährleisten.
       </p>
 
       <p className="appell-paragraph">
         Doch beim AI Action Summit (Paris 2025) verschwand Sicherheit hinter Wirtschaftsinteressen.
         <a href="https://time.com/7221384/ai-regulation-takes-backseat-paris-summit/" target="_blank" rel="noopener" title="TIME article on AI regulation at Paris Summit">Professor Max Tegmark vom MIT</a> sagte, „es fühlte sich fast so an, als würde man versuchen,
-        Bletchley rückgängig zu machen," und nannte das Fehlen von Sicherheit in der <a href="https://fortune.com/2025/02/11/paris-ai-action-summit-ai-safety-sidelined-economic-opportunity-promoted/" target="_blank" rel="noopener" title="Fortune article on Paris AI Summit">Erklärung</a> „ein
-        Rezept für eine Katastrophe."
+        Bletchley rückgängig zu machen,&quot; und nannte das Fehlen von Sicherheit in der <a href="https://fortune.com/2025/02/11/paris-ai-action-summit-ai-safety-sidelined-economic-opportunity-promoted/" target="_blank" rel="noopener" title="Fortune article on Paris AI Summit">Erklärung</a> „ein
+        Rezept für eine Katastrophe.&quot;
       </p>
 
       <p className="appell-paragraph">
@@ -37,11 +37,11 @@ export default function HintergrundSection() {
       </p>
 
       <p className="appell-paragraph">
-        Von „Safety" zu „Action" zu „Impact": Sicherheit verschwindet aus dem Namen. Doch <a href="https://controlai.com/statement" target="_blank" rel="noopener" title="ControlAI statement on AI regulation">über 100
+        Von „Safety&quot; zu „Action&quot; zu „Impact&quot;: Sicherheit verschwindet aus dem Namen. Doch <a href="https://controlai.com/statement" target="_blank" rel="noopener" title="ControlAI statement on AI regulation">über 100
         britische Parlamentarier unterstützen verbindliche Regulierungen für die fortgeschrittensten
         KI-Systeme</a>, und <a href="https://red-lines.ai/" target="_blank" rel="noopener" title="Red Lines AI statement">zwölf Nobelpreisträger und hunderte Experten fordern</a>, dass „bis Ende 2026
         ein internationales Abkommen in Kraft treten soll, welches rote Linien für KI festlegt und deren
-        Durchsetzung sicherstellt."
+        Durchsetzung sicherstellt.&quot;
       </p>
 
       <p className="appell-paragraph">

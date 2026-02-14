@@ -315,7 +315,7 @@
    ============================================ */
 
 .appell-citation-link {
-  color: #0066cc;
+  color: #FF9416;
   font-weight: 600;
   padding: 0 0.1rem;
   border-bottom: none !important;
@@ -330,11 +330,11 @@
 }
 
 .appell-content-wrapper a:not(.appell-citation-link):not(.appell-btn-primary) {
-  color: #0066cc;
+  color: #FF9416;
 }
 
 .appell-content-wrapper a:not(.appell-citation-link):not(.appell-btn-primary):hover {
-  border-bottom-color: #0066cc;
+  border-bottom-color: #FF9416;
 }
 
 /* ============================================
