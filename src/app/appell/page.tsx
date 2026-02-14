@@ -93,7 +93,7 @@ export default async function AppellPage() {
           <article className="appell-content-wrapper">
 
             <section id="appell" className="appell-section">
-              <AppellSection />
+              <AppellSection professorCount={signatories.length} />
             </section>
 
             <section id="zitate" className="appell-section">
