@@ -45,6 +45,11 @@ export default function EmailPreviewPage({
     setFormData((prev) => ({ ...prev, recipientEmail: initialRecipientEmail }));
   }, [initialRecipientEmail]);
 
+  // Keep recipientName in sync when parent selection changes
+  useEffect(() => {
+    setFormData((prev) => ({ ...prev, recipientName: initialRecipientName }));
+  }, [initialRecipientName]);
+
   useEffect(() => {
     if (onChange) onChange(formData);
   }, [formData, onChange]);

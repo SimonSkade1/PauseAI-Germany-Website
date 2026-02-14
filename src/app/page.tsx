@@ -336,9 +336,9 @@ function ActionSection() {
               </div>
 
               <div className="mt-2 md:mt-0">
-                <Link href="/contactlawmakers" className="btn-orange inline-flex items-center gap-2 px-4 py-2 rounded-lg font-section">
+                <a href="/contactlawmakers" className="btn-orange inline-flex items-center gap-2 px-4 py-2 rounded-lg font-section">
                   <span>Zur Kontaktseite</span>
-                </Link>
+                </a>
               </div>
             </div>
           </div>

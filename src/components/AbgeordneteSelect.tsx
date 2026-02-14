@@ -81,6 +81,8 @@ export default function AbgeordneteSelect({
   const [filters, setFilters] = useState<Record<string, string>>({});
   const [selected, setSelected] = useState<Row | null>(null);
   const [clickedIndex, setClickedIndex] = useState<number | null>(null);
+  const [plzMapping, setPlzMapping] = useState<Record<string, string[]>>({});
+  const [plzWkNumbers, setPlzWkNumbers] = useState<string[] | null>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -114,13 +116,73 @@ export default function AbgeordneteSelect({
     };
   }, [onSelect]);
 
+  // Load PLZ -> Wahlkreis mapping (public CSV)
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const r = await fetch('/plz_to_wahlkreis.csv');
+        if (!r.ok) return;
+        const text = await r.text();
+        if (!mounted) return;
+        const parsed = parseCSV(text);
+        if (!parsed.rows || parsed.rows.length === 0) return;
+        // heuristically detect column names
+        const headers = parsed.headers;
+        const plzKey = headers.find((h) => /plz|postleitzahl|postcode|postal/i.test(h)) ?? headers[0];
+        const wkKey = headers.find((h) => /wahlkreis|wahlkreisnummer|wahlkreis_nr|wk/i.test(h)) ?? headers[1] ?? headers[0];
+        const map: Record<string, string[]> = {};
+        parsed.rows.forEach((row) => {
+          const rawPlz = (row[plzKey] || "").toString().replace(/\s+/g, '').trim();
+          const rawWk = (row[wkKey] || "").toString().trim();
+          if (!rawPlz) return;
+          // split possible multiple numbers inside a field
+          const wks = rawWk.split(/[^0-9]+/).map((s) => s.trim()).filter(Boolean);
+          if (!map[rawPlz]) map[rawPlz] = [];
+          if (wks.length === 0 && rawWk) {
+            const n = parseInt(rawWk, 10);
+            if (!Number.isNaN(n)) {
+              const nk = String(n);
+              if (!map[rawPlz].includes(nk)) map[rawPlz].push(nk);
+            } else {
+              if (!map[rawPlz].includes(rawWk)) map[rawPlz].push(rawWk);
+            }
+          } else {
+            wks.forEach((w) => {
+              const n = parseInt(w, 10);
+              const nk = Number.isNaN(n) ? w : String(n);
+              if (!map[rawPlz].includes(nk)) map[rawPlz].push(nk);
+            });
+          }
+        });
+        setPlzMapping(map);
+      } catch (err) {
+        console.error('Failed to load PLZ mapping:', err);
+      }
+    })();
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  // Treat a numeric 4-5 digit `search` as a PLZ lookup and set matching Wahlkreis numbers.
+  useEffect(() => {
+    const s = search.trim().replace(/\s+/g, '');
+    if (/^\d{4,5}$/.test(s)) {
+      const wks = plzMapping[s] ?? [];
+      setPlzWkNumbers(wks.length ? wks : []);
+    } else {
+      setPlzWkNumbers(null);
+    }
+  }, [search, plzMapping]);
+
   // compute possible filter fields: choose fields with reasonably small unique values
   const filterableFields = useMemo(() => {
     if (!allRows) return [] as string[];
     // Use normalized fields (from extractRowInfo) for filtering instead of raw columns
     const sample = allRows[0];
     if (!sample) return [] as string[];
-    const normKeys = ["first", "last", "full", "birthYear", "party", "district", "bundesland", "email"];
+    const normKeys = ["first", "last", "full", "birthYear", "party", "district", "email"];
     const fields: string[] = [];
     normKeys.forEach((k) => {
       const set = new Set(allRows.map((r) => {
@@ -182,7 +244,14 @@ export default function AbgeordneteSelect({
 
   const filtered = useMemo(() => {
     if (!allRows) return [] as Row[];
+    const rawSearch = search.trim().replace(/\s+/g, '');
+    const numericPlz = /^\d{4,5}$/.test(rawSearch);
     const q = search.trim().toLowerCase();
+
+    // If user entered a numeric PLZ but we have no matching wk numbers,
+    // return empty result set immediately.
+    if (numericPlz && Array.isArray(plzWkNumbers) && plzWkNumbers.length === 0) return [] as Row[];
+
     return allRows.filter((r) => {
       // filters (based on normalized fields)
       for (const k of Object.keys(filters)) {
@@ -195,6 +264,28 @@ export default function AbgeordneteSelect({
           if ((r[k] || "") !== filters[k]) return false;
         }
       }
+
+      // PLZ-based filter using mapped Wahlkreis numbers
+      if (plzWkNumbers && plzWkNumbers.length > 0) {
+        try {
+          const info = extractRowInfo(r);
+          const d = (info.district || "").toString();
+          const wkRaw = d.match(/\d+/)?.[0] ?? d;
+          const wk = Number.isNaN(parseInt(wkRaw, 10)) ? wkRaw : String(parseInt(wkRaw, 10));
+          if (!plzWkNumbers.includes(wk)) return false;
+        } catch (err) {
+          // fallback to raw header lookup
+          const rawHdr = headers.find((h) => /wahlkreis|district|wahlkreisnummer/i.test(h));
+          const rawVal = rawHdr ? (r[rawHdr] || "") : "";
+          const wkRaw = rawVal.toString().match(/\d+/)?.[0] ?? rawVal.toString();
+          const wk = Number.isNaN(parseInt(wkRaw, 10)) ? wkRaw : String(parseInt(wkRaw, 10));
+          if (!plzWkNumbers.includes(wk)) return false;
+        }
+      }
+
+      // If this is a numeric PLZ search, we've already applied the PLZ-based
+      // filtering above; include the row (it passed the PLZ check).
+      if (numericPlz) return true;
 
       if (!q) return true;
 
@@ -214,7 +305,7 @@ export default function AbgeordneteSelect({
 
       return false;
     });
-  }, [allRows, search, filters, headers]);
+  }, [allRows, search, filters, headers, plzWkNumbers]);
 
   const displayLabel = (r: Row) => {
     const info = extractRowInfo(r);
@@ -248,8 +339,6 @@ export default function AbgeordneteSelect({
         return "Parteien";
       case "district":
         return "Wahlkreis";
-      case "bundesland":
-        return "Bundesländer";
       case "email":
         return "E‑Mail";
       default:
@@ -257,28 +346,7 @@ export default function AbgeordneteSelect({
     }
   };
 
-  // Map German Bundesland names to Wikimedia Commons SVG URLs (hotlinked).
-  const bundeslandWappen: Record<string, string> = {
-    "Berlin": "https://upload.wikimedia.org/wikipedia/commons/8/8c/DEU_Berlin_COA.svg",
-    "Nordrhein-Westfalen": "https://upload.wikimedia.org/wikipedia/commons/1/1b/Coat_of_arms_of_North_Rhine-Westphalia.svg",
-    "Schleswig-Holstein": "https://upload.wikimedia.org/wikipedia/commons/6/60/Coat_of_arms_of_Schleswig-Holstein.svg",
-    "Thüringen": "https://upload.wikimedia.org/wikipedia/commons/0/08/Coat_of_arms_of_Thuringia.svg",
-    "Bayern": "https://upload.wikimedia.org/wikipedia/commons/d/d5/Coat_of_arms_of_Bavaria.svg",
-    "Hessen": "https://upload.wikimedia.org/wikipedia/commons/c/cd/Coat_of_arms_of_Hesse.svg",
-    "Hamburg": "https://upload.wikimedia.org/wikipedia/commons/5/5d/DEU_Hamburg_COA.svg",
-    "Sachsen": "https://upload.wikimedia.org/wikipedia/commons/5/5f/Coat_of_arms_of_Saxony.svg",
-    "Niedersachsen": "https://upload.wikimedia.org/wikipedia/commons/0/0b/Coat_of_arms_of_Lower_Saxony.svg",
-    "Rheinland-Pfalz": "https://upload.wikimedia.org/wikipedia/commons/8/89/Coat_of_arms_of_Rhineland-Palatinate.svg",
-    "Baden-Württemberg": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Lesser_coat_of_arms_of_Baden-W%C3%BCrttemberg.svg",
-    "Mecklenburg-Vorpommern": "https://upload.wikimedia.org/wikipedia/commons/7/7c/Coat_of_arms_of_Mecklenburg-Western_Pomerania_%28small%29.svg",
-    "Saarland": "https://upload.wikimedia.org/wikipedia/commons/8/8e/Wappen_des_Saarlands.svg",
-    "Brandenburg": "https://upload.wikimedia.org/wikipedia/commons/a/a2/DEU_Brandenburg_COA.svg",
-  };
-
-  const getBundeslandWappen = (land?: string) => {
-    if (!land) return undefined;
-    return bundeslandWappen[land] ?? undefined;
-  };
+  // bundesland support removed
 
   return (
     <div className="w-full">
@@ -291,7 +359,7 @@ export default function AbgeordneteSelect({
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Suche nach Name, Partei, Ort, ..."
+              placeholder="Suche nach Name, Partei, PLZ, ..."
               className="flex-1 px-3 py-2 border border-gray-200 rounded-md"
             />
             <button
@@ -379,16 +447,7 @@ export default function AbgeordneteSelect({
                               <span>{info.party}</span>
                             </div>
                           )}
-                          {info.bundesland && (
-                            <div className="text-xs text-gray-500 px-2 py-0.5 bg-gray-100 rounded flex items-center gap-2">
-                              {getBundeslandWappen(info.bundesland) ? (
-                                <img src={getBundeslandWappen(info.bundesland)} alt={`${info.bundesland} Wappen`} className="w-3 h-3 object-contain rounded-sm" />
-                              ) : (
-                                <span className="w-4 h-4 inline-flex items-center justify-center bg-gray-200 text-[10px] rounded-sm">{(info.bundesland || "").split("-")[0]?.slice(0,2)}</span>
-                              )}
-                              <span>{info.bundesland}</span>
-                            </div>
-                          )}
+                          {/* bundesland removed */}
                         </div>
                         {email && <div className="text-xs text-gray-600 mt-0.5">{email}</div>}
                       </div>
