@@ -2,16 +2,22 @@ Subject: Handlungsappell zur Vermeidung extremer Risiken von KI
 
 {{anrede}}{{recipientTitle}}{{recipientName}},
 
-ich möchte Sie auf ein Thema aufmerksam machen, das mir große Sorgen bereitet. Künstliche Intelligenz stellt uns vor viele Herausforderungen. Die meisten können wir durch unsere eigene Gesetzgebung, wie den EU AI Act, sinnvoll regeln. Aber die schlimmsten Risiken wurden noch nicht adressiert und wirken über alle Ländergrenzen hinaus: dafür brauchen wir eine globale Lösung.
-"Mitigating the risk of extinction from AI should be a global priority alongside other societal-scale risks such as pandemics and nuclear war." (https://aistatement.com/)
-"We call for a prohibition on the development of superintelligence, not lifted before there is (1) broad scientific consensus that it will be done safely and controllably, and (2) strong public buy-in." (https://superintelligence-statement.org/)
-Diese Statements wurden von zahlreichen Visionären der KI unterzeichnet, beispielsweise den beiden Gründungsvätern der modernen KI Geoffrey Hinton und Yoshua Bengio. Dies sind keine Einzelfälle. Eine große Mehrheit von KI-Forschern glauben, dass die Chance, dass KI zur Auslöschung der Menschheit führt, mindestens 5% ist, und fast die Hälfte schätzen >=10%. (https://blog.aiimpacts.org/p/2023-ai-survey-of-2778-six-things) 
-Künstliche Intelligenz kann nicht nur für gefährliche Zwecke eingesetzt werden, sondern auch selbst zur Bedrohung werden, wenn sie sich der menschlichen Kontrolle entzieht. Entwickler der fortgeschrittensten KI-Modelle können diese schon heute weder verstehen noch unerwünschtes Verhalten zuverlässig verhindern. Deshalb ist es höchst bedenklich, dass es das explizite Ziel führender KI-Unternehmen ist, eine KI zu entwickeln, die menschliche Fähigkeiten in allen Bereichen übersteigt und eigenständig handeln kann. Wie solch eine "Superintelligenz" für Menschen kontrollierbar bleiben soll, können sie selbst nicht beantworten.
-Wir können dieses Risiko aber vermeiden, ohne auf die Vorteile der meisten KI-Anwendungen verzichten zu müssen. Organisationen wie das Machine Intelligence Research Institute oder PauseAI haben untersucht, wie dies technisch umsetzbar ist: https://arxiv.org/pdf/2511.10783, https://arxiv.org/pdf/2506.20530
-Deutschland ist in einer guten Position, die erforderliche internationale Kooperation zu veranlassen.
-Deshalb mein Appell an Sie: Ich würde Sie gerne mit Experten verbinden, die Ihnen mehr über diese Risiken und mögliche Lösungsansätze erklären können – beispielsweise mit Benjamin Balde von ControlAI oder Connor Leahy von Conjecture. Wären Sie offen für ein solches Gespräch?
+als Bürgerin/Bürger Ihres Wahlkreises wende ich mich an Sie, weil mich die aktuelle Entwicklung im Bereich Künstlicher Intelligenz zutiefst besorgt.
 
-Vielen Dank, dass Sie meine Sorgen ernst nehmen und sich für unsere Zukunft einsetzen.
+Über 100 deutsche Professorinnen und Professoren, darunter Fields-Medaillenträger Peter Scholze, haben kürzlich einen Appell an die deutsche Delegation des internationalen KI-Gipfels in Delhi gerichtet. Sie fordern, dass Deutschland sich für ein verbindliches globales Sicherheitsabkommen für fortgeschrittene KI einsetzt. Den Appell finden Sie hier: https://www.pause-ai.de/appell
 
-Mit freundlichen Grüßen 
+Es gibt auch einen internationalen Aufruf zu roten Linien für KI, der von 12 Nobelpreisträgern unterzeichnet wurde: https://red-lines.ai/
+
+Was mich besonders beunruhigt: Schon heute verhalten sich KI-Systeme auf Weisen, die von ihren Entwicklern erwünscht sind. ChatGPT verursachte bei vielen Nutzern Wahnvorstellungen. Der Chatbot Claude versuchte in Sicherheitstests seine Entwickler zu erpressen, um seine Ausschaltung zu vermeiden. Grok ernannte sich sogar zu Mechahitler.
+
+Gleichzeitig verstehen selbst führende Experten nicht, was in einem neuronalen Netz einer KI vor sich geht. KIs werden nicht direkt programmiert, sondern entstehen durch einen automatisierten Lernprozess.
+
+Trotzdem wird die Entwicklung mit enormem Tempo vorangetrieben. Ich habe den Eindruck, dass dieses Thema politisch noch nicht die Aufmerksamkeit bekommt, die seiner Tragweite entspricht.
+
+Ich würde mich freuen, wenn Sie sich näher mit dem Thema befassen. Gerne bringe ich Sie auch mit Expertinnen und Experten für KI-Sicherheit in Kontakt.
+
+Über eine kurze Rückmeldung wäre ich Ihnen sehr dankbar.
+
+Mit freundlichen Grüßen
+
 {{senderName}}
