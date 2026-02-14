@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Link from "next/link";
 
 export default function Impressum() {
   return (
@@ -121,12 +122,12 @@ export default function Impressum() {
 
           {/* Back link */}
           <div className="mt-8 text-center">
-            <a
+            <Link
               href="/"
               className="font-body text-pause-black/60 hover:text-[#FF9416] transition-colors"
             >
               ← Zurück zur Startseite
-            </a>
+            </Link>
           </div>
         </div>
       </main>

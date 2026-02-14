@@ -2,77 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState, useEffect, useRef, FormEvent } from "react";
+import React, { useState, useEffect, useRef, useCallback, FormEvent } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSet8gf61pTqCYv4Fa1OAKGt6BizTKBaeyTTqIyhdlbaoOf5iw/formResponse";
 const GOOGLE_FORM_EMAIL_ENTRY = "entry.1229172991";
-
-function NewsletterForm({ variant = "light" }: { variant?: "light" | "dark" | "orange" }) {
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-
-    setStatus("loading");
-
-    try {
-      // Submit to Google Forms using no-cors mode
-      await fetch(GOOGLE_FORM_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams({
-          [GOOGLE_FORM_EMAIL_ENTRY]: email,
-        }),
-      });
-
-      // With no-cors we can't read the response, but if no error was thrown, assume success
-      setStatus("success");
-      setEmail("");
-    } catch {
-      setStatus("error");
-    }
-  };
-
-  if (status === "success") {
-    return (
-      <p className={`font-body ${variant === "light" ? "text-pause-black" : variant === "orange" ? "text-black" : "text-white"}`}>
-        Danke für deine Anmeldung!
-      </p>
-    );
-  }
-
-  const inputClass = variant === "light" ? "newsletter-input-light" : variant === "orange" ? "newsletter-input-orange" : "newsletter-input";
-  const sizeClass = variant === "light" ? "px-4 py-3 text-base" : "px-4 py-2 text-sm";
-  const buttonSizeClass = variant === "light" ? "px-6 py-3 text-sm" : "px-4 py-2 text-xs";
-  const buttonClass = variant === "orange" ? "bg-black text-white hover:bg-gray-800" : "btn-orange";
-
-  return (
-    <form onSubmit={handleSubmit} className={`flex flex-col sm:flex-row ${variant === "light" ? "gap-3" : "gap-2"}`}>
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder={variant === "light" ? "Deine E-Mail-Adresse" : "E-Mail-Adresse"}
-        className={`${inputClass} flex-1 min-w-0 w-full ${sizeClass} font-body`}
-        required
-      />
-      <button
-        type="submit"
-        disabled={status === "loading"}
-        className={`${buttonClass} ${buttonSizeClass} font-section tracking-wider whitespace-nowrap disabled:opacity-50 transition-colors`}
-      >
-        {status === "loading" ? "..." : "Abonnieren"}
-      </button>
-    </form>
-  );
-}
 
 function NewsletterFormWithRef({ 
   variant = "light", 
@@ -274,25 +209,11 @@ function QuotesSection() {
     return () => container.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Auto-advance every 8 seconds
-  useEffect(() => {
-    const startAutoAdvance = () => {
-      autoAdvanceRef.current = setInterval(() => {
-        scrollToIndex((activeIndex + 1) % quotes.length);
-      }, 8000);
-    };
-
-    startAutoAdvance();
-    return () => {
-      if (autoAdvanceRef.current) clearInterval(autoAdvanceRef.current);
-    };
-  }, [activeIndex]);
-
   // Scroll to specific quote with animation
-  const scrollToIndex = (index: number) => {
+  const scrollToIndex = useCallback((index: number) => {
     const container = scrollContainerRef.current;
     if (!container) return;
-    
+
     const itemWidth = container.offsetWidth;
     const targetScroll = index * itemWidth;
     const startScroll = container.scrollLeft;
@@ -305,16 +226,30 @@ function QuotesSection() {
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
       const easeOut = 1 - Math.pow(1 - progress, 3);
-      
+
       container.scrollLeft = startScroll + distance * easeOut;
-      
+
       if (progress < 1) {
         requestAnimationFrame(animateScroll);
       }
     };
 
     requestAnimationFrame(animateScroll);
-  };
+  }, []);
+
+  // Auto-advance every 8 seconds
+  useEffect(() => {
+    const startAutoAdvance = () => {
+      autoAdvanceRef.current = setInterval(() => {
+        scrollToIndex((activeIndex + 1) % quotes.length);
+      }, 8000);
+    };
+
+    startAutoAdvance();
+    return () => {
+      if (autoAdvanceRef.current) clearInterval(autoAdvanceRef.current);
+    };
+  }, [activeIndex, scrollToIndex]);
 
   const nextQuote = () => {
     scrollToIndex((activeIndex + 1) % quotes.length);
