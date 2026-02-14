@@ -2,7 +2,7 @@ Subject: Handlungsappell zur Vermeidung extremer Risiken von KI
 
 {{anrede}}{{recipientTitle}}{{recipientName}},
 
-als Bürgerin/Bürger Ihres Wahlkreises wende ich mich an Sie, weil mich die aktuelle Entwicklung im Bereich Künstlicher Intelligenz zutiefst besorgt.
+ich wende mich an Sie, weil mich die aktuelle Entwicklung im Bereich Künstlicher Intelligenz zutiefst besorgt.
 
 Über 100 deutsche Professorinnen und Professoren, darunter Fields-Medaillenträger Peter Scholze, haben kürzlich einen Appell an die deutsche Delegation des internationalen KI-Gipfels in Delhi gerichtet. Sie fordern, dass Deutschland sich für ein verbindliches globales Sicherheitsabkommen für fortgeschrittene KI einsetzt. Den Appell finden Sie hier: https://www.pause-ai.de/appell
 
