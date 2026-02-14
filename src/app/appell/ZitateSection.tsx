@@ -124,6 +124,21 @@ export default function ZitateSection() {
           </button>
         </div>
       </div>
+
+      <div className="appell-quotes-print-list">
+        {QUOTES.map((item) => (
+          <blockquote className="appell-quote-editorial appell-quote-editorial-print" key={`print-${item.name}`}>
+            <span className="appell-quote-accent" aria-hidden="true"></span>
+            <p className="appell-quote-text">
+              &ldquo;{item.text}&rdquo;
+            </p>
+            <footer className="appell-quote-attribution">
+              <cite className="appell-quote-name">{item.name}</cite>
+              <span className="appell-quote-chair">{item.chair}</span>
+            </footer>
+          </blockquote>
+        ))}
+      </div>
     </div>
   );
 }

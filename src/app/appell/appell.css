@@ -547,6 +547,10 @@
   gap: 1.25rem;
 }
 
+.appell-quotes-print-list {
+  display: none;
+}
+
 /* Editorial quote styling */
 .appell-quote-editorial {
   position: relative;
@@ -755,6 +759,18 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+.appell-faq-print-list {
+  display: none;
+}
+
+.appell-faq-print-item {
+  border-bottom: 1px solid #eee;
+}
+
+.appell-faq-print-item:last-child {
+  border-bottom: none;
 }
 
 .appell-faq-item {
@@ -1017,12 +1033,26 @@ details[open] .appell-faq-question::after {
   }
 
   /* Expand FAQ answers */
+  .appell-faq-item > *:not(summary) {
+    display: block !important;
+  }
+
   .appell-faq-answer {
     display: block !important;
   }
 
   .appell-faq-question::after {
     display: none;
+  }
+
+  .appell-faq-list {
+    display: none !important;
+  }
+
+  .appell-faq-print-list {
+    display: flex !important;
+    flex-direction: column;
+    gap: 0.75rem;
   }
 
   /* Hide buttons in print */
@@ -1054,6 +1084,31 @@ details[open] .appell-faq-question::after {
   .appell-quote-chair {
     display: block !important;
     visibility: visible !important;
+  }
+
+  .appell-quotes-list {
+    display: none !important;
+  }
+
+  .appell-quotes-print-list {
+    display: flex !important;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .appell-quote-editorial-print {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .appell-quote-editorial {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .appell-quote-progress-track {
+    display: none !important;
   }
 }
 
