@@ -1,5 +1,12 @@
 [
   {
+    "id": "benjamin-schmidt",
+    "name": "  Benjamin",
+    "description": "1. Vorsitzender PauseAI Deutschland, Bioinformatiker, Martin-Luther-Universität Halle-Wittenberg",
+    "quote": "Als Informatiker finde ich KI und neue Technologien faszinierend. Doch aktuell wird über unsere KI-Zukunft ohne das Wissen und die Mitbestimmung der meisten Menschen entschieden. Bevor wir gesellschaftliche Strukturen grundlegend verändern und große Risiken eingehen, brauchen wir einen breiten wissenschaftlichen und gesellschaftlichen Konsens. Der erste Schritt dahin ist die Aufklärung von Bürger:innen und Politiker:innen über Chancen und Risiken von KI.",
+    "image": "/profile-pics/benjamin-schmidt.jpg"
+  },
+  {
     "id": "hauke",
     "name": "Hauke",
     "description": "Student der Politikwissenschaften, Freiburg",
