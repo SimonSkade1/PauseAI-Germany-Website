@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import TableOfContents from "./TableOfContents";
@@ -20,6 +22,9 @@ export const metadata: Metadata = {
   title: "Appell zum KI-Gipfel 2026",
   description: "Wir fordern die deutsche Delegation des bevorstehenden KI-Gipfels auf, sich öffentlich für ein globales Abkommen auszusprechen, das klare rote Linien und verbindliche Sicherheitsstandards verankert.",
 };
+
+const APPELL_PASSWORD = "ki_appell";
+const APPELL_ACCESS_COOKIE = "appell_access";
 
 function parseCsvLine(line: string): string[] {
   return line
@@ -74,6 +79,63 @@ async function loadSignatories(): Promise<Signatory[]> {
 }
 
 export default async function AppellPage() {
+  async function unlockAppell(formData: FormData) {
+    "use server";
+
+    const password = formData.get("password");
+    if (typeof password === "string" && password === APPELL_PASSWORD) {
+      const cookieStore = await cookies();
+      cookieStore.set(APPELL_ACCESS_COOKIE, "1", {
+        httpOnly: true,
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production",
+        path: "/appell",
+        maxAge: 60 * 60 * 24 * 30,
+      });
+    }
+
+    redirect("/appell");
+  }
+
+  const cookieStore = await cookies();
+  const hasAccess = cookieStore.get(APPELL_ACCESS_COOKIE)?.value === "1";
+
+  if (!hasAccess) {
+    return (
+      <>
+        <Header />
+        <div className="appell-layout">
+          <main className="appell-main">
+            <article className="appell-content-wrapper">
+              <section className="appell-section">
+                <div className="appell-content">
+                  <h1 className="appell-headline">Geschuetzter Bereich</h1>
+                  <p className="appell-paragraph">
+                    Bitte Passwort eingeben, um den Appell zu sehen.
+                  </p>
+                  <form action={unlockAppell} className="appell-password-form">
+                    <input
+                      className="appell-password-input"
+                      type="password"
+                      name="password"
+                      placeholder="Passwort"
+                      autoComplete="current-password"
+                      required
+                    />
+                    <button className="appell-btn-primary" type="submit">
+                      Freischalten
+                    </button>
+                  </form>
+                </div>
+              </section>
+            </article>
+          </main>
+        </div>
+        <Footer />
+      </>
+    );
+  }
+
   const signatories = await loadSignatories();
 
   return (

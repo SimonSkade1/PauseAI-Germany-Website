@@ -552,30 +552,45 @@ function ActionSection() {
 }
 
 
+// export default function Home() {
+//   return (
+//     <>
+//       <div className="fixed left-0 right-0 top-0 z-[60] h-14 border-b border-[#FF9416]/35 bg-black/95 text-[#FF9416] shadow-[0_8px_24px_rgba(0,0,0,0.35)]">
+//         <div className="mx-auto flex h-full max-w-7xl items-center justify-center gap-2 px-2 sm:gap-3 sm:px-6 md:px-10">
+//           <p className="hidden truncate text-center text-[#FF9416] sm:block">
+//             <span className="font-body-bold text-[11px] sm:text-sm md:text-base">
+//               Appell zum KI-Gipfel 2026
+//             </span>
+//             <span className="ml-2 hidden font-body text-xs md:text-sm lg:inline">
+//               Über 100 Professorinnen und Professoren fordern mehr Sicherheit beim Thema KI
+//             </span>
+//           </p>
+//           <Link
+//             href="/appell"
+//             className="group inline-flex flex-shrink-0 items-center gap-1 rounded-sm border border-[#FF9416] bg-[#FF9416]/10 px-3 py-1.5 font-section text-[11px] uppercase tracking-[0.12em] text-[#FF9416] transition-colors hover:bg-[#FF9416] hover:text-black sm:gap-2 sm:px-4 sm:py-1.5 sm:text-xs sm:tracking-[0.14em]"
+//           >
+//             <span className="sm:hidden">Appell zum KI-Gipfel 2026</span>
+//             <span className="hidden sm:inline">Zum Appell</span>
+//             <span className="transition-transform group-hover:translate-x-0.5">→</span>
+//           </Link>
+//         </div>
+//       </div>
+//       <Header topOffset={56} />
+//       <main>
+//         <HeroSection />
+//         <ProblemSolutionSection />
+//         <QuotesSection />
+//         <ActionSection />
+//       </main>
+//       <Footer />
+//     </>
+//   );
+// }
+
 export default function Home() {
   return (
     <>
-      <div className="fixed left-0 right-0 top-0 z-[60] h-14 border-b border-[#FF9416]/35 bg-black/95 text-[#FF9416] shadow-[0_8px_24px_rgba(0,0,0,0.35)]">
-        <div className="mx-auto flex h-full max-w-7xl items-center justify-center gap-2 px-2 sm:gap-3 sm:px-6 md:px-10">
-          <p className="hidden truncate text-center text-[#FF9416] sm:block">
-            <span className="font-body-bold text-[11px] sm:text-sm md:text-base">
-              Appell zum KI-Gipfel 2026
-            </span>
-            <span className="ml-2 hidden font-body text-xs md:text-sm lg:inline">
-              Über 100 Professorinnen und Professoren fordern mehr Sicherheit beim Thema KI
-            </span>
-          </p>
-          <Link
-            href="/appell"
-            className="group inline-flex flex-shrink-0 items-center gap-1 rounded-sm border border-[#FF9416] bg-[#FF9416]/10 px-3 py-1.5 font-section text-[11px] uppercase tracking-[0.12em] text-[#FF9416] transition-colors hover:bg-[#FF9416] hover:text-black sm:gap-2 sm:px-4 sm:py-1.5 sm:text-xs sm:tracking-[0.14em]"
-          >
-            <span className="sm:hidden">Appell zum KI-Gipfel 2026</span>
-            <span className="hidden sm:inline">Zum Appell</span>
-            <span className="transition-transform group-hover:translate-x-0.5">→</span>
-          </Link>
-        </div>
-      </div>
-      <Header topOffset={56} />
+      <Header/>
       <main>
         <HeroSection />
         <ProblemSolutionSection />

@@ -1030,6 +1030,29 @@ details[open] .appell-faq-question::after {
   transform: translateY(-2px);
 }
 
+.appell-password-form {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.appell-password-input {
+  min-width: min(22rem, 100%);
+  border: 1px solid #d7dbe6;
+  border-radius: 10px;
+  padding: 0.75rem 0.875rem;
+  font: inherit;
+  color: #182033;
+  background: #fff;
+}
+
+.appell-password-input:focus {
+  outline: 2px solid var(--appell-orange);
+  outline-offset: 1px;
+}
+
 /* ============================================
    Print Styles
    ============================================ */
