@@ -7,7 +7,7 @@ export default function HintergrundSection() {
       <p className="appell-paragraph">
         KI steigert Produktivität und treibt medizinischen Fortschritt voran, doch die rasante Entwicklung
         birgt auch große Risiken, die über alle Ländergrenzen hinaus wirken. Warnungen weltweit
-        führender Experten machen deutlich: Nur durch internationale Zusammenarbeit bekommt die
+        führender Expert:innen machen deutlich: Nur durch internationale Zusammenarbeit bekommt die
         Welt Gefahren von Missbrauch bis Kontrollverlust in den Griff.<sup>
           <a href="https://aistatement.com/" target="_blank" rel="noopener" className="appell-citation-link" title="International AI Statement">
             [1]
@@ -20,7 +20,7 @@ export default function HintergrundSection() {
 
       <p className="appell-paragraph">
         Beim ersten AI Safety Summit (Bletchley 2023) warnte die <a href="https://www.gov.uk/government/publications/ai-safety-summit-2023-the-bletchley-declaration/the-bletchley-declaration-by-countries-attending-the-ai-safety-summit-1-2-november-2023" target="_blank" rel="noopener" title="The Bletchley Declaration">Erklärung</a> vor dem „Potenzial für
-        schwerwiegende, sogar katastrophale Schäden&quot;, und die Unterzeichner beschlossen,
+        schwerwiegende, sogar katastrophale Schäden&quot;, und die Unterzeichnenden beschlossen,
         gemeinsam sichere KI zu gewährleisten.
       </p>
 
@@ -38,8 +38,8 @@ export default function HintergrundSection() {
 
       <p className="appell-paragraph">
         Von „Safety&quot; zu „Action&quot; zu „Impact&quot;: Sicherheit verschwindet aus dem Namen. Doch <a href="https://controlai.com/statement" target="_blank" rel="noopener" title="ControlAI statement on AI regulation">über 100
-        britische Parlamentarier unterstützen verbindliche Regulierungen für die fortgeschrittensten
-        KI-Systeme</a>, und <a href="https://red-lines.ai/" target="_blank" rel="noopener" title="Red Lines AI statement">zwölf Nobelpreisträger und hunderte Experten fordern</a>, dass „bis Ende 2026
+        britische Parlamentar:innen unterstützen verbindliche Regulierungen für die fortgeschrittensten
+        KI-Systeme</a>, und <a href="https://red-lines.ai/" target="_blank" rel="noopener" title="Red Lines AI statement">zwölf Nobelpreisträger:innen und hunderte Expert:innen fordern</a>, dass „bis Ende 2026
         ein internationales Abkommen in Kraft treten soll, welches rote Linien für KI festlegt und deren
         Durchsetzung sicherstellt.&quot;
       </p>

@@ -21,7 +21,7 @@ const EXPERT_QUOTES: QuoteCarouselItem[] = [
 export default function ExpertenSection() {
   return (
     <QuoteCarouselSection
-      heading="Internationale Experten"
+      heading="Internationale Expert:innen"
       quotes={EXPERT_QUOTES}
       dotsAriaLabel="Expertenzitat auswählen"
     />

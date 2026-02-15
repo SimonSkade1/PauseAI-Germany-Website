@@ -8,7 +8,7 @@ const SECTIONS = [
   { id: "unterzeichnende", label: "Unterzeichnende" },
   { id: "hintergrund", label: "Kontext" },
   { id: "faq", label: "FAQ" },
-  { id: "experten", label: "Experten" },
+  { id: "experten", label: "Expert:innen" },
   { id: "petition", label: "Petition" },
   { id: "medien", label: "Presse" },
 ];
