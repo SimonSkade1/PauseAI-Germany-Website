@@ -200,15 +200,25 @@ function MembersSection() {
         </div>
         
         {/* Desktop: Grid */}
-        <div className="hidden md:grid md:grid-cols-2 2xl:grid-cols-4 gap-8 md:gap-10 lg:gap-12">
-          {members.map((member) => (
-            <MemberBlurb
+        <div className="hidden md:grid md:grid-cols-6 gap-8 md:gap-10 lg:gap-12">
+          {members.map((member, index) => (
+            <div
               key={member.id}
-              name={member.name}
-              description={member.description}
-              quote={member.quote}
-              image={member.image}
-            />
+              className={
+                index === 3
+                  ? "md:col-span-2 md:col-start-2"
+                  : index === 4
+                    ? "md:col-span-2 md:col-start-4"
+                    : "md:col-span-2"
+              }
+            >
+              <MemberBlurb
+                name={member.name}
+                description={member.description}
+                quote={member.quote}
+                image={member.image}
+              />
+            </div>
           ))}
         </div>
       </div>
