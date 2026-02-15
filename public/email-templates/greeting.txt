@@ -1,0 +1,23 @@
+Subject: Handlungsappell zur Vermeidung extremer Risiken von KI
+
+{{anrede}}{{recipientTitle}}{{recipientName}},
+
+ich wende mich an Sie, weil mich die aktuelle Entwicklung im Bereich Künstlicher Intelligenz zutiefst besorgt.
+
+Über 100 deutsche Professorinnen und Professoren, darunter Fields-Medaillenträger Peter Scholze, haben kürzlich einen Appell an die deutsche Delegation des internationalen KI-Gipfels in Delhi gerichtet. Sie fordern, dass Deutschland sich für ein verbindliches globales Sicherheitsabkommen für fortgeschrittene KI einsetzt. Den Appell finden Sie hier: https://www.pause-ai.de/appell
+
+Es gibt auch einen internationalen Aufruf zu roten Linien für KI, der von 12 Nobelpreisträgern unterzeichnet wurde: https://red-lines.ai/
+
+Was mich besonders beunruhigt: Schon heute verhalten sich KI-Systeme auf Weisen, die von ihren Entwicklern nicht erwünscht sind. ChatGPT verursachte bei vielen Nutzern Wahnvorstellungen. Der Chatbot Claude versuchte in Sicherheitstests seine Entwickler zu erpressen, um seine Ausschaltung zu vermeiden. Grok ernannte sich sogar zu Mechahitler.
+
+Gleichzeitig verstehen selbst führende Experten nicht, was in einem neuronalen Netz einer KI vor sich geht. KIs werden nicht direkt programmiert, sondern entstehen durch einen automatisierten Lernprozess.
+
+Trotzdem wird die Entwicklung mit enormem Tempo vorangetrieben. Ich habe den Eindruck, dass dieses Thema politisch noch nicht die Aufmerksamkeit bekommt, die seiner Tragweite entspricht.
+
+Ich würde mich freuen, wenn Sie sich näher mit dem Thema befassen. Gerne bringe ich Sie auch mit Expertinnen und Experten für KI-Sicherheit in Kontakt.
+
+Über eine kurze Rückmeldung wäre ich Ihnen sehr dankbar.
+
+Mit freundlichen Grüßen
+
+{{senderName}}

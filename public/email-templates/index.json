@@ -1,0 +1,7 @@
+[
+  {
+    "id": "greeting",
+    "label": "Gruß (Standard)",
+    "file": "greeting.txt"
+  }
+]
