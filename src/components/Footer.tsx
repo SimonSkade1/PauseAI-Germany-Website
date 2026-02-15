@@ -6,7 +6,7 @@ import { useState, FormEvent } from "react";
 const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSet8gf61pTqCYv4Fa1OAKGt6BizTKBaeyTTqIyhdlbaoOf5iw/formResponse";
 const GOOGLE_FORM_EMAIL_ENTRY = "entry.1229172991";
 
-function NewsletterForm({ variant = "orange" }: { variant?: "orange" }) {
+function NewsletterForm() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
@@ -89,7 +89,7 @@ export default function Footer() {
             <h4 className="font-section text-sm text-black mb-4 tracking-wider">
               Newsletter
             </h4>
-            <NewsletterForm variant="orange" />
+            <NewsletterForm />
           </div>
 
           {/* Links */}

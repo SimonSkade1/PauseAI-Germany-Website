@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MemberBlurb from "@/components/MemberBlurb";
@@ -11,11 +11,6 @@ import members from "@/data/members.json";
 
 function HeroSection() {
   const [isLoaded, setIsLoaded] = useState(false);
-
-  useEffect(() => {
-    // Trigger the sweep animation after component mounts
-    setIsLoaded(true);
-  }, []);
 
   const infoText = (
     <>
@@ -39,6 +34,7 @@ function HeroSection() {
               height={889}
               className="w-full h-full object-contain"
               priority
+              onLoad={() => setIsLoaded(true)}
             />
             
             {/* Grayscale image overlay with clip-path animation */}

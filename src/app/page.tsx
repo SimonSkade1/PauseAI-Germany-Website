@@ -1,77 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState, useEffect, useRef, FormEvent } from "react";
+import Link from "next/link";
+import React, { useState, useEffect, useRef, useCallback, FormEvent } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSet8gf61pTqCYv4Fa1OAKGt6BizTKBaeyTTqIyhdlbaoOf5iw/formResponse";
 const GOOGLE_FORM_EMAIL_ENTRY = "entry.1229172991";
-
-function NewsletterForm({ variant = "light" }: { variant?: "light" | "dark" | "orange" }) {
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-
-    setStatus("loading");
-
-    try {
-      // Submit to Google Forms using no-cors mode
-      await fetch(GOOGLE_FORM_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams({
-          [GOOGLE_FORM_EMAIL_ENTRY]: email,
-        }),
-      });
-
-      // With no-cors we can't read the response, but if no error was thrown, assume success
-      setStatus("success");
-      setEmail("");
-    } catch {
-      setStatus("error");
-    }
-  };
-
-  if (status === "success") {
-    return (
-      <p className={`font-body ${variant === "light" ? "text-pause-black" : variant === "orange" ? "text-black" : "text-white"}`}>
-        Danke für deine Anmeldung!
-      </p>
-    );
-  }
-
-  const inputClass = variant === "light" ? "newsletter-input-light" : variant === "orange" ? "newsletter-input-orange" : "newsletter-input";
-  const sizeClass = variant === "light" ? "px-4 py-3 text-base" : "px-4 py-2 text-sm";
-  const buttonSizeClass = variant === "light" ? "px-6 py-3 text-sm" : "px-4 py-2 text-xs";
-  const buttonClass = variant === "orange" ? "bg-black text-white hover:bg-gray-800" : "btn-orange";
-
-  return (
-    <form onSubmit={handleSubmit} className={`flex flex-col sm:flex-row ${variant === "light" ? "gap-3" : "gap-2"}`}>
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder={variant === "light" ? "Deine E-Mail-Adresse" : "E-Mail-Adresse"}
-        className={`${inputClass} flex-1 min-w-0 w-full ${sizeClass} font-body`}
-        required
-      />
-      <button
-        type="submit"
-        disabled={status === "loading"}
-        className={`${buttonClass} ${buttonSizeClass} font-section tracking-wider whitespace-nowrap disabled:opacity-50 transition-colors`}
-      >
-        {status === "loading" ? "..." : "Abonnieren"}
-      </button>
-    </form>
-  );
-}
 
 function NewsletterFormWithRef({ 
   variant = "light", 
@@ -256,7 +192,6 @@ function QuotesSection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const autoAdvanceRef = useRef<NodeJS.Timeout | null>(null);
 
   // Handle scroll to update active index
   useEffect(() => {
@@ -274,25 +209,11 @@ function QuotesSection() {
     return () => container.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Auto-advance every 8 seconds
-  useEffect(() => {
-    const startAutoAdvance = () => {
-      autoAdvanceRef.current = setInterval(() => {
-        scrollToIndex((activeIndex + 1) % quotes.length);
-      }, 8000);
-    };
-
-    startAutoAdvance();
-    return () => {
-      if (autoAdvanceRef.current) clearInterval(autoAdvanceRef.current);
-    };
-  }, [activeIndex]);
-
   // Scroll to specific quote with animation
-  const scrollToIndex = (index: number) => {
+  const scrollToIndex = useCallback((index: number) => {
     const container = scrollContainerRef.current;
     if (!container) return;
-    
+
     const itemWidth = container.offsetWidth;
     const targetScroll = index * itemWidth;
     const startScroll = container.scrollLeft;
@@ -305,16 +226,16 @@ function QuotesSection() {
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
       const easeOut = 1 - Math.pow(1 - progress, 3);
-      
+
       container.scrollLeft = startScroll + distance * easeOut;
-      
+
       if (progress < 1) {
         requestAnimationFrame(animateScroll);
       }
     };
 
     requestAnimationFrame(animateScroll);
-  };
+  }, []);
 
   const nextQuote = () => {
     scrollToIndex((activeIndex + 1) % quotes.length);
@@ -559,26 +480,6 @@ function ActionSection() {
             </div>
           </div>
 
-          {/* Contact Lawmakers (link to contact page) */}
-          <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-              <div>
-                <h3 className="font-section text-lg text-pause-black mb-1 md:text-xl">
-                  Kontaktiere Abgeordnete
-                </h3>
-                <p className="font-body text-pause-black/80 text-base">
-                  Schreibe an Abgeordnete mit Vorlagen, Tipps und aktuellem Kontaktformular.
-                </p>
-              </div>
-
-              <div className="mt-2 md:mt-0">
-                <a href="/contactlawmakers" className="btn-orange inline-flex items-center gap-2 px-4 py-2 rounded-lg font-section">
-                  <span>Zur Kontaktseite</span>
-                </a>
-              </div>
-            </div>
-          </div>
-
           {/* Discord */}
           <a 
             href="https://discord.gg/pvZ5PmRX4R"
@@ -652,10 +553,45 @@ function ActionSection() {
 }
 
 
+// export default function Home() {
+//   return (
+//     <>
+//       <div className="fixed left-0 right-0 top-0 z-[60] h-14 border-b border-[#FF9416]/35 bg-black/95 text-[#FF9416] shadow-[0_8px_24px_rgba(0,0,0,0.35)]">
+//         <div className="mx-auto flex h-full max-w-7xl items-center justify-center gap-2 px-2 sm:gap-3 sm:px-6 md:px-10">
+//           <p className="hidden truncate text-center text-[#FF9416] sm:block">
+//             <span className="font-body-bold text-[11px] sm:text-sm md:text-base">
+//               Appell zum KI-Gipfel 2026
+//             </span>
+//             <span className="ml-2 hidden font-body text-xs md:text-sm lg:inline">
+//               Über 100 Professorinnen und Professoren fordern mehr Sicherheit beim Thema KI
+//             </span>
+//           </p>
+//           <Link
+//             href="/appell"
+//             className="group inline-flex flex-shrink-0 items-center gap-1 rounded-sm border border-[#FF9416] bg-[#FF9416]/10 px-3 py-1.5 font-section text-[11px] uppercase tracking-[0.12em] text-[#FF9416] transition-colors hover:bg-[#FF9416] hover:text-black sm:gap-2 sm:px-4 sm:py-1.5 sm:text-xs sm:tracking-[0.14em]"
+//           >
+//             <span className="sm:hidden">Appell zum KI-Gipfel 2026</span>
+//             <span className="hidden sm:inline">Zum Appell</span>
+//             <span className="transition-transform group-hover:translate-x-0.5">→</span>
+//           </Link>
+//         </div>
+//       </div>
+//       <Header topOffset={56} />
+//       <main>
+//         <HeroSection />
+//         <ProblemSolutionSection />
+//         <QuotesSection />
+//         <ActionSection />
+//       </main>
+//       <Footer />
+//     </>
+//   );
+// }
+
 export default function Home() {
   return (
     <>
-      <Header />
+      <Header/>
       <main>
         <HeroSection />
         <ProblemSolutionSection />

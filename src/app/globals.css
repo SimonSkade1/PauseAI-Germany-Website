@@ -36,6 +36,7 @@
   box-sizing: border-box;
 }
 
+/* Smooth scroll behavior */
 html {
   scroll-behavior: smooth;
 }
