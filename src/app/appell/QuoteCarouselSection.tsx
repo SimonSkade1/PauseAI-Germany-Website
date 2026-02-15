@@ -1,6 +1,6 @@
 "use client";
 
-import { type CSSProperties, useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 export type QuoteCarouselItem = {
   text: string;
@@ -12,26 +12,16 @@ type QuoteCarouselSectionProps = {
   heading: string;
   quotes: QuoteCarouselItem[];
   dotsAriaLabel: string;
-  autoSwitchMs?: number;
 };
 
 export default function QuoteCarouselSection({
   heading,
   quotes,
   dotsAriaLabel,
-  autoSwitchMs = 20000,
 }: QuoteCarouselSectionProps) {
   const [activeQuote, setActiveQuote] = useState(0);
   const touchStartX = useRef<number | null>(null);
   const touchStartY = useRef<number | null>(null);
-
-  useEffect(() => {
-    const timer = window.setTimeout(() => {
-      setActiveQuote((prev) => (prev + 1) % quotes.length);
-    }, autoSwitchMs);
-
-    return () => window.clearTimeout(timer);
-  }, [activeQuote, autoSwitchMs, quotes.length]);
 
   const quote = quotes[activeQuote];
 
@@ -89,13 +79,6 @@ export default function QuoteCarouselSection({
             <cite className="appell-quote-name">{quote.name}</cite>
             <span className="appell-quote-chair">{quote.subtitle}</span>
           </footer>
-          <span
-            className="appell-quote-progress-track"
-            aria-hidden="true"
-            style={{ "--appell-quote-duration": `${autoSwitchMs}ms` } as CSSProperties}
-          >
-            <span key={activeQuote} className="appell-quote-progress-fill"></span>
-          </span>
         </blockquote>
 
         <div className="appell-quote-controls">

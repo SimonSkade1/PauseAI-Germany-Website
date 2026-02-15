@@ -191,7 +191,6 @@ function QuotesSection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const autoAdvanceRef = useRef<NodeJS.Timeout | null>(null);
 
   // Handle scroll to update active index
   useEffect(() => {
@@ -236,20 +235,6 @@ function QuotesSection() {
 
     requestAnimationFrame(animateScroll);
   }, []);
-
-  // Auto-advance every 8 seconds
-  useEffect(() => {
-    const startAutoAdvance = () => {
-      autoAdvanceRef.current = setInterval(() => {
-        scrollToIndex((activeIndex + 1) % quotes.length);
-      }, 8000);
-    };
-
-    startAutoAdvance();
-    return () => {
-      if (autoAdvanceRef.current) clearInterval(autoAdvanceRef.current);
-    };
-  }, [activeIndex, scrollToIndex]);
 
   const nextQuote = () => {
     scrollToIndex((activeIndex + 1) % quotes.length);
