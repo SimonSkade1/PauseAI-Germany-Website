@@ -29,7 +29,7 @@ export default function UnterzeichnendeSection({
       <div className="unterzeichnende-cta">
         <p className="unterzeichnende-cta-text">
           Wenn Sie Professor:in sind und unterzeichnen möchten, schreiben Sie
-          bitte eine E-Mail an{" "}
+          uns bitte eine E-Mail an{" "}
           <a href="mailto:germany@pauseai.info">germany@pauseai.info</a>.
         </p>
       </div>

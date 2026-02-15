@@ -1014,29 +1014,6 @@ details[open] .appell-faq-question::after {
   gap: 1rem;
 }
 
-.appell-medien-email {
-  margin: 0;
-}
-
-.appell-medien-email a {
-  font-family: var(--font-section);
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: var(--appell-orange);
-  text-decoration: none;
-}
-
-.appell-medien-email a:hover {
-  text-decoration: underline;
-}
-
-.appell-medien-note {
-  font-family: var(--font-body);
-  font-size: 0.875rem;
-  color: #666;
-  margin: 0;
-}
-
 /* ============================================
    Petition Button
    ============================================ */
@@ -1214,7 +1191,7 @@ details[open] .appell-faq-question::after {
 .appell-toc-menu-link:focus,
 .appell-faq-question:focus,
 .appell-btn-primary:focus,
-.appell-medien-email a:focus {
+.unterzeichnende-cta-text a:focus {
   outline: none;
 }
 
