@@ -790,6 +790,39 @@
     padding-left: 1.1rem;
   }
 
+  .appell-quote-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "dots dots"
+      "prev next";
+    align-items: center;
+    justify-items: center;
+    row-gap: 0.75rem;
+    column-gap: 0.75rem;
+  }
+
+  .appell-quote-dots {
+    grid-area: dots;
+  }
+
+  .appell-quote-nav-btn:first-of-type {
+    grid-area: prev;
+    justify-self: end;
+  }
+
+  .appell-quote-nav-btn:last-of-type {
+    grid-area: next;
+    justify-self: start;
+  }
+
+  .appell-quote-nav-btn {
+    width: 3.25rem;
+    height: 2.75rem;
+    border-radius: 999px;
+    font-size: 1.6rem;
+  }
+
 }
 
 /* ============================================
