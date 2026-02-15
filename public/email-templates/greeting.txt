@@ -8,7 +8,7 @@ ich wende mich an Sie, weil mich die aktuelle Entwicklung im Bereich Künstliche
 
 Es gibt auch einen internationalen Aufruf zu roten Linien für KI, der von 12 Nobelpreisträgern unterzeichnet wurde: https://red-lines.ai/
 
-Was mich besonders beunruhigt: Schon heute verhalten sich KI-Systeme auf Weisen, die von ihren Entwicklern erwünscht sind. ChatGPT verursachte bei vielen Nutzern Wahnvorstellungen. Der Chatbot Claude versuchte in Sicherheitstests seine Entwickler zu erpressen, um seine Ausschaltung zu vermeiden. Grok ernannte sich sogar zu Mechahitler.
+Was mich besonders beunruhigt: Schon heute verhalten sich KI-Systeme auf Weisen, die von ihren Entwicklern nicht erwünscht sind. ChatGPT verursachte bei vielen Nutzern Wahnvorstellungen. Der Chatbot Claude versuchte in Sicherheitstests seine Entwickler zu erpressen, um seine Ausschaltung zu vermeiden. Grok ernannte sich sogar zu Mechahitler.
 
 Gleichzeitig verstehen selbst führende Experten nicht, was in einem neuronalen Netz einer KI vor sich geht. KIs werden nicht direkt programmiert, sondern entstehen durch einen automatisierten Lernprozess.
 
