@@ -13,7 +13,7 @@ const EXPERT_QUOTES: QuoteCarouselItem[] = [
   },
   {
     text: "Wir betonen: Einige KI-Systeme zeigen bereits heute die Fähigkeit und Neigung, die Sicherheits- und Kontrollbemühungen ihrer Entwickler zu untergraben.",
-    name: "Konsens führender KI-Sicherheitsforscher",
+    name: "Konsens führender KI-Sicherheitsforscher:innen",
     subtitle: "darunter Stuart Russell und Andrew Yao · International Dialogues on AI Safety, Shanghai 2025",
   },
 ];
