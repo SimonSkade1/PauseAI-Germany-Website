@@ -32,7 +32,7 @@ export default function HintergrundSection() {
       </p>
 
       <p className="appell-paragraph">
-        Nun steht der AI Impact Summit (Delhi, 19.&ndash;20. Februar 2026) bevor, aber verbindliche
+        Nun steht der AI Impact Summit (Delhi, Kernphase 19.&ndash;20. Februar 2026) bevor, aber verbindliche
         Sicherheitsregeln stehen nicht auf der Agenda.
       </p>
 
