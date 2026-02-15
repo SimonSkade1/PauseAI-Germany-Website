@@ -135,7 +135,7 @@ function ContentSection() {
           largeHeading="Kontrollverlust verhindern"
           text={
             <>
-            Milliardeninvestitionen fließen in den Wettlauf um die erste künstliche Intelligenz, die alle menschlichen Fähigkeiten übertrifft. Weltweit anerkannte KI-Experten  warnen, dass dies zur Auslöschung der Menschheit führen könnte. Selbst wenn der schlimmste Fall nicht eintreten sollte, birgt KI katastrophale Risiken.
+            Milliardeninvestitionen fließen in den Wettlauf um die erste künstliche Intelligenz, die alle menschlichen Fähigkeiten übertrifft. Weltweit anerkannte KI-Expert:innen  warnen, dass dies zur Auslöschung der Menschheit führen könnte. Selbst wenn der schlimmste Fall nicht eintreten sollte, birgt KI katastrophale Risiken.
             <br />
             <br />
             Unser Ziel ist ein internationales Abkommen, das die unkontrollierte Weiterentwicklung von künstlicher Intelligenz weltweit pausiert, bis angemessene Sicherheitsvorkehrungen implementiert wurden. Wir unterstützen die Etablierung verbindlicher <a href="https://red-lines.ai/" target="_blank" rel="noopener noreferrer" className="orange-link font-body-bold">roter Linien</a>, etwa bei der Entwicklung von Systemen, die sich eigenständig selbst verbessern können. Der <a href="https://ifanyonebuildsit.com/treaty" target="_blank" rel="noopener noreferrer" className="orange-link font-body-bold">Entwurf</a> des Machine Intelligence Research Institutes zeigt, wie dieses Abkommen aussehen könnte.
@@ -174,7 +174,7 @@ function ContentSection() {
           largeHeading="Klarheit schaffen"
           text={
           <>
-          Wir wollen den Spalt zwischen den dramatischen Warnungen von KI-Experten und der öffentlichen Debatte schließen. Unser wirksamstes Mittel ist, sachlich und lösungsorientiert über die Risiken von KI-Entwicklung aufzuklären. Immer mehr Freiwillige tragen etwa mit Vorträgen oder Flyeraktionen dazu bei,  die kollektive Schockstarre zu überwinden.
+          Wir wollen den Spalt zwischen den dramatischen Warnungen von KI-Expert:innen und der öffentlichen Debatte schließen. Unser wirksamstes Mittel ist, sachlich und lösungsorientiert über die Risiken von KI-Entwicklung aufzuklären. Immer mehr Freiwillige tragen etwa mit Vorträgen oder Flyeraktionen dazu bei, die kollektive Schockstarre zu überwinden.
           <br />
           <br />
           Auf unserem <a href="https://discord.gg/pvZ5PmRX4R" target="_blank" rel="noopener noreferrer" className="orange-link font-body-bold">Discord-Server</a> erfährst Du mehr über aktuell laufende Projekte. Dort treffen wir uns jeden Donnerstag um 18 Uhr für ein Videomeeting, zu dem Du herzlich eingeladen bist!
