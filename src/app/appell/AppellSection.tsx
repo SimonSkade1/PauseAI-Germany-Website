@@ -6,7 +6,7 @@ export default function AppellSection({
   professorCount,
 }: AppellSectionProps) {
   const formattedProfessorCount = new Intl.NumberFormat("de-DE").format(
-    professorCount
+    professorCount - 1 // -1 for mandy jeske
   );
 
   return (
@@ -53,9 +53,7 @@ export default function AppellSection({
         <div className="appell-signatory-count">{formattedProfessorCount}</div>
         <div>
           <div className="appell-signatory-text">Professorinnen & Professoren</div>
-          <div className="appell-signatory-label">
-            aus Deutschland haben den Appell unterzeichnet
-          </div>
+          <div className="appell-signatory-label">aus Deutschland haben den Appell unterzeichnet</div>
         </div>
       </div>
     </div>
