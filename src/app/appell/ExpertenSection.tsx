@@ -7,7 +7,7 @@ const EXPERT_QUOTES: QuoteCarouselItem[] = [
     subtitle: "unterzeichnet von den 2 meistzitierten KI-Wissenschaftlern und den CEOs führender KI-Unternehmen",
   },
   {
-    text: "Ich habe vier Jahre im Sicherheitsteam von OpenAI gearbeitet und kann Ihnen mit Gewissheit sagen: KI-Unternehmen nehmen ihre Sicherheit nicht ernst genug, und sie sind nicht auf Kurs, kritische Sicherheitsprobleme zu lösen.",
+    text: "Ich habe vier Jahre im Sicherheitsteam von OpenAI gearbeitet und kann Ihnen mit Gewissheit sagen: KI-Unternehmen nehmen Ihre Sicherheit nicht ernst genug, und sie sind nicht auf dem Kurs, kritische Sicherheitsprobleme zu lösen.",
     name: "Steven Adler",
     subtitle: "ehemaliger Leiter der Dangerous Capability Evaluations bei OpenAI",
   },
