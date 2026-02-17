@@ -108,7 +108,7 @@ const quotes = [
     name: "Max Lucks",
     title: "Bundestagsabgeordneter (Bündnis 90/Die Grünen)",
     image: "/Max_Lucks_(2023).jpg",
-    link: "https://www.abgeordnetenwatch.de/profile/max-lucks",
+    link: "https://www.abgeordnetenwatch.de/profile/max-lucks/fragen-antworten/sehr-geehrter-herr-lucks-wie-engagieren-sie-sich-fuer-die-weltweite-internationale-zusammenarbeit-im-umgang-mit",
     attribution: "Büro Max Lucks / Wikimedia Commons",
     sourceLink: "https://commons.wikimedia.org/wiki/File:Max_Lucks_(2023).jpg",
     licenseLink: "https://creativecommons.org/licenses/by-sa/4.0/",
@@ -119,6 +119,7 @@ const quotes = [
     name: "Geoffrey Hinton",
     title: 'Nobel Prize winner & "Godfather of AI"',
     image: "/Geoffrey_E._Hinton,_2024_Nobel_Prize_Laureate_in_Physics_(cropped1).jpg",
+    link: "https://www.forbes.com/sites/craigsmith/2023/05/04/geoff-hinton-ais-most-famous-researcher-warns-of-existential-threat/",
     attribution: "Arthur Petron / Wikimedia Commons",
     sourceLink: "https://commons.wikimedia.org/wiki/File:Geoffrey_E._Hinton,_2024_Nobel_Prize_Laureate_in_Physics_(cropped1).jpg",
     licenseLink: "https://creativecommons.org/licenses/by-sa/4.0/",
@@ -128,7 +129,7 @@ const quotes = [
       "Verbindliche internationale Abkommen und ethische Grundlagen für den Einsatz von KI werden benötigt um ein Wettrennen zwischen den Staaten um die leistungsfähigste KI zu unterbinden.",
     name: "Desiree Becker",
     title: "Bundestagsabgeordnete (Die Linke)",
-    link: "https://www.abgeordnetenwatch.de/profile/desiree-becker",
+    link: "https://www.abgeordnetenwatch.de/profile/desiree-becker/fragen-antworten/sehr-geehrte-frau-becker-wie-engagieren-sie-sich-fuer-die-weltweite-internationale-zusammenarbeit-im-umgang"
   },
   {
     quote:
@@ -136,6 +137,7 @@ const quotes = [
     name: "Yoshua Bengio",
     title: "AI Turing Award winner",
     image: "/ICLR_2025_-_Yoshua_Bengio_02.jpg",
+    link: "https://yoshuabengio.org/2023/05/22/how-rogue-ais-may-arise/",
     attribution: "Xuthoria / Wikimedia Commons",
     sourceLink: "https://commons.wikimedia.org/wiki/File:ICLR_2025_-_Yoshua_Bengio_02.jpg",
     licenseLink: "https://creativecommons.org/licenses/by-sa/4.0/",
@@ -145,7 +147,7 @@ const quotes = [
       "Ich halte es für notwendig, auf europäischer und globaler Ebene rote Linien für Anwendungen [von KI] zu ziehen, die fundamentale Sicherheits- oder Menschenrechtsrisiken erzeugen – etwa autonome Waffensysteme ohne echte menschliche Kontrolle, KI zur massiven Verhaltensmanipulation oder nicht kontrollierbare Systemarchitekturen.",
     name: "Diana Herbstreuth",
     title: "Bundestagsabgeordnete (CDU)",
-    link: "https://www.abgeordnetenwatch.de/profile/diana-herbstreuth",
+    link: "https://www.abgeordnetenwatch.de/profile/diana-herbstreuth/fragen-antworten/sehr-geehrte-frau-herbstreuth-wie-engagieren-sie-sich-fuer-die-weltweite-zusammenarbeit-im-umgang-mit"
   },
   {
     quote:
@@ -153,15 +155,17 @@ const quotes = [
     name: "Stephen Hawking",
     title: "Theoretical physicist and cosmologist",
     image: "/Stephen_Hawking.StarChild.jpg",
+    link: "https://www.bbc.com/news/technology-30290540",
     attribution: "NASA / Wikimedia Commons",
     sourceLink: "https://commons.wikimedia.org/wiki/File:Stephen_Hawking.StarChild.jpg",
     licenseLink: "https://commons.wikimedia.org/wiki/Public_domain",
   },
   {
-    quote: "We should have to expect the machines to take control.",
+    quote: "for it seems probable that once the machine thinking method had started, it would not take long to outstrip our feeble powers. ... At some stage therefore we should have to expect the machines to take control",
     name: "Alan Turing",
     title: "Inventor of the modern computer",
     image: "/Alan_Turing_(1951).jpg",
+    link: "https://en.wikiquote.org/wiki/Alan_Turing",
     attribution: "Elliott & Fry / Wikimedia Commons",
     sourceLink: "https://commons.wikimedia.org/wiki/File:Alan_Turing_(1951).jpg",
     licenseLink: "https://creativecommons.org/publicdomain/mark/1.0/",
@@ -281,13 +285,7 @@ function QuotesSection() {
         )}
         <div className="flex flex-col items-center text-center">
           <h3 className="font-headline text-white text-xl md:text-2xl lg:text-3xl leading-tight">
-            {(q as { link?: string }).link ? (
-              <a href={(q as { link?: string }).link} target="_blank" rel="noopener noreferrer" className="hover:text-[#FF9416] transition-colors">
-                {q.name}
-              </a>
-            ) : (
-              q.name
-            )}
+            {q.name}
           </h3>
           <p className="font-body text-white/70 text-sm md:text-base mt-1 leading-relaxed">{q.title}</p>
           {(q as { attribution?: string; sourceLink?: string; licenseLink?: string }).sourceLink && (
@@ -295,12 +293,12 @@ function QuotesSection() {
               Foto: {(q as { attribution?: string }).attribution}
               {(q as { sourceLink?: string }).sourceLink && (
                 <>
-                  {" · "}<a href={(q as { sourceLink?: string }).sourceLink} target="_blank" rel="noopener noreferrer" className="hover:text-white/60 transition-colors">Quelle</a>
+                  {" · "}<a href={(q as { sourceLink?: string }).sourceLink} target="_blank" rel="noopener noreferrer" className="text-white/80 underline underline-offset-2 decoration-white/50 hover:text-white transition-colors">Quelle</a>
                 </>
               )}
               {(q as { licenseLink?: string }).licenseLink && (
                 <>
-                  {" · "}<a href={(q as { licenseLink?: string }).licenseLink} target="_blank" rel="noopener noreferrer" className="hover:text-white/60 transition-colors">CC BY-SA 4.0</a>
+                  {" · "}<a href={(q as { licenseLink?: string }).licenseLink} target="_blank" rel="noopener noreferrer" className="text-white/80 underline underline-offset-2 decoration-white/50 hover:text-white transition-colors">CC BY-SA 4.0</a>
                 </>
               )}
             </p>
@@ -365,6 +363,18 @@ function QuotesSection() {
               </svg>
             </button>
           </div>
+          {(q as { link?: string }).link && (
+            <p className="font-body text-white/60 text-sm text-center mt-4">
+              <a
+                href={(q as { link?: string }).link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/85 underline underline-offset-2 decoration-white/60 hover:text-white transition-colors"
+              >
+                Quelle des Zitats
+              </a>
+            </p>
+          )}
 
           {/* Square Dots Indicator - aligned with quote max-width */}
           <div className="flex justify-between items-center h-6 mt-12 md:mt-16 mx-6 md:mx-0" style={{ maxWidth: '60ch', margin: '3rem auto 0' }}>
