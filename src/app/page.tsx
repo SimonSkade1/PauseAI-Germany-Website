@@ -104,54 +104,67 @@ const quotes = [
   },
   {
     quote:
-      "Ich halte es für notwendig, auf europäischer und globaler Ebene rote Linien für Anwendungen [von KI] zu ziehen, die fundamentale Sicherheits- oder Menschenrechtsrisiken erzeugen – etwa autonome Waffensysteme ohne echte menschliche Kontrolle, KI zur massiven Verhaltensmanipulation oder nicht kontrollierbare Systemarchitekturen.",
-    name: "Diana Herbstreuth",
-    title: "Bundestagsabgeordnete (CDU)",
-    image: "/neutral_profile_pic.png",
-    link: "https://www.abgeordnetenwatch.de/profile/diana-herbstreuth",
+      "International unterstütze ich Initiativen, die rote Linien für KI definieren, autonome Waffensysteme ächten und globale Sicherheitsstandards schaffen. Deutschland kann dabei gemeinsam mit europäischen Partnern wichtige Impulse setzen, etwa durch stärkere Forschung zu Sicherheit und Kontrollierbarkeit sowie internationale Transparenzregeln für besonders leistungsfähige Modelle.",
+    name: "Max Lucks",
+    title: "Bundestagsabgeordneter (Bündnis 90/Die Grünen)",
+    image: "/Max_Lucks_(2023).jpg",
+    link: "https://www.abgeordnetenwatch.de/profile/max-lucks",
+    attribution: "Büro Max Lucks / Wikimedia Commons",
+    sourceLink: "https://commons.wikimedia.org/wiki/File:Max_Lucks_(2023).jpg",
+    licenseLink: "https://creativecommons.org/licenses/by-sa/4.0/",
   },
   {
     quote:
       "It might be quite sensible to just stop developing these things any further.",
     name: "Geoffrey Hinton",
     title: 'Nobel Prize winner & "Godfather of AI"',
-    image: "https://pauseai.info/_app/immutable/assets/hinton.CATQdHCu.jpeg",
+    image: "/Geoffrey_E._Hinton,_2024_Nobel_Prize_Laureate_in_Physics_(cropped1).jpg",
+    attribution: "Arthur Petron / Wikimedia Commons",
+    sourceLink: "https://commons.wikimedia.org/wiki/File:Geoffrey_E._Hinton,_2024_Nobel_Prize_Laureate_in_Physics_(cropped1).jpg",
+    licenseLink: "https://creativecommons.org/licenses/by-sa/4.0/",
   },
   {
     quote:
       "Verbindliche internationale Abkommen und ethische Grundlagen für den Einsatz von KI werden benötigt um ein Wettrennen zwischen den Staaten um die leistungsfähigste KI zu unterbinden.",
     name: "Desiree Becker",
     title: "Bundestagsabgeordnete (Die Linke)",
-    image: "/07_Desiree_Becker-nah-M.jpg",
     link: "https://www.abgeordnetenwatch.de/profile/desiree-becker",
-  },
-  {
-    quote:
-      "The development of full artificial intelligence could spell the end of the human race.",
-    name: "Stephen Hawking",
-    title: "Theoretical physicist and cosmologist",
-    image: "https://pauseai.info/_app/immutable/assets/hawking.CjUk02YF.jpeg",
-  },
-  {
-    quote:
-      "International unterstütze ich Initiativen, die rote Linien für KI definieren, autonome Waffensysteme ächten und globale Sicherheitsstandards schaffen. Deutschland kann dabei gemeinsam mit europäischen Partnern wichtige Impulse setzen, etwa durch stärkere Forschung zu Sicherheit und Kontrollierbarkeit sowie internationale Transparenzregeln für besonders leistungsfähige Modelle.",
-    name: "Max Lucks",
-    title: "Bundestagsabgeordneter (Bündnis 90/Die Grünen)",
-    image: "/MaxLucks_credit_FinnKantus_07.jpg",
-    link: "https://www.abgeordnetenwatch.de/profile/max-lucks",
-  },
-  {
-    quote: "We should have to expect the machines to take control.",
-    name: "Alan Turing",
-    title: "Inventor of the modern computer",
-    image: "https://pauseai.info/_app/immutable/assets/turing.CU9lsOWi.jpeg",
   },
   {
     quote:
       "Banning powerful AI systems beyond GPT-4 abilities with autonomy would be a good start.",
     name: "Yoshua Bengio",
     title: "AI Turing Award winner",
-    image: "https://pauseai.info/_app/immutable/assets/bengio.CI8A1hfU.jpeg",
+    image: "/ICLR_2025_-_Yoshua_Bengio_02.jpg",
+    attribution: "Xuthoria / Wikimedia Commons",
+    sourceLink: "https://commons.wikimedia.org/wiki/File:ICLR_2025_-_Yoshua_Bengio_02.jpg",
+    licenseLink: "https://creativecommons.org/licenses/by-sa/4.0/",
+  },
+  {
+    quote:
+      "Ich halte es für notwendig, auf europäischer und globaler Ebene rote Linien für Anwendungen [von KI] zu ziehen, die fundamentale Sicherheits- oder Menschenrechtsrisiken erzeugen – etwa autonome Waffensysteme ohne echte menschliche Kontrolle, KI zur massiven Verhaltensmanipulation oder nicht kontrollierbare Systemarchitekturen.",
+    name: "Diana Herbstreuth",
+    title: "Bundestagsabgeordnete (CDU)",
+    link: "https://www.abgeordnetenwatch.de/profile/diana-herbstreuth",
+  },
+  {
+    quote:
+      "The development of full artificial intelligence could spell the end of the human race.",
+    name: "Stephen Hawking",
+    title: "Theoretical physicist and cosmologist",
+    image: "/Stephen_Hawking.StarChild.jpg",
+    attribution: "NASA / Wikimedia Commons",
+    sourceLink: "https://commons.wikimedia.org/wiki/File:Stephen_Hawking.StarChild.jpg",
+    licenseLink: "https://commons.wikimedia.org/wiki/Public_domain",
+  },
+  {
+    quote: "We should have to expect the machines to take control.",
+    name: "Alan Turing",
+    title: "Inventor of the modern computer",
+    image: "/Alan_Turing_(1951).jpg",
+    attribution: "Elliott & Fry / Wikimedia Commons",
+    sourceLink: "https://commons.wikimedia.org/wiki/File:Alan_Turing_(1951).jpg",
+    licenseLink: "https://creativecommons.org/publicdomain/mark/1.0/",
   },
 ];
 
@@ -253,18 +266,20 @@ function QuotesSection() {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Header with Logo/Photo and Name - left aligned */}
-      <div className="flex items-start gap-6 md:gap-8 mb-6 md:mb-8 px-6 md:px-12 min-h-[150px] md:min-h-[100px]">
-        <div className="relative w-16 h-16 md:w-20 md:h-20 flex-shrink-0 overflow-hidden bg-white">
-          <Image
-            src={q.image}
-            alt={q.name}
-            fill
-            sizes="(max-width: 768px) 64px, 80px"
-            className="object-cover"
-          />
-        </div>
-        <div className="flex flex-col justify-center flex-1 min-h-[80px] md:min-h-[80px]">
+      {/* Header with Logo/Photo and Name - centered */}
+      <div className="flex flex-col items-center gap-3 md:gap-4 mb-6 md:mb-8 px-6 md:px-12">
+        {(q as { image?: string }).image && (
+          <div className="relative w-16 h-16 md:w-20 md:h-20 flex-shrink-0 overflow-hidden bg-white">
+            <Image
+              src={(q as { image: string }).image}
+              alt={q.name}
+              fill
+              sizes="(max-width: 768px) 64px, 80px"
+              className="object-cover"
+            />
+          </div>
+        )}
+        <div className="flex flex-col items-center text-center">
           <h3 className="font-headline text-white text-xl md:text-2xl lg:text-3xl leading-tight">
             {(q as { link?: string }).link ? (
               <a href={(q as { link?: string }).link} target="_blank" rel="noopener noreferrer" className="hover:text-[#FF9416] transition-colors">
@@ -275,6 +290,21 @@ function QuotesSection() {
             )}
           </h3>
           <p className="font-body text-white/70 text-sm md:text-base mt-1 leading-relaxed">{q.title}</p>
+          {(q as { attribution?: string; sourceLink?: string; licenseLink?: string }).sourceLink && (
+            <p className="font-body text-white/40 text-xs mt-2 leading-relaxed">
+              Foto: {(q as { attribution?: string }).attribution}
+              {(q as { sourceLink?: string }).sourceLink && (
+                <>
+                  {" · "}<a href={(q as { sourceLink?: string }).sourceLink} target="_blank" rel="noopener noreferrer" className="hover:text-white/60 transition-colors">Quelle</a>
+                </>
+              )}
+              {(q as { licenseLink?: string }).licenseLink && (
+                <>
+                  {" · "}<a href={(q as { licenseLink?: string }).licenseLink} target="_blank" rel="noopener noreferrer" className="hover:text-white/60 transition-colors">CC BY-SA 4.0</a>
+                </>
+              )}
+            </p>
+          )}
         </div>
       </div>
 
@@ -286,12 +316,12 @@ function QuotesSection() {
             {/* Left Arrow - hidden on mobile, visible on hover on desktop */}
             <button
               onClick={prevQuote}
-              className={`hidden md:flex absolute left-0 flex-shrink-0 w-10 h-10 items-center justify-center transition-opacity duration-200 ${
+              className={`hidden md:flex absolute left-0 flex-shrink-0 w-14 h-14 -translate-x-2 items-center justify-center transition-opacity duration-200 ${
                 isHovered ? "opacity-100" : "opacity-0"
               }`}
               aria-label="Previous quote"
             >
-              <svg className="w-8 h-8 text-white hover:text-[#FF9416] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-10 h-10 text-white hover:text-[#FF9416] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
@@ -325,12 +355,12 @@ function QuotesSection() {
             {/* Right Arrow - hidden on mobile, visible on hover on desktop */}
             <button
               onClick={nextQuote}
-              className={`hidden md:flex absolute right-0 flex-shrink-0 w-10 h-10 items-center justify-center transition-opacity duration-200 ${
+              className={`hidden md:flex absolute right-0 flex-shrink-0 w-14 h-14 translate-x-2 items-center justify-center transition-opacity duration-200 ${
                 isHovered ? "opacity-100" : "opacity-0"
               }`}
               aria-label="Next quote"
             >
-              <svg className="w-8 h-8 text-white hover:text-[#FF9416] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-12 h-12 text-white hover:text-[#FF9416] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 5l7 7-7 7" />
               </svg>
             </button>
@@ -342,7 +372,7 @@ function QuotesSection() {
               <button
                 key={index}
                 onClick={() => scrollToIndex(index)}
-                className={`w-2.5 h-2.5 transition-all duration-150 ${
+                className={`w-6 h-6 transition-all duration-150 hover:scale-150 ${
                   index === activeIndex ? "bg-[#FF9416]" : "bg-white/40"
                 }`}
                 aria-label={`Go to quote ${index + 1}`}
