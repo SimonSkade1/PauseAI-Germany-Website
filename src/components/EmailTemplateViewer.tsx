@@ -177,9 +177,9 @@ export default function EmailPreviewPage({
     `;
   };
 
-  // Return the raw subject/body for copy/mailto actions
+  // Return the raw subject/body for mailto action
   const getRenderedParts = () => {
-    const genericMessage = `I hope this message finds you well. I wanted to reach out and connect with you.\n\nI look forward to hearing from you soon.`;
+    const genericMessage = `ich hoffe, es geht Ihnen gut.\n\nIch möchte Sie kontaktieren und mich mit Ihnen austauschen.\n\nIch freue mich auf Ihre Rückmeldung.`;
     const paddedTitle = (formData.recipientTitle || '').toString().trim()
       ? ` ${formData.recipientTitle} `
       : ' ';
@@ -203,7 +203,7 @@ export default function EmailPreviewPage({
     let subject = '';
     let body = '';
     if (templateRaw) {
-      const m = templateRaw.match(/^Subject:(.*)\r?\n\r?\n([\s\S]*)/i);
+      const m = templateRaw.match(/^(?:Subject|Betreff):(.*)\r?\n\r?\n([\s\S]*)/i);
       if (m) {
         subject = m[1].trim();
         body = m[2];
@@ -212,7 +212,7 @@ export default function EmailPreviewPage({
       }
     } else {
       subject = '';
-      body = `Hi ${data.recipientName || ''},\n\n${data.message}`;
+      body = `Hallo ${data.recipientName || ''},\n\n${data.message}`;
     }
 
     const renderText = (str: string) => str.replace(/{{\s*([a-zA-Z0-9_]+)\s*}}/g, (_m, key) => (data[key] ?? ''));
@@ -250,7 +250,7 @@ export default function EmailPreviewPage({
         {/* Full-width preview with name input on top */}
         <div className="mb-4">
           <div className="p-3 bg-white border border-gray-200">
-            <label htmlFor="senderName" className="block text-xs font-medium text-gray-700 mb-1">Ihr Name</label>
+            <label htmlFor="senderName" className="block text-xs font-medium text-gray-700 mb-1">Dein Name</label>
             <input
               type="text"
               id="senderName"
@@ -258,7 +258,7 @@ export default function EmailPreviewPage({
               value={formData.senderName}
               onChange={handleChange}
               className="w-full px-3 py-2 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-400"
-              placeholder="Ihr Name"
+              placeholder="Dein Name"
             />
           </div>
         </div>
@@ -276,22 +276,22 @@ export default function EmailPreviewPage({
               onClick={() => setCollapsed(!collapsed)}
               className="text-sm text-gray-700 underline"
             >
-              {collapsed ? 'View all lines' : 'Show less'}
+              {collapsed ? 'Alle Zeilen anzeigen' : 'Weniger anzeigen'}
             </button>
-            <span className="text-xs text-gray-500">Preview {collapsed ? `(${COLLAPSED_LINES} lines)` : '(full)'}</span>
+            <span className="text-xs text-gray-500">Vorschau {collapsed ? `(${COLLAPSED_LINES} Zeilen)` : '(vollständig)'}</span>
           </div>
           <div className="mt-3">
             <button
               type="button"
               onClick={openInMailApp}
-              aria-label="Abschicken"
+              aria-label="In Mailprogramm öffnen"
               className="w-full inline-flex justify-center items-center px-3 py-2 bg-orange-500 text-white rounded-md text-sm hover:bg-orange-600"
             >
               <svg className="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M22 2L11 13" />
                 <path d="M22 2l-7 20-4-9-9-4 20-7z" />
               </svg>
-              Abschicken
+              In Mailprogramm öffnen
             </button>
           </div>
         </div>

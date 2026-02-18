@@ -564,6 +564,27 @@ function ActionSection() {
             </div>
           </a>
 
+          {/* Kontakt zu Abgeordneten */}
+          <Link
+            href="/contactlawmakers"
+            className="group flex bg-white p-6 md:p-8 border border-[#1a1a1a] md:border-2 cursor-pointer hover:bg-[#FFFAF5] transition-colors min-h-[190px]"
+          >
+            <div className="flex items-start md:gap-4 flex-1">
+              <span className="hidden md:block text-[#FF9416] text-4xl md:text-5xl flex-shrink-0 leading-none mt-[-0.32em] transition-transform group-hover:translate-x-2">
+                →
+              </span>
+              <div className="flex-1 flex flex-col h-full">
+                <h3 className="font-section text-lg text-pause-black mb-3 md:text-xl">
+                  Kontaktiere deinen{" "}
+                  <span className="text-[#FF9416]">Abgeordneten</span>
+                </h3>
+                <p className="font-body text-pause-black/80 text-base mt-auto text-right">
+                  Find deinen Abgeordneten mit unserem Tool und nutze unsere Mailvorlage.
+                </p>
+              </div>
+            </div>
+          </Link>
+
           {/* Spenden */}
           <a 
             href="mailto:germany@pauseai.info"
