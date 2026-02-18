@@ -579,7 +579,7 @@ function ActionSection() {
                   <span className="text-[#FF9416]">Abgeordneten</span>
                 </h3>
                 <p className="font-body text-pause-black/80 text-base mt-auto text-right">
-                  Find deinen Abgeordneten mit unserem Tool und nutze unsere Mailvorlage.
+                  Finde deinen Abgeordneten mit unserem Tool und nutze unsere Mailvorlage.
                 </p>
               </div>
             </div>
