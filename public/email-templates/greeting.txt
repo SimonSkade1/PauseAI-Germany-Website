@@ -8,7 +8,7 @@ Kürzlich haben über 100 deutsche Professorinnen und Professoren, darunter Fiel
 
 Es gibt auch einen internationalen Aufruf zu roten Linien für KI, der von 12 Nobelpreisträgern unterzeichnet wurde: https://red-lines.ai/
 
-Was mich besonders beunruhigt: Schon heute verhalten sich KI-Systeme anders, als von ihren Entwicklern vorgesehen. ChatGPT verursachte bei vielen Nutzern Wahnvorstellungen. Der Chatbot Claude versuchte in Sicherheitstests seine Entwickler zu erpressen, um zu vermeiden, dass er abgeschalten wird. Und Grok ernannte sich sogar zu Mechahitler.
+Was mich besonders beunruhigt: Schon heute verhalten sich KI-Systeme anders, als von ihren Entwicklern vorgesehen. ChatGPT verursachte bei vielen Nutzern Wahnvorstellungen. Und der Chatbot Claude versuchte in Sicherheitstests seine Entwickler zu erpressen, um zu vermeiden, dass er abgeschalten wird.
 
 Gleichzeitig verstehen selbst führende Expertinnen und Experten nicht, was in einem neuronalen Netz einer KI vor sich geht. KIs werden nicht direkt programmiert, sondern entstehen durch einen automatisierten Lernprozess.
 
