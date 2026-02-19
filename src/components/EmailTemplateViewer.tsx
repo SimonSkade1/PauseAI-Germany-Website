@@ -56,24 +56,25 @@ export default function EmailPreviewPage({
 
   // nothing special on formData changes when rendering in-DOM; React will re-render
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target as HTMLInputElement;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
   // No iframe resize logic needed when rendering preview directly.
   
-  const [selectedTemplate, setSelectedTemplate] = useState<string>('greeting');
+  const selectedTemplate = 'greeting';
   const [templates, setTemplates] = useState<Array<{id:string,label:string,file:string}>>([
     { id: 'greeting', label: 'Gruß (Standard)', file: 'greeting.txt' },
   ]);
   const [templateRaw, setTemplateRaw] = useState<string | null>(null);
-  const [loadingTemplate, setLoadingTemplate] = useState(false);
-  const [collapsed, setCollapsed] = useState(true);
-  const COLLAPSED_LINES = 3;
+  const [editableRecipient, setEditableRecipient] = useState(initialRecipientEmail);
+  const [editableSubject, setEditableSubject] = useState('');
+  const [editableBody, setEditableBody] = useState('');
+  const [copyState, setCopyState] = useState<{
+    recipient: 'idle' | 'ok' | 'error';
+    subject: 'idle' | 'ok' | 'error';
+    body: 'idle' | 'ok' | 'error';
+  }>({
+    recipient: 'idle',
+    subject: 'idle',
+    body: 'idle',
+  });
   // const [copied, setCopied] = useState(false);
 
   // load available templates manifest from public/email-templates/index.json (if present)
@@ -99,7 +100,6 @@ export default function EmailPreviewPage({
   // load template file from public/email-templates/{file}
   useEffect(() => {
     let mounted = true;
-    setLoadingTemplate(true);
     const entry = templates.find((t) => t.id === selectedTemplate);
     const fileName = entry?.file ?? `${selectedTemplate}.txt`;
     fetch(`/email-templates/${fileName}`)
@@ -110,14 +110,11 @@ export default function EmailPreviewPage({
       .then((t) => {
         if (!mounted) return;
         setTemplateRaw(t);
-        // reset collapsed preview whenever we load a new template
-        setCollapsed(true);
       })
       .catch((e) => {
         console.error('Template load error', e);
         setTemplateRaw(null);
-      })
-      .finally(() => mounted && setLoadingTemplate(false));
+      });
     return () => {
       mounted = false;
     };
@@ -132,51 +129,6 @@ export default function EmailPreviewPage({
     setFormData((prev) => ({ ...prev, recipientAnrede: initialRecipientAnrede }));
   }, [initialRecipientAnrede]);
   
-  const generateEmailHTML = (maxLines?: number) => {
-    const parts = getRenderedParts();
-    const subjectText = parts.subject;
-    let bodyText = parts.body;
-
-    if (typeof maxLines === 'number' && maxLines > 0) {
-      const lines = String(bodyText).replace(/\r/g, '').split(/\n/);
-      if (lines.length > maxLines) {
-        bodyText = lines.slice(0, maxLines).join('\n') + '\n\n...';
-      }
-    }
-
-    const renderHtml = (str: string) => {
-      const cleaned = String(str)
-        .replace(/\r/g, '')
-        .replace(/\n{3,}/g, '\n\n')
-        .trim();
-      const paras = cleaned.split(/\n\s*\n/).map((p) => `<p>${escapeHtml(p).replace(/\n/g, '<br/>')}</p>`);
-      return paras.join('\n');
-    };
-
-    const subjectHtml = escapeHtml(subjectText);
-    const bodyHtml = renderHtml(bodyText);
-
-    return `
-      <style>
-        .email-preview-root *{box-sizing:border-box}
-        .email-preview-root{width:100%;;background:transparent}
-        .email-preview-root .email-container{width:100%;max-width:none;margin:0;background:#fff;border-radius:8px;overflow:hidden;border:1px solid rgba(0, 0, 0, 0.04)}
-        .email-preview-root .email-content{padding:20px;font-family:inherit;color:#111}
-        .email-preview-root .subject{font-weight:600;margin-bottom:8px}
-        .email-preview-root .body{white-space:pre-wrap;word-break:break-word;color:#333}
-        @media (min-width:640px){.email-preview-root .email-content{padding:30px}}
-      </style>
-      <div class="email-preview-root">
-        <div class="email-container">
-          <div class="email-content">
-            <div class="subject">${subjectHtml}</div>
-            <div class="body">${bodyHtml}</div>
-          </div>
-        </div>
-      </div>
-    `;
-  };
-
   // Return the raw subject/body for mailto action
   const getRenderedParts = () => {
     const genericMessage = `ich hoffe, es geht Ihnen gut.\n\nIch möchte Sie kontaktieren und mich mit Ihnen austauschen.\n\nIch freue mich auf Ihre Rückmeldung.`;
@@ -223,64 +175,124 @@ export default function EmailPreviewPage({
     return { subject: renderText(subject).trim(), body: normalizedBody };
   };
 
+  const renderedParts = getRenderedParts();
+
+  useEffect(() => {
+    setEditableRecipient(formData.recipientEmail || '');
+  }, [formData.recipientEmail]);
+
+  useEffect(() => {
+    setEditableSubject(renderedParts.subject || '');
+    setEditableBody(renderedParts.body || '');
+  }, [renderedParts.subject, renderedParts.body]);
+
   // copy-to-clipboard removed: UI now uses a single send action (open mail client)
   const openInMailApp = () => {
-    const parts = getRenderedParts();
-    const to = formData.recipientEmail || '';
-    const subject = parts.subject || '';
-    const body = parts.body || '';
+    const to = editableRecipient || '';
+    const subject = editableSubject || '';
+    const body = editableBody || '';
     const mailto = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     // Use location.href so it opens the user's default mail app
     window.location.href = mailto;
   };
 
-  // small helper to avoid injecting raw HTML from names/emails
-  function escapeHtml(input: string) {
-    return String(input)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/\"/g, '&quot;')
-      .replace(/'/g, '&#39;');
-  }
+  const copyText = async (key: 'recipient' | 'subject' | 'body', value: string) => {
+    try {
+      if (navigator?.clipboard?.writeText) {
+        await navigator.clipboard.writeText(value);
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = value;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'absolute';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      }
+      setCopyState((s) => ({ ...s, [key]: 'ok' }));
+    } catch (err) {
+      console.error('Copy failed:', err);
+      setCopyState((s) => ({ ...s, [key]: 'error' }));
+    } finally {
+      window.setTimeout(() => {
+        setCopyState((s) => ({ ...s, [key]: 'idle' }));
+      }, 1200);
+    }
+  };
 
   return (
     <div className="min-h-0 bg-transparent">
       <div className="max-w-7xl mx-auto">
-        {/* Full-width preview with name input on top */}
-        <div className="mb-4">
-          <div className="p-3 bg-white border border-gray-200">
-            <label htmlFor="senderName" className="block text-xs font-medium text-gray-700 mb-1">Dein Name</label>
+        <div className="space-y-3">
+          <div className="p-3 bg-gray-50 border border-gray-200">
+            <div className="flex items-center justify-between mb-1">
+              <label className="block text-xs font-medium text-gray-600" htmlFor="mailRecipient">
+                Empfänger
+              </label>
+              <button
+                type="button"
+                onClick={() => copyText('recipient', editableRecipient)}
+                className="text-xs px-2 py-1 border border-gray-200 bg-white hover:bg-gray-50 cursor-pointer"
+              >
+                {copyState.recipient === 'ok' ? 'Kopiert' : copyState.recipient === 'error' ? 'Fehler' : 'Kopieren'}
+              </button>
+            </div>
             <input
+              id="mailRecipient"
               type="text"
-              id="senderName"
-              name="senderName"
-              value={formData.senderName}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-400"
-              placeholder="Dein Name"
+              value={editableRecipient}
+              onChange={(e) => setEditableRecipient(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-400 bg-white"
+              placeholder="empfaenger@example.org"
             />
           </div>
-        </div>
 
-        <div className="p-0">
-          <div className="overflow-hidden">
-            <div
-              className="email-preview-embed"
-              dangerouslySetInnerHTML={{ __html: generateEmailHTML(collapsed ? COLLAPSED_LINES : undefined) }}
+          <div className="p-3 bg-gray-50 border border-gray-200">
+            <div className="flex items-center justify-between mb-1">
+              <label className="block text-xs font-medium text-gray-600" htmlFor="mailSubject">
+                Betreff
+              </label>
+              <button
+                type="button"
+                onClick={() => copyText('subject', editableSubject)}
+                className="text-xs px-2 py-1 border border-gray-200 bg-white hover:bg-gray-50 cursor-pointer"
+              >
+                {copyState.subject === 'ok' ? 'Kopiert' : copyState.subject === 'error' ? 'Fehler' : 'Kopieren'}
+              </button>
+            </div>
+            <input
+              id="mailSubject"
+              type="text"
+              value={editableSubject}
+              onChange={(e) => setEditableSubject(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-400 bg-white"
             />
           </div>
-          <div className="mt-2 flex items-center justify-between">
-            <button
-              type="button"
-              onClick={() => setCollapsed(!collapsed)}
-              className="text-sm text-gray-700 underline cursor-pointer"
-            >
-              {collapsed ? 'Alle Zeilen anzeigen' : 'Weniger anzeigen'}
-            </button>
-            <span className="text-xs text-gray-500">Vorschau {collapsed ? `(${COLLAPSED_LINES} Zeilen)` : '(vollständig)'}</span>
+
+          <div className="p-3 bg-gray-50 border border-gray-200">
+            <div className="flex items-center justify-between mb-1">
+              <label className="block text-xs font-medium text-gray-600" htmlFor="mailBody">
+                Mail
+              </label>
+              <button
+                type="button"
+                onClick={() => copyText('body', editableBody)}
+                className="text-xs px-2 py-1 border border-gray-200 bg-white hover:bg-gray-50 cursor-pointer"
+              >
+                {copyState.body === 'ok' ? 'Kopiert' : copyState.body === 'error' ? 'Fehler' : 'Kopieren'}
+              </button>
+            </div>
+            <textarea
+              id="mailBody"
+              value={editableBody}
+              onChange={(e) => setEditableBody(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-400 bg-white min-h-[220px]"
+            />
           </div>
-          <div className="mt-3">
+
+          <div className="mt-1">
             <button
               type="button"
               onClick={openInMailApp}

@@ -2,13 +2,13 @@ Subject: Handlungsappell zur Vermeidung extremer Risiken von KI
 
 {{anrede}}{{recipientTitle}}{{recipientName}},
 
-ich wende mich an Sie, weil mich die aktuelle Entwicklung im Bereich Künstlicher Intelligenz zutiefst besorgt.
+Als Bürger Ihres Wahlkreises wende ich mich an Sie, weil mich die aktuelle Entwicklung im Bereich Künstlicher Intelligenz zutiefst besorgt.
 
-Kürzlich haben über 100 deutsche Professorinnen und Professoren, darunter Fields-Medaillenträger Peter Scholze, einen Appell an die deutsche Delegation des internationalen KI-Gipfels in Delhi gerichtet. Sie fordern, dass Deutschland sich für ein verbindliches globales Sicherheitsabkommen für fortgeschrittene KI einsetzt. Den Appell finden Sie hier: https://www.pause-ai.de/appell
+Kürzlich haben 140 deutsche Professorinnen und Professoren, darunter Fields-Medaillenträger Peter Scholze, einen Appell an die deutsche Delegation des internationalen KI-Gipfels in Delhi gerichtet. Sie fordern, dass Deutschland sich für ein verbindliches globales Sicherheitsabkommen für fortgeschrittene KI einsetzt. Den Appell finden Sie hier: https://www.pause-ai.de/appell
 
 Es gibt auch einen internationalen Aufruf zu roten Linien für KI, der von 12 Nobelpreisträgern unterzeichnet wurde: https://red-lines.ai/
 
-Was mich besonders beunruhigt: Schon heute verhalten sich KI-Systeme anders, als von ihren Entwicklern vorgesehen. ChatGPT verursachte bei vielen Nutzern Wahnvorstellungen. Und der Chatbot Claude versuchte in Sicherheitstests seine Entwickler zu erpressen, um zu vermeiden, dass er abgeschalten wird.
+Was mich besonders beunruhigt: Schon heute verhalten sich KI-Systeme anders, als von ihren Entwicklern vorgesehen. ChatGPT verursachte bei vielen Nutzern Wahnvorstellungen. Und der Chatbot Claude versuchte in Sicherheitstests seine Entwickler zu erpressen, um zu vermeiden, dass er abgeschaltet wird.
 
 Gleichzeitig verstehen selbst führende Expertinnen und Experten nicht, was in einem neuronalen Netz einer KI vor sich geht. KIs werden nicht direkt programmiert, sondern entstehen durch einen automatisierten Lernprozess.
 

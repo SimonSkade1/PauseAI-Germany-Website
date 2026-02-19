@@ -83,6 +83,7 @@ export default function AbgeordneteSelect({
   const [clickedIndex, setClickedIndex] = useState<number | null>(null);
   const [plzMapping, setPlzMapping] = useState<Record<string, string[]>>({});
   const [plzWkNumbers, setPlzWkNumbers] = useState<string[] | null>(null);
+  const [senderName, setSenderName] = useState("");
 
   useEffect(() => {
     let mounted = true;
@@ -99,11 +100,6 @@ export default function AbgeordneteSelect({
           // parsed.headers are real headers; parsed.rows are objects keyed by header
           setHeaders(parsed.headers);
           setAllRows(parsed.rows);
-          if (parsed.rows.length) {
-            const rand = parsed.rows[Math.floor(Math.random() * parsed.rows.length)];
-            setSelected(rand);
-            onSelect?.(rand);
-          }
           break;
         }
       } catch (err) {
@@ -350,134 +346,131 @@ export default function AbgeordneteSelect({
 
   return (
     <div className="w-full">
-      <div className="bg-white border border-[#1a1a1a] shadow-sm p-4">
-        {!allRows ? (
-          <div>Lade Abgeordnete…</div>
-        ) : (
-          <div className="space-y-3">
-          <div className="flex gap-2">
-            <input
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Suche nach Name, Partei, PLZ, ..."
-              className="flex-1 px-3 py-2 border border-gray-200"
-            />
-            <button
-              type="button"
-              onClick={() => {
-                // random select
-                if (!allRows || allRows.length === 0) return;
-                const rand = allRows[Math.floor(Math.random() * allRows.length)];
-                setSelected(rand);
-                onSelect?.(rand);
-              }}
-              className="px-3 cursor-pointer py-2 bg-white border border-gray-200 text-sm hover:bg-gray-50 flex items-center gap-2"
-              title="Zufälligen Abgeordneten wählen"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-black-600" aria-hidden>
-                <rect x="3" y="3" width="18" height="18" rx="3" ry="3" fill="none" stroke="currentColor" strokeWidth="1.2" />
-                <circle cx="8.5" cy="8.5" r="0.9" fill="currentColor" />
-                <circle cx="15.5" cy="8.5" r="0.9" fill="currentColor" />
-                <circle cx="8.5" cy="15.5" r="0.9" fill="currentColor" />
-                <circle cx="15.5" cy="15.5" r="0.9" fill="currentColor" />
-              </svg>
-              <span>Zufall</span>
-            </button>
-          </div>
+      <div className="space-y-4">
+        <div className="bg-white border border-[#1a1a1a] shadow-sm p-4">
+          <div className="text-sm font-semibold mb-3">1. Abgeordneten auswählen</div>
+          {!allRows ? (
+            <div>Lade Abgeordnete…</div>
+          ) : (
+            <div className="space-y-3">
+              <div className="flex gap-2">
+                <input
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Suche nach Name, Partei, PLZ, Stadt..."
+                  className="flex-1 px-3 py-2 border border-gray-200"
+                />
+              </div>
 
-          {filterableFields.length > 0 && (
-            <div className="flex gap-2 flex-wrap">
-              {filterableFields.map((f) => (
-                <select
-                  key={f}
-                  value={filters[f] ?? ""}
-                  onChange={(e) => setFilters((s) => ({ ...s, [f]: e.target.value }))}
-                  className="px-3 py-2 border border-gray-200 text-sm cursor-pointer"
-                >
-                  <option value="">Alle {labelForField(f)}</option>
-                  {uniqueValues[f]?.map((v) => (
-                    <option key={v} value={v}>
-                      {v}
-                    </option>
+              {filterableFields.length > 0 && (
+                <div className="flex gap-2 flex-wrap">
+                  {filterableFields.map((f) => (
+                    <select
+                      key={f}
+                      value={filters[f] ?? ""}
+                      onChange={(e) => setFilters((s) => ({ ...s, [f]: e.target.value }))}
+                      className="px-3 py-2 border border-gray-200 text-sm cursor-pointer"
+                    >
+                      <option value="">Alle {labelForField(f)}</option>
+                      {uniqueValues[f]?.map((v) => (
+                        <option key={v} value={v}>
+                          {v}
+                        </option>
+                      ))}
+                    </select>
                   ))}
-                </select>
-              ))}
+                </div>
+              )}
+
+              <div className="max-h-64 overflow-auto border border-gray-200 bg-white">
+                {filtered.length === 0 ? (
+                  <div className="p-3 text-sm text-gray-600">Keine Einträge gefunden.</div>
+                ) : (
+                  <ul>
+                    {filtered.slice(0, 200).map((r, idx) => {
+                      const info = extractRowInfo(r);
+                      const email = info.email || (r[headers.find((h) => /email/i.test(h)) ?? ""] || "").trim();
+                      return (
+                        <li
+                          key={idx}
+                          className={`px-3 py-2 border-b border-gray-100 last:border-b-0 cursor-pointer hover:bg-gray-50 transition-transform duration-150 ${
+                            selected === r ? "bg-orange-50" : ""
+                          }`}
+                          style={
+                            clickedIndex === idx
+                              ? { transform: 'scale(0.99)', boxShadow: '0 2px 6px rgba(0,0,0,0.04)', transition: 'transform 120ms ease, box-shadow 120ms ease' }
+                              : { transition: 'transform 120ms ease, box-shadow 120ms ease' }
+                          }
+                          onClick={() => {
+                            setSelected(r);
+                            onSelect?.(r);
+                            // transient click feedback (subtle)
+                            setClickedIndex(idx);
+                            window.setTimeout(() => setClickedIndex((cur) => (cur === idx ? null : cur)), 120);
+                          }}
+                        >
+                          <div className="flex flex-col">
+                            <div className="flex items-center gap-2">
+                              <div className="text-sm font-medium">
+                                 {info.full}
+                              </div>
+                              {info.party && (
+                                <div className="text-xs text-gray-500 px-2 py-0.5 bg-gray-100 rounded flex items-center gap-2">
+                                  <span
+                                    className="inline-block rounded-full"
+                                    style={{ backgroundColor: partyColor(info.party), width: 6, height: 6 }}
+                                    aria-hidden
+                                  />
+                                  <span>{info.party}</span>
+                                </div>
+                              )}
+                              {/* bundesland removed */}
+                            </div>
+                            {email && <div className="text-xs text-gray-600 mt-0.5">{email}</div>}
+                          </div>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+              </div>
+
             </div>
           )}
+        </div>
 
-          <div className="max-h-64 overflow-auto border border-gray-200 bg-white">
-            {filtered.length === 0 ? (
-              <div className="p-3 text-sm text-gray-600">Keine Einträge gefunden.</div>
-            ) : (
-              <ul>
-                {filtered.slice(0, 200).map((r, idx) => {
-                  const info = extractRowInfo(r);
-                  const email = info.email || (r[headers.find((h) => /email/i.test(h)) ?? ""] || "").trim();
-                  return (
-                    <li
-                      key={idx}
-                      className={`px-3 py-2 border-b border-gray-100 last:border-b-0 cursor-pointer hover:bg-gray-50 transition-transform duration-150 ${
-                        selected === r ? "bg-orange-50" : ""
-                      }`}
-                      style={
-                        clickedIndex === idx
-                          ? { transform: 'scale(0.99)', boxShadow: '0 2px 6px rgba(0,0,0,0.04)', transition: 'transform 120ms ease, box-shadow 120ms ease' }
-                          : { transition: 'transform 120ms ease, box-shadow 120ms ease' }
-                      }
-                      onClick={() => {
-                        setSelected(r);
-                        onSelect?.(r);
-                        // transient click feedback (subtle)
-                        setClickedIndex(idx);
-                        window.setTimeout(() => setClickedIndex((cur) => (cur === idx ? null : cur)), 120);
-                      }}
-                    >
-                      <div className="flex flex-col">
-                        <div className="flex items-center gap-2">
-                          <div className="text-sm font-medium">
-                             {info.full}
-                          </div>
-                          {info.party && (
-                            <div className="text-xs text-gray-500 px-2 py-0.5 bg-gray-100 rounded flex items-center gap-2">
-                              <span
-                                className="inline-block rounded-full"
-                                style={{ backgroundColor: partyColor(info.party), width: 6, height: 6 }}
-                                aria-hidden
-                              />
-                              <span>{info.party}</span>
-                            </div>
-                          )}
-                          {/* bundesland removed */}
-                        </div>
-                        {email && <div className="text-xs text-gray-600 mt-0.5">{email}</div>}
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
-          </div>
+        <div className="bg-white border border-[#1a1a1a] shadow-sm p-4">
+          <div className="text-sm font-semibold mb-3">2. Deinen Namen eingeben</div>
+            <input
+              type="text"
+              id="senderName"
+              name="senderName"
+              value={senderName}
+              onChange={(e) => setSenderName(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-400"
+              placeholder="Dein Name"
+            />
+        </div>
 
-            {selected && (
-              <div>
-                {/* Embedded email template editor/preview prefilled with selected recipient */}
-                <div>
-                  {(() => {
-                    const info = extractRowInfo(selected);
-                    return (
-                      <EmailTemplateViewer
-                        initialRecipientName={info.last || info.full}
-                        initialRecipientEmail={info.email}
-                        initialRecipientTitle={info.title}
-                        initialRecipientAnrede={info.anrede}
-                      />
-                    );
-                  })()}
-                </div>
-              </div>
-            )}
-          </div>
-        )}
+        <div className="bg-white border border-[#1a1a1a] shadow-sm p-4">
+          <div className="text-sm font-semibold mb-3">3. Mail</div>
+          {selected ? (
+            (() => {
+              const info = extractRowInfo(selected);
+              return (
+                <EmailTemplateViewer
+                  initialRecipientName={info.last || info.full}
+                  initialRecipientEmail={info.email}
+                  initialRecipientTitle={info.title}
+                  initialRecipientAnrede={info.anrede}
+                  initialSenderName={senderName}
+                />
+              );
+            })()
+          ) : (
+            <div className="text-sm text-gray-600">Bitte zuerst eine Person in der Liste auswählen.</div>
+          )}
+        </div>
       </div>
     </div>
   );
