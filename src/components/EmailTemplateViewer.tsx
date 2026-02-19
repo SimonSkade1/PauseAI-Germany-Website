@@ -66,6 +66,9 @@ export default function EmailPreviewPage({
   const [editableRecipient, setEditableRecipient] = useState(initialRecipientEmail);
   const [editableSubject, setEditableSubject] = useState('');
   const [editableBody, setEditableBody] = useState('');
+  const [mailTarget, setMailTarget] = useState<
+    'default' | 'gmail' | 'outlook' | 'yahoo' | 'proton' | 'fastmail' | 'gmx' | 'webde'
+  >('default');
   const [copyState, setCopyState] = useState<{
     recipient: 'idle' | 'ok' | 'error';
     subject: 'idle' | 'ok' | 'error';
@@ -186,14 +189,59 @@ export default function EmailPreviewPage({
     setEditableBody(renderedParts.body || '');
   }, [renderedParts.subject, renderedParts.body]);
 
-  // copy-to-clipboard removed: UI now uses a single send action (open mail client)
-  const openInMailApp = () => {
+  const openMailComposer = () => {
     const to = editableRecipient || '';
     const subject = editableSubject || '';
     const body = editableBody || '';
-    const mailto = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    // Use location.href so it opens the user's default mail app
-    window.location.href = mailto;
+    const encodedTo = encodeURIComponent(to);
+    const encodedSubject = encodeURIComponent(subject);
+    const encodedBody = encodeURIComponent(body);
+
+    if (mailTarget === 'gmail') {
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodedTo}&su=${encodedSubject}&body=${encodedBody}`;
+      window.open(gmailUrl, '_blank', 'noopener,noreferrer');
+      return;
+    }
+
+    if (mailTarget === 'outlook') {
+      const outlookUrl = `https://outlook.office.com/mail/deeplink/compose?to=${encodedTo}&subject=${encodedSubject}&body=${encodedBody}`;
+      window.open(outlookUrl, '_blank', 'noopener,noreferrer');
+      return;
+    }
+
+    if (mailTarget === 'yahoo') {
+      const yahooUrl = `https://compose.mail.yahoo.com/?to=${encodedTo}&subject=${encodedSubject}&body=${encodedBody}`;
+      window.open(yahooUrl, '_blank', 'noopener,noreferrer');
+      return;
+    }
+
+    if (mailTarget === 'proton') {
+      const protonUrl = `https://mail.proton.me/u/0/inbox?compose=new`;
+      window.open(protonUrl, '_blank', 'noopener,noreferrer');
+      return;
+    }
+
+    if (mailTarget === 'fastmail') {
+      const fastmailUrl = `https://www.fastmail.com/mail/compose?to=${encodedTo}&subject=${encodedSubject}&body=${encodedBody}`;
+      window.open(fastmailUrl, '_blank', 'noopener,noreferrer');
+      return;
+    }
+
+    if (mailTarget === 'gmx') {
+      const gmxUrl = `https://navigator.gmx.net/mail`;
+      window.open(gmxUrl, '_blank', 'noopener,noreferrer');
+      return;
+    }
+
+    if (mailTarget === 'webde') {
+      const webdeUrl = `https://navigator.web.de/mail`;
+      window.open(webdeUrl, '_blank', 'noopener,noreferrer');
+      return;
+    }
+
+    const mailto = `mailto:${encodedTo}?subject=${encodedSubject}&body=${encodedBody}`;
+    // Open in a new browsing context so the current page stays in place.
+    window.open(mailto, '_blank', 'noopener,noreferrer');
   };
 
   const copyText = async (key: 'recipient' | 'subject' | 'body', value: string) => {
@@ -292,18 +340,51 @@ export default function EmailPreviewPage({
             />
           </div>
 
-          <div className="mt-1">
+          <div className="mt-1 space-y-2">
+            <div className="p-3 bg-gray-50 border border-gray-200">
+              <label className="block text-xs font-medium text-gray-600 mb-1" htmlFor="mailTarget">
+                Öffnen mit
+              </label>
+              <select
+                id="mailTarget"
+                value={mailTarget}
+                onChange={(e) =>
+                  setMailTarget(
+                    e.target.value as
+                      | 'default'
+                      | 'gmail'
+                      | 'outlook'
+                      | 'yahoo'
+                      | 'proton'
+                      | 'fastmail'
+                      | 'gmx'
+                      | 'webde'
+                  )
+                }
+                className="w-full px-3 py-2 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-400 bg-white"
+              >
+                <option value="default">Standard (Gmail, Apple Mail, Thunderbird, Outlook Desktop, ...)</option>
+                <option value="gmail">Gmail (Web)</option>
+                <option value="outlook">Outlook (Web)</option>
+                <option value="yahoo">Yahoo Mail (Web)</option>
+                <option value="proton">Proton Mail (Web)</option>
+                <option value="fastmail">Fastmail (Web)</option>
+                <option value="gmx">GMX (Web)</option>
+                <option value="webde">WEB.DE (Web)</option>
+              </select>
+            </div>
+
             <button
               type="button"
-              onClick={openInMailApp}
-              aria-label="In Mailprogramm öffnen"
+              onClick={openMailComposer}
+              aria-label="Mail öffnen"
               className="w-full inline-flex justify-center items-center px-3 py-2 btn-orange !text-black hover:!bg-[#FF9416] text-sm font-bold cursor-pointer"
             >
               <svg className="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M22 2L11 13" />
                 <path d="M22 2l-7 20-4-9-9-4 20-7z" />
               </svg>
-              In Mailprogramm öffnen
+              Mail öffnen
             </button>
           </div>
         </div>
