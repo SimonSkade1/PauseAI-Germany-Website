@@ -77,7 +77,7 @@ function NewsletterFormWithRef({
       <button
         type="submit"
         disabled={status === "loading"}
-        className={`${buttonClass} ${buttonSizeClass} font-section tracking-wider whitespace-nowrap disabled:opacity-50 transition-colors ${cardHovered ? "bg-[#e88510]" : ""}`}
+        className={`${buttonClass} ${buttonSizeClass} font-section tracking-wider whitespace-nowrap disabled:opacity-50 transition-colors cursor-pointer ${cardHovered ? "bg-[#e88510]" : ""}`}
       >
         {status === "loading" ? "..." : "Abonnieren"}
       </button>
@@ -314,7 +314,7 @@ function QuotesSection() {
             {/* Left Arrow - hidden on mobile, visible on hover on desktop */}
             <button
               onClick={prevQuote}
-              className={`hidden md:flex absolute left-0 flex-shrink-0 w-14 h-14 -translate-x-2 items-center justify-center transition-opacity duration-200 ${
+              className={`hidden md:flex absolute left-0 flex-shrink-0 w-14 h-14 -translate-x-2 items-center justify-center transition-opacity duration-200 cursor-pointer ${
                 isHovered ? "opacity-100" : "opacity-0"
               }`}
               aria-label="Previous quote"
@@ -353,7 +353,7 @@ function QuotesSection() {
             {/* Right Arrow - hidden on mobile, visible on hover on desktop */}
             <button
               onClick={nextQuote}
-              className={`hidden md:flex absolute right-0 flex-shrink-0 w-14 h-14 translate-x-2 items-center justify-center transition-opacity duration-200 ${
+              className={`hidden md:flex absolute right-0 flex-shrink-0 w-14 h-14 translate-x-2 items-center justify-center transition-opacity duration-200 cursor-pointer ${
                 isHovered ? "opacity-100" : "opacity-0"
               }`}
               aria-label="Next quote"
@@ -382,7 +382,7 @@ function QuotesSection() {
               <button
                 key={index}
                 onClick={() => scrollToIndex(index)}
-                className={`w-6 h-6 transition-all duration-150 hover:scale-150 ${
+                className={`w-6 h-6 transition-all duration-150 hover:scale-150 cursor-pointer ${
                   index === activeIndex ? "bg-[#FF9416]" : "bg-white/40"
                 }`}
                 aria-label={`Go to quote ${index + 1}`}
@@ -576,7 +576,7 @@ function ActionSection() {
               <div className="flex-1 flex flex-col h-full">
                 <h3 className="font-section text-lg text-pause-black mb-3 md:text-xl">
                   Kontaktiere deinen{" "}
-                  <span className="text-[#FF9416]">Abgeordneten</span>
+                  <span className="text-[#FF9416] border-b-2 border-transparent group-hover:border-[#FF9416] transition-colors">Abgeordneten</span>
                 </h3>
                 <p className="font-body text-pause-black/80 text-base mt-auto text-right">
                   Finde deinen Abgeordneten mit unserem Tool und nutze unsere Mailvorlage.

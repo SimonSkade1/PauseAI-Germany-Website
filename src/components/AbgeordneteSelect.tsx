@@ -392,7 +392,7 @@ export default function AbgeordneteSelect({
                   key={f}
                   value={filters[f] ?? ""}
                   onChange={(e) => setFilters((s) => ({ ...s, [f]: e.target.value }))}
-                  className="px-3 py-2 border border-gray-200 text-sm"
+                  className="px-3 py-2 border border-gray-200 text-sm cursor-pointer"
                 >
                   <option value="">Alle {labelForField(f)}</option>
                   {uniqueValues[f]?.map((v) => (

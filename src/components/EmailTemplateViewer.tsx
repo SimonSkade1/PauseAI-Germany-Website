@@ -274,7 +274,7 @@ export default function EmailPreviewPage({
             <button
               type="button"
               onClick={() => setCollapsed(!collapsed)}
-              className="text-sm text-gray-700 underline"
+              className="text-sm text-gray-700 underline cursor-pointer"
             >
               {collapsed ? 'Alle Zeilen anzeigen' : 'Weniger anzeigen'}
             </button>
@@ -285,7 +285,7 @@ export default function EmailPreviewPage({
               type="button"
               onClick={openInMailApp}
               aria-label="In Mailprogramm öffnen"
-              className="w-full inline-flex justify-center items-center px-3 py-2 bg-orange-500 text-white rounded-md text-sm hover:bg-orange-600"
+              className="w-full inline-flex justify-center items-center px-3 py-2 btn-orange !text-black hover:!bg-[#FF9416] text-sm font-bold cursor-pointer"
             >
               <svg className="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M22 2L11 13" />
