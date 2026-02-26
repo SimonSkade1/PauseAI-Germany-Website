@@ -1,98 +1,81 @@
-nachname,vorname,partei,zuständige bundesländer
-Anderson,Christine,AfD,"Keine Angaben"
-Andresen,Rasmus,Bündnis 90/Die Grünen,"Hamburg, Schleswig-Holstein"
-Arndt,Anja,AfD,"Niedersachsen"
-Aust,René,AfD,"Thüringen"
-Barley,Katarina,SPD,"Rheinland-Pfalz, Saarland"
-Bausemer,Arno,AfD,"Sachsen-Anhalt"
-Bentele,Hildegard,CDU,"Berlin"
-Berg,Sibylle,Die PARTEI,"Keine Angaben"
-Berger,Stefan,CDU,"Nordrhein-Westfalen"
-Bischoff,Gabriele,SPD,"Berlin"
-Bloss,Michael,Bündnis 90/Die Grünen,"Baden-Württemberg"
-Boeselager,Damian,Volt,"gesamtes Bundesgebiet"
-Boßdorf,Irmhild,AfD,"gesamtes Bundesgebiet"
-Buchheit,Markus,AfD,"Bayern, Mecklenburg-Vorpommern, Saarland"
-Bullmann,Udo,SPD,"Hessen"
-Burkhardt,Delara,SPD,"Schleswig-Holstein"
-Bystron,Petr,AfD,"Bayern"
-Caspary,Daniel,CDU,"Baden-Württemberg; Nordbaden"
-Cavazzini,Anna,Bündnis 90/Die Grünen,"Sachsen, Sachsen-Anhalt"
-Costanzo,Vivien,SPD,"Baden-Württemberg"
-Cremer,Tobias,SPD,"Nordrhein-Westfalen/gesamtes Bundesgebiet"
-De Masi,Fabio,BSW,"Bayern, Brandenburg, Hamburg, Schleswig-Holstein"
-Demirel,Özlem Alev,DIE LINKE,"Nordrhein-Westfalen/gesamtes Bundesgebiet"
-Doleschal,Christian,CSU,"Bayern/Oberpfalz"
-Droese,Siegbert Frank,AfD,"Sachsen/Mitteldeutschland"
-Düpont,Lena,CDU,"Niedersachsen"
-Ecke,Matthias,SPD,"Sachsen, Thüringen"
-Ehler,Christian,CDU,"Brandenburg"
-Eroglu,Engin,Freie Wähler,"Berlin, Brandenburg, Bremen, Hamburg, Hessen, Mecklenburg-Vorpommern, Niedersachsen, Sachsen, Sachsen-Anhalt, Schleswig-Holstein, Thüringen"
-Everding,Sebastian,Partei Mensch Umwelt Tierschutz,"gesamtes Bundesgebiet"
-Ferber,Markus,CSU,"Bayern"
-Firmenich,Ruth,BSW,"Berlin, Saarland, Sachsen-Anhalt"
-Freund,Daniel,Bündnis 90/Die Grünen,"Nordrhein-Westfalen"
-Froelich,Tomasz,AfD,"Baden-Württemberg"
-Gahler,Michael,CDU,"Hessen"
-Geese,Alexandra,Bündnis 90/Die Grünen,"Nordrhein-Westfalen"
-Geier,Jens,SPD,"Regierungsbezirke Düsseldorf und Köln, Nordrhein-Westfalen"
-Geisel,Thomas,BSW,"Baden-Württemberg, Hessen, Nordrhein-Westfalen, Rheinland-Pfalz"
-Geuking,Niels,Familien-Partei Deutschlands,"gesamtes Bundesgebiet"
-Gieseke,Jens,CDU,"Niedersachsen"
-Glück,Andreas,FDP,"Baden-Württemberg, Bayern, Saarland, Thüringen"
-Hahn,Svenja,FDP,"Hamburg, Mecklenburg-Vorpommern, Schleswig-Holstein"
-Häusling,Martin,Bündnis 90/Die Grünen,"Hessen, Thüringen"
-Herbst,Niclas,CDU,"Hamburg, Mecklenburg-Vorpommern, Schleswig-Holstein"
-Hohlmeier,Monika,CSU,"Bayern/Oberfranken"
-Jongen,Marc,AfD,"Baden-Württemberg"
-Jungbluth,Alexander,AfD,"Rheinland-Pfalz"
-Khan,Mary,AfD,"Brandenburg"
-Köhler,Stefan,CSU,"Unterfranken"
-Körner,Moritz,FDP,"Nordrhein-Westfalen, Rheinland-Pfalz, Sachsen"
-Krah,Maximilian,AfD,""
-Lagodinsky,Sergey,Bündnis 90/Die Grünen,"Berlin, Brandenburg"
-Lange,Bernd,SPD,"Hamburg, Niedersachsen"
-Langensiepen,Katrin,Bündnis 90/Die Grünen,"Bremen, Niedersachsen"
-Liese,Peter,CDU,"Nordrhein-Westfalen (Südwestfalen)"
-Lins,Norbert,CDU,"Baden-Württemberg"
-McAllister,David,CDU,"Bremen, Niedersachsen"
-Marquardt,Erik,Bündnis 90/Die Grünen,"Bayern, Berlin, Sachsen-Anhalt"
-Mehnert,Alexandra,CDU,"Sachsen-Anhalt"
-Mertens,Verena,CDU,"Nordrhein-Westfalen"
-Neuhoff,Hans,AfD,"Keine Angaben"
-Neumann,Hannah,Bündnis 90/Die Grünen,"Berlin, Mecklenburg-Vorpommern"
-Niebler,Angelika,CSU,"Bayern (München und Oberbayern)"
-Noichl,Maria,SPD,"Bayern"
-Oetjen,Jan-Christoph,FDP,"Bremen, Niedersachsen, Sachsen-Anhalt"
-Paulus,Jutta,Bündnis 90/Die Grünen,"gesamtes Bundesgebiet"
-Pürner,Friedrich,BSW bis Feb. 2025, danach parteilos,"Bayern"
-Rackete,Carola,parteilos,"gesamtes Bundesgebiet"
-Radtke,Dennis,CDU,"Nordrhein-Westfalen"
-Reintke,Terry,Bündnis 90/Die Grünen,"Nordrhein-Westfalen"
-Repasi,René,SPD,"Baden-Württemberg"
-Repp,Sabrina,SPD,"Mecklenburg-Vorpommern, Sachsen-Anhalt"
-Riehl,Nela,Volt,"gesamtes Bundesgebiet"
-Ripa,Manuela,ÖDP,"gesamtes Bundesgebiet (bes. Saarland)"
-Schenk,Oliver,CDU,"Sachsen"
-Schirdewan,Martin,DIE LINKE,"Berlin, Brandenburg, Bremen, Mecklenburg-Vorpommern, Niedersachsen, Sachsen, Sachsen-Anhalt, Thüringen"
-Schneider,Christine,CDU,"Rheinland-Pfalz, Saarland"
-Schnurrbusch,Volker,AfD,"Hamburg, Schleswig-Holstein"
-Schwab,Andreas,CDU,"Südbaden"
-Seekatz,Ralf,CDU,"(nördliches) Rheinland-Pfalz"
-Sell,Alexander,AfD,"Berlin"
-Sieper,Lukas,Partei des Fortschritts,"Nordrhein-Westfalen"
-Simon,Sven,CDU,"Hessen"
-Singer,Christine,Freie Wähler,"gesamtes Bundesgebiet"
-Sippel,Birgit,SPD,"Nordrhein-Westfalen"
-Sonneborn,Martin,Die PARTEI,"gesamtes Bundesgebiet"
-Strack-Zimmermann,Marie-Agnes,FDP,"Berlin, Brandenburg, Hessen"
-Streit,Joachim,Freie Wähler,"gesamtes Bundesgebiet"
-Tegethoff,Kai,Volt,"gesamtes Bundesgebiet"
-von der Schulenburg,Michael,BSW,"Bremen, Niedersachsen"
-Voss,Axel,CDU,"In Nordrhein-Westfalen die Region Mittelrhein, zu der die Städte Köln, Bonn und Leverkusen sowie die Kreise RheinSieg und Rhein-Erft gehören."
-Walsmann,Marion Erika,CDU,"Thüringen"
-Warnke,Jan-Peter,BSW,"Mecklenburg-Vorpommern, Sachsen, Thüringen"
-Weber,Manfred,CSU,"Bayern"
-Wechsler,Andrea,CDU,"Baden-Württemberg (Nordwürttemberg)"
-Wölken,Tiemo,SPD,"Bezirk Weser-Ems, Bundesland Bremen, Region Elbe-Weser"
-
+nachname,vorname,partei,zuständige bundesländer, büro in deutschland plz, büro in deutschland stadt
+Andresen,Rasmus,Bündnis 90/Die Grünen,"Hamburg, Schleswig-Holstein",24937, Flensburg
+Barley,Katarina,SPD,"Rheinland-Pfalz, Saarland",54290, Trier
+Bentele,Hildegard,CDU,"Berlin",11011, Berlin
+Berg,Sibylle,Die PARTEI,"Keine Angaben",Keine Angaben,Keine Angaben
+Berger,Stefan,CDU,"Nordrhein-Westfalen",Keine Angaben,Keine Angaben
+Bischoff,Gabriele,SPD,"Berlin",13353,Berlin
+Bloss,Michael,Bündnis 90/Die Grünen,"Baden-Württemberg",70178,Stuttgart
+Boeselager,Damian,Volt,"gesamtes Bundesgebiet",Keine Angaben,Keine Angaben
+Bullmann,Udo,SPD,"Hessen",60311,Frankfurt
+Burkhardt,Delara,SPD,"Schleswig-Holstein",24116,Kiel
+Caspary,Daniel,CDU,"Baden-Württemberg; Nordbaden",76646,Bruchsal
+Cavazzini,Anna,Bündnis 90/Die Grünen,"Sachsen, Sachsen-Anhalt",09111,Chemnitz
+Costanzo,Vivien,SPD,"Baden-Württemberg",77654,Offenburg
+Cremer,Tobias,SPD,"Nordrhein-Westfalen/gesamtes Bundesgebiet",44789,Bochum
+De Masi,Fabio,BSW,"Bayern, Brandenburg, Hamburg, Schleswig-Holstein",94032,Passau
+Demirel,Özlem Alev,DIE LINKE,"Nordrhein-Westfalen/gesamtes Bundesgebiet",40215,Düsseldorf
+Doleschal,Christian,CSU,"Bayern/Oberpfalz",95682,Brand
+Düpont,Lena,CDU,"Niedersachsen",38518,Gifhorn
+Ecke,Matthias,SPD,"Sachsen, Thüringen",01067,Dresden
+Ehler,Christian,CDU,"Brandenburg",14469,Potsdam
+Eroglu,Engin,Freie Wähler,"Berlin, Brandenburg, Bremen, Hamburg, Hessen, Mecklenburg-Vorpommern, Niedersachsen, Sachsen, Sachsen-Anhalt, Schleswig-Holstein, Thüringen",34613,Schwalmstadt
+Everding,Sebastian,Partei Mensch Umwelt Tierschutz,"gesamtes Bundesgebiet",Keine Angaben,Keine Angaben
+Ferber,Markus,CSU,"Bayern",86152,Augsburg
+Firmenich,Ruth,BSW,"Berlin, Saarland, Sachsen-Anhalt",Keine Angaben,Keine Angaben
+Freund,Daniel,Bündnis 90/Die Grünen,"Nordrhein-Westfalen",52064,Aachen
+Gahler,Michael,CDU,"Hessen",64521,Groß-Gerau
+Geese,Alexandra,Bündnis 90/Die Grünen,"Nordrhein-Westfalen",53111,Bonn
+Geier,Jens,SPD,"Regierungsbezirke Düsseldorf und Köln, Nordrhein-Westfalen",45127,Essen
+Geisel,Thomas,BSW,"Baden-Württemberg, Hessen, Nordrhein-Westfalen, Rheinland-Pfalz",44147,Dortmund
+Geuking,Niels,Familien-Partei Deutschlands,"gesamtes Bundesgebiet",48653,Coesfeld
+Gieseke,Jens,CDU,"Niedersachsen",26871,Papenburg
+Glück,Andreas,FDP,"Baden-Württemberg, Bayern, Saarland, Thüringen",70191,Stuttgart
+Hahn,Svenja,FDP,"Hamburg, Mecklenburg-Vorpommern, Schleswig-Holstein",20251,Hamburg
+Häusling,Martin,Bündnis 90/Die Grünen,"Hessen, Thüringen",34590,Wabern
+Herbst,Niclas,CDU,"Hamburg, Mecklenburg-Vorpommern, Schleswig-Holstein",24103,Kiel
+Hohlmeier,Monika,CSU,"Bayern/Oberfranken",96215,Lichtenfels
+Köhler,Stefan,CSU,"Unterfranken",63741,Aschaffenburg
+Körner,Moritz,FDP,"Nordrhein-Westfalen, Rheinland-Pfalz, Sachsen",40476,Düsseldorf
+Lagodinsky,Sergey,Bündnis 90/Die Grünen,"Berlin, Brandenburg",11011,Berlin
+Lange,Bernd,SPD,"Hamburg, Niedersachsen",30159,Hannover
+Langensiepen,Katrin,Bündnis 90/Die Grünen,"Bremen, Niedersachsen",30159,Hannover
+Liese,Peter,CDU,"Nordrhein-Westfalen (Südwestfalen)",59872,Meschede
+Lins,Norbert,CDU,"Baden-Württemberg",88250,Weingarten
+McAllister,David,CDU,"Bremen, Niedersachsen",27624,Geestland
+Marquardt,Erik,Bündnis 90/Die Grünen,"Bayern, Berlin, Sachsen-Anhalt",12439,Berlin
+Mehnert,Alexandra,CDU,"Sachsen-Anhalt",39104,Magdeburg
+Mertens,Verena,CDU,"Nordrhein-Westfalen",33098,Paderborn
+Neumann,Hannah,Bündnis 90/Die Grünen,"Berlin, Mecklenburg-Vorpommern",17489,Greifswald
+Niebler,Angelika,CSU,"Bayern (München und Oberbayern)",85604,Zorneding
+Noichl,Maria,SPD,"Bayern",83022,Rosenheim
+Oetjen,Jan-Christoph,FDP,"Bremen, Niedersachsen, Sachsen-Anhalt",30159,Hannover
+Paulus,Jutta,Bündnis 90/Die Grünen,"gesamtes Bundesgebiet",67663,Kaiserslautern
+Pürner,Friedrich,BSW bis Feb. 2025, danach parteilos,"Bayern",Keine Angaben,Keine Angaben
+Rackete,Carola,parteilos,"gesamtes Bundesgebiet",01099,Dresden
+Radtke,Dennis,CDU,"Nordrhein-Westfalen",44866,Bochum
+Reintke,Terry,Bündnis 90/Die Grünen,"Nordrhein-Westfalen",45879,Gelsenkirchen
+Repasi,René,SPD,"Baden-Württemberg",76227,Karlsruhe
+Repp,Sabrina,SPD,"Mecklenburg-Vorpommern, Sachsen-Anhalt",18057,Rostock
+Riehl,Nela,Volt,"gesamtes Bundesgebiet",Keine Angaben,Keine Angaben
+Ripa,Manuela,ÖDP,"gesamtes Bundesgebiet (bes. Saarland)",66130,Saarbrücken
+Schenk,Oliver,CDU,"Sachsen",01307,Dresden
+Schirdewan,Martin,DIE LINKE,"Berlin, Brandenburg, Bremen, Mecklenburg-Vorpommern, Niedersachsen, Sachsen, Sachsen-Anhalt, Thüringen",36433,Bad Salzungen
+Schneider,Christine,CDU,"Rheinland-Pfalz, Saarland",67435,Neustadt an der Weinstraße
+Schwab,Andreas,CDU,"Südbaden",79098,Freiburg
+Seekatz,Ralf,CDU,"(nördliches) Rheinland-Pfalz",56457,Westerburg
+Sieper,Lukas,Partei des Fortschritts,"Nordrhein-Westfalen",51105,Köln
+Simon,Sven,CDU,"Hessen",Keine Angaben,Keine Angaben
+Singer,Christine,Freie Wähler,"gesamtes Bundesgebiet",Keine Angaben,Keine Angaben
+Sippel,Birgit,SPD,"Nordrhein-Westfalen",59494,Soest
+Sonneborn,Martin,Die PARTEI,"gesamtes Bundesgebiet",10965,Berlin
+Strack-Zimmermann,Marie-Agnes,FDP,"Berlin, Brandenburg, Hessen",40213,Düsseldorf
+Streit,Joachim,Freie Wähler,"gesamtes Bundesgebiet",54634,Bitburg
+Tegethoff,Kai,Volt,"gesamtes Bundesgebiet",Keine Angaben,Keine Angaben
+von der Schulenburg,Michael,BSW,"Bremen, Niedersachsen",Keine Angaben,Keine Angaben
+Voss,Axel,CDU,"In Nordrhein-Westfalen die Region Mittelrhein, zu der die Städte Köln, Bonn und Leverkusen sowie die Kreise RheinSieg und Rhein-Erft gehören.",53113,Bonn
+Walsmann,Marion Erika,CDU,"Thüringen",99092,Erfurt
+Warnke,Jan-Peter,BSW,"Mecklenburg-Vorpommern, Sachsen, Thüringen",17438,Wolgast
+Weber,Manfred,CSU,"Bayern",94315,Straubing
+Wechsler,Andrea,CDU,"Baden-Württemberg (Nordwürttemberg)",71638,Ludwigsburg
+Wölken,Tiemo,SPD,"Bezirk Weser-Ems, Bundesland Bremen, Region Elbe-Weser",49074,Osnabrück
