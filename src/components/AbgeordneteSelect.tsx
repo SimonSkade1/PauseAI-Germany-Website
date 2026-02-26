@@ -84,7 +84,6 @@ export default function AbgeordneteSelect({
   const [selected, setSelected] = useState<Row | null>(null);
   const [clickedIndex, setClickedIndex] = useState<number | null>(null);
   const [plzMapping, setPlzMapping] = useState<Record<string, string[]>>({});
-  const [plzWkNumbers, setPlzWkNumbers] = useState<string[] | null>(null);
   const [senderName, setSenderName] = useState("");
   const [step, setStep] = useState<WizardStep>(1);
   const [chamber, setChamber] = useState<Chamber | null>(null);
@@ -100,21 +99,17 @@ export default function AbgeordneteSelect({
 
   useEffect(() => {
     let mounted = true;
-    // Prefer processed CSV with headers, fallback to raw CSV
+    // Load the canonical members CSV with normalized headers.
     (async () => {
       try {
-        const tryPaths = ['/BTAbgeordnete_with_bundesland.csv', '/BTAbgeordnete.csv'];
-        for (const p of tryPaths) {
-          const r = await fetch(p);
-          if (!r.ok) continue;
-          const text = await r.text();
-          if (!mounted) return;
-          const parsed = parseCSV(text);
-          // parsed.headers are real headers; parsed.rows are objects keyed by header
-          setHeaders(parsed.headers);
-          setAllRows(parsed.rows);
-          break;
-        }
+        const r = await fetch('/BTAbgeordnete_with_bundesland.csv');
+        if (!r.ok) throw new Error("Failed to load BTAbgeordnete_with_bundesland.csv");
+        const text = await r.text();
+        if (!mounted) return;
+        const parsed = parseCSV(text);
+        // parsed.headers are real headers; parsed.rows are objects keyed by header
+        setHeaders(parsed.headers);
+        setAllRows(parsed.rows);
       } catch (err) {
         console.error('Failed to load CSV:', err);
         setAllRows([]);
@@ -123,7 +118,7 @@ export default function AbgeordneteSelect({
     return () => {
       mounted = false;
     };
-  }, [onSelect]);
+  }, []);
 
   // Load PLZ -> Wahlkreis mapping (public CSV)
   useEffect(() => {
@@ -174,15 +169,11 @@ export default function AbgeordneteSelect({
     };
   }, []);
 
-  // Treat a numeric 4-5 digit `search` as a PLZ lookup and set matching Wahlkreis numbers.
-  useEffect(() => {
-    const s = search.trim().replace(/\s+/g, '');
-    if (/^\d{4,5}$/.test(s)) {
-      const wks = plzMapping[s] ?? [];
-      setPlzWkNumbers(wks.length ? wks : []);
-    } else {
-      setPlzWkNumbers(null);
-    }
+  const plzWkNumbers = useMemo(() => {
+    const s = search.trim().replace(/\s+/g, "");
+    if (!/^\d{4,5}$/.test(s)) return null;
+    const wks = plzMapping[s] ?? [];
+    return wks.length ? wks : [];
   }, [search, plzMapping]);
 
   // compute possible filter fields: choose fields with reasonably small unique values
