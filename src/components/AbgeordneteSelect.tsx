@@ -4,7 +4,8 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import EmailTemplateViewer from "./EmailTemplateViewer";
 
 type Row = Record<string, string>;
-type WizardStep = 1 | 2 | 3;
+type WizardStep = 1 | 2 | 3 | 4;
+type Chamber = "bundestag" | "europarl";
 
 function parseCSV(text: string): { headers: string[]; rows: Row[] } {
   // Basic CSV parser that handles quoted fields with commas and newlines.
@@ -86,6 +87,7 @@ export default function AbgeordneteSelect({
   const [plzWkNumbers, setPlzWkNumbers] = useState<string[] | null>(null);
   const [senderName, setSenderName] = useState("");
   const [step, setStep] = useState<WizardStep>(1);
+  const [chamber, setChamber] = useState<Chamber | null>(null);
   const [mailDraft, setMailDraft] = useState({
     recipient: "",
   });
@@ -355,16 +357,100 @@ export default function AbgeordneteSelect({
 
   // bundesland support removed
   const selectedInfo = selected ? extractRowInfo(selected) : null;
+  const stepItems = [
+    "Parlament",
+    "Person",
+    "Dein Name",
+    "Mail",
+  ];
 
   return (
     <div className="w-full">
       <div className="space-y-3">
-        <div className="text-xs font-medium text-gray-600">Schritt {step} von 3</div>
+        <div className="flex flex-wrap gap-2" aria-label="Fortschritt">
+          {stepItems.map((label, idx) => {
+            const stepNumber = idx + 1;
+            const isActive = stepNumber === step;
+            const isCompleted = stepNumber < step;
+            return (
+              <div
+                key={label}
+                className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold ${
+                  isActive
+                    ? "border-orange-400 bg-orange-500 text-white"
+                    : isCompleted
+                    ? "border-orange-200 bg-orange-50 text-orange-700"
+                    : "border-gray-200 bg-white text-gray-600"
+                }`}
+              >
+                <span
+                  className={`inline-flex h-5 w-5 items-center justify-center rounded-full text-[11px] ${
+                    isActive
+                      ? "bg-white/20 text-white"
+                      : isCompleted
+                      ? "bg-orange-100 text-orange-700"
+                      : "bg-gray-100 text-gray-600"
+                  }`}
+                >
+                  {stepNumber}
+                </span>
+                <span>{label}</span>
+              </div>
+            );
+          })}
+        </div>
 
         {step === 1 && (
+          <div className="bg-white border border-[#1a1a1a] shadow-sm p-4 space-y-3">
+            <div className="text-sm font-semibold">1. Parlament auswählen</div>
+            <div className="grid gap-2 md:grid-cols-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setChamber("bundestag");
+                  setStep(2);
+                }}
+                className={`px-3 py-3 border text-left text-sm cursor-pointer hover:bg-gray-50 ${
+                  chamber === "bundestag" ? "border-orange-400 bg-orange-50" : "border-gray-200"
+                }`}
+              >
+                Mitglied des Bundestages
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setChamber("europarl");
+                  setSelected(null);
+                  onSelect?.(null);
+                  setStep(2);
+                }}
+                className={`px-3 py-3 border text-left text-sm cursor-pointer hover:bg-gray-50 ${
+                  chamber === "europarl" ? "border-orange-400 bg-orange-50" : "border-gray-200"
+                }`}
+              >
+                Mitglied des Europarlaments
+              </button>
+            </div>
+          </div>
+        )}
+
+        {step === 2 && (
           <div className="bg-white border border-[#1a1a1a] shadow-sm p-4">
-            <div className="text-sm font-semibold mb-3">1. Abgeordneten auswählen</div>
-            {!allRows ? (
+            <div className="text-sm font-semibold mb-3">2. Abgeordneten auswählen</div>
+            {chamber === "europarl" ? (
+              <div className="space-y-3">
+                <div className="text-sm text-gray-700">
+                  Die Auswahl für Mitglieder des Europarlaments ist noch nicht verfügbar.
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setStep(1)}
+                  className="px-3 py-2 border border-gray-200 hover:bg-gray-50 text-sm cursor-pointer"
+                >
+                  Zurück
+                </button>
+              </div>
+            ) : !allRows ? (
               <div>Lade Abgeordnete…</div>
             ) : (
               <div className="space-y-3">
@@ -420,7 +506,7 @@ export default function AbgeordneteSelect({
                               setSelected(r);
                               onSelect?.(r);
                               setMailDraft((prev) => ({ ...prev, recipient: info.email || "" }));
-                              setStep(2);
+                              setStep(3);
                               setClickedIndex(idx);
                               window.setTimeout(() => setClickedIndex((cur) => (cur === idx ? null : cur)), 120);
                             }}
@@ -447,15 +533,25 @@ export default function AbgeordneteSelect({
                     </ul>
                   )}
                 </div>
+
+                <div>
+                  <button
+                    type="button"
+                    onClick={() => setStep(1)}
+                    className="px-3 py-2 border border-gray-200 hover:bg-gray-50 text-sm cursor-pointer"
+                  >
+                    Zurück
+                  </button>
+                </div>
               </div>
             )}
           </div>
         )}
 
-        {step === 2 && (
+        {step === 3 && (
           <div className="bg-white border border-[#1a1a1a] shadow-sm p-4 space-y-4">
             <div>
-              <div className="text-sm font-semibold mb-3">2. Deinen Namen eingeben</div>
+              <div className="text-sm font-semibold mb-3">3. Deinen Namen eingeben</div>
               {selectedInfo && (
                 <div className="text-xs text-gray-600 mb-3">
                   Ausgewählt: <span className="font-medium text-gray-800">{displayLabel(selected!)}</span>
@@ -475,14 +571,14 @@ export default function AbgeordneteSelect({
             <div className="flex gap-2">
               <button
                 type="button"
-                onClick={() => setStep(1)}
+                onClick={() => setStep(2)}
                 className="px-3 py-2 border border-gray-200 hover:bg-gray-50 text-sm cursor-pointer"
               >
                 Zurück
               </button>
               <button
                 type="button"
-                onClick={() => setStep(3)}
+                onClick={() => setStep(4)}
                 disabled={!senderName.trim() || !selected}
                 className="px-3 py-2 btn-orange !text-black text-sm font-bold disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               >
@@ -492,10 +588,10 @@ export default function AbgeordneteSelect({
           </div>
         )}
 
-        {step === 3 && (
+        {step === 4 && (
           <div className="bg-white border border-[#1a1a1a] shadow-sm p-4 space-y-4">
             <div className="space-y-1">
-              <div className="text-sm font-semibold">3. Mail bearbeiten und senden</div>
+              <div className="text-sm font-semibold">4. Mail bearbeiten und senden</div>
             </div>
 
             {selected && selectedInfo ? (
@@ -513,15 +609,15 @@ export default function AbgeordneteSelect({
 
             <button
               type="button"
-              onClick={() => setStep(2)}
+              onClick={() => setStep(3)}
               className="px-3 py-2 border border-gray-200 hover:bg-gray-50 text-sm cursor-pointer"
             >
               Zurück
             </button>
           </div>
         )}
-        
-        {step > 1 && !selected && (
+
+        {step > 2 && !selected && (
           <div className="text-sm text-gray-600">
             Bitte zuerst eine Person auswählen.
           </div>
