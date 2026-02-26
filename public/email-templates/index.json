@@ -2,6 +2,6 @@
   {
     "id": "greeting",
     "label": "Gruß (Standard)",
-    "file": "greeting.txt"
+    "file": "mail_mdb_appell.txt"
   }
 ]

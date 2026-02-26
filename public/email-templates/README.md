@@ -46,7 +46,7 @@ Die Datei `public/email-templates/index.json` ist eine kleine Liste aller verfü
 	{
 		"id": "greeting",
 		"label": "Gruß (Standard)",
-		"file": "greeting.txt"
+		"file": "mail_mdb_appell.txt"
 	},
 	{
 		"id": "meine-vorlage",
@@ -60,7 +60,7 @@ Die Datei `public/email-templates/index.json` ist eine kleine Liste aller verfü
 - `label`: der Text, der im Auswahlfeld (Dropdown) angezeigt wird — frei wählbar.
 - `file`: der Dateiname der Vorlage im aktuellen Ordner.
 
-Wenn `index.json` nicht existiert, versucht die Webseite, die Datei `{id}.txt` zu laden (z. B. `greeting.txt` für `greeting`). Das Manifest ist empfohlen, weil es ein leserliches Label ermöglicht.
+Wenn `index.json` nicht existiert, versucht die Webseite, die Datei `{id}.txt` zu laden (z. B. `mail_mdb_appell.txt` für `greeting`). Das Manifest ist empfohlen, weil es ein leserliches Label ermöglicht.
 
 ---
 

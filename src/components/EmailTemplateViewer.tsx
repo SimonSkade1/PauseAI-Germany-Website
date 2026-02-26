@@ -15,6 +15,11 @@ type Props = {
     recipientTitle?: string;
     recipientAnrede?: string;
   }) => void;
+  onDraftChange?: (draft: {
+    recipient: string;
+    subject: string;
+    body: string;
+  }) => void;
 };
 
 export default function EmailPreviewPage({
@@ -25,6 +30,7 @@ export default function EmailPreviewPage({
   initialSenderName = '',
   initialSenderEmail = '',
   onChange,
+  onDraftChange,
 }: Props) {
   const [formData, setFormData] = useState({
     senderName: initialSenderName,
@@ -60,7 +66,7 @@ export default function EmailPreviewPage({
   
   const selectedTemplate = 'greeting';
   const [templates, setTemplates] = useState<Array<{id:string,label:string,file:string}>>([
-    { id: 'greeting', label: 'Gruß (Standard)', file: 'greeting.txt' },
+    { id: 'greeting', label: 'Gruß (Standard)', file: 'mail_mdb_appell.txt' },
   ]);
   const [templateRaw, setTemplateRaw] = useState<string | null>(null);
   const [editableRecipient, setEditableRecipient] = useState(initialRecipientEmail);
@@ -188,6 +194,16 @@ export default function EmailPreviewPage({
     setEditableSubject(renderedParts.subject || '');
     setEditableBody(renderedParts.body || '');
   }, [renderedParts.subject, renderedParts.body]);
+
+  useEffect(() => {
+    if (onDraftChange) {
+      onDraftChange({
+        recipient: editableRecipient,
+        subject: editableSubject,
+        body: editableBody,
+      });
+    }
+  }, [editableRecipient, editableSubject, editableBody, onDraftChange]);
 
   const openMailComposer = () => {
     const to = editableRecipient || '';
