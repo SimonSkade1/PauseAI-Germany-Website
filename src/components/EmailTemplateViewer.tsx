@@ -67,7 +67,7 @@ export default function EmailPreviewPage({
   const [editableSubject, setEditableSubject] = useState('');
   const [editableBody, setEditableBody] = useState('');
   const [mailTarget, setMailTarget] = useState<
-    'default' | 'gmail' | 'outlook' | 'yahoo' | 'proton' | 'fastmail' | 'gmx' | 'webde'
+    'default' | 'gmail_app' | 'gmail' | 'outlook' | 'yahoo' | 'proton' | 'fastmail' | 'gmx' | 'webde'
   >('default');
   const [copyState, setCopyState] = useState<{
     recipient: 'idle' | 'ok' | 'error';
@@ -193,55 +193,81 @@ export default function EmailPreviewPage({
     const to = editableRecipient || '';
     const subject = editableSubject || '';
     const body = editableBody || '';
-    const encodedTo = encodeURIComponent(to);
+    const normalizedTo = to
+      .split(/[;,]/)
+      .map((v) => v.trim())
+      .filter(Boolean)
+      .join(',');
     const encodedSubject = encodeURIComponent(subject);
     const encodedBody = encodeURIComponent(body);
+    const openExternal = (url: string) => window.open(url, '_blank', 'noopener,noreferrer');
+    const gmailWebUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(normalizedTo)}&su=${encodedSubject}&body=${encodedBody}`;
+
+    if (mailTarget === 'gmail_app') {
+      const gmailAppUrl = `googlegmail:///co?to=${encodeURIComponent(normalizedTo)}&subject=${encodedSubject}&body=${encodedBody}`;
+      // Try to open Gmail app directly. If unavailable, fall back to Gmail Web.
+      const fallbackTimer = window.setTimeout(() => {
+        openExternal(gmailWebUrl);
+      }, 900);
+      const cancelFallback = () => {
+        window.clearTimeout(fallbackTimer);
+        document.removeEventListener('visibilitychange', cancelFallback);
+      };
+      document.addEventListener('visibilitychange', cancelFallback);
+      window.location.href = gmailAppUrl;
+      return;
+    }
 
     if (mailTarget === 'gmail') {
-      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodedTo}&su=${encodedSubject}&body=${encodedBody}`;
-      window.open(gmailUrl, '_blank', 'noopener,noreferrer');
+      openExternal(gmailWebUrl);
       return;
     }
 
     if (mailTarget === 'outlook') {
-      const outlookUrl = `https://outlook.office.com/mail/deeplink/compose?to=${encodedTo}&subject=${encodedSubject}&body=${encodedBody}`;
-      window.open(outlookUrl, '_blank', 'noopener,noreferrer');
+      const outlookUrl = `https://outlook.office.com/mail/deeplink/compose?to=${encodeURIComponent(normalizedTo)}&subject=${encodedSubject}&body=${encodedBody}`;
+      openExternal(outlookUrl);
       return;
     }
 
     if (mailTarget === 'yahoo') {
-      const yahooUrl = `https://compose.mail.yahoo.com/?to=${encodedTo}&subject=${encodedSubject}&body=${encodedBody}`;
-      window.open(yahooUrl, '_blank', 'noopener,noreferrer');
+      const yahooUrl = `https://compose.mail.yahoo.com/?to=${encodeURIComponent(normalizedTo)}&subject=${encodedSubject}&body=${encodedBody}`;
+      openExternal(yahooUrl);
       return;
     }
 
     if (mailTarget === 'proton') {
       const protonUrl = `https://mail.proton.me/u/0/inbox?compose=new`;
-      window.open(protonUrl, '_blank', 'noopener,noreferrer');
+      openExternal(protonUrl);
       return;
     }
 
     if (mailTarget === 'fastmail') {
-      const fastmailUrl = `https://www.fastmail.com/mail/compose?to=${encodedTo}&subject=${encodedSubject}&body=${encodedBody}`;
-      window.open(fastmailUrl, '_blank', 'noopener,noreferrer');
+      const fastmailUrl = `https://www.fastmail.com/mail/compose?to=${encodeURIComponent(normalizedTo)}&subject=${encodedSubject}&body=${encodedBody}`;
+      openExternal(fastmailUrl);
       return;
     }
 
     if (mailTarget === 'gmx') {
       const gmxUrl = `https://navigator.gmx.net/mail`;
-      window.open(gmxUrl, '_blank', 'noopener,noreferrer');
+      openExternal(gmxUrl);
       return;
     }
 
     if (mailTarget === 'webde') {
       const webdeUrl = `https://navigator.web.de/mail`;
-      window.open(webdeUrl, '_blank', 'noopener,noreferrer');
+      openExternal(webdeUrl);
       return;
     }
 
-    const mailto = `mailto:${encodedTo}?subject=${encodedSubject}&body=${encodedBody}`;
-    // Open in a new browsing context so the current page stays in place.
-    window.open(mailto, '_blank', 'noopener,noreferrer');
+    const mailto = `mailto:${normalizedTo}?subject=${encodedSubject}&body=${encodedBody}`;
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    // Mobile browsers often block window.open(mailto). Direct navigation is more reliable.
+    if (isMobile) {
+      window.location.href = mailto;
+      return;
+    }
+    // Keep desktop behavior in a separate browsing context.
+    openExternal(mailto);
   };
 
   const copyText = async (key: 'recipient' | 'subject' | 'body', value: string) => {
@@ -352,6 +378,7 @@ export default function EmailPreviewPage({
                   setMailTarget(
                     e.target.value as
                       | 'default'
+                      | 'gmail_app'
                       | 'gmail'
                       | 'outlook'
                       | 'yahoo'
@@ -364,6 +391,7 @@ export default function EmailPreviewPage({
                 className="w-full px-3 py-2 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-400 bg-white"
               >
                 <option value="default">Standard (Gmail, Apple Mail, Thunderbird, Outlook Desktop, ...)</option>
+                <option value="gmail_app">Gmail App (Mobil)</option>
                 <option value="gmail">Gmail (Web)</option>
                 <option value="outlook">Outlook (Web)</option>
                 <option value="yahoo">Yahoo Mail (Web)</option>
