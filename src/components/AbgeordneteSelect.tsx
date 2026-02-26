@@ -363,39 +363,84 @@ export default function AbgeordneteSelect({
     "Dein Name",
     "Mail",
   ];
+  const WIZARD_STEP_KEY = "__contactWizardStep";
+
+  const pushStepToHistory = useCallback((nextStep: WizardStep) => {
+    const currentState =
+      typeof window.history.state === "object" && window.history.state !== null
+        ? window.history.state
+        : {};
+    window.history.pushState({ ...currentState, [WIZARD_STEP_KEY]: nextStep }, "");
+  }, []);
+
+  useEffect(() => {
+    const currentState =
+      typeof window.history.state === "object" && window.history.state !== null
+        ? window.history.state
+        : {};
+    window.history.replaceState({ ...currentState, [WIZARD_STEP_KEY]: 1 }, "");
+
+    const handlePopState = (event: PopStateEvent) => {
+      const nextStep = event.state?.[WIZARD_STEP_KEY];
+      if (typeof nextStep === "number" && nextStep >= 1 && nextStep <= 4) {
+        setStep(nextStep as WizardStep);
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
+  const canGoToStep = (targetStep: number) => {
+    if (targetStep === 1) return true;
+    if (targetStep === 2) return chamber !== null;
+    if (targetStep === 3) return chamber === "bundestag" && !!selected;
+    if (targetStep === 4) return chamber === "bundestag" && !!selected && !!senderName.trim();
+    return false;
+  };
+  const goToStep = (targetStep: number, options?: { ignoreGuards?: boolean }) => {
+    if (!options?.ignoreGuards && !canGoToStep(targetStep)) return;
+    if (targetStep === step) return;
+    const nextStep = targetStep as WizardStep;
+    pushStepToHistory(nextStep);
+    setStep(nextStep);
+  };
 
   return (
     <div className="w-full">
       <div className="space-y-3">
-        <div className="flex flex-wrap gap-2" aria-label="Fortschritt">
+        <div className="flex gap-1 overflow-x-auto whitespace-nowrap pb-1" aria-label="Fortschritt">
           {stepItems.map((label, idx) => {
             const stepNumber = idx + 1;
             const isActive = stepNumber === step;
             const isCompleted = stepNumber < step;
             return (
-              <div
+              <button
                 key={label}
-                className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold ${
+                type="button"
+                onClick={() => goToStep(stepNumber)}
+                disabled={!canGoToStep(stepNumber)}
+                className={`shrink-0 inline-flex items-center gap-1 border px-2 py-1 text-[10px] md:text-xs font-section tracking-wide ${
                   isActive
-                    ? "border-orange-400 bg-orange-500 text-white"
+                    ? "btn-orange !text-black border-transparent"
                     : isCompleted
-                    ? "border-orange-200 bg-orange-50 text-orange-700"
-                    : "border-gray-200 bg-white text-gray-600"
-                }`}
+                    ? "border-orange-300 bg-orange-50 text-pause-black"
+                    : "border-gray-200 bg-white text-gray-500"
+                } ${canGoToStep(stepNumber) ? "cursor-pointer" : "cursor-not-allowed opacity-60"}`}
               >
                 <span
-                  className={`inline-flex h-5 w-5 items-center justify-center rounded-full text-[11px] ${
+                  className={`inline-flex h-5 w-5 items-center justify-center rounded-full text-[11px] font-bold ${
                     isActive
-                      ? "bg-white/20 text-white"
-                      : isCompleted
-                      ? "bg-orange-100 text-orange-700"
-                      : "bg-gray-100 text-gray-600"
+                      ? "bg-white/40 text-black"
+                    : isCompleted
+                      ? "bg-orange-200 text-pause-black"
+                      : "bg-gray-100 text-gray-500"
                   }`}
                 >
                   {stepNumber}
                 </span>
                 <span>{label}</span>
-              </div>
+              </button>
             );
           })}
         </div>
@@ -408,7 +453,7 @@ export default function AbgeordneteSelect({
                 type="button"
                 onClick={() => {
                   setChamber("bundestag");
-                  setStep(2);
+                  goToStep(2, { ignoreGuards: true });
                 }}
                 className={`px-3 py-3 border text-left text-sm cursor-pointer hover:bg-gray-50 ${
                   chamber === "bundestag" ? "border-orange-400 bg-orange-50" : "border-gray-200"
@@ -422,7 +467,7 @@ export default function AbgeordneteSelect({
                   setChamber("europarl");
                   setSelected(null);
                   onSelect?.(null);
-                  setStep(2);
+                  goToStep(2, { ignoreGuards: true });
                 }}
                 className={`px-3 py-3 border text-left text-sm cursor-pointer hover:bg-gray-50 ${
                   chamber === "europarl" ? "border-orange-400 bg-orange-50" : "border-gray-200"
@@ -444,7 +489,7 @@ export default function AbgeordneteSelect({
                 </div>
                 <button
                   type="button"
-                  onClick={() => setStep(1)}
+                  onClick={() => goToStep(1)}
                   className="px-3 py-2 border border-gray-200 hover:bg-gray-50 text-sm cursor-pointer"
                 >
                   Zurück
@@ -490,7 +535,6 @@ export default function AbgeordneteSelect({
                     <ul>
                       {filtered.slice(0, 200).map((r, idx) => {
                         const info = extractRowInfo(r);
-                        const email = info.email || (r[headers.find((h) => /email/i.test(h)) ?? ""] || "").trim();
                         return (
                           <li
                             key={idx}
@@ -506,7 +550,7 @@ export default function AbgeordneteSelect({
                               setSelected(r);
                               onSelect?.(r);
                               setMailDraft((prev) => ({ ...prev, recipient: info.email || "" }));
-                              setStep(3);
+                              goToStep(3, { ignoreGuards: true });
                               setClickedIndex(idx);
                               window.setTimeout(() => setClickedIndex((cur) => (cur === idx ? null : cur)), 120);
                             }}
@@ -525,7 +569,6 @@ export default function AbgeordneteSelect({
                                   </div>
                                 )}
                               </div>
-                              {email && <div className="text-xs text-gray-600 mt-0.5">{email}</div>}
                             </div>
                           </li>
                         );
@@ -537,7 +580,7 @@ export default function AbgeordneteSelect({
                 <div>
                   <button
                     type="button"
-                    onClick={() => setStep(1)}
+                    onClick={() => goToStep(1)}
                     className="px-3 py-2 border border-gray-200 hover:bg-gray-50 text-sm cursor-pointer"
                   >
                     Zurück
@@ -571,14 +614,14 @@ export default function AbgeordneteSelect({
             <div className="flex gap-2">
               <button
                 type="button"
-                onClick={() => setStep(2)}
+                onClick={() => goToStep(2)}
                 className="px-3 py-2 border border-gray-200 hover:bg-gray-50 text-sm cursor-pointer"
               >
                 Zurück
               </button>
               <button
                 type="button"
-                onClick={() => setStep(4)}
+                onClick={() => goToStep(4)}
                 disabled={!senderName.trim() || !selected}
                 className="px-3 py-2 btn-orange !text-black text-sm font-bold disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               >
@@ -609,7 +652,7 @@ export default function AbgeordneteSelect({
 
             <button
               type="button"
-              onClick={() => setStep(3)}
+              onClick={() => goToStep(3)}
               className="px-3 py-2 border border-gray-200 hover:bg-gray-50 text-sm cursor-pointer"
             >
               Zurück
