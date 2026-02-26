@@ -2,7 +2,7 @@ Subject: Internationale Regeln für fortgeschrittene KI
 
 {{anrede}} {{recipientName}},
 
-Ich mich an Sie, weil mich die aktuelle Entwicklung im Bereich Künstlicher Intelligenz sehr beunruhigt.
+Ich wende mich an Sie, weil mich die aktuelle Entwicklung im Bereich Künstlicher Intelligenz sehr beunruhigt.
 
 Am Montag wurde das Thema im Europäischen Parlament in Brüssel diskutiert. Der weltweit bekannte KI-Forscher Stuart Russell warnte dort vor einem möglichen Kontrollverlust bei sehr leistungsfähigen KI-Systemen und verglich die derzeitige Entwicklung mit einem „Russischen Roulette“ für die Menschheit. Mehrere Abgeordnete verschiedener Fraktionen betonten ebenfalls, dass neben den Chancen erhebliche existentielle und andere Risiken bestehen, die politisch adressiert werden müssen.
 https://pauseai.substack.com/p/eu-parliamentarians-acknowledge-the
