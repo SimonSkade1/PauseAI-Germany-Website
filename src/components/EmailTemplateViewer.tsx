@@ -78,6 +78,7 @@ export default function EmailPreviewPage({
     subject: 'idle',
     body: 'idle',
   });
+  const [composeHint, setComposeHint] = useState('');
 
   // load template file from public/email-templates/{file}
   useEffect(() => {
@@ -167,7 +168,7 @@ export default function EmailPreviewPage({
     }
   }, [editableRecipient, editableSubject, editableBody, onDraftChange]);
 
-  const openMailComposer = () => {
+  const openMailComposer = async () => {
     const to = editableRecipient || '';
     const subject = editableSubject || '';
     const body = editableBody || '';
@@ -180,6 +181,26 @@ export default function EmailPreviewPage({
     const encodedBody = encodeURIComponent(body);
     const openExternal = (url: string) => window.open(url, '_blank', 'noopener,noreferrer');
     const gmailWebUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(normalizedTo)}&su=${encodedSubject}&body=${encodedBody}`;
+    const OUTLOOK_COMPOSE_URL_MAX = 2500;
+    const setHint = (message: string) => {
+      setComposeHint(message);
+      window.setTimeout(() => setComposeHint(''), 6000);
+    };
+    const copyToClipboard = async (value: string) => {
+      if (navigator?.clipboard?.writeText) {
+        await navigator.clipboard.writeText(value);
+        return;
+      }
+      const ta = document.createElement('textarea');
+      ta.value = value;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'absolute';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    };
 
     if (mailTarget === 'gmail_app') {
       const gmailAppUrl = `googlegmail:///co?to=${encodeURIComponent(normalizedTo)}&subject=${encodedSubject}&body=${encodedBody}`;
@@ -203,6 +224,24 @@ export default function EmailPreviewPage({
 
     if (mailTarget === 'outlook') {
       const outlookUrl = `https://outlook.office.com/mail/deeplink/compose?to=${encodeURIComponent(normalizedTo)}&subject=${encodedSubject}&body=${encodedBody}`;
+      if (outlookUrl.length > OUTLOOK_COMPOSE_URL_MAX) {
+        const fallbackOutlookUrl = `https://outlook.office.com/mail/deeplink/compose?to=${encodeURIComponent(normalizedTo)}&subject=${encodedSubject}`;
+        try {
+          await copyToClipboard(body);
+          setCopyState((s) => ({ ...s, body: 'ok' }));
+          setHint('Mailtext war zu lang für Outlook-Link und wurde in die Zwischenablage kopiert.');
+        } catch (err) {
+          console.error('Copy failed:', err);
+          setCopyState((s) => ({ ...s, body: 'error' }));
+          setHint('Mailtext war zu lang für Outlook-Link. Bitte den Text aus dem Feld "Mail" kopieren und einfügen.');
+        } finally {
+          window.setTimeout(() => {
+            setCopyState((s) => ({ ...s, body: 'idle' }));
+          }, 1200);
+        }
+        openExternal(fallbackOutlookUrl);
+        return;
+      }
       openExternal(outlookUrl);
       return;
     }
@@ -395,6 +434,9 @@ export default function EmailPreviewPage({
               Mail öffnen
             </button>
           </div>
+          {composeHint && (
+            <p className="text-xs text-gray-700">{composeHint}</p>
+          )}
         </div>
       </div>
     </div>
