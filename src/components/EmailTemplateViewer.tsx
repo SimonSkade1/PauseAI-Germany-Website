@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 
 type Props = {
+  templateFile?: string;
   initialRecipientName?: string;
   initialRecipientEmail?: string;
-  initialRecipientTitle?: string;
   initialRecipientAnrede?: string;
   initialSenderName?: string;
   initialSenderEmail?: string;
@@ -12,7 +12,6 @@ type Props = {
     senderEmail: string;
     recipientName: string;
     recipientEmail: string;
-    recipientTitle?: string;
     recipientAnrede?: string;
   }) => void;
   onDraftChange?: (draft: {
@@ -23,9 +22,9 @@ type Props = {
 };
 
 export default function EmailPreviewPage({
+  templateFile = 'mail_mdb_appell.txt',
   initialRecipientName = '',
   initialRecipientEmail = '',
-  initialRecipientTitle = '',
   initialRecipientAnrede = '',
   initialSenderName = '',
   initialSenderEmail = '',
@@ -37,7 +36,6 @@ export default function EmailPreviewPage({
     senderEmail: initialSenderEmail,
     recipientName: initialRecipientName,
     recipientEmail: initialRecipientEmail,
-    recipientTitle: initialRecipientTitle,
     recipientAnrede: initialRecipientAnrede,
   });
 
@@ -64,10 +62,6 @@ export default function EmailPreviewPage({
 
   // No iframe resize logic needed when rendering preview directly.
   
-  const selectedTemplate = 'greeting';
-  const [templates, setTemplates] = useState<Array<{id:string,label:string,file:string}>>([
-    { id: 'greeting', label: 'Gruß (Standard)', file: 'mail_mdb_appell.txt' },
-  ]);
   const [templateRaw, setTemplateRaw] = useState<string | null>(null);
   const [editableRecipient, setEditableRecipient] = useState(initialRecipientEmail);
   const [editableSubject, setEditableSubject] = useState('');
@@ -86,32 +80,10 @@ export default function EmailPreviewPage({
   });
   // const [copied, setCopied] = useState(false);
 
-  // load available templates manifest from public/email-templates/index.json (if present)
-  useEffect(() => {
-    let mounted = true;
-    fetch(`/email-templates/index.json`)
-      .then((r) => {
-        if (!r.ok) throw new Error('No manifest');
-        return r.json();
-      })
-      .then((list) => {
-        if (!mounted) return;
-        if (Array.isArray(list) && list.length > 0) setTemplates(list);
-      })
-      .catch(() => {
-        // ignore - fallback to built-in templates array
-      });
-    return () => {
-      mounted = false;
-    };
-  }, []);
-
   // load template file from public/email-templates/{file}
   useEffect(() => {
     let mounted = true;
-    const entry = templates.find((t) => t.id === selectedTemplate);
-    const fileName = entry?.file ?? `${selectedTemplate}.txt`;
-    fetch(`/email-templates/${fileName}`)
+    fetch(`/email-templates/${templateFile}`)
       .then((r) => {
         if (!r.ok) throw new Error('Failed to load template');
         return r.text();
@@ -127,12 +99,7 @@ export default function EmailPreviewPage({
     return () => {
       mounted = false;
     };
-  }, [selectedTemplate, templates]);
-
-  // receive initial recipient title from parent
-  useEffect(() => {
-    setFormData((prev) => ({ ...prev, recipientTitle: initialRecipientTitle }));
-  }, [initialRecipientTitle]);
+  }, [templateFile]);
 
   useEffect(() => {
     setFormData((prev) => ({ ...prev, recipientAnrede: initialRecipientAnrede }));
@@ -141,16 +108,10 @@ export default function EmailPreviewPage({
   // Return the raw subject/body for mailto action
   const getRenderedParts = () => {
     const genericMessage = `ich hoffe, es geht Ihnen gut.\n\nIch möchte Sie kontaktieren und mich mit Ihnen austauschen.\n\nIch freue mich auf Ihre Rückmeldung.`;
-    const paddedTitle = (formData.recipientTitle || '').toString().trim()
-      ? ` ${formData.recipientTitle} `
-      : ' ';
     const data: Record<string, string> = {
       senderName: formData.senderName || '',
       senderEmail: formData.senderEmail || '',
       recipientName: formData.recipientName || '',
-      // keep both `title` and `recipientTitle` keys for backward compatibility
-      title: paddedTitle,
-      recipientTitle: paddedTitle,
       anrede: (() => {
         const raw = (formData.recipientAnrede || '').toString().trim();
         const a = raw.toLowerCase();

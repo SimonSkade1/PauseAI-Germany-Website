@@ -12,7 +12,6 @@ export type RowInfo = {
   bundesland: string;
   district: string;
   email: string;
-  title: string;
   anrede: string;
   region: string;
   city: string;
@@ -49,7 +48,6 @@ const ROW_INFO_KEYS: Record<Exclude<keyof RowInfo, "full">, string[]> = {
   bundesland: ["Bundesland", "bundesland"],
   district: ["Wahlkreis", "district", "Wahlkreisnummer", "WahlkreisNummer"],
   email: ["Email", "email", "E-Mail", "E_MAIL", "mail"],
-  title: ["Title", "title"],
   anrede: ["Anrede", "anrede", "Anrede/Geschlecht", "Geschlecht", "geschlecht", "gender"],
   region: ["zuständige bundesländer", "zustaendige bundeslaender", "region"],
   city: ["büro in deutschland stadt", "buero in deutschland stadt", "stadt", "city"],
@@ -234,4 +232,12 @@ export function europarlSubtitle(info: RowInfo): string {
   return [info.region, info.city ? `Büro in ${info.city}` : ""]
     .filter(Boolean)
     .join(" • ");
+}
+
+export function displayNameWithoutTitle(info: RowInfo): string {
+  const baseName = info.first ? `${info.first} ${info.last}`.trim() : info.full;
+  return baseName
+    .replace(/^(?:prof\\.?\\s*)?(?:dr\\.?\\s*)+/i, "")
+    .replace(/^(?:professor\\s+)+/i, "")
+    .trim();
 }

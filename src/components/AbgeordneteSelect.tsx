@@ -5,6 +5,7 @@ import EmailTemplateViewer from "./EmailTemplateViewer";
 import {
   bundestagSubtitle,
   CSV_PATH_BY_CHAMBER,
+  displayNameWithoutTitle,
   europarlSubtitle,
   extractRowInfo,
   FILTER_FIELDS_BY_CHAMBER,
@@ -504,7 +505,7 @@ export default function AbgeordneteSelect({
                         >
                           <div className="flex flex-col">
                             <div className="flex items-center gap-2">
-                              <div className="text-sm font-medium">{item.info.full}</div>
+                              <div className="text-sm font-medium">{displayNameWithoutTitle(item.info)}</div>
                               {item.info.party && (
                                 <div className="text-xs text-gray-500 px-2 py-0.5 bg-gray-100 rounded flex items-center gap-2">
                                   <span
@@ -601,9 +602,13 @@ export default function AbgeordneteSelect({
 
             {selected && selectedInfo ? (
               <EmailTemplateViewer
+                templateFile={
+                  chamber === "europarl"
+                    ? "mail_mep_appell.txt"
+                    : "mail_mdb_appell.txt"
+                }
                 initialRecipientName={selectedInfo.last || selectedInfo.full}
                 initialRecipientEmail={mailDraft.recipient || selectedInfo.email}
-                initialRecipientTitle={selectedInfo.title}
                 initialRecipientAnrede={selectedInfo.anrede}
                 initialSenderName={senderName}
                 onDraftChange={handleDraftChange}
