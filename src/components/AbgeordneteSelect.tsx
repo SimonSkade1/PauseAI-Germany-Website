@@ -6,6 +6,23 @@ import EmailTemplateViewer from "./EmailTemplateViewer";
 type Row = Record<string, string>;
 type WizardStep = 1 | 2 | 3 | 4;
 type Chamber = "bundestag" | "europarl";
+type Coord = { lat: number; lon: number };
+type CoordMap = Record<string, Coord>;
+type RowInfo = {
+  first: string;
+  last: string;
+  full: string;
+  birthYear: string;
+  party: string;
+  bundesland: string;
+  district: string;
+  email: string;
+  title: string;
+  anrede: string;
+  region: string;
+  city: string;
+  postalCode: string;
+};
 
 function parseCSV(text: string): { headers: string[]; rows: Row[] } {
   // Basic CSV parser that handles quoted fields with commas and newlines.
@@ -15,12 +32,13 @@ function parseCSV(text: string): { headers: string[]; rows: Row[] } {
   for (let i = 0; i < text.length; i++) {
     const ch = text[i];
     if (ch === '"') {
-      // peek ahead for escaped quote
       if (inQuotes && text[i + 1] === '"') {
-        cur += '"';
-        i++; // skip escaped
+        // Preserve escaped quotes for the cell-level parser.
+        cur += '""';
+        i++;
       } else {
         inQuotes = !inQuotes;
+        cur += ch;
       }
     } else if (ch === "\n" && !inQuotes) {
       rows.push(cur.replace(/\r$/, ""));
@@ -72,6 +90,28 @@ function splitCSVLine(line: string): string[] {
   return cells.map((c) => c.trim());
 }
 
+function parseLatLong(value: string): Coord | null {
+  const parts = value.split(",").map((s) => s.trim());
+  if (parts.length !== 2) return null;
+  const lat = Number.parseFloat(parts[0]);
+  const lon = Number.parseFloat(parts[1]);
+  if (!Number.isFinite(lat) || !Number.isFinite(lon)) return null;
+  return { lat, lon };
+}
+
+function haversineKm(a: Coord, b: Coord): number {
+  const toRad = (v: number) => (v * Math.PI) / 180;
+  const r = 6371;
+  const dLat = toRad(b.lat - a.lat);
+  const dLon = toRad(b.lon - a.lon);
+  const lat1 = toRad(a.lat);
+  const lat2 = toRad(b.lat);
+  const h =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) ** 2;
+  return 2 * r * Math.asin(Math.sqrt(h));
+}
+
 export default function AbgeordneteSelect({
   onSelect,
 }: {
@@ -84,6 +124,7 @@ export default function AbgeordneteSelect({
   const [selected, setSelected] = useState<Row | null>(null);
   const [clickedIndex, setClickedIndex] = useState<number | null>(null);
   const [plzMapping, setPlzMapping] = useState<Record<string, string[]>>({});
+  const [plzCoords, setPlzCoords] = useState<CoordMap>({});
   const [senderName, setSenderName] = useState("");
   const [step, setStep] = useState<WizardStep>(1);
   const [chamber, setChamber] = useState<Chamber | null>(null);
@@ -99,29 +140,46 @@ export default function AbgeordneteSelect({
 
   useEffect(() => {
     let mounted = true;
-    // Load the canonical members CSV with normalized headers.
+    if (!chamber) {
+      setAllRows(null);
+      setHeaders([]);
+      return () => {
+        mounted = false;
+      };
+    }
+
+    setAllRows(null);
+    setHeaders([]);
+    const path =
+      chamber === "bundestag"
+        ? "/BTAbgeordnete_with_bundesland.csv"
+        : "/EUAbgeordnete.csv";
+
     (async () => {
       try {
-        const r = await fetch('/BTAbgeordnete_with_bundesland.csv');
-        if (!r.ok) throw new Error("Failed to load BTAbgeordnete_with_bundesland.csv");
+        const r = await fetch(path);
+        if (!r.ok) throw new Error(`Failed to load ${path}`);
         const text = await r.text();
         if (!mounted) return;
         const parsed = parseCSV(text);
-        // parsed.headers are real headers; parsed.rows are objects keyed by header
         setHeaders(parsed.headers);
         setAllRows(parsed.rows);
       } catch (err) {
-        console.error('Failed to load CSV:', err);
+        console.error("Failed to load CSV:", err);
         setAllRows([]);
       }
     })();
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [chamber]);
 
-  // Load PLZ -> Wahlkreis mapping (public CSV)
+  // Load PLZ -> Wahlkreis mapping (Bundestag only)
   useEffect(() => {
+    if (chamber !== "bundestag") {
+      setPlzMapping({});
+      return;
+    }
     let mounted = true;
     (async () => {
       try {
@@ -167,38 +225,56 @@ export default function AbgeordneteSelect({
     return () => {
       mounted = false;
     };
+  }, [chamber]);
+
+  // Load DE PLZ -> lat/long mapping for nearest-Europarl lookup
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const r = await fetch("/DE_plz_latlong_dedup.csv");
+        if (!r.ok) return;
+        const text = await r.text();
+        if (!mounted) return;
+        const parsed = parseCSV(text);
+        if (parsed.rows.length === 0) return;
+
+        const plzKey =
+          parsed.headers.find((h) => /^plz$/i.test(h.trim())) ?? parsed.headers[0];
+        const latLongKey =
+          parsed.headers.find((h) => /latlong/i.test(h.trim())) ??
+          parsed.headers[1] ??
+          parsed.headers[0];
+
+        const coordMap: CoordMap = {};
+        parsed.rows.forEach((row) => {
+          const plz = (row[plzKey] || "").trim();
+          const latLongRaw = (row[latLongKey] || "").trim();
+          if (!/^\d{5}$/.test(plz) || !latLongRaw) return;
+          const coord = parseLatLong(latLongRaw);
+          if (!coord) return;
+          coordMap[plz] = coord;
+        });
+        setPlzCoords(coordMap);
+      } catch (err) {
+        console.error("Failed to load DE PLZ coordinates:", err);
+      }
+    })();
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   const plzWkNumbers = useMemo(() => {
+    if (chamber !== "bundestag") return null;
     const s = search.trim().replace(/\s+/g, "");
     if (!/^\d{4,5}$/.test(s)) return null;
     const wks = plzMapping[s] ?? [];
     return wks.length ? wks : [];
-  }, [search, plzMapping]);
-
-  // compute possible filter fields: choose fields with reasonably small unique values
-  const filterableFields = useMemo(() => {
-    if (!allRows) return [] as string[];
-    // Use normalized fields (from extractRowInfo) for filtering instead of raw columns
-    const sample = allRows[0];
-    if (!sample) return [] as string[];
-    const normKeys = ["first", "last", "full", "birthYear", "party", "district", "email"];
-    const fields: string[] = [];
-    normKeys.forEach((k) => {
-      const set = new Set(allRows.map((r) => {
-        try {
-          return (extractRowInfo(r) as any)[k] || "";
-        } catch (err) {
-          return "";
-        }
-      }).filter(Boolean));
-      if (set.size > 0 && set.size <= 40) fields.push(k);
-    });
-    return fields;
-  }, [allRows, headers]);
+  }, [chamber, search, plzMapping]);
 
   // extractRowInfo: header-aware mapping to normalized fields
-  function extractRowInfo(r: Row) {
+  function extractRowInfo(r: Row): RowInfo {
     const get = (keys: string[]) => {
       for (const k of keys) {
         if (!k) continue;
@@ -215,72 +291,156 @@ export default function AbgeordneteSelect({
     const last = get(['LastName', 'Nachname', 'last', 'lastname', 'family_name']);
     const full = get(['Name', 'FullName', 'full', 'name']) || [first, last].filter(Boolean).join(' ');
     const birthYear = get(['BirthYear', 'birthYear', 'geburtsjahr']);
-    const party = get(['Partei', 'party', 'Party']);
+    const party = get(['Partei', 'party', 'Party', 'partei']);
     const district = get(['Wahlkreis', 'district', 'Wahlkreisnummer', 'WahlkreisNummer']);
-    const email = get(['Email', 'email', 'E-Mail', 'E_MAIL']);
+    const email = get(['Email', 'email', 'E-Mail', 'E_MAIL', 'mail']);
     const bundesland = get(['Bundesland', 'bundesland']);
     const title = get(['Title', 'title']);
-    const anrede = get(['Anrede', 'anrede', 'Anrede/Geschlecht', 'Geschlecht']);
+    const anrede = get([
+      'Anrede',
+      'anrede',
+      'Anrede/Geschlecht',
+      'Geschlecht',
+      'geschlecht',
+      'gender',
+    ]);
+    const region = get(['zuständige bundesländer', 'zustaendige bundeslaender', 'region']);
+    const city = get(['büro in deutschland stadt', 'buero in deutschland stadt', 'stadt', 'city']);
+    const postalCode = get(['büro in deutschland plz', 'buero in deutschland plz', 'plz', 'postalcode']);
 
-    return { first, last, full, birthYear, party, bundesland, district, email, title, anrede };
+    return {
+      first,
+      last,
+      full,
+      birthYear,
+      party,
+      bundesland,
+      district,
+      email,
+      title,
+      anrede,
+      region,
+      city,
+      postalCode,
+    };
   }
+
+  const valueForFilterField = (info: RowInfo, key: string): string => {
+    switch (key) {
+      case "first":
+        return info.first;
+      case "last":
+        return info.last;
+      case "full":
+        return info.full;
+      case "birthYear":
+        return info.birthYear;
+      case "party":
+        return info.party;
+      case "district":
+        return info.district;
+      case "email":
+        return info.email;
+      default:
+        return "";
+    }
+  };
+
+  // compute possible filter fields: choose fields with reasonably small unique values
+  const filterableFields = useMemo(() => {
+    if (!allRows || allRows.length === 0) return [] as string[];
+    const normKeys =
+      chamber === "europarl"
+        ? ["party"]
+        : ["first", "last", "full", "birthYear", "party", "district", "email"];
+    const fields: string[] = [];
+    normKeys.forEach((k) => {
+      const set = new Set(
+        allRows
+          .map((r) => valueForFilterField(extractRowInfo(r), k))
+          .filter(Boolean)
+      );
+      if (set.size > 0 && set.size <= 40) fields.push(k);
+    });
+    return fields;
+  }, [allRows, chamber]);
 
   const uniqueValues = useMemo(() => {
     const res: Record<string, string[]> = {};
     if (!allRows) return res;
-    // Build unique values from normalized fields using extractRowInfo
     filterableFields.forEach((f) => {
-      const set = new Set(allRows.map((r) => {
-        try {
-          return (extractRowInfo(r) as any)[f] || "";
-        } catch (err) {
-          return "";
-        }
-      }).filter(Boolean));
+      const set = new Set(
+        allRows
+          .map((r) => valueForFilterField(extractRowInfo(r), f))
+          .filter(Boolean)
+      );
       res[f] = Array.from(set).sort();
     });
     return res;
   }, [allRows, filterableFields]);
 
+  const normalizedSearch = search.trim().replace(/\s+/g, "");
+  const isEuroparlPlzSearch =
+    chamber === "europarl" && /^\d{5}$/.test(normalizedSearch);
+
+  const nearestEuroparl = useMemo(() => {
+    const empty = {
+      rows: [] as Row[],
+      distanceByRow: new Map<Row, number>(),
+      inputPlzFound: true,
+    };
+    if (!allRows || !isEuroparlPlzSearch) return empty;
+
+    const origin = plzCoords[normalizedSearch];
+    if (!origin) return { ...empty, inputPlzFound: false };
+
+    const candidates: Array<{ row: Row; distanceKm: number }> = [];
+    allRows.forEach((r) => {
+      const info = extractRowInfo(r);
+      if (!/^\d{5}$/.test(info.postalCode)) return;
+      const target = plzCoords[info.postalCode];
+      if (!target) return;
+      candidates.push({ row: r, distanceKm: haversineKm(origin, target) });
+    });
+
+    candidates.sort((a, b) => a.distanceKm - b.distanceKm);
+    const top = candidates.slice(0, 5);
+    return {
+      rows: top.map((t) => t.row),
+      distanceByRow: new Map(top.map((t) => [t.row, t.distanceKm] as const)),
+      inputPlzFound: true,
+    };
+  }, [allRows, isEuroparlPlzSearch, normalizedSearch, plzCoords]);
+
   const filtered = useMemo(() => {
     if (!allRows) return [] as Row[];
-    const rawSearch = search.trim().replace(/\s+/g, '');
-    const numericPlz = /^\d{4,5}$/.test(rawSearch);
+    const numericPlz = chamber === "bundestag" && /^\d{4,5}$/.test(normalizedSearch);
     const q = search.trim().toLowerCase();
+
+    if (isEuroparlPlzSearch) {
+      if (!nearestEuroparl.inputPlzFound) return [];
+      return nearestEuroparl.rows;
+    }
 
     // If user entered a numeric PLZ but we have no matching wk numbers,
     // return empty result set immediately.
     if (numericPlz && Array.isArray(plzWkNumbers) && plzWkNumbers.length === 0) return [] as Row[];
 
     return allRows.filter((r) => {
+      const info = extractRowInfo(r);
       // filters (based on normalized fields)
       for (const k of Object.keys(filters)) {
         if (!filters[k]) continue;
-        try {
-          const val = (extractRowInfo(r) as any)[k] || "";
-          if (val !== filters[k]) return false;
-        } catch (err) {
-          // fallback to raw field check
-          if ((r[k] || "") !== filters[k]) return false;
-        }
+        const val = valueForFilterField(info, k);
+        if (val !== filters[k]) return false;
       }
 
       // PLZ-based filter using mapped Wahlkreis numbers
       if (plzWkNumbers && plzWkNumbers.length > 0) {
-        try {
-          const info = extractRowInfo(r);
-          const d = (info.district || "").toString();
-          const wkRaw = d.match(/\d+/)?.[0] ?? d;
-          const wk = Number.isNaN(parseInt(wkRaw, 10)) ? wkRaw : String(parseInt(wkRaw, 10));
-          if (!plzWkNumbers.includes(wk)) return false;
-        } catch (err) {
-          // fallback to raw header lookup
-          const rawHdr = headers.find((h) => /wahlkreis|district|wahlkreisnummer/i.test(h));
-          const rawVal = rawHdr ? (r[rawHdr] || "") : "";
-          const wkRaw = rawVal.toString().match(/\d+/)?.[0] ?? rawVal.toString();
-          const wk = Number.isNaN(parseInt(wkRaw, 10)) ? wkRaw : String(parseInt(wkRaw, 10));
-          if (!plzWkNumbers.includes(wk)) return false;
-        }
+        const d = info.district.toString();
+        const wkRaw = d.match(/\d+/)?.[0] ?? d;
+        const wk = Number.isNaN(parseInt(wkRaw, 10)) ? wkRaw : String(parseInt(wkRaw, 10));
+        if (!plzWkNumbers.includes(wk)) return false;
       }
 
       // If this is a numeric PLZ search, we've already applied the PLZ-based
@@ -289,15 +449,12 @@ export default function AbgeordneteSelect({
 
       if (!q) return true;
 
-      // Use extractRowInfo to get normalized fields and search across them.
-      try {
-        const info = extractRowInfo(r);
-        for (const val of Object.values(info)) {
-          if (!val) continue;
-          if ((val as string).toString().toLowerCase().includes(q)) return true;
-        }
-      } catch (err) {
-        // fallback to raw search across columns
+      for (const val of Object.values(info)) {
+        if (!val) continue;
+        if (val.toLowerCase().includes(q)) return true;
+      }
+
+      if (headers.length > 0) {
         for (const h of headers) {
           if ((r[h] || "").toLowerCase().includes(q)) return true;
         }
@@ -305,7 +462,17 @@ export default function AbgeordneteSelect({
 
       return false;
     });
-  }, [allRows, search, filters, headers, plzWkNumbers]);
+  }, [
+    allRows,
+    search,
+    filters,
+    headers,
+    plzWkNumbers,
+    chamber,
+    isEuroparlPlzSearch,
+    nearestEuroparl,
+    normalizedSearch,
+  ]);
 
   const displayLabel = (r: Row) => {
     const info = extractRowInfo(r);
@@ -320,7 +487,15 @@ export default function AbgeordneteSelect({
     if (up.includes("CSU")) return "#1E40AF"; // blue
     if (up.includes("GRUENE") || up.includes("GRÜNE") || up.includes("GRU")) return "#16A34A"; // green
     if (up.includes("FDP")) return "#FBBF24"; // yellow
-    if (up.includes("LINKE") || up.includes("DIE LINKE")) return "#7C3AED"; // purple
+    if (up.includes("LINKE") || up.includes("DIE LINKE")) return "#DC2626"; // red
+    if (up.includes("BSW")) return "#7C3AED"; // purple
+    if (up.includes("VOLT")) return "#5B21B6"; // violet
+    if (up.includes("FREIE W")) return "#F97316"; // orange
+    if (up.includes("PARTEI")) return "#DC2626"; // dark red
+    if (up.includes("TIERSCHUTZ")) return "#10B981"; // green
+    if (up.includes("FAMILIEN")) return "#EA580C"; // orange
+    if (up.includes("ÖDP") || up.includes("OEDP")) return "#D97706"; // amber
+    if (up.includes("FORTSCHRITT")) return "#2563EB"; // blue
     if (up.includes("SSW")) return "#0EA5A4"; // teal
     return "#9CA3AF";
   };
@@ -385,8 +560,8 @@ export default function AbgeordneteSelect({
   const canGoToStep = (targetStep: number) => {
     if (targetStep === 1) return true;
     if (targetStep === 2) return chamber !== null;
-    if (targetStep === 3) return chamber === "bundestag" && !!selected;
-    if (targetStep === 4) return chamber === "bundestag" && !!selected && !!senderName.trim();
+    if (targetStep === 3) return chamber !== null && !!selected;
+    if (targetStep === 4) return chamber !== null && !!selected && !!senderName.trim();
     return false;
   };
   const goToStep = (targetStep: number, options?: { ignoreGuards?: boolean }) => {
@@ -443,6 +618,13 @@ export default function AbgeordneteSelect({
               <button
                 type="button"
                 onClick={() => {
+                  setSearch("");
+                  setFilters({});
+                  setSelected(null);
+                  setClickedIndex(null);
+                  setSenderName("");
+                  setMailDraft({ recipient: "" });
+                  onSelect?.(null);
                   setChamber("bundestag");
                   goToStep(2, { ignoreGuards: true });
                 }}
@@ -455,8 +637,13 @@ export default function AbgeordneteSelect({
               <button
                 type="button"
                 onClick={() => {
+                  setSearch("");
+                  setFilters({});
                   setChamber("europarl");
                   setSelected(null);
+                  setClickedIndex(null);
+                  setSenderName("");
+                  setMailDraft({ recipient: "" });
                   onSelect?.(null);
                   goToStep(2, { ignoreGuards: true });
                 }}
@@ -473,20 +660,7 @@ export default function AbgeordneteSelect({
         {step === 2 && (
           <div className="bg-white border border-[#1a1a1a] shadow-sm p-4">
             <div className="text-sm font-semibold mb-3">2. Abgeordneten auswählen</div>
-            {chamber === "europarl" ? (
-              <div className="space-y-3">
-                <div className="text-sm text-gray-700">
-                  Die Auswahl für Mitglieder des Europarlaments ist noch nicht verfügbar.
-                </div>
-                <button
-                  type="button"
-                  onClick={() => goToStep(1)}
-                  className="px-3 py-2 border border-gray-200 hover:bg-gray-50 text-sm cursor-pointer"
-                >
-                  Zurück
-                </button>
-              </div>
-            ) : !allRows ? (
+            {!allRows ? (
               <div>Lade Abgeordnete…</div>
             ) : (
               <div className="space-y-3">
@@ -494,10 +668,22 @@ export default function AbgeordneteSelect({
                   <input
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    placeholder="Suche nach Name, Partei, PLZ, Stadt..."
+                    placeholder={
+                      chamber === "europarl"
+                        ? "Suche nach Name, Partei, PLZ, Stadt oder Bundesland..."
+                        : "Suche nach Name, Partei, PLZ, Stadt..."
+                    }
                     className="flex-1 px-3 py-2 border border-gray-200"
                   />
                 </div>
+
+                {chamber === "europarl" && isEuroparlPlzSearch && (
+                  <div className="text-xs text-gray-600">
+                    {nearestEuroparl.inputPlzFound
+                      ? "Nächste 5 Büros von Mitgliedern des Europarlaments zu dieser PLZ."
+                      : "PLZ nicht gefunden."}
+                  </div>
+                )}
 
                 {filterableFields.length > 0 && (
                   <div className="flex gap-2 flex-wrap">
@@ -521,7 +707,11 @@ export default function AbgeordneteSelect({
 
                 <div className="max-h-64 overflow-auto border border-gray-200 bg-white">
                   {filtered.length === 0 ? (
-                    <div className="p-3 text-sm text-gray-600">Keine Einträge gefunden.</div>
+                    <div className="p-3 text-sm text-gray-600">
+                      {chamber === "europarl" && isEuroparlPlzSearch && !nearestEuroparl.inputPlzFound
+                        ? "PLZ nicht gefunden."
+                        : "Keine Einträge gefunden."}
+                    </div>
                   ) : (
                     <ul>
                       {filtered.slice(0, 200).map((r, idx) => {
@@ -560,6 +750,18 @@ export default function AbgeordneteSelect({
                                   </div>
                                 )}
                               </div>
+                              {chamber === "europarl" && (
+                                <div className="text-xs text-gray-600 mt-1">
+                                  {[info.region, info.city ? `Büro in ${info.city}` : ""]
+                                    .filter(Boolean)
+                                    .join(" • ")}
+                                  {nearestEuroparl.distanceByRow.has(r) && (
+                                    <span className="ml-2">
+                                      ({nearestEuroparl.distanceByRow.get(r)!.toFixed(1)} km)
+                                    </span>
+                                  )}
+                                </div>
+                              )}
                             </div>
                           </li>
                         );

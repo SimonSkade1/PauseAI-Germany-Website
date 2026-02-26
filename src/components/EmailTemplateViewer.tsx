@@ -152,10 +152,12 @@ export default function EmailPreviewPage({
       title: paddedTitle,
       recipientTitle: paddedTitle,
       anrede: (() => {
-        const a = (formData.recipientAnrede || '').toString().trim().toLowerCase();
+        const raw = (formData.recipientAnrede || '').toString().trim();
+        const a = raw.toLowerCase();
         if (a === 'frau') return 'Sehr geehrte Frau';
         if (a === 'herr') return 'Sehr geehrter Herr';
-        return '';
+        if (raw) return raw;
+        return 'Sehr geehrte/r';
       })(),
       // always use genericMessage (we removed editable message box)
       message: genericMessage,
