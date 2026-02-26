@@ -56,7 +56,7 @@ const ROW_INFO_KEYS: Record<Exclude<keyof RowInfo, "full">, string[]> = {
 
 const FULL_NAME_KEYS = ["Name", "FullName", "full", "name"];
 
-export const STEP_ITEMS = ["Parlament", "Person", "Dein Name", "Mail"];
+export const STEP_ITEMS = ["Parlament", "Empfänger:in", "Dein Name", "Mail"];
 export const WIZARD_STEP_KEY = "__contactWizardStep";
 
 export function parseCSV(text: string): { headers: string[]; rows: Row[] } {

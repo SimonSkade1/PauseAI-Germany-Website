@@ -78,7 +78,6 @@ export default function EmailPreviewPage({
     subject: 'idle',
     body: 'idle',
   });
-  // const [copied, setCopied] = useState(false);
 
   // load template file from public/email-templates/{file}
   useEffect(() => {
@@ -275,19 +274,22 @@ export default function EmailPreviewPage({
     }
   };
 
+  const fieldClass = "w-full px-3 py-2 border border-gray-300 focus:outline-none focus:border-[#1a1a1a] bg-white";
+  const copyButtonClass = "px-2 py-1 border border-gray-300 bg-white hover:bg-[#fff7ec] text-xs font-section cursor-pointer";
+
   return (
     <div className="min-h-0 bg-transparent">
       <div className="max-w-7xl mx-auto">
         <div className="space-y-3">
-          <div className="p-3 bg-gray-50 border border-gray-200">
-            <div className="flex items-center justify-between mb-1">
-              <label className="block text-xs font-medium text-gray-600" htmlFor="mailRecipient">
+          <div>
+            <div className="mb-1 flex items-center justify-between gap-2">
+              <label className="block text-xs font-section text-pause-black" htmlFor="mailRecipient">
                 Empfänger
               </label>
               <button
                 type="button"
                 onClick={() => copyText('recipient', editableRecipient)}
-                className="text-xs px-2 py-1 border border-gray-200 bg-white hover:bg-gray-50 cursor-pointer"
+                className={copyButtonClass}
               >
                 {copyState.recipient === 'ok' ? 'Kopiert' : copyState.recipient === 'error' ? 'Fehler' : 'Kopieren'}
               </button>
@@ -297,42 +299,42 @@ export default function EmailPreviewPage({
               type="text"
               value={editableRecipient}
               onChange={(e) => setEditableRecipient(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-400 bg-white"
+              className={fieldClass}
               placeholder="empfaenger@example.org"
             />
           </div>
 
-          <div className="p-3 bg-gray-50 border border-gray-200">
-            <div className="flex items-center justify-between mb-1">
-              <label className="block text-xs font-medium text-gray-600" htmlFor="mailSubject">
+          <div>
+            <div className="mb-1 flex items-center justify-between gap-2">
+              <label className="block text-xs font-section text-pause-black" htmlFor="mailSubject">
                 Betreff
               </label>
               <button
                 type="button"
                 onClick={() => copyText('subject', editableSubject)}
-                className="text-xs px-2 py-1 border border-gray-200 bg-white hover:bg-gray-50 cursor-pointer"
+                className={copyButtonClass}
               >
                 {copyState.subject === 'ok' ? 'Kopiert' : copyState.subject === 'error' ? 'Fehler' : 'Kopieren'}
               </button>
             </div>
-            <input
+            <textarea
               id="mailSubject"
-              type="text"
+              rows={2}
               value={editableSubject}
               onChange={(e) => setEditableSubject(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-400 bg-white"
+              className={`${fieldClass} min-h-[64px]`}
             />
           </div>
 
-          <div className="p-3 bg-gray-50 border border-gray-200">
-            <div className="flex items-center justify-between mb-1">
-              <label className="block text-xs font-medium text-gray-600" htmlFor="mailBody">
+          <div>
+            <div className="mb-1 flex items-center justify-between gap-2">
+              <label className="block text-xs font-section text-pause-black" htmlFor="mailBody">
                 Mail
               </label>
               <button
                 type="button"
                 onClick={() => copyText('body', editableBody)}
-                className="text-xs px-2 py-1 border border-gray-200 bg-white hover:bg-gray-50 cursor-pointer"
+                className={copyButtonClass}
               >
                 {copyState.body === 'ok' ? 'Kopiert' : copyState.body === 'error' ? 'Fehler' : 'Kopieren'}
               </button>
@@ -341,13 +343,13 @@ export default function EmailPreviewPage({
               id="mailBody"
               value={editableBody}
               onChange={(e) => setEditableBody(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-400 bg-white min-h-[220px]"
+              className={`${fieldClass} min-h-[220px]`}
             />
           </div>
 
-          <div className="mt-1 space-y-2">
-            <div className="p-3 bg-gray-50 border border-gray-200">
-              <label className="block text-xs font-medium text-gray-600 mb-1" htmlFor="mailTarget">
+          <div className="flex flex-col gap-2 md:flex-row md:items-end">
+            <div className="md:flex-1">
+              <label className="block text-xs font-section text-pause-black mb-1" htmlFor="mailTarget">
                 Öffnen mit
               </label>
               <select
@@ -367,7 +369,7 @@ export default function EmailPreviewPage({
                       | 'webde'
                   )
                 }
-                className="w-full px-3 py-2 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-400 bg-white"
+                className={fieldClass}
               >
                 <option value="default">Standard (Gmail, Apple Mail, Thunderbird, Outlook Desktop, ...)</option>
                 <option value="gmail_app">Gmail App (Mobil)</option>
@@ -380,12 +382,11 @@ export default function EmailPreviewPage({
                 <option value="webde">WEB.DE (Web)</option>
               </select>
             </div>
-
             <button
               type="button"
               onClick={openMailComposer}
               aria-label="Mail öffnen"
-              className="w-full inline-flex justify-center items-center px-3 py-2 btn-orange !text-black hover:!bg-[#FF9416] text-sm font-bold cursor-pointer"
+              className="w-full md:w-auto inline-flex justify-center items-center px-4 py-2 border border-[#1a1a1a] bg-[#ff9416] text-black hover:bg-[#e88510] text-sm font-section cursor-pointer transition-colors"
             >
               <svg className="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M22 2L11 13" />
