@@ -1,4 +1,0 @@
-interface:
-  display_name: "Find EU MEP Office City"
-  short_description: "Find German MEP office PLZ and city."
-  default_prompt: "Use $find-eu-mep-office-city to find a German office location and return separate PLZ and city values with sources."
