@@ -1,6 +1,6 @@
 Subject: Handlungsappell zur Vermeidung extremer Risiken von KI
 
-{{anrede}}{{recipientTitle}}{{recipientName}},
+{{anrede}} {{recipientName}},
 
 Als Bürger Ihres Wahlkreises wende ich mich an Sie, weil mich die aktuelle Entwicklung im Bereich Künstlicher Intelligenz zutiefst besorgt.
 

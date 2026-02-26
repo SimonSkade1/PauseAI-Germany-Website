@@ -18,6 +18,11 @@ export default function ContactLawmakers() {
             Zum Beispiel kannst du persönliche Erfahrungen mit KI oder Bedenken bezüglich der aktuellen Entwicklungen hinzufügen. 
             Je persönlicher die Nachricht, desto wirkungsvoller!
             </p>
+            <p className="font-body text-pause-black/80 mb-6">
+            Wenn du eine Antwort erhältst, leite sie gerne an uns (germany@pauseai.info) weiter.
+            Wir helfen dir beim Einordnen und Formulieren einer passenden Antwort.
+            Wenn ein Gespräch angeboten wird, kannst du es selbst führen oder wir übernehmen es auf Wunsch für dich und sprechen direkt mit deiner Politikerin oder deinem Politiker.
+            </p>
             <div className="">
               <AbgeordneteSelect onSelect={(row) => console.log("selected", row)} />
             </div>
