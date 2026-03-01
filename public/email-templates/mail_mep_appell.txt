@@ -2,9 +2,9 @@ Subject: Internationale Regeln für fortgeschrittene KI
 
 {{anrede}} {{recipientName}},
 
-Ich wende mich an Sie, weil mich die aktuelle Entwicklung im Bereich Künstlicher Intelligenz sehr beunruhigt.
+Ich wende mich an Sie, weil mich die Gefahren der Künstlicher Intelligenz sehr beunruhigen.
 
-Am Montag wurde das Thema im Europäischen Parlament in Brüssel diskutiert. Der weltweit bekannte KI-Forscher Stuart Russell warnte dort vor einem möglichen Kontrollverlust bei sehr leistungsfähigen KI-Systemen und verglich die derzeitige Entwicklung mit einem „Russischen Roulette“ für die Menschheit. Mehrere Abgeordnete verschiedener Fraktionen betonten ebenfalls, dass neben den Chancen erhebliche existentielle und andere Risiken bestehen, die politisch adressiert werden müssen.
+Am Montag 23.2 wurde das Thema im Europäischen Parlament in Brüssel diskutiert. Der weltweit bekannte KI-Forscher Stuart Russell warnte dort vor einem möglichen Kontrollverlust bei sehr leistungsfähigen KI-Systemen und verglich die derzeitige Entwicklung mit einem „Russischen Roulette“ für die Menschheit. Mehrere Abgeordnete verschiedener Fraktionen betonten ebenfalls, dass neben den Chancen erhebliche existentielle und andere Risiken bestehen, die politisch adressiert werden müssen.
 https://pauseai.substack.com/p/eu-parliamentarians-acknowledge-the
 
 Schon heute zeigen KI-Systeme in Sicherheitstests Täuschungsverhalten. Laut Stuart Russell lügen sie und versuchen in Experimenten sogar Menschen zu erpressen, um ihre Abschaltung zu verhindern. Gleichzeitig verstehen selbst die Entwickler nicht, was in einem solchen System intern geschieht.
