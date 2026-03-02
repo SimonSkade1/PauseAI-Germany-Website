@@ -863,8 +863,9 @@ export function ActionTree() {
       .attr("transform", `translate(50, ${LAYOUT.height - 30})`);
 
     const legendItems = [
-      { color: PAUSEAI_ORANGE, label: "Erledigt", glow: true },
-      { color: "#666666", label: "Verfügbar", glow: false }
+      { color: PAUSEAI_ORANGE, label: "Erledigt", glow: true, pulse: false, width: 110 },
+      { color: "#666666", label: "Verfügbar", glow: false, pulse: false, width: 130 },
+      { color: PAUSEAI_GOLD, label: "Wichtig (2x Karma)", glow: true, pulse: true, width: 210 }
     ];
 
     let xOffset = 0;
@@ -874,7 +875,7 @@ export function ActionTree() {
           .attr("cx", xOffset + 6)
           .attr("cy", 0)
           .attr("r", 11)
-          .attr("fill", PAUSEAI_ORANGE)
+          .attr("fill", item.color)
           .attr("opacity", 0.2)
           .attr("filter", "url(#ambient-glow)");
       }
@@ -884,6 +885,29 @@ export function ActionTree() {
         .attr("cy", 0)
         .attr("r", 6)
         .attr("fill", item.color);
+
+      if (item.pulse) {
+        const pulseRing = legendGroup.append("circle")
+          .attr("cx", xOffset + 6)
+          .attr("cy", 0)
+          .attr("r", 8)
+          .attr("fill", "none")
+          .attr("stroke", PAUSEAI_GOLD)
+          .attr("stroke-width", 1.5)
+          .attr("opacity", 0.8);
+
+        pulseRing.append("animate")
+          .attr("attributeName", "r")
+          .attr("values", "8;14;8")
+          .attr("dur", "1800ms")
+          .attr("repeatCount", "indefinite");
+
+        pulseRing.append("animate")
+          .attr("attributeName", "opacity")
+          .attr("values", "0.8;0.2;0.8")
+          .attr("dur", "1800ms")
+          .attr("repeatCount", "indefinite");
+      }
 
       legendGroup.append("text")
         .attr("x", xOffset + 22)
@@ -895,7 +919,7 @@ export function ActionTree() {
         .attr("font-family", "var(--font-body)")
         .text(item.label);
 
-      xOffset += 110;
+      xOffset += item.width;
     });
   }, [tasks, userData?.completed_tasks, userData?.completion_counts, totalXp, session?.user?.image]);
 
