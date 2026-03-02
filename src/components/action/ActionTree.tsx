@@ -716,6 +716,9 @@ export function ActionTree() {
         }
         if (repeatIcon) {
           const clonedRepeatIcon = badgeGroup.node()!.appendChild(repeatIcon.cloneNode(true) as SVGElement);
+          const repeatIconColor = isCompleted
+            ? PAUSEAI_ORANGE
+            : (isWichtig ? "#ffffff" : "#666666");
           d3.select(clonedRepeatIcon)
             .attr("width", 20)
             .attr("height", 20)
@@ -723,17 +726,20 @@ export function ActionTree() {
             .attr("y", -10)
             .selectAll("*")
             .attr("fill", "none")
-            .attr("stroke", isCompleted ? PAUSEAI_ORANGE : "#666666")
+            .attr("stroke", repeatIconColor)
             .attr("stroke-width", "2")
             .attr("stroke-linecap", "round")
             .attr("stroke-linejoin", "round");
         }
 
         // Completion count - shown inside the repeat icon, transparent
+        const countColor = isCompleted
+          ? PAUSEAI_ORANGE
+          : (isWichtig ? "#ffffff" : "#666666");
         const countText = badgeGroup.append("text")
           .attr("text-anchor", "middle")
           .attr("dy", "3")
-          .attr("fill", isCompleted ? PAUSEAI_ORANGE : "#666666")
+          .attr("fill", countColor)
           .attr("font-size", "9px")
           .attr("font-weight", "bold")
           .attr("font-family", "var(--font-headline)")
