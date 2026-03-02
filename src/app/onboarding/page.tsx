@@ -3,6 +3,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Link from "next/link";
+import Image from "next/image";
 import { useMemo } from "react";
 
 const JITSI_ONBOARDING_URL = "https://meet.jit.si/PauseAI-Deutschland-Kennenlernen";
@@ -219,6 +220,18 @@ export default function OnboardingPage() {
             <p className="mt-3 font-body text-pause-black/80">
               Zeitzone: <span className="font-body-bold">Europe/Berlin</span> (automatische Sommer-/Winterzeit)
             </p>
+            <div className="mt-6 flex items-center gap-4 rounded-sm border border-[#1a1a1a] bg-[#FFFAF5] p-4">
+              <Image
+                src="/profile-pics/hauke.jpeg"
+                alt="Hauke"
+                width={72}
+                height={72}
+                className="h-[72px] w-[72px] rounded-full object-cover"
+              />
+              <p className="font-body text-pause-black/85">
+                Ich bin Hauke und begleite dich persönlich im Kennenlern-Call. Ich freue mich, dich kennenzulernen.
+              </p>
+            </div>
           </div>
 
           <div className="grid gap-6 md:grid-cols-3">
