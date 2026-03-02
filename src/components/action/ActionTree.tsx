@@ -68,17 +68,17 @@ function createLucideSvgElement(iconName: string): SVGElement | null {
 
 // XP tier definitions with visible circles (like planets)
 const XP_TIERS = [
-  { maxXp: 10, radius: 200, label: "0-10" },
-  { maxXp: 25, radius: 270, label: "10-25" },
-  { maxXp: 50, radius: 340, label: "25-50" },
-  { maxXp: 100, radius: 410, label: "50-100" },
-  { maxXp: 200, radius: 480, label: "100-200" },
-  { maxXp: 400, radius: 550, label: "200-400" },
-  { maxXp: 600, radius: 620, label: "400-600" },
-  { maxXp: 1000, radius: 760, label: "600-1000" },
-  { maxXp: 2000, radius: 830, label: "1000-2000" },
-  { maxXp: 4000, radius: 900, label: "2000-4000" },
-  { maxXp: Infinity, radius: 3000, label: "4000+" }
+  { maxXp: 10, radius: 200 },
+  { maxXp: 25, radius: 270 },
+  { maxXp: 50, radius: 340 },
+  { maxXp: 100, radius: 410 },
+  { maxXp: 200, radius: 480 },
+  { maxXp: 400, radius: 550 },
+  { maxXp: 600, radius: 620 },
+  { maxXp: 1000, radius: 760 },
+  { maxXp: 2000, radius: 830 },
+  { maxXp: 4000, radius: 900 },
+  { maxXp: Infinity, radius: 2000 }
 ];
 
 // Get consistent hash for ordering tasks within the same tier
@@ -192,7 +192,7 @@ export function ActionTree() {
     // Create completedTasks Set inside useEffect to always get fresh data
     const completedTasks = new Set(userData?.completed_tasks || []);
     const isMobileLike =
-      window.matchMedia("(pointer: coarse)").matches || window.innerWidth < 9768;
+      window.matchMedia("(pointer: coarse)").matches || window.innerWidth < 768;
     const isMobileLite = isMobileLike;
 
     const svg = d3.select(svgRef.current);
@@ -929,61 +929,6 @@ export function ActionTree() {
       .attr("font-family", "var(--font-headline)")
       .text(`${totalXp} XP`);
 
-    // === LEGEND ===
-    const legendGroup = svg.append("g")
-      .attr("transform", `translate(50, ${LAYOUT.height - 30})`);
-
-    const legendItems = [
-      { color: PAUSEAI_ORANGE, label: "Erledigt", glow: true, pulse: false, width: 110 },
-      { color: "#666666", label: "Verfügbar", glow: false, pulse: false, width: 130 },
-      { color: PAUSEAI_GOLD, label: "Wichtig (2x Karma)", glow: true, pulse: true, width: 210 }
-    ];
-
-    let xOffset = 0;
-    legendItems.forEach((item) => {
-      if (item.glow) {
-        const legendGlow = legendGroup.append("circle")
-          .attr("cx", xOffset + 6)
-          .attr("cy", 0)
-          .attr("r", 11)
-          .attr("fill", item.color)
-          .attr("opacity", 0.2);
-
-        if (!isMobileLike) {
-          legendGlow.attr("filter", "url(#ambient-glow)");
-        }
-      }
-
-      legendGroup.append("circle")
-        .attr("cx", xOffset + 6)
-        .attr("cy", 0)
-        .attr("r", 6)
-        .attr("fill", item.color);
-
-      if (item.pulse && !isMobileLite) {
-        legendGroup.append("circle")
-          .attr("cx", xOffset + 6)
-          .attr("cy", 0)
-          .attr("r", 8)
-          .attr("fill", "none")
-          .attr("stroke", PAUSEAI_GOLD)
-          .attr("stroke-width", 1.5)
-          .attr("opacity", 0.8);
-      }
-
-      legendGroup.append("text")
-        .attr("x", xOffset + 22)
-        .attr("y", 1)
-        .attr("dy", "0.35em")
-        .attr("fill", "rgba(255, 255, 255, 0.7)")
-        .attr("font-size", "20px")
-        .attr("font-weight", "400")
-        .attr("font-family", "var(--font-body)")
-        .text(item.label);
-
-      xOffset += item.width;
-    });
-
     const setZoomPerfMode = (isActive: boolean) => {
       if (!isMobileLike) return;
       const displayValue = isActive ? "none" : null;
@@ -1209,6 +1154,24 @@ export function ActionTree() {
             className="w-full h-full"
             style={{ touchAction: "none" }}
           />
+        </div>
+
+        {/* Legende */}
+        <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm md:text-base text-gray-300">
+          {/* <span className="font-headline text-[#FF9416] mr-1">Legende:</span> */}
+          <span className="font-headline">Legende:</span>
+          <div className="flex items-center gap-2">
+            <span className="w-3 h-3 rounded-full bg-[#FF9416]" />
+            <span className="font-body">Erledigt</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-3 h-3 rounded-full bg-[#666666]" />
+            <span className="font-body">Verfügbar</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-3 h-3 rounded-full bg-[#FFD700]" />
+            <span className="font-body">Wichtig (2x Karma)</span>
+          </div>
         </div>
 
         {/* Instructions */}
