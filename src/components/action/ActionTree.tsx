@@ -199,6 +199,7 @@ export function ActionTree() {
     svg.selectAll("*").remove();
 
     const { width, height, centerX, centerY } = LAYOUT;
+    const backgroundRadius = Math.hypot(width / 2, height / 2) * 2.5;
     svg.attr("viewBox", `0 0 ${width} ${height}`);
 
     const defs = svg.append("defs");
@@ -287,7 +288,7 @@ export function ActionTree() {
       .attr("id", "bg-gradient")
       .attr("cx", "50%")
       .attr("cy", "50%")
-      .attr("r", "80%");
+      .attr("r", "100%");
 
     bgGradient.append("stop")
       .attr("offset", "0%")
@@ -295,13 +296,40 @@ export function ActionTree() {
       .attr("stop-opacity", 1);
 
     bgGradient.append("stop")
-      .attr("offset", "50%")
+      .attr("offset", "60%")
       .attr("stop-color", "#050508")
       .attr("stop-opacity", 1);
 
     bgGradient.append("stop")
+      .attr("offset", "88%")
+      .attr("stop-color", "#020203")
+      .attr("stop-opacity", 1);
+
+    bgGradient.append("stop")
       .attr("offset", "100%")
+      .attr("stop-color", "#000000")
+      .attr("stop-opacity", 1);
+
+    // Full-viewport fallback gradient behind zoomed content to avoid hard edges when zooming out
+    const viewportFadeGradient = defs.append("radialGradient")
+      .attr("id", "viewport-fade-gradient")
+      .attr("cx", "50%")
+      .attr("cy", "50%")
+      .attr("r", "100%");
+
+    viewportFadeGradient.append("stop")
+      .attr("offset", "0%")
+      .attr("stop-color", "#08080f")
+      .attr("stop-opacity", 1);
+
+    viewportFadeGradient.append("stop")
+      .attr("offset", "70%")
       .attr("stop-color", "#030305")
+      .attr("stop-opacity", 1);
+
+    viewportFadeGradient.append("stop")
+      .attr("offset", "100%")
+      .attr("stop-color", "#000000")
       .attr("stop-opacity", 1);
 
     // Orange ambient glow layer based on completed tasks
@@ -372,6 +400,20 @@ export function ActionTree() {
       .attr("height", height)
       .attr("fill", "url(#grid-fade-gradient)");
 
+    const backgroundClip = defs.append("clipPath")
+      .attr("id", "background-circle-clip");
+
+    backgroundClip.append("circle")
+      .attr("cx", centerX)
+      .attr("cy", centerY)
+      .attr("r", backgroundRadius);
+
+    // Static viewport backdrop (does not zoom) so zooming out keeps a smooth fade to black
+    svg.append("rect")
+      .attr("width", width)
+      .attr("height", height)
+      .attr("fill", "url(#viewport-fade-gradient)");
+
     // Create main group first (before background so background is at the bottom)
     const mainGroup = svg.append("g")
       .attr("class", "main-group");
@@ -380,35 +422,42 @@ export function ActionTree() {
     const backgroundGroup = mainGroup.append("g").attr("class", "background");
 
     // Base deep space background
-    backgroundGroup.append("rect")
-      .attr("width", width)
-      .attr("height", height)
+    backgroundGroup.append("circle")
+      .attr("cx", centerX)
+      .attr("cy", centerY)
+      .attr("r", backgroundRadius)
       .attr("fill", "#030305");
 
     if (!isMobileLite) {
-      backgroundGroup.append("rect")
-        .attr("width", width)
-        .attr("height", height)
+      backgroundGroup.append("circle")
+        .attr("cx", centerX)
+        .attr("cy", centerY)
+        .attr("r", backgroundRadius)
         .attr("fill", "url(#bg-gradient)");
 
       // Orange ambient glow layer
-      backgroundGroup.append("rect")
-        .attr("width", width)
-        .attr("height", height)
+      backgroundGroup.append("circle")
+        .attr("cx", centerX)
+        .attr("cy", centerY)
+        .attr("r", backgroundRadius)
         .attr("fill", "url(#ambient-glow-gradient)");
 
       // Subtle grid pattern with fade at edges
-      backgroundGroup.append("rect")
+      backgroundGroup.append("circle")
         .attr("class", "background-grid")
-        .attr("width", width)
-        .attr("height", height)
+        .attr("cx", centerX)
+        .attr("cy", centerY)
+        .attr("r", backgroundRadius)
         .attr("fill", "url(#grid-pattern)")
         .attr("mask", "url(#grid-fade-mask)");
+
     }
 
     // === PARTICLE SYSTEM ===
     if (!isMobileLite) {
-      const particlesGroup = backgroundGroup.append("g").attr("class", "particles");
+      const particlesGroup = backgroundGroup.append("g")
+        .attr("class", "particles")
+        .attr("clip-path", "url(#background-circle-clip)");
 
       // Base star particles
       const baseStarCount = 80;
