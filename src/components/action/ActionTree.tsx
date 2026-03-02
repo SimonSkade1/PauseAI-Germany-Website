@@ -682,8 +682,10 @@ export function ActionTree() {
 
       if (iconSvg) {
         const clonedIcon = group.node()!.appendChild(iconSvg.cloneNode(true) as SVGElement);
-        // Completed tasks get orange stroke, all others get gray
-        const iconStrokeColor = isCompleted ? PAUSEAI_ORANGE : "#666666";
+        // Completed tasks are orange, unfinished important tasks are black for contrast, others stay gray
+        const iconStrokeColor = isCompleted
+          ? PAUSEAI_ORANGE
+          : (isWichtig ? "#ffffff" : "#666666");
         d3.select(clonedIcon)
           .attr("class", "task-icon")
           .attr("width", iconSize)
