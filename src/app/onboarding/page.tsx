@@ -3,6 +3,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Image from "next/image";
+import { Info } from "lucide-react";
 import { useMemo } from "react";
 
 const JITSI_ONBOARDING_URL = "https://meet.jit.si/PauseAI-Deutschland-Kennenlernen";
@@ -287,6 +288,20 @@ export default function OnboardingPage() {
             </div>
           </div>
 
+          <div className="mb-6 rounded-sm border border-[#1a1a1a] bg-[#FFFAF5] p-4">
+            <div className="flex items-start gap-3">
+              <Info
+                aria-hidden="true"
+                className="mt-0.5 h-5 w-5 shrink-0 text-pause-black"
+                strokeWidth={2}
+              />
+              <p className="font-body text-pause-black/85">
+                Unsere Meetings finden per Jitsi statt. Du brauchst keinen Account und kannst sowohl am PC als
+                auch per Handy teilnehmen.
+              </p>
+            </div>
+          </div>
+
           <div className="grid gap-6 md:grid-cols-3">
             {SLOTS.map((slot) => {
               const nextStart = nextDates[slot.key];
@@ -327,9 +342,9 @@ export default function OnboardingPage() {
                     <button
                       type="button"
                       onClick={() => downloadIcs(slot.label, nextStart)}
-                      className="inline-flex items-center justify-center border border-[#1a1a1a] bg-white px-4 py-2 font-section text-xs tracking-wider text-black transition-colors hover:bg-[#FFFAF5] disabled:cursor-not-allowed disabled:text-gray-500"
+                      className="inline-flex items-center justify-center border border-[#1a1a1a] bg-[#FF9416] px-4 py-2 font-section text-xs tracking-wider text-black transition-colors hover:bg-[#e88510] disabled:cursor-not-allowed disabled:text-gray-500"
                     >
-                      Kalenderdatei (.ics)
+                      Standardkalender
                     </button>
                   </div>
                 </article>
@@ -339,7 +354,7 @@ export default function OnboardingPage() {
             <article className="flex h-full flex-col rounded-sm border-2 border-[#1a1a1a] bg-white p-6">
               <h2 className="font-section text-xl text-pause-black">Andere Zeit</h2>
               <p className="mt-3 font-body text-pause-black/85">
-                Passt Sonntag oder Montag nicht? Dann buch dir direkt ein 1:1.
+                Passt Sonntag oder Montag nicht? <br/> Dann buch dir direkt ein 1:1.
               </p>
               <div className="mt-5">
                 {calendlyConfigured ? (
@@ -440,7 +455,7 @@ export default function OnboardingPage() {
                 onClick={() => downloadWeeklyMeetingIcs(nextWeeklyMeeting)}
                 className="inline-flex items-center justify-center border border-[#1a1a1a] bg-white px-4 py-2 font-section text-xs tracking-wider text-black transition-colors hover:bg-[#FF9416]"
               >
-                Kalenderdatei (.ics)
+                Standardkalender
               </button>
             </div>
           </div>
