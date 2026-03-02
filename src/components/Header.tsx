@@ -4,7 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 
-export default function Header() {
+type HeaderProps = {
+  topOffset?: number;
+};
+
+export default function Header({ topOffset = 0 }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -54,14 +58,15 @@ export default function Header() {
 
   // Desktop navigation links (only 3 main links)
   const desktopNavLinks = [
+    { href: "/mitmachen", label: "Hilf mit", external: false },
     { href: "/ueber-uns", label: "Über uns", external: false },
     { href: "https://ki-risiken.de", label: "Mehr lernen", external: true },
-    { href: "/#was-du-tun-kannst", label: "Hilf mit", external: false },
   ];
 
   // Mobile menu structure with sublinks
   const mobileMenuItems = [
     { href: "/", label: "Startseite", external: false },
+    { href: "/mitmachen", label: "Hilf mit", external: false },
     { 
       href: "/ueber-uns", 
       label: "Über uns", 
@@ -73,7 +78,7 @@ export default function Header() {
       ]
     },
     { href: "https://ki-risiken.de", label: "Mehr lernen", external: true },
-    { href: "/#was-du-tun-kannst", label: "Hilf mit", external: false },
+    { href: "/kontakt", label: "Kontakt", external: false },
     { href: "https://pauseai.info", label: "International", external: true },
   ];
 
@@ -83,6 +88,7 @@ export default function Header() {
         className={`fixed top-0 left-0 right-0 z-50 bg-[#FF9416] transition-transform duration-300 ${
           isVisible ? "translate-y-0" : "-translate-y-full"
         } ${isMenuOpen ? "translate-y-0" : ""}`}
+        style={{ top: topOffset }}
       >
         <div className="flex items-center justify-between px-8 md:px-16 lg:px-24 py-4">
           <Link href="/" className="flex items-center gap-3">

@@ -1,77 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState, useEffect, useRef, FormEvent } from "react";
+import Link from "next/link";
+import React, { useState, useEffect, useRef, useCallback, FormEvent } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSet8gf61pTqCYv4Fa1OAKGt6BizTKBaeyTTqIyhdlbaoOf5iw/formResponse";
 const GOOGLE_FORM_EMAIL_ENTRY = "entry.1229172991";
-
-function NewsletterForm({ variant = "light" }: { variant?: "light" | "dark" | "orange" }) {
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-
-    setStatus("loading");
-
-    try {
-      // Submit to Google Forms using no-cors mode
-      await fetch(GOOGLE_FORM_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams({
-          [GOOGLE_FORM_EMAIL_ENTRY]: email,
-        }),
-      });
-
-      // With no-cors we can't read the response, but if no error was thrown, assume success
-      setStatus("success");
-      setEmail("");
-    } catch {
-      setStatus("error");
-    }
-  };
-
-  if (status === "success") {
-    return (
-      <p className={`font-body ${variant === "light" ? "text-pause-black" : variant === "orange" ? "text-black" : "text-white"}`}>
-        Danke für deine Anmeldung!
-      </p>
-    );
-  }
-
-  const inputClass = variant === "light" ? "newsletter-input-light" : variant === "orange" ? "newsletter-input-orange" : "newsletter-input";
-  const sizeClass = variant === "light" ? "px-4 py-3 text-base" : "px-4 py-2 text-sm";
-  const buttonSizeClass = variant === "light" ? "px-6 py-3 text-sm" : "px-4 py-2 text-xs";
-  const buttonClass = variant === "orange" ? "bg-black text-white hover:bg-gray-800" : "btn-orange";
-
-  return (
-    <form onSubmit={handleSubmit} className={`flex flex-col sm:flex-row ${variant === "light" ? "gap-3" : "gap-2"}`}>
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder={variant === "light" ? "Deine E-Mail-Adresse" : "E-Mail-Adresse"}
-        className={`${inputClass} flex-1 min-w-0 w-full ${sizeClass} font-body`}
-        required
-      />
-      <button
-        type="submit"
-        disabled={status === "loading"}
-        className={`${buttonClass} ${buttonSizeClass} font-section tracking-wider whitespace-nowrap disabled:opacity-50 transition-colors`}
-      >
-        {status === "loading" ? "..." : "Abonnieren"}
-      </button>
-    </form>
-  );
-}
 
 function NewsletterFormWithRef({ 
   variant = "light", 
@@ -141,7 +77,7 @@ function NewsletterFormWithRef({
       <button
         type="submit"
         disabled={status === "loading"}
-        className={`${buttonClass} ${buttonSizeClass} font-section tracking-wider whitespace-nowrap disabled:opacity-50 transition-colors ${cardHovered ? "bg-[#e88510]" : ""}`}
+        className={`${buttonClass} ${buttonSizeClass} font-section tracking-wider whitespace-nowrap disabled:opacity-50 transition-colors cursor-pointer ${cardHovered ? "bg-[#e88510]" : ""}`}
       >
         {status === "loading" ? "..." : "Abonnieren"}
       </button>
@@ -168,61 +104,79 @@ const quotes = [
   },
   {
     quote:
-      "Ich halte es für notwendig, auf europäischer und globaler Ebene rote Linien für Anwendungen [von KI] zu ziehen, die fundamentale Sicherheits- oder Menschenrechtsrisiken erzeugen – etwa autonome Waffensysteme ohne echte menschliche Kontrolle, KI zur massiven Verhaltensmanipulation oder nicht kontrollierbare Systemarchitekturen.",
-    name: "Diana Herbstreuth",
-    title: "Bundestagsabgeordnete (CDU)",
-    image: "/neutral_profile_pic.png",
-    link: "https://www.abgeordnetenwatch.de/profile/diana-herbstreuth",
+      "International unterstütze ich Initiativen, die rote Linien für KI definieren, autonome Waffensysteme ächten und globale Sicherheitsstandards schaffen. Deutschland kann dabei gemeinsam mit europäischen Partnern wichtige Impulse setzen, etwa durch stärkere Forschung zu Sicherheit und Kontrollierbarkeit sowie internationale Transparenzregeln für besonders leistungsfähige Modelle.",
+    name: "Max Lucks",
+    title: "Bundestagsabgeordneter (Bündnis 90/Die Grünen)",
+    image: "/Max_Lucks_(2023).jpg",
+    link: "https://www.abgeordnetenwatch.de/profile/max-lucks/fragen-antworten/sehr-geehrter-herr-lucks-wie-engagieren-sie-sich-fuer-die-weltweite-internationale-zusammenarbeit-im-umgang-mit",
+    attribution: "Büro Max Lucks / Wikimedia Commons",
+    sourceLink: "https://commons.wikimedia.org/wiki/File:Max_Lucks_(2023).jpg",
+    licenseLink: "https://creativecommons.org/licenses/by-sa/4.0/",
   },
   {
     quote:
       "It might be quite sensible to just stop developing these things any further.",
     name: "Geoffrey Hinton",
     title: 'Nobel Prize winner & "Godfather of AI"',
-    image: "https://pauseai.info/_app/immutable/assets/hinton.CATQdHCu.jpeg",
+    image: "/Geoffrey_E._Hinton,_2024_Nobel_Prize_Laureate_in_Physics_(cropped1).jpg",
+    link: "https://www.forbes.com/sites/craigsmith/2023/05/04/geoff-hinton-ais-most-famous-researcher-warns-of-existential-threat/",
+    attribution: "Arthur Petron / Wikimedia Commons",
+    sourceLink: "https://commons.wikimedia.org/wiki/File:Geoffrey_E._Hinton,_2024_Nobel_Prize_Laureate_in_Physics_(cropped1).jpg",
+    licenseLink: "https://creativecommons.org/licenses/by-sa/4.0/",
   },
   {
     quote:
       "Verbindliche internationale Abkommen und ethische Grundlagen für den Einsatz von KI werden benötigt um ein Wettrennen zwischen den Staaten um die leistungsfähigste KI zu unterbinden.",
     name: "Desiree Becker",
     title: "Bundestagsabgeordnete (Die Linke)",
-    image: "/07_Desiree_Becker-nah-M.jpg",
-    link: "https://www.abgeordnetenwatch.de/profile/desiree-becker",
-  },
-  {
-    quote:
-      "The development of full artificial intelligence could spell the end of the human race.",
-    name: "Stephen Hawking",
-    title: "Theoretical physicist and cosmologist",
-    image: "https://pauseai.info/_app/immutable/assets/hawking.CjUk02YF.jpeg",
-  },
-  {
-    quote:
-      "International unterstütze ich Initiativen, die rote Linien für KI definieren, autonome Waffensysteme ächten und globale Sicherheitsstandards schaffen. Deutschland kann dabei gemeinsam mit europäischen Partnern wichtige Impulse setzen, etwa durch stärkere Forschung zu Sicherheit und Kontrollierbarkeit sowie internationale Transparenzregeln für besonders leistungsfähige Modelle.",
-    name: "Max Lucks",
-    title: "Bundestagsabgeordneter (Bündnis 90/Die Grünen)",
-    image: "/MaxLucks_credit_FinnKantus_07.jpg",
-    link: "https://www.abgeordnetenwatch.de/profile/max-lucks",
-  },
-  {
-    quote: "We should have to expect the machines to take control.",
-    name: "Alan Turing",
-    title: "Inventor of the modern computer",
-    image: "https://pauseai.info/_app/immutable/assets/turing.CU9lsOWi.jpeg",
+    link: "https://www.abgeordnetenwatch.de/profile/desiree-becker/fragen-antworten/sehr-geehrte-frau-becker-wie-engagieren-sie-sich-fuer-die-weltweite-internationale-zusammenarbeit-im-umgang"
   },
   {
     quote:
       "Banning powerful AI systems beyond GPT-4 abilities with autonomy would be a good start.",
     name: "Yoshua Bengio",
     title: "AI Turing Award winner",
-    image: "https://pauseai.info/_app/immutable/assets/bengio.CI8A1hfU.jpeg",
+    image: "/ICLR_2025_-_Yoshua_Bengio_02.jpg",
+    link: "https://yoshuabengio.org/2023/05/22/how-rogue-ais-may-arise/",
+    attribution: "Xuthoria / Wikimedia Commons",
+    sourceLink: "https://commons.wikimedia.org/wiki/File:ICLR_2025_-_Yoshua_Bengio_02.jpg",
+    licenseLink: "https://creativecommons.org/licenses/by-sa/4.0/",
+  },
+  {
+    quote:
+      "Ich halte es für notwendig, auf europäischer und globaler Ebene rote Linien für Anwendungen [von KI] zu ziehen, die fundamentale Sicherheits- oder Menschenrechtsrisiken erzeugen – etwa autonome Waffensysteme ohne echte menschliche Kontrolle, KI zur massiven Verhaltensmanipulation oder nicht kontrollierbare Systemarchitekturen.",
+    name: "Diana Herbstreuth",
+    title: "Bundestagsabgeordnete (CDU)",
+    link: "https://www.abgeordnetenwatch.de/profile/diana-herbstreuth/fragen-antworten/sehr-geehrte-frau-herbstreuth-wie-engagieren-sie-sich-fuer-die-weltweite-zusammenarbeit-im-umgang-mit"
+  },
+  {
+    quote:
+      "The development of full artificial intelligence could spell the end of the human race.",
+    name: "Stephen Hawking",
+    title: "Theoretical physicist and cosmologist",
+    image: "/Stephen_Hawking.StarChild.jpg",
+    link: "https://www.bbc.com/news/technology-30290540",
+    attribution: "NASA / Wikimedia Commons",
+    sourceLink: "https://commons.wikimedia.org/wiki/File:Stephen_Hawking.StarChild.jpg",
+    licenseLink: "https://commons.wikimedia.org/wiki/Public_domain",
+  },
+  {
+    quote: "for it seems probable that once the machine thinking method had started, it would not take long to outstrip our feeble powers. ... At some stage therefore we should have to expect the machines to take control",
+    name: "Alan Turing",
+    title: "Inventor of the modern computer",
+    image: "/Alan_Turing_(1951).jpg",
+    link: "https://en.wikiquote.org/wiki/Alan_Turing",
+    attribution: "Elliott & Fry / Wikimedia Commons",
+    sourceLink: "https://commons.wikimedia.org/wiki/File:Alan_Turing_(1951).jpg",
+    licenseLink: "https://creativecommons.org/publicdomain/mark/1.0/",
   },
 ];
 
 
+
 function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-start overflow-hidden pt-20">
+    <section className="relative min-h-screen flex items-start overflow-hidden pt-32 md:pt-20">
       {/* Background image */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -242,9 +196,14 @@ function HeroSection() {
           <h1 className="font-headline text-2xl text-white mb-6 md:text-5xl lg:text-5xl xl:text-6xl animate-fade-in-up">
             Wir können den <br />KI-Kontrollverlust<br /> noch verhindern
           </h1>
-          <p className="font-body-bold text-lg text-white/90 md:text-xl lg:text-2xl animate-fade-in-up delay-200">
-            Hilf mit, jetzt Klarheit zu schaffen!
-          </p>
+          <div className="animate-fade-in-up delay-200">
+            <Link
+              href="/mitmachen"
+              className="inline-flex items-center justify-center border border-white bg-[#FF9416] px-5 py-2.5 font-section text-sm tracking-wider text-black transition-colors hover:bg-[#e88510] md:px-6 md:py-3 md:text-base"
+            >
+              Hilf mit, jetzt Klarheit zu schaffen!
+            </Link>
+          </div>
         </div>
       </div>
     </section>
@@ -255,7 +214,6 @@ function QuotesSection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const autoAdvanceRef = useRef<NodeJS.Timeout | null>(null);
 
   // Handle scroll to update active index
   useEffect(() => {
@@ -273,25 +231,11 @@ function QuotesSection() {
     return () => container.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Auto-advance every 8 seconds
-  useEffect(() => {
-    const startAutoAdvance = () => {
-      autoAdvanceRef.current = setInterval(() => {
-        scrollToIndex((activeIndex + 1) % quotes.length);
-      }, 8000);
-    };
-
-    startAutoAdvance();
-    return () => {
-      if (autoAdvanceRef.current) clearInterval(autoAdvanceRef.current);
-    };
-  }, [activeIndex]);
-
   // Scroll to specific quote with animation
-  const scrollToIndex = (index: number) => {
+  const scrollToIndex = useCallback((index: number) => {
     const container = scrollContainerRef.current;
     if (!container) return;
-    
+
     const itemWidth = container.offsetWidth;
     const targetScroll = index * itemWidth;
     const startScroll = container.scrollLeft;
@@ -304,16 +248,16 @@ function QuotesSection() {
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / duration, 1);
       const easeOut = 1 - Math.pow(1 - progress, 3);
-      
+
       container.scrollLeft = startScroll + distance * easeOut;
-      
+
       if (progress < 1) {
         requestAnimationFrame(animateScroll);
       }
     };
 
     requestAnimationFrame(animateScroll);
-  };
+  }, []);
 
   const nextQuote = () => {
     scrollToIndex((activeIndex + 1) % quotes.length);
@@ -331,28 +275,39 @@ function QuotesSection() {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Header with Logo/Photo and Name - left aligned */}
-      <div className="flex items-start gap-6 md:gap-8 mb-6 md:mb-8 px-6 md:px-12 min-h-[150px] md:min-h-[100px]">
-        <div className="relative w-16 h-16 md:w-20 md:h-20 flex-shrink-0 overflow-hidden bg-white">
-          <Image
-            src={q.image}
-            alt={q.name}
-            fill
-            sizes="(max-width: 768px) 64px, 80px"
-            className="object-cover"
-          />
-        </div>
-        <div className="flex flex-col justify-center flex-1 min-h-[80px] md:min-h-[80px]">
+      {/* Header with Logo/Photo and Name - centered */}
+      <div className="flex flex-col items-center gap-3 md:gap-4 mb-6 md:mb-8 px-6 md:px-12">
+        {(q as { image?: string }).image && (
+          <div className="relative w-16 h-16 md:w-20 md:h-20 flex-shrink-0 overflow-hidden bg-white">
+            <Image
+              src={(q as { image: string }).image}
+              alt={q.name}
+              fill
+              sizes="(max-width: 768px) 64px, 80px"
+              className="object-cover"
+            />
+          </div>
+        )}
+        <div className="flex flex-col items-center text-center">
           <h3 className="font-headline text-white text-xl md:text-2xl lg:text-3xl leading-tight">
-            {(q as { link?: string }).link ? (
-              <a href={(q as { link?: string }).link} target="_blank" rel="noopener noreferrer" className="hover:text-[#FF9416] transition-colors">
-                {q.name}
-              </a>
-            ) : (
-              q.name
-            )}
+            {q.name}
           </h3>
           <p className="font-body text-white/70 text-sm md:text-base mt-1 leading-relaxed">{q.title}</p>
+          {(q as { attribution?: string; sourceLink?: string; licenseLink?: string }).sourceLink && (
+            <p className="font-body text-white/40 text-xs mt-2 leading-relaxed">
+              Foto: {(q as { attribution?: string }).attribution}
+              {(q as { sourceLink?: string }).sourceLink && (
+                <>
+                  {" · "}<a href={(q as { sourceLink?: string }).sourceLink} target="_blank" rel="noopener noreferrer" className="text-white/80 underline underline-offset-2 decoration-white/50 hover:text-white transition-colors">Quelle</a>
+                </>
+              )}
+              {(q as { licenseLink?: string }).licenseLink && (
+                <>
+                  {" · "}<a href={(q as { licenseLink?: string }).licenseLink} target="_blank" rel="noopener noreferrer" className="text-white/80 underline underline-offset-2 decoration-white/50 hover:text-white transition-colors">CC BY-SA 4.0</a>
+                </>
+              )}
+            </p>
+          )}
         </div>
       </div>
 
@@ -364,12 +319,12 @@ function QuotesSection() {
             {/* Left Arrow - hidden on mobile, visible on hover on desktop */}
             <button
               onClick={prevQuote}
-              className={`hidden md:flex absolute left-0 flex-shrink-0 w-10 h-10 items-center justify-center transition-opacity duration-200 ${
+              className={`hidden md:flex absolute left-0 flex-shrink-0 w-14 h-14 -translate-x-2 items-center justify-center transition-opacity duration-200 cursor-pointer ${
                 isHovered ? "opacity-100" : "opacity-0"
               }`}
               aria-label="Previous quote"
             >
-              <svg className="w-8 h-8 text-white hover:text-[#FF9416] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-10 h-10 text-white hover:text-[#FF9416] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
@@ -403,16 +358,28 @@ function QuotesSection() {
             {/* Right Arrow - hidden on mobile, visible on hover on desktop */}
             <button
               onClick={nextQuote}
-              className={`hidden md:flex absolute right-0 flex-shrink-0 w-10 h-10 items-center justify-center transition-opacity duration-200 ${
+              className={`hidden md:flex absolute right-0 flex-shrink-0 w-14 h-14 translate-x-2 items-center justify-center transition-opacity duration-200 cursor-pointer ${
                 isHovered ? "opacity-100" : "opacity-0"
               }`}
               aria-label="Next quote"
             >
-              <svg className="w-8 h-8 text-white hover:text-[#FF9416] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-12 h-12 text-white hover:text-[#FF9416] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 5l7 7-7 7" />
               </svg>
             </button>
           </div>
+          {(q as { link?: string }).link && (
+            <p className="font-body text-white/60 text-sm text-center mt-4">
+              <a
+                href={(q as { link?: string }).link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/85 underline underline-offset-2 decoration-white/60 hover:text-white transition-colors"
+              >
+                Quelle des Zitats
+              </a>
+            </p>
+          )}
 
           {/* Square Dots Indicator - aligned with quote max-width */}
           <div className="flex justify-between items-center h-6 mt-12 md:mt-16 mx-6 md:mx-0" style={{ maxWidth: '60ch', margin: '3rem auto 0' }}>
@@ -420,7 +387,7 @@ function QuotesSection() {
               <button
                 key={index}
                 onClick={() => scrollToIndex(index)}
-                className={`w-2.5 h-2.5 transition-all duration-150 ${
+                className={`w-6 h-6 transition-all duration-150 hover:scale-150 cursor-pointer ${
                   index === activeIndex ? "bg-[#FF9416]" : "bg-white/40"
                 }`}
                 aria-label={`Go to quote ${index + 1}`}
@@ -528,11 +495,9 @@ function ActionSection() {
         </h2>
 
         <div className="space-y-6">
-          {/* Newsletter */}
-          <div 
-            onClick={handleNewsletterCardClick}
-            onMouseEnter={() => setNewsletterHovered(true)}
-            onMouseLeave={() => setNewsletterHovered(false)}
+          {/* Onboarding */}
+          <Link
+            href="/mitmachen"
             className="group flex bg-white p-6 md:p-8 border border-[#1a1a1a] md:border-2 cursor-pointer hover:bg-[#FFFAF5] transition-colors min-h-[190px]"
           >
             <div className="flex items-start md:gap-4 flex-1">
@@ -541,44 +506,14 @@ function ActionSection() {
               </span>
               <div className="flex-1 flex flex-col h-full">
                 <h3 className="font-section text-lg text-pause-black mb-3 md:text-xl">
-                  Folge unserem Newsletter
+                  Werde Teil der <span className="text-[#FF9416] border-b-2 border-transparent group-hover:border-[#FF9416] transition-colors">Bewegung</span>
                 </h3>
-                <div className="mb-4">
-                  <NewsletterFormWithRef 
-                    variant="light" 
-                    inputRef={newsletterInputRef}
-                    glowing={newsletterGlow}
-                    cardHovered={newsletterHovered}
-                  />
-                </div>
                 <p className="font-body text-pause-black/80 text-base mt-auto text-right">
-                  Damit du über wichtige Neuigkeiten und Events informiert bleibst.
+                  Lerne uns kennen und erfahre, wie du mitmachen kannst.
                 </p>
               </div>
             </div>
-          </div>
-
-          {/* Discord */}
-          <a 
-            href="https://discord.gg/pvZ5PmRX4R"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group flex bg-white p-6 md:p-8 border border-[#1a1a1a] md:border-2 cursor-pointer hover:bg-[#FFFAF5] transition-colors min-h-[190px]"
-          >
-            <div className="flex items-start md:gap-4 flex-1">
-              <span className="hidden md:block text-[#FF9416] text-4xl md:text-5xl flex-shrink-0 leading-none mt-[-0.32em] transition-transform group-hover:translate-x-2">
-                →
-              </span>
-              <div className="flex-1 flex flex-col h-full">
-                <h3 className="font-section text-lg text-pause-black mb-3 md:text-xl">
-                  Tritt unserem <span className="text-[#FF9416] border-b-2 border-transparent group-hover:border-[#FF9416] transition-colors">Discord</span> bei
-                </h3>
-                <p className="font-body text-pause-black/80 text-base mt-auto text-right">
-                  Werde Teil unserer Community und hilf mit.
-                </p>
-              </div>
-            </div>
-          </a>
+          </Link>
 
           {/* Werde jetzt aktiv */}
           <a
@@ -600,12 +535,9 @@ function ActionSection() {
             </div>
           </a>
 
-
-          {/* Microcommit */}
-          <a 
-            href="https://microcommit.io"
-            target="_blank"
-            rel="noopener noreferrer"
+          {/* Kontakt zu Abgeordneten */}
+          <Link
+            href="/contactlawmakers"
             className="group flex bg-white p-6 md:p-8 border border-[#1a1a1a] md:border-2 cursor-pointer hover:bg-[#FFFAF5] transition-colors min-h-[190px]"
           >
             <div className="flex items-start md:gap-4 flex-1">
@@ -614,14 +546,15 @@ function ActionSection() {
               </span>
               <div className="flex-1 flex flex-col h-full">
                 <h3 className="font-section text-lg text-pause-black mb-3 md:text-xl">
-                  Tritt <span className="text-[#FF9416] border-b-2 border-transparent group-hover:border-[#FF9416] transition-colors">Microcommit.io</span> bei
+                  Kontaktiere deinen{" "}
+                  <span className="text-[#FF9416] border-b-2 border-transparent group-hover:border-[#FF9416] transition-colors">Abgeordneten</span>
                 </h3>
                 <p className="font-body text-pause-black/80 text-base mt-auto text-right">
-                  5min/Woche Aufwand die dennoch viel bewegen. Deutsche Version kommt bald.
+                  Finde deinen Abgeordneten mit unserem Tool und nutze unsere Mailvorlage.
                 </p>
               </div>
             </div>
-          </a>
+          </Link>
 
           {/* Spenden */}
           <a 
@@ -655,7 +588,27 @@ function ActionSection() {
 export default function Home() {
   return (
     <>
-      <Header />
+      <div className="fixed left-0 right-0 top-0 z-[60] h-14 border-b border-[#FF9416]/35 bg-black/95 text-[#FF9416] shadow-[0_8px_24px_rgba(0,0,0,0.35)]">
+        <div className="mx-auto flex h-full max-w-7xl items-center justify-center gap-2 px-2 sm:gap-3 sm:px-6 md:px-10">
+          <p className="hidden truncate text-center text-[#FF9416] sm:block">
+            <span className="font-body-bold text-[11px] sm:text-sm md:text-base">
+              Appell zum KI-Gipfel 2026
+            </span>
+            <span className="ml-2 hidden font-body text-xs md:text-sm lg:inline">
+              Über 140 Professorinnen und Professoren fordern mehr Sicherheit beim Thema KI
+            </span>
+          </p>
+          <Link
+            href="/appell"
+            className="group inline-flex flex-shrink-0 items-center gap-1 whitespace-nowrap rounded-sm border border-[#FF9416] bg-[#FF9416]/10 px-3 py-1.5 font-section text-[11px] uppercase tracking-[0.12em] text-[#FF9416] transition-colors hover:bg-[#FF9416] hover:text-black sm:gap-2 sm:px-4 sm:py-1.5 sm:text-xs sm:tracking-[0.14em]"
+          >
+            <span className="sm:hidden">Zum KI-Gipfel-Appell</span>
+            <span className="hidden sm:inline">Zum Appell</span>
+            <span className="transition-transform group-hover:translate-x-0.5">→</span>
+          </Link>
+        </div>
+      </div>
+      <Header topOffset={56} />
       <main>
         <HeroSection />
         <ProblemSolutionSection />

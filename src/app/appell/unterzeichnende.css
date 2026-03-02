@@ -1,0 +1,94 @@
+/* ============================================
+   Unterzeichnende Section - List
+   ============================================ */
+
+.unterzeichnende-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.unterzeichnende-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.unterzeichnende-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.unterzeichnende-name {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.unterzeichnende-chair {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.unterzeichnende-cta {
+  margin: 1.8rem 0 0.5rem 0;
+  padding: 1.4rem;
+  background: linear-gradient(120deg, #fff5eb 0%, #ffecd0 100%);
+  border: 1px solid #f1d2ad;
+  border-radius: 0.95rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.unterzeichnende-cta-text {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #1a1a1a;
+  text-align: center;
+}
+
+.unterzeichnende-cta-text a {
+  font-family: var(--font-section);
+  font-weight: 700;
+  color: var(--appell-orange);
+  text-decoration: none;
+}
+
+.unterzeichnende-cta-text a:hover {
+  text-decoration: underline;
+}
+
+@media (min-width: 768px) {
+  .unterzeichnende-cta {
+    padding: 1.6rem;
+  }
+
+  .unterzeichnende-name {
+    font-size: 1.0625rem;
+  }
+
+  .unterzeichnende-chair {
+    font-size: 0.9375rem;
+  }
+}
+
+@media print {
+  .unterzeichnende-name {
+    font-size: 0.8rem;
+  }
+
+  .unterzeichnende-chair {
+    font-size: 0.7rem;
+  }
+}
