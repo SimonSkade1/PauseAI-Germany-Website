@@ -191,6 +191,9 @@ export function ActionTree() {
 
     // Create completedTasks Set inside useEffect to always get fresh data
     const completedTasks = new Set(userData?.completed_tasks || []);
+    const isMobileLike =
+      window.matchMedia("(pointer: coarse)").matches || window.innerWidth < 9768;
+    const isMobileLite = isMobileLike;
 
     const svg = d3.select(svgRef.current);
     svg.selectAll("*").remove();
@@ -373,15 +376,6 @@ export function ActionTree() {
     const mainGroup = svg.append("g")
       .attr("class", "main-group");
 
-    // Setup zoom behavior
-    const zoom = d3.zoom<SVGSVGElement, unknown>()
-      .scaleExtent([0.15, 3])
-      .on("zoom", (event) => {
-        mainGroup.attr("transform", event.transform);
-      });
-
-    svg.call(zoom);
-
     // Background layers (inside main group so they pan/zoom with the tree)
     const backgroundGroup = mainGroup.append("g").attr("class", "background");
 
@@ -391,103 +385,111 @@ export function ActionTree() {
       .attr("height", height)
       .attr("fill", "#030305");
 
-    backgroundGroup.append("rect")
-      .attr("width", width)
-      .attr("height", height)
-      .attr("fill", "url(#bg-gradient)");
+    if (!isMobileLite) {
+      backgroundGroup.append("rect")
+        .attr("width", width)
+        .attr("height", height)
+        .attr("fill", "url(#bg-gradient)");
 
-    // Orange ambient glow layer
-    backgroundGroup.append("rect")
-      .attr("width", width)
-      .attr("height", height)
-      .attr("fill", "url(#ambient-glow-gradient)");
+      // Orange ambient glow layer
+      backgroundGroup.append("rect")
+        .attr("width", width)
+        .attr("height", height)
+        .attr("fill", "url(#ambient-glow-gradient)");
 
-    // Subtle grid pattern with fade at edges
-    backgroundGroup.append("rect")
-      .attr("width", width)
-      .attr("height", height)
-      .attr("fill", "url(#grid-pattern)")
-      .attr("mask", "url(#grid-fade-mask)");
-
-    // === PARTICLE SYSTEM ===
-
-    const particlesGroup = backgroundGroup.append("g").attr("class", "particles");
-
-    // Base star particles
-    const baseStarCount = 80;
-    for (let i = 0; i < baseStarCount; i++) {
-      const px = Math.random() * width;
-      const py = Math.random() * height;
-      const size = Math.random() * 1.5 + 0.3;
-
-      const colors = ["#ffffff", "#e8f4ff", "#fff4e8", PAUSEAI_ORANGE];
-      const starColor = Math.random() > 0.85 ? colors[3] : colors[Math.floor(Math.random() * 3)];
-
-      const star = particlesGroup.append("circle")
-        .attr("cx", px)
-        .attr("cy", py)
-        .attr("r", size)
-        .attr("fill", starColor)
-        .attr("opacity", Math.random() * 0.4 + 0.1);
-
-      const twinkleDuration = 2000 + Math.random() * 5000;
-      star.append("animate")
-        .attr("attributeName", "opacity")
-        .attr("values", `${Math.random() * 0.15 + 0.05};${Math.random() * 0.5 + 0.2};${Math.random() * 0.15 + 0.05}`)
-        .attr("dur", `${twinkleDuration}ms`)
-        .attr("repeatCount", "indefinite");
+      // Subtle grid pattern with fade at edges
+      backgroundGroup.append("rect")
+        .attr("class", "background-grid")
+        .attr("width", width)
+        .attr("height", height)
+        .attr("fill", "url(#grid-pattern)")
+        .attr("mask", "url(#grid-fade-mask)");
     }
 
-    // Energy particles for completed tasks
-    const energyParticleCount = completedTaskCount * 3;
-    for (let i = 0; i < energyParticleCount; i++) {
-      const angle = (i / energyParticleCount) * Math.PI * 2 + Math.random() * 0.5;
-      const distance = 80 + Math.random() * 450;
-      const px = centerX + Math.cos(angle) * distance;
-      const py = centerY + Math.sin(angle) * distance;
-      const size = Math.random() * 2.5 + 0.8;
+    // === PARTICLE SYSTEM ===
+    if (!isMobileLite) {
+      const particlesGroup = backgroundGroup.append("g").attr("class", "particles");
 
-      const particleGlowId = `particle-glow-${i}`;
-      const particleGlow = defs.append("filter")
-        .attr("id", particleGlowId)
-        .attr("x", "-100%")
-        .attr("y", "-100%")
-        .attr("width", "300%")
-        .attr("height", "300%");
+      // Base star particles
+      const baseStarCount = 80;
+      for (let i = 0; i < baseStarCount; i++) {
+        const px = Math.random() * width;
+        const py = Math.random() * height;
+        const size = Math.random() * 1.5 + 0.3;
 
-      particleGlow.append("feGaussianBlur")
-        .attr("stdDeviation", 2)
-        .attr("result", "blur");
+        const colors = ["#ffffff", "#e8f4ff", "#fff4e8", PAUSEAI_ORANGE];
+        const starColor = Math.random() > 0.85 ? colors[3] : colors[Math.floor(Math.random() * 3)];
 
-      const particleMerge = particleGlow.append("feMerge");
-      particleMerge.append("feMergeNode").attr("in", "blur");
-      particleMerge.append("feMergeNode").attr("in", "SourceGraphic");
+        const star = particlesGroup.append("circle")
+          .attr("cx", px)
+          .attr("cy", py)
+          .attr("r", size)
+          .attr("fill", starColor)
+          .attr("opacity", Math.random() * 0.4 + 0.1);
 
-      const particle = particlesGroup.append("circle")
-        .attr("cx", px)
-        .attr("cy", py)
-        .attr("r", size)
-        .attr("fill", PAUSEAI_ORANGE)
-        .attr("opacity", Math.random() * 0.5 + 0.2)
-        .attr("filter", `url(#${particleGlowId})`);
+        const twinkleDuration = 2000 + Math.random() * 5000;
+        star.append("animate")
+          .attr("attributeName", "opacity")
+          .attr("values", `${Math.random() * 0.15 + 0.05};${Math.random() * 0.5 + 0.2};${Math.random() * 0.15 + 0.05}`)
+          .attr("dur", `${twinkleDuration}ms`)
+          .attr("repeatCount", "indefinite");
+      }
 
-      const pulseDuration = 2000 + Math.random() * 3000;
-      particle.append("animate")
-        .attr("attributeName", "opacity")
-        .attr("values", `${Math.random() * 0.2 + 0.1};${Math.random() * 0.6 + 0.3};${Math.random() * 0.2 + 0.1}`)
-        .attr("dur", `${pulseDuration}ms`)
-        .attr("repeatCount", "indefinite");
+      // Energy particles for completed tasks
+      const energyParticleCount = completedTaskCount * 3;
+      const energyParticleFilterId = "energy-particle-glow";
+      if (energyParticleCount > 0) {
+        const energyParticleGlow = defs.append("filter")
+          .attr("id", energyParticleFilterId)
+          .attr("x", "-100%")
+          .attr("y", "-100%")
+          .attr("width", "300%")
+          .attr("height", "300%");
 
-      particle.append("animate")
-        .attr("attributeName", "r")
-        .attr("values", `${size};${size * 1.5};${size}`)
-        .attr("dur", `${pulseDuration}ms`)
-        .attr("repeatCount", "indefinite");
+        energyParticleGlow.append("feGaussianBlur")
+          .attr("stdDeviation", 2)
+          .attr("result", "blur");
+
+        const particleMerge = energyParticleGlow.append("feMerge");
+        particleMerge.append("feMergeNode").attr("in", "blur");
+        particleMerge.append("feMergeNode").attr("in", "SourceGraphic");
+      }
+
+      for (let i = 0; i < energyParticleCount; i++) {
+        const angle = (i / energyParticleCount) * Math.PI * 2 + Math.random() * 0.5;
+        const distance = 80 + Math.random() * 450;
+        const px = centerX + Math.cos(angle) * distance;
+        const py = centerY + Math.sin(angle) * distance;
+        const size = Math.random() * 2.5 + 0.8;
+
+        const particle = particlesGroup.append("circle")
+          .attr("cx", px)
+          .attr("cy", py)
+          .attr("r", size)
+          .attr("fill", PAUSEAI_ORANGE)
+          .attr("opacity", Math.random() * 0.5 + 0.2)
+          .attr("filter", `url(#${energyParticleFilterId})`);
+
+        const pulseDuration = 2000 + Math.random() * 3000;
+        particle.append("animate")
+          .attr("attributeName", "opacity")
+          .attr("values", `${Math.random() * 0.2 + 0.1};${Math.random() * 0.6 + 0.3};${Math.random() * 0.2 + 0.1}`)
+          .attr("dur", `${pulseDuration}ms`)
+          .attr("repeatCount", "indefinite");
+
+        particle.append("animate")
+          .attr("attributeName", "r")
+          .attr("values", `${size};${size * 1.5};${size}`)
+          .attr("dur", `${pulseDuration}ms`)
+          .attr("repeatCount", "indefinite");
+      }
     }
 
     // === DRAW TIER CIRCLES ===
 
+    const mobileMaxRingRadius = 900;
     XP_TIERS.forEach((tier, tierIndex) => {
+      if (isMobileLike && tier.radius > mobileMaxRingRadius) return;
       mainGroup.append("circle")
         .attr("class", `tier-circle tier-${tierIndex}`)
         .attr("cx", centerX)
@@ -497,7 +499,7 @@ export function ActionTree() {
         .attr("stroke", PAUSEAI_ORANGE)
         .attr("stroke-width", 1)
         .attr("stroke-opacity", 0.15)
-        .attr("stroke-dasharray", "3,3");
+        .attr("stroke-dasharray", isMobileLike ? null : "3,3");
     });
 
     // === DRAW TASK NODES ===
@@ -511,32 +513,35 @@ export function ActionTree() {
       .forEach(item => {
         const pos = getPositionForTier(item.angle, XP_TIERS[item.tierIndex].radius);
 
-        // Create unique gradient for this line
-        const gradientId = `line-gradient-${item.task.id}`;
-        const gradient = defs.append("linearGradient")
-          .attr("id", gradientId)
-          .attr("gradientUnits", "userSpaceOnUse")
-          .attr("x1", centerX)
-          .attr("y1", centerY)
-          .attr("x2", pos.x)
-          .attr("y2", pos.y);
+        let lineStroke = "rgba(255, 148, 22, 0.5)";
+        if (!isMobileLite) {
+          const gradientId = `line-gradient-${item.task.id}`;
+          const gradient = defs.append("linearGradient")
+            .attr("id", gradientId)
+            .attr("gradientUnits", "userSpaceOnUse")
+            .attr("x1", centerX)
+            .attr("y1", centerY)
+            .attr("x2", pos.x)
+            .attr("y2", pos.y);
 
-        gradient.append("stop")
-          .attr("offset", "0%")
-          .attr("stop-color", PAUSEAI_ORANGE)
-          .attr("stop-opacity", 0.2);
+          gradient.append("stop")
+            .attr("offset", "0%")
+            .attr("stop-color", PAUSEAI_ORANGE)
+            .attr("stop-opacity", 0.2);
 
-        gradient.append("stop")
-          .attr("offset", "100%")
-          .attr("stop-color", PAUSEAI_ORANGE)
-          .attr("stop-opacity", 0);
+          gradient.append("stop")
+            .attr("offset", "100%")
+            .attr("stop-color", PAUSEAI_ORANGE)
+            .attr("stop-opacity", 0);
+          lineStroke = `url(#${gradientId})`;
+        }
 
         mainGroup.append("line")
           .attr("x1", centerX)
           .attr("y1", centerY)
           .attr("x2", pos.x)
           .attr("y2", pos.y)
-          .attr("stroke", `url(#${gradientId})`)
+          .attr("stroke", lineStroke)
           .attr("stroke-width", 2)
           .attr("stroke-linecap", "round");
       });
@@ -554,6 +559,81 @@ export function ActionTree() {
         .attr("class", "node-group")
         .attr("transform", `translate(${pos.x}, ${pos.y})`)
         .style("cursor", "pointer");
+
+      // Transparent click area (larger than icon for easier clicking)
+      group.append("circle")
+        .attr("class", "click-area")
+        .attr("r", 25)
+        .attr("fill", "transparent")
+        .style("pointer-events", "all");
+
+      if (isMobileLite) {
+        const nodeStroke = isCompleted ? PAUSEAI_ORANGE : (isWichtig ? PAUSEAI_GOLD : "#666666");
+
+        group.append("circle")
+          .attr("r", 18)
+          .attr("fill", "#12121b")
+          .attr("stroke", nodeStroke)
+          .attr("stroke-width", 2);
+
+        if (task.icon) {
+          let iconSvg = iconCacheRef.current.get(task.icon);
+          if (!iconSvg) {
+            const newSvg = createLucideSvgElement(task.icon);
+            if (newSvg) {
+              iconCacheRef.current.set(task.icon, newSvg);
+              iconSvg = newSvg;
+            }
+          }
+
+          if (iconSvg) {
+            const iconSize = 24;
+            const clonedIcon = group.node()!.appendChild(iconSvg.cloneNode(true) as SVGElement);
+            d3.select(clonedIcon)
+              .attr("class", "task-icon")
+              .attr("width", iconSize)
+              .attr("height", iconSize)
+              .attr("x", -iconSize / 2)
+              .attr("y", -iconSize / 2)
+              .selectAll("*")
+              .attr("fill", "none")
+              .attr("stroke", nodeStroke)
+              .attr("stroke-width", "2");
+          } else {
+            group.append("text")
+              .attr("text-anchor", "middle")
+              .attr("dominant-baseline", "middle")
+              .attr("fill", "#ffffff")
+              .attr("font-size", "16px")
+              .text(task.emoji || "•");
+          }
+        } else {
+          group.append("text")
+            .attr("text-anchor", "middle")
+            .attr("dominant-baseline", "middle")
+            .attr("fill", "#ffffff")
+            .attr("font-size", "16px")
+            .text(task.emoji || "•");
+        }
+
+        if (isRepeatable && completionCount > 0) {
+          group.append("text")
+            .attr("x", 14)
+            .attr("y", -12)
+            .attr("text-anchor", "middle")
+            .attr("fill", PAUSEAI_ORANGE)
+            .attr("font-size", "10px")
+            .attr("font-weight", "bold")
+            .attr("font-family", "var(--font-headline)")
+            .text(completionCount.toString());
+        }
+
+        group.on("click", (event) => {
+          event.stopPropagation();
+          setSelectedTask(task);
+        });
+        return;
+      }
 
       // Tooltip group (hidden by default, shown on hover)
       const tooltipGroup = group.append("g")
@@ -598,36 +678,16 @@ export function ActionTree() {
         .attr("fill", tooltipColor)
         .attr("opacity", 0.95);
 
-      // Transparent click area (larger than icon for easier clicking)
-      group.append("circle")
-        .attr("class", "click-area")
-        .attr("r", 25)
-        .attr("fill", "transparent")
-        .style("pointer-events", "all");
-
       // Important (wichtig) task effects: pulsing ring + gold glow
-      if (isWichtig && !isCompleted) {
-        // Pulsing ring animation
-        const pulsingRing = group.append("circle")
+      if (!isMobileLike && isWichtig && !isCompleted) {
+        // Static highlight ring for important tasks
+        group.append("circle")
           .attr("class", "wichtig-pulsing-ring")
           .attr("r", 30)
           .attr("fill", "none")
           .attr("stroke", PAUSEAI_GOLD)
           .attr("stroke-width", 2)
           .attr("stroke-opacity", 0.6);
-
-        // Pulsing animation
-        pulsingRing.append("animate")
-          .attr("attributeName", "r")
-          .attr("values", "30;38;30")
-          .attr("dur", "2s")
-          .attr("repeatCount", "indefinite");
-
-        pulsingRing.append("animate")
-          .attr("attributeName", "stroke-opacity")
-          .attr("values", "0.6;0.2;0.6")
-          .attr("dur", "2s")
-          .attr("repeatCount", "indefinite");
 
         // Gold glow background
         group.append("circle")
@@ -637,7 +697,7 @@ export function ActionTree() {
       }
 
       // Glow effect for completed tasks
-      if (isCompleted) {
+      if (!isMobileLike && isCompleted) {
         // For repeatable tasks, use an orange glow that gets more intense with each completion
         const glowOpacity = isRepeatable ? 0.5 + Math.min(completionCount * 0.1, 0.5) : 0.8;
         const glowColor = isRepeatable ? "#FF9416" : PAUSEAI_ORANGE;
@@ -799,13 +859,16 @@ export function ActionTree() {
 
     // Outer glow ring
     if (glowIntensity > 0) {
-      userGroup.append("circle")
+      const outerGlowRing = userGroup.append("circle")
         .attr("r", 52)
         .attr("fill", "none")
         .attr("stroke", PAUSEAI_ORANGE)
         .attr("stroke-width", 1)
-        .attr("opacity", glowIntensity * 0.2)
-        .attr("filter", "url(#ambient-glow)");
+        .attr("opacity", glowIntensity * 0.2);
+
+      if (!isMobileLike) {
+        outerGlowRing.attr("filter", "url(#ambient-glow)");
+      }
     }
 
     userGroup.append("circle")
@@ -879,13 +942,16 @@ export function ActionTree() {
     let xOffset = 0;
     legendItems.forEach((item) => {
       if (item.glow) {
-        legendGroup.append("circle")
+        const legendGlow = legendGroup.append("circle")
           .attr("cx", xOffset + 6)
           .attr("cy", 0)
           .attr("r", 11)
           .attr("fill", item.color)
-          .attr("opacity", 0.2)
-          .attr("filter", "url(#ambient-glow)");
+          .attr("opacity", 0.2);
+
+        if (!isMobileLike) {
+          legendGlow.attr("filter", "url(#ambient-glow)");
+        }
       }
 
       legendGroup.append("circle")
@@ -894,8 +960,8 @@ export function ActionTree() {
         .attr("r", 6)
         .attr("fill", item.color);
 
-      if (item.pulse) {
-        const pulseRing = legendGroup.append("circle")
+      if (item.pulse && !isMobileLite) {
+        legendGroup.append("circle")
           .attr("cx", xOffset + 6)
           .attr("cy", 0)
           .attr("r", 8)
@@ -903,18 +969,6 @@ export function ActionTree() {
           .attr("stroke", PAUSEAI_GOLD)
           .attr("stroke-width", 1.5)
           .attr("opacity", 0.8);
-
-        pulseRing.append("animate")
-          .attr("attributeName", "r")
-          .attr("values", "8;14;8")
-          .attr("dur", "1800ms")
-          .attr("repeatCount", "indefinite");
-
-        pulseRing.append("animate")
-          .attr("attributeName", "opacity")
-          .attr("values", "0.8;0.2;0.8")
-          .attr("dur", "1800ms")
-          .attr("repeatCount", "indefinite");
       }
 
       legendGroup.append("text")
@@ -929,6 +983,83 @@ export function ActionTree() {
 
       xOffset += item.width;
     });
+
+    const setZoomPerfMode = (isActive: boolean) => {
+      if (!isMobileLike) return;
+      const displayValue = isActive ? "none" : null;
+
+      backgroundGroup.selectAll(".background-grid, .particles")
+        .attr("display", displayValue);
+
+      mainGroup.selectAll(".tooltip-group, .wichtig-pulsing-ring, .wichtig-glow-bg")
+        .attr("display", displayValue);
+    };
+
+    let zoomPerfRestoreTimer: number | null = null;
+    let zoomRafId: number | null = null;
+    let pendingTransform: d3.ZoomTransform | null = null;
+
+    const flushZoomTransform = () => {
+      if (pendingTransform) {
+        mainGroup.attr("transform", pendingTransform.toString());
+        pendingTransform = null;
+      }
+      zoomRafId = null;
+    };
+
+    const zoom = d3.zoom<SVGSVGElement, unknown>()
+      .scaleExtent([0.35, 2])
+      .on("start", () => {
+        if (!isMobileLike) return;
+        if (zoomPerfRestoreTimer !== null) {
+          window.clearTimeout(zoomPerfRestoreTimer);
+          zoomPerfRestoreTimer = null;
+        }
+        setZoomPerfMode(true);
+      })
+      .on("zoom", (event) => {
+        if (!isMobileLike) {
+          mainGroup.attr("transform", event.transform.toString());
+          return;
+        }
+        pendingTransform = event.transform;
+        if (zoomRafId === null) {
+          zoomRafId = window.requestAnimationFrame(flushZoomTransform);
+        }
+      })
+      .on("end", (event) => {
+        if (zoomRafId !== null) {
+          window.cancelAnimationFrame(zoomRafId);
+          zoomRafId = null;
+        }
+        if (pendingTransform) {
+          mainGroup.attr("transform", pendingTransform.toString());
+          pendingTransform = null;
+        } else {
+          mainGroup.attr("transform", event.transform.toString());
+        }
+
+        if (!isMobileLike) return;
+        if (zoomPerfRestoreTimer !== null) {
+          window.clearTimeout(zoomPerfRestoreTimer);
+        }
+        zoomPerfRestoreTimer = window.setTimeout(() => {
+          setZoomPerfMode(false);
+          zoomPerfRestoreTimer = null;
+        }, 100);
+      });
+
+    svg.call(zoom);
+
+    return () => {
+      if (zoomPerfRestoreTimer !== null) {
+        window.clearTimeout(zoomPerfRestoreTimer);
+      }
+      if (zoomRafId !== null) {
+        window.cancelAnimationFrame(zoomRafId);
+      }
+      svg.on(".zoom", null);
+    };
   }, [tasks, userData?.completed_tasks, userData?.completion_counts, totalXp, session?.user?.image]);
 
   const loading = loadingTasks || isSessionLoading;
