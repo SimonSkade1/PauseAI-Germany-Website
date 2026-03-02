@@ -221,7 +221,7 @@ export default function OnboardingPage() {
             </p>
           </div>
 
-          <div className="space-y-6">
+          <div className="grid gap-6 md:grid-cols-3">
             {SLOTS.map((slot) => {
               const nextStart = nextDates[slot.key];
               const googleCalendarUrl = buildGoogleCalendarUrl(slot.label, nextStart);
@@ -229,9 +229,9 @@ export default function OnboardingPage() {
               return (
                 <article
                   key={slot.key}
-                  className="rounded-sm border-2 border-[#1a1a1a] bg-white p-6 md:p-8"
+                  className="flex h-full flex-col rounded-sm border-2 border-[#1a1a1a] bg-white p-6"
                 >
-                  <h2 className="font-section text-xl text-pause-black md:text-2xl">{slot.label}</h2>
+                  <h2 className="font-section text-xl text-pause-black">{slot.label}</h2>
                   <p className="mt-3 font-body text-pause-black/85">
                     Nächster Termin:{" "}
                     <span className="font-body-bold">
@@ -249,14 +249,12 @@ export default function OnboardingPage() {
                       {JITSI_ONBOARDING_URL}
                     </a>
                   </p>
-                  <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+                  <div className="mt-5 flex flex-col gap-3">
                     <a
                       href={googleCalendarUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`inline-flex items-center justify-center border border-[#1a1a1a] px-4 py-2 font-section text-xs tracking-wider transition-colors ${
-                        "bg-[#FF9416] text-black hover:bg-[#e88510]"
-                      }`}
+                      className="mt-auto inline-flex items-center justify-center border border-[#1a1a1a] bg-[#FF9416] px-4 py-2 font-section text-xs tracking-wider text-black transition-colors hover:bg-[#e88510]"
                     >
                       In Google Kalender
                     </a>
@@ -272,8 +270,8 @@ export default function OnboardingPage() {
               );
             })}
 
-            <article className="rounded-sm border-2 border-[#1a1a1a] bg-white p-6 md:p-8">
-              <h2 className="font-section text-xl text-pause-black md:text-2xl">Anderer Termin (1:1)</h2>
+            <article className="flex h-full flex-col rounded-sm border-2 border-[#1a1a1a] bg-white p-6">
+              <h2 className="font-section text-xl text-pause-black">Anderer Termin (1:1)</h2>
               <p className="mt-3 font-body text-pause-black/85">
                 Wenn Sonntag oder Montag für dich nicht passen, kannst du ein persönliches 1:1 mit Hauke buchen.
               </p>
@@ -283,7 +281,7 @@ export default function OnboardingPage() {
                     href={CALENDLY_URL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center border border-[#1a1a1a] bg-[#FF9416] px-4 py-2 font-section text-xs tracking-wider text-black transition-colors hover:bg-[#e88510]"
+                    className="mt-auto inline-flex items-center justify-center border border-[#1a1a1a] bg-[#FF9416] px-4 py-2 font-section text-xs tracking-wider text-black transition-colors hover:bg-[#e88510]"
                   >
                     1:1 über Calendly buchen
                   </a>
@@ -291,7 +289,7 @@ export default function OnboardingPage() {
                   <button
                     type="button"
                     disabled
-                    className="inline-flex cursor-not-allowed items-center justify-center border border-[#1a1a1a] bg-gray-200 px-4 py-2 font-section text-xs tracking-wider text-gray-500"
+                    className="mt-auto inline-flex cursor-not-allowed items-center justify-center border border-[#1a1a1a] bg-gray-200 px-4 py-2 font-section text-xs tracking-wider text-gray-500"
                   >
                     Calendly-Link folgt
                   </button>
