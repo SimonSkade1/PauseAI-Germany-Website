@@ -58,14 +58,15 @@ export default function Header({ topOffset = 0 }: HeaderProps) {
 
   // Desktop navigation links (only 3 main links)
   const desktopNavLinks = [
+    { href: "/onboarding", label: "Hilf mit", external: false },
     { href: "/ueber-uns", label: "Über uns", external: false },
     { href: "https://ki-risiken.de", label: "Mehr lernen", external: true },
-    { href: "/#was-du-tun-kannst", label: "Hilf mit", external: false },
   ];
 
   // Mobile menu structure with sublinks
   const mobileMenuItems = [
     { href: "/", label: "Startseite", external: false },
+    { href: "/onboarding", label: "Hilf mit", external: false },
     { 
       href: "/ueber-uns", 
       label: "Über uns", 
@@ -77,7 +78,6 @@ export default function Header({ topOffset = 0 }: HeaderProps) {
       ]
     },
     { href: "https://ki-risiken.de", label: "Mehr lernen", external: true },
-    { href: "/#was-du-tun-kannst", label: "Hilf mit", external: false },
     { href: "/kontakt", label: "Kontakt", external: false },
     { href: "https://pauseai.info", label: "International", external: true },
   ];
