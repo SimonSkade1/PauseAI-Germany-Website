@@ -149,9 +149,9 @@ function buildGoogleCalendarUrl(slotLabel: string, start: Date): string {
   const end = new Date(start.getTime() + ONBOARDING_DURATION_MS);
   const params = new URLSearchParams({
     action: "TEMPLATE",
-    text: `PauseAI Deutschland Onboarding (${slotLabel})`,
+    text: `PauseAI Deutschland Kennenlern-Call (${slotLabel})`,
     dates: `${formatUtcForCalendar(start)}/${formatUtcForCalendar(end)}`,
-    details: `Onboarding mit Hauke (Dauer: 1 Stunde).\n\nJitsi: ${JITSI_ONBOARDING_URL}`,
+    details: `Kennenlern-Call mit Hauke (Dauer: 1 Stunde).\n\nJitsi: ${JITSI_ONBOARDING_URL}`,
     location: JITSI_ONBOARDING_URL,
   });
 
@@ -173,8 +173,8 @@ function downloadIcs(slotLabel: string, start: Date): void {
     `DTSTAMP:${stamp}`,
     `DTSTART:${formatUtcForCalendar(start)}`,
     `DTEND:${formatUtcForCalendar(end)}`,
-    `SUMMARY:PauseAI Deutschland Onboarding (${slotLabel})`,
-    `DESCRIPTION:Onboarding mit Hauke (Dauer: 1 Stunde).\\n\\nJitsi: ${JITSI_ONBOARDING_URL}`,
+    `SUMMARY:PauseAI Deutschland Kennenlern-Call (${slotLabel})`,
+    `DESCRIPTION:Kennenlern-Call mit Hauke (Dauer: 1 Stunde).\\n\\nJitsi: ${JITSI_ONBOARDING_URL}`,
     `LOCATION:${JITSI_ONBOARDING_URL}`,
     "END:VEVENT",
     "END:VCALENDAR",
@@ -208,13 +208,13 @@ export default function OnboardingPage() {
       <main className="bg-white pt-24">
         <section className="mx-auto max-w-5xl px-6 pb-12 pt-10 md:px-10 md:pt-14">
           <div className="mb-10">
-            <p className="font-section text-sm text-[#FF9416]">Onboarding</p>
+            <p className="font-section text-sm text-[#FF9416]">Kennenlernen</p>
             <h1 className="font-headline mt-2 text-3xl text-pause-black md:text-5xl">
-              Wähle deinen Einstieg
+              Schön, dass du da bist
             </h1>
             <p className="mt-4 max-w-3xl font-body text-lg text-pause-black/85">
-              Wir bieten zwei offene Onboarding-Termine pro Woche an. Die Meetings dauern 1 Stunde,
-              laufen über Jitsi und werden persönlich von Hauke begleitet.
+              Wenn du bei PauseAI Deutschland mitmachen möchtest, lern uns einfach in einem Call kennen.
+              Wir haben zwei offene Termine pro Woche, jeweils 1 Stunde, über Jitsi. Hauke begleitet dich persönlich.
             </p>
             <p className="mt-3 font-body text-pause-black/80">
               Zeitzone: <span className="font-body-bold">Europe/Berlin</span> (automatische Sommer-/Winterzeit)
@@ -273,7 +273,7 @@ export default function OnboardingPage() {
             <article className="flex h-full flex-col rounded-sm border-2 border-[#1a1a1a] bg-white p-6">
               <h2 className="font-section text-xl text-pause-black">Anderer Termin (1:1)</h2>
               <p className="mt-3 font-body text-pause-black/85">
-                Wenn Sonntag oder Montag für dich nicht passen, kannst du ein persönliches 1:1 mit Hauke buchen.
+                Wenn Sonntag oder Montag für dich nicht passt, kannst du dir direkt einen persönlichen 1:1-Termin mit Hauke buchen.
               </p>
               <div className="mt-5">
                 {calendlyConfigured ? (
@@ -303,7 +303,7 @@ export default function OnboardingPage() {
           <div className="rounded-sm border border-[#1a1a1a] bg-[#FFFAF5] p-6 md:p-8">
             <h2 className="font-section text-lg text-pause-black md:text-xl">Discord Community</h2>
             <p className="mt-3 font-body text-pause-black/85">
-              Das meiste inhaltliche Arbeiten findet bei uns auf Discord statt. Komm gern dazu und lerne die Community kennen.
+              Die meisten Absprachen und Projekte laufen bei uns auf Discord. Komm gern dazu und sag kurz Hallo.
             </p>
             <a
               href={DISCORD_URL}
