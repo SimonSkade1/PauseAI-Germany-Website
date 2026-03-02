@@ -296,7 +296,7 @@ export default function OnboardingPage() {
                 strokeWidth={2}
               />
               <p className="font-body text-pause-black/85">
-                Unsere Meetings finden per Jitsi statt. Du brauchst keinen Account und kannst sowohl am PC als
+                Unsere Calls finden per Jitsi statt. Du brauchst keinen Account und kannst sowohl am PC als
                 auch per Handy teilnehmen.
               </p>
             </div>

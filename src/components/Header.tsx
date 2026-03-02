@@ -58,9 +58,9 @@ export default function Header({ topOffset = 0 }: HeaderProps) {
 
   // Desktop navigation links (only 3 main links)
   const desktopNavLinks = [
+    { href: "/onboarding", label: "Hilf mit", external: false },
     { href: "/ueber-uns", label: "Über uns", external: false },
     { href: "https://ki-risiken.de", label: "Mehr lernen", external: true },
-    { href: "/onboarding", label: "Hilf mit", external: false },
   ];
 
   // Mobile menu structure with sublinks

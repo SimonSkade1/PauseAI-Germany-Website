@@ -196,9 +196,14 @@ function HeroSection() {
           <h1 className="font-headline text-2xl text-white mb-6 md:text-5xl lg:text-5xl xl:text-6xl animate-fade-in-up">
             Wir können den <br />KI-Kontrollverlust<br /> noch verhindern
           </h1>
-          <p className="font-body-bold text-lg text-white/90 md:text-xl lg:text-2xl animate-fade-in-up delay-200">
-            Hilf mit, jetzt Klarheit zu schaffen!
-          </p>
+          <div className="animate-fade-in-up delay-200">
+            <Link
+              href="/onboarding"
+              className="inline-flex items-center justify-center border border-white bg-[#FF9416] px-5 py-2.5 font-section text-sm tracking-wider text-black transition-colors hover:bg-[#e88510] md:px-6 md:py-3 md:text-base"
+            >
+              Hilf mit, jetzt Klarheit zu schaffen!
+            </Link>
+          </div>
         </div>
       </div>
     </section>
@@ -530,36 +535,6 @@ function ActionSection() {
               </div>
             </div>
           </Link>
-
-          {/* Newsletter */}
-          <div 
-            onClick={handleNewsletterCardClick}
-            onMouseEnter={() => setNewsletterHovered(true)}
-            onMouseLeave={() => setNewsletterHovered(false)}
-            className="group flex bg-white p-6 md:p-8 border border-[#1a1a1a] md:border-2 cursor-pointer hover:bg-[#FFFAF5] transition-colors min-h-[190px]"
-          >
-            <div className="flex items-start md:gap-4 flex-1">
-              <span className="hidden md:block text-[#FF9416] text-4xl md:text-5xl flex-shrink-0 leading-none mt-[-0.32em] transition-transform group-hover:translate-x-2">
-                →
-              </span>
-              <div className="flex-1 flex flex-col h-full">
-                <h3 className="font-section text-lg text-pause-black mb-3 md:text-xl">
-                  Folge unserem Newsletter
-                </h3>
-                <div className="mb-4">
-                  <NewsletterFormWithRef 
-                    variant="light" 
-                    inputRef={newsletterInputRef}
-                    glowing={newsletterGlow}
-                    cardHovered={newsletterHovered}
-                  />
-                </div>
-                <p className="font-body text-pause-black/80 text-base mt-auto text-right">
-                  Damit du über wichtige Neuigkeiten und Events informiert bleibst.
-                </p>
-              </div>
-            </div>
-          </div>
 
           {/* Spenden */}
           <a 
