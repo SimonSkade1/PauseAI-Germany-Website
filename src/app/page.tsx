@@ -176,7 +176,7 @@ const quotes = [
 
 function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-start overflow-hidden pt-20">
+    <section className="relative min-h-screen flex items-start overflow-hidden pt-32 md:pt-20">
       {/* Background image */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -580,9 +580,9 @@ export default function Home() {
           </p>
           <Link
             href="/appell"
-            className="group inline-flex flex-shrink-0 items-center gap-1 rounded-sm border border-[#FF9416] bg-[#FF9416]/10 px-3 py-1.5 font-section text-[11px] uppercase tracking-[0.12em] text-[#FF9416] transition-colors hover:bg-[#FF9416] hover:text-black sm:gap-2 sm:px-4 sm:py-1.5 sm:text-xs sm:tracking-[0.14em]"
+            className="group inline-flex flex-shrink-0 items-center gap-1 whitespace-nowrap rounded-sm border border-[#FF9416] bg-[#FF9416]/10 px-3 py-1.5 font-section text-[11px] uppercase tracking-[0.12em] text-[#FF9416] transition-colors hover:bg-[#FF9416] hover:text-black sm:gap-2 sm:px-4 sm:py-1.5 sm:text-xs sm:tracking-[0.14em]"
           >
-            <span className="sm:hidden">Appell zum KI-Gipfel 2026</span>
+            <span className="sm:hidden">Zum KI-Gipfel-Appell</span>
             <span className="hidden sm:inline">Zum Appell</span>
             <span className="transition-transform group-hover:translate-x-0.5">→</span>
           </Link>

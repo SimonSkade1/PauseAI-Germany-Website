@@ -15,8 +15,9 @@ const ONBOARDING_DURATION_MS = 60 * 60 * 1000;
 const WEEKLY_MEETING_DURATION_MS = 60 * 60 * 1000;
 const BERLIN_TIMEZONE = "Europe/Berlin";
 const WEEKLY_MEETING_LABEL = "Donnerstag 18:00";
-const WEEKLY_MEETING_TITLE = "PauseAI Deutschland Wochentreffen";
-const WEEKLY_MEETING_DESCRIPTION = "Wöchentliches PauseAI Deutschland Treffen.";
+const WEEKLY_MEETING_TITLE = "PauseAI Deutschland Community-Treffen";
+const WEEKLY_MEETING_DESCRIPTION = "Wöchentliches PauseAI Deutschland Community-Treffen.";
+const JITSI_INFO_TEXT = "Unsere Calls finden per Jitsi statt. Du brauchst keinen Account und kannst sowohl am PC als auch per Handy teilnehmen.";
 
 type Slot = {
   key: "sunday" | "monday";
@@ -157,7 +158,7 @@ function buildGoogleCalendarUrl(slotLabel: string, start: Date): string {
     action: "TEMPLATE",
     text: `PauseAI Deutschland Kennenlern-Call (${slotLabel})`,
     dates: `${formatUtcForCalendar(start)}/${formatUtcForCalendar(end)}`,
-    details: `Kennenlern-Call mit Hauke (Max: 1 Stunde).\n\nJitsi: ${JITSI_ONBOARDING_URL}`,
+    details: `Kennenlern-Call mit Hauke (Max: 1 Stunde).\n\n${JITSI_INFO_TEXT}\n\nJitsi: ${JITSI_ONBOARDING_URL}`,
     location: JITSI_ONBOARDING_URL,
   });
 
@@ -180,7 +181,7 @@ function downloadIcs(slotLabel: string, start: Date): void {
     `DTSTART:${formatUtcForCalendar(start)}`,
     `DTEND:${formatUtcForCalendar(end)}`,
     `SUMMARY:PauseAI Deutschland Kennenlern-Call (${slotLabel})`,
-    `DESCRIPTION:Kennenlern-Call mit Hauke (Max: 1 Stunde).\\n\\nJitsi: ${JITSI_ONBOARDING_URL}`,
+    `DESCRIPTION:Kennenlern-Call mit Hauke (Max: 1 Stunde).\\n\\n${JITSI_INFO_TEXT}\\n\\nJitsi: ${JITSI_ONBOARDING_URL}`,
     `LOCATION:${JITSI_ONBOARDING_URL}`,
     "END:VEVENT",
     "END:VCALENDAR",
@@ -201,9 +202,9 @@ function buildWeeklyMeetingGoogleCalendarUrl(start: Date): string {
   const end = new Date(start.getTime() + WEEKLY_MEETING_DURATION_MS);
   const params = new URLSearchParams({
     action: "TEMPLATE",
-    text: `${WEEKLY_MEETING_TITLE} (${WEEKLY_MEETING_LABEL})`,
+    text: `${WEEKLY_MEETING_TITLE}`,
     dates: `${formatUtcForCalendar(start)}/${formatUtcForCalendar(end)}`,
-    details: `${WEEKLY_MEETING_DESCRIPTION}\n\nJitsi: ${JITSI_WEEKLY_URL}`,
+    details: `${WEEKLY_MEETING_DESCRIPTION}\n\n${JITSI_INFO_TEXT}\n\nJitsi: ${JITSI_WEEKLY_URL}`,
     location: JITSI_WEEKLY_URL,
   });
 
@@ -225,8 +226,8 @@ function downloadWeeklyMeetingIcs(start: Date): void {
     `DTSTAMP:${stamp}`,
     `DTSTART:${formatUtcForCalendar(start)}`,
     `DTEND:${formatUtcForCalendar(end)}`,
-    `SUMMARY:${WEEKLY_MEETING_TITLE} (${WEEKLY_MEETING_LABEL})`,
-    `DESCRIPTION:${WEEKLY_MEETING_DESCRIPTION}\\n\\nJitsi: ${JITSI_WEEKLY_URL}`,
+    `SUMMARY:${WEEKLY_MEETING_TITLE}`,
+    `DESCRIPTION:${WEEKLY_MEETING_DESCRIPTION}\\n\\n${JITSI_INFO_TEXT}\\n\\nJitsi: ${JITSI_WEEKLY_URL}`,
     `LOCATION:${JITSI_WEEKLY_URL}`,
     "END:VEVENT",
     "END:VCALENDAR",
@@ -296,8 +297,7 @@ export default function OnboardingPage() {
                 strokeWidth={2}
               />
               <p className="font-body text-pause-black/85">
-                Unsere Calls finden per Jitsi statt. Du brauchst keinen Account und kannst sowohl am PC als
-                auch per Handy teilnehmen.
+              {JITSI_INFO_TEXT}
               </p>
             </div>
           </div>
