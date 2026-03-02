@@ -2,15 +2,20 @@
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Link from "next/link";
 import Image from "next/image";
 import { useMemo } from "react";
 
 const JITSI_ONBOARDING_URL = "https://meet.jit.si/PauseAI-Deutschland-Kennenlernen";
+const JITSI_WEEKLY_URL = "https://meet.jit.si/PauseAI-Deutschland";
 const DISCORD_URL = "https://discord.gg/pvZ5PmRX4R";
-const CALENDLY_URL = "";
+const WHATSAPP_URL = "https://chat.whatsapp.com/C7p9cdH41IE1MQwPHQLWCX";
+const CALENDLY_URL = "https://calendly.com/hauke-h-posteo/neues-meeting";
 const ONBOARDING_DURATION_MS = 60 * 60 * 1000;
+const WEEKLY_MEETING_DURATION_MS = 60 * 60 * 1000;
 const BERLIN_TIMEZONE = "Europe/Berlin";
+const WEEKLY_MEETING_LABEL = "Donnerstag 18:00";
+const WEEKLY_MEETING_TITLE = "PauseAI Deutschland Wochentreffen";
+const WEEKLY_MEETING_DESCRIPTION = "Wöchentliches PauseAI Deutschland Treffen.";
 
 type Slot = {
   key: "sunday" | "monday";
@@ -132,7 +137,6 @@ function getNextSlotDate(slot: Slot, referenceDate: Date = new Date()): Date {
 function formatGermanDate(date: Date): string {
   return new Intl.DateTimeFormat("de-DE", {
     timeZone: BERLIN_TIMEZONE,
-    weekday: "long",
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
@@ -152,7 +156,7 @@ function buildGoogleCalendarUrl(slotLabel: string, start: Date): string {
     action: "TEMPLATE",
     text: `PauseAI Deutschland Kennenlern-Call (${slotLabel})`,
     dates: `${formatUtcForCalendar(start)}/${formatUtcForCalendar(end)}`,
-    details: `Kennenlern-Call mit Hauke (Dauer: 1 Stunde).\n\nJitsi: ${JITSI_ONBOARDING_URL}`,
+    details: `Kennenlern-Call mit Hauke (Max: 1 Stunde).\n\nJitsi: ${JITSI_ONBOARDING_URL}`,
     location: JITSI_ONBOARDING_URL,
   });
 
@@ -175,7 +179,7 @@ function downloadIcs(slotLabel: string, start: Date): void {
     `DTSTART:${formatUtcForCalendar(start)}`,
     `DTEND:${formatUtcForCalendar(end)}`,
     `SUMMARY:PauseAI Deutschland Kennenlern-Call (${slotLabel})`,
-    `DESCRIPTION:Kennenlern-Call mit Hauke (Dauer: 1 Stunde).\\n\\nJitsi: ${JITSI_ONBOARDING_URL}`,
+    `DESCRIPTION:Kennenlern-Call mit Hauke (Max: 1 Stunde).\\n\\nJitsi: ${JITSI_ONBOARDING_URL}`,
     `LOCATION:${JITSI_ONBOARDING_URL}`,
     "END:VEVENT",
     "END:VCALENDAR",
@@ -192,6 +196,52 @@ function downloadIcs(slotLabel: string, start: Date): void {
   URL.revokeObjectURL(url);
 }
 
+function buildWeeklyMeetingGoogleCalendarUrl(start: Date): string {
+  const end = new Date(start.getTime() + WEEKLY_MEETING_DURATION_MS);
+  const params = new URLSearchParams({
+    action: "TEMPLATE",
+    text: `${WEEKLY_MEETING_TITLE} (${WEEKLY_MEETING_LABEL})`,
+    dates: `${formatUtcForCalendar(start)}/${formatUtcForCalendar(end)}`,
+    details: `${WEEKLY_MEETING_DESCRIPTION}\n\nJitsi: ${JITSI_WEEKLY_URL}`,
+    location: JITSI_WEEKLY_URL,
+  });
+
+  return `https://calendar.google.com/calendar/render?${params.toString()}`;
+}
+
+function downloadWeeklyMeetingIcs(start: Date): void {
+  const end = new Date(start.getTime() + WEEKLY_MEETING_DURATION_MS);
+  const stamp = formatUtcForCalendar(new Date());
+  const uid = `${start.getTime()}-weekly-meeting@pauseai.info`;
+  const icsContent = [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//PauseAI Deutschland//Weekly Meeting//DE",
+    "CALSCALE:GREGORIAN",
+    "METHOD:PUBLISH",
+    "BEGIN:VEVENT",
+    `UID:${uid}`,
+    `DTSTAMP:${stamp}`,
+    `DTSTART:${formatUtcForCalendar(start)}`,
+    `DTEND:${formatUtcForCalendar(end)}`,
+    `SUMMARY:${WEEKLY_MEETING_TITLE} (${WEEKLY_MEETING_LABEL})`,
+    `DESCRIPTION:${WEEKLY_MEETING_DESCRIPTION}\\n\\nJitsi: ${JITSI_WEEKLY_URL}`,
+    `LOCATION:${JITSI_WEEKLY_URL}`,
+    "END:VEVENT",
+    "END:VCALENDAR",
+  ].join("\r\n");
+
+  const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = "pauseai-weekly-meeting.ics";
+  document.body.appendChild(anchor);
+  anchor.click();
+  anchor.remove();
+  URL.revokeObjectURL(url);
+}
+
 export default function OnboardingPage() {
   const nextDates = useMemo<Record<Slot["key"], Date>>(
     () => ({
@@ -202,6 +252,15 @@ export default function OnboardingPage() {
   );
 
   const calendlyConfigured = useMemo(() => CALENDLY_URL.trim().length > 0, []);
+  const whatsappConfigured = useMemo(() => WHATSAPP_URL.trim().length > 0, []);
+  const nextWeeklyMeeting = useMemo(
+    () => getNextSlotDate({ key: "sunday", label: WEEKLY_MEETING_LABEL, weekday: 4, hour: 18, minute: 0 }),
+    [],
+  );
+  const weeklyMeetingGoogleCalendarUrl = useMemo(
+    () => buildWeeklyMeetingGoogleCalendarUrl(nextWeeklyMeeting),
+    [nextWeeklyMeeting],
+  );
 
   return (
     <>
@@ -209,17 +268,10 @@ export default function OnboardingPage() {
       <main className="bg-white pt-24">
         <section className="mx-auto max-w-5xl px-6 pb-12 pt-10 md:px-10 md:pt-14">
           <div className="mb-10">
-            <p className="font-section text-sm text-[#FF9416]">Kennenlernen</p>
+            <p className="font-section text-sm text-[#FF9416]">Mitmachen</p>
             <h1 className="font-headline mt-2 text-3xl text-pause-black md:text-5xl">
-              Schön, dass du da bist
+              Wir freuen uns, dich kennenzulernen!
             </h1>
-            <p className="mt-4 max-w-3xl font-body text-lg text-pause-black/85">
-              Wenn du bei PauseAI Deutschland mitmachen möchtest, lern uns einfach in einem Call kennen.
-              Wir haben zwei offene Termine pro Woche, jeweils 1 Stunde, über Jitsi. Hauke begleitet dich persönlich.
-            </p>
-            <p className="mt-3 font-body text-pause-black/80">
-              Zeitzone: <span className="font-body-bold">Europe/Berlin</span> (automatische Sommer-/Winterzeit)
-            </p>
             <div className="mt-6 flex items-center gap-4 rounded-sm border border-[#1a1a1a] bg-[#FFFAF5] p-4">
               <Image
                 src="/profile-pics/hauke.jpeg"
@@ -229,7 +281,8 @@ export default function OnboardingPage() {
                 className="h-[72px] w-[72px] rounded-full object-cover"
               />
               <p className="font-body text-pause-black/85">
-                Ich bin Hauke und begleite dich persönlich im Kennenlern-Call. Ich freue mich, dich kennenzulernen.
+                Ich bin Hauke. Ich leite die Kennenlern-Calls. Ich erkläre dir, wer wir sind, was wir tun und wie du mitmachen kannst. Und beantworte alle Fragen, die du hast.
+                Du kannst dir hier einen Termin aussuchen.
               </p>
             </div>
           </div>
@@ -246,20 +299,20 @@ export default function OnboardingPage() {
                 >
                   <h2 className="font-section text-xl text-pause-black">{slot.label}</h2>
                   <p className="mt-3 font-body text-pause-black/85">
-                    Nächster Termin:{" "}
+                    Nächster Call:{" "}
                     <span className="font-body-bold">
                       {formatGermanDate(nextStart)}
                     </span>
                   </p>
                   <p className="mt-2 font-body text-pause-black/85">
-                    Ort:{" "}
+                    {" "}
                     <a
                       href={JITSI_ONBOARDING_URL}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="orange-link font-body-bold"
                     >
-                      {JITSI_ONBOARDING_URL}
+                      Zum Jitsi-Raum
                     </a>
                   </p>
                   <div className="mt-5 flex flex-col gap-3">
@@ -269,14 +322,14 @@ export default function OnboardingPage() {
                       rel="noopener noreferrer"
                       className="mt-auto inline-flex items-center justify-center border border-[#1a1a1a] bg-[#FF9416] px-4 py-2 font-section text-xs tracking-wider text-black transition-colors hover:bg-[#e88510]"
                     >
-                      In Google Kalender
+                      Google Kalender
                     </a>
                     <button
                       type="button"
                       onClick={() => downloadIcs(slot.label, nextStart)}
                       className="inline-flex items-center justify-center border border-[#1a1a1a] bg-white px-4 py-2 font-section text-xs tracking-wider text-black transition-colors hover:bg-[#FFFAF5] disabled:cursor-not-allowed disabled:text-gray-500"
                     >
-                      ICS herunterladen
+                      Kalenderdatei (.ics)
                     </button>
                   </div>
                 </article>
@@ -284,9 +337,9 @@ export default function OnboardingPage() {
             })}
 
             <article className="flex h-full flex-col rounded-sm border-2 border-[#1a1a1a] bg-white p-6">
-              <h2 className="font-section text-xl text-pause-black">Anderer Termin (1:1)</h2>
+              <h2 className="font-section text-xl text-pause-black">Andere Zeit</h2>
               <p className="mt-3 font-body text-pause-black/85">
-                Wenn Sonntag oder Montag für dich nicht passt, kannst du dir direkt einen persönlichen 1:1-Termin mit Hauke buchen.
+                Passt Sonntag oder Montag nicht? Dann buch dir direkt ein 1:1.
               </p>
               <div className="mt-5">
                 {calendlyConfigured ? (
@@ -294,15 +347,15 @@ export default function OnboardingPage() {
                     href={CALENDLY_URL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-auto inline-flex items-center justify-center border border-[#1a1a1a] bg-[#FF9416] px-4 py-2 font-section text-xs tracking-wider text-black transition-colors hover:bg-[#e88510]"
+                    className="mt-auto inline-flex w-full items-center justify-center border border-[#1a1a1a] bg-[#FF9416] px-4 py-2 font-section text-xs tracking-wider text-black transition-colors hover:bg-[#e88510]"
                   >
-                    1:1 über Calendly buchen
+                    1:1 buchen
                   </a>
                 ) : (
                   <button
                     type="button"
                     disabled
-                    className="mt-auto inline-flex cursor-not-allowed items-center justify-center border border-[#1a1a1a] bg-gray-200 px-4 py-2 font-section text-xs tracking-wider text-gray-500"
+                    className="mt-auto inline-flex w-full cursor-not-allowed items-center justify-center border border-[#1a1a1a] bg-gray-200 px-4 py-2 font-section text-xs tracking-wider text-gray-500"
                   >
                     Calendly-Link folgt
                   </button>
@@ -314,9 +367,9 @@ export default function OnboardingPage() {
 
         <section className="mx-auto max-w-5xl px-6 pb-16 md:px-10">
           <div className="rounded-sm border border-[#1a1a1a] bg-[#FFFAF5] p-6 md:p-8">
-            <h2 className="font-section text-lg text-pause-black md:text-xl">Discord Community</h2>
+            <h2 className="font-section text-lg text-pause-black md:text-xl">Unsere Discord-Community</h2>
             <p className="mt-3 font-body text-pause-black/85">
-              Die meisten Absprachen und Projekte laufen bei uns auf Discord. Komm gern dazu und sag kurz Hallo.
+              Wir kommunizieren und arbeiten hauptsächlich über Discord. Komm rein und sag Hallo.
             </p>
             <a
               href={DISCORD_URL}
@@ -327,12 +380,70 @@ export default function OnboardingPage() {
               Zum Discord-Server
             </a>
           </div>
-          <p className="mt-8 font-body text-sm text-pause-black/70">
-            Zurück zur Startseite:{" "}
-            <Link href="/" className="orange-link font-body-bold">
-              pauseai-germany.info
-            </Link>
-          </p>
+          <div className="mt-6 rounded-sm border border-[#1a1a1a] bg-[#FFFAF5] p-6 md:p-8">
+            <h2 className="font-section text-lg text-pause-black md:text-xl">Unsere WhatsApp-Community</h2>
+            <p className="mt-3 font-body text-pause-black/85">
+              Trete unserer Gruppe bei, um dich mit anderen auszutauschen und über Neuigkeiten informiert zu werden.
+            </p>
+            {whatsappConfigured ? (
+              <a
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-5 inline-flex items-center justify-center border border-[#1a1a1a] bg-white px-4 py-2 font-section text-xs tracking-wider text-black transition-colors hover:bg-[#FF9416]"
+              >
+                Zur WhatsApp-Gruppe
+              </a>
+            ) : (
+              <button
+                type="button"
+                disabled
+                className="mt-5 inline-flex cursor-not-allowed items-center justify-center border border-[#1a1a1a] bg-gray-200 px-4 py-2 font-section text-xs tracking-wider text-gray-500"
+              >
+                WhatsApp-Link folgt
+              </button>
+            )}
+          </div>
+          <div className="mt-6 rounded-sm border border-[#1a1a1a] bg-[#FFFAF5] p-6 md:p-8">
+            <h2 className="font-section text-lg text-pause-black md:text-xl">Wöchentliches virtuelles Treffen</h2>
+            <p className="mt-3 font-body text-pause-black/85">
+              Wir erzählen, was in der letzten Woche passiert ist und was demnächst ansteht.
+              <br/>
+              Danach gibt es einen interaktiven Teil. Hier machen wir z.B. kleine gemeinsame Aktionen, Workshops etc..
+              <br/>
+              Jeder ist willkommen, auch wenn du nur mal reinschnuppern möchtest.
+              <br/>
+              Jeden <span className="font-semibold">Donnerstag</span> um 18:00 Uhr. Nächstes Treffen:{" "}
+              <span className="font-body-bold">{formatGermanDate(nextWeeklyMeeting)}</span>
+            </p>
+            <p className="mt-2 font-body text-pause-black/85">
+              <a
+                href={JITSI_WEEKLY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="orange-link font-body-bold"
+              >
+                Zum Jitsi-Raum
+              </a>
+            </p>
+            <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+              <a
+                href={weeklyMeetingGoogleCalendarUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center border border-[#1a1a1a] bg-white px-4 py-2 font-section text-xs tracking-wider text-black transition-colors hover:bg-[#FF9416]"
+              >
+                Google Kalender
+              </a>
+              <button
+                type="button"
+                onClick={() => downloadWeeklyMeetingIcs(nextWeeklyMeeting)}
+                className="inline-flex items-center justify-center border border-[#1a1a1a] bg-white px-4 py-2 font-section text-xs tracking-wider text-black transition-colors hover:bg-[#FF9416]"
+              >
+                Kalenderdatei (.ics)
+              </button>
+            </div>
+          </div>
         </section>
       </main>
       <Footer />

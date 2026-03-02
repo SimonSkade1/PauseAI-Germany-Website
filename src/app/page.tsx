@@ -504,7 +504,7 @@ function ActionSection() {
                   Werde Teil der <span className="text-[#FF9416] border-b-2 border-transparent group-hover:border-[#FF9416] transition-colors">Bewegung</span>
                 </h3>
                 <p className="font-body text-pause-black/80 text-base mt-auto text-right">
-                  Lerne uns kennen und wähle Sonntag, Montag oder einen persönlichen Termin.
+                  Lerne uns kennen und erfahre, wie du mitmachen kannst.
                 </p>
               </div>
             </div>
