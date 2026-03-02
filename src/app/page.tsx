@@ -490,11 +490,9 @@ function ActionSection() {
         </h2>
 
         <div className="space-y-6">
-          {/* Discord */}
-          <a 
-            href="https://discord.gg/pvZ5PmRX4R"
-            target="_blank"
-            rel="noopener noreferrer"
+          {/* Onboarding */}
+          <Link
+            href="/onboarding"
             className="group flex bg-white p-6 md:p-8 border border-[#1a1a1a] md:border-2 cursor-pointer hover:bg-[#FFFAF5] transition-colors min-h-[190px]"
           >
             <div className="flex items-start md:gap-4 flex-1">
@@ -506,11 +504,11 @@ function ActionSection() {
                   Werde Teil der <span className="text-[#FF9416] border-b-2 border-transparent group-hover:border-[#FF9416] transition-colors">Bewegung</span>
                 </h3>
                 <p className="font-body text-pause-black/80 text-base mt-auto text-right">
-                  Lerne uns kennen und erfahre was du tun kannst, um zu helfen.
+                  Lerne uns kennen und wähle Sonntag, Montag oder einen persönlichen Termin.
                 </p>
               </div>
             </div>
-          </a>
+          </Link>
 
           {/* Kontakt zu Abgeordneten */}
           <Link
