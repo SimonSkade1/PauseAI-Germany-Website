@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState, FormEvent } from "react";
 
 const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSet8gf61pTqCYv4Fa1OAKGt6BizTKBaeyTTqIyhdlbaoOf5iw/formResponse";
@@ -71,13 +72,15 @@ export default function Footer() {
         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-10 xl:gap-12">
           {/* Logo & Description */}
           <div>
-            <Image
-              src="/Logo Outlined.png"
-              alt="PauseAI Logo"
-              width={140}
-              height={40}
-              className="h-10 w-auto mb-4"
-            />
+            <Link href="/" className="inline-block mb-4" aria-label="Zur Startseite">
+              <Image
+                src="/Logo Outlined.png"
+                alt="PauseAI Logo"
+                width={140}
+                height={40}
+                className="h-10 w-auto"
+              />
+            </Link>
             <p className="font-body text-black/70 text-sm">
               Wir klären über KI-Risiken auf und setzen uns für sichere
               KI-Entwicklung ein.

@@ -198,7 +198,7 @@ function HeroSection() {
           </h1>
           <div className="animate-fade-in-up delay-200">
             <Link
-              href="/onboarding"
+              href="/mitmachen"
               className="inline-flex items-center justify-center border border-white bg-[#FF9416] px-5 py-2.5 font-section text-sm tracking-wider text-black transition-colors hover:bg-[#e88510] md:px-6 md:py-3 md:text-base"
             >
               Hilf mit, jetzt Klarheit zu schaffen!
@@ -497,7 +497,7 @@ function ActionSection() {
         <div className="space-y-6">
           {/* Onboarding */}
           <Link
-            href="/onboarding"
+            href="/mitmachen"
             className="group flex bg-white p-6 md:p-8 border border-[#1a1a1a] md:border-2 cursor-pointer hover:bg-[#FFFAF5] transition-colors min-h-[190px]"
           >
             <div className="flex items-start md:gap-4 flex-1">
