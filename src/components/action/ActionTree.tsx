@@ -1016,7 +1016,7 @@ export function ActionTree() {
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block mt-2 text-[#FF9416] hover:text-[#FF9416]/80 font-body underline">
-            Hier findest du eine einfache Ansicht.
+            Hier findest du die gleichen Aufgaben als einfache Aufgabenliste.
           </a>
         </div>
 
@@ -1076,6 +1076,7 @@ export function ActionTree() {
           <svg
             ref={svgRef}
             className="w-full h-full"
+            style={{ touchAction: "none" }}
           />
         </div>
 

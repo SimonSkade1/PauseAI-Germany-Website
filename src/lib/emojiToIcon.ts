@@ -87,6 +87,7 @@ export const EMOJI_TO_LUCIDE: Record<string, string> = {
   "🌍": "globe",
   "🌐": "globe",
   "🗺️": "map",
+  "🧳": "briefcase",
 
   // Writing & Documents
   "📄": "file-text",
