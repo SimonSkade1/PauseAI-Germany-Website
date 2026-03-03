@@ -7,10 +7,10 @@ const ROLE_THRESHOLDS = [
   { xp: 400, level: 3 },
 ];
 
-// Get role name for XP
-function getRoleForXp(xp: number): string {
-  if (xp >= 900) return "Aktives Mitglied";
-  if (xp >= 300) return "Engagiertes Mitglied";
+// Get role name for Karma
+function getRoleForXp(karma: number): string {
+  if (karma >= 900) return "Aktives Mitglied";
+  if (karma >= 300) return "Engagiertes Mitglied";
   return "Neues Mitglied";
 }
 
@@ -35,9 +35,7 @@ export const notifyTaskComplete = action({
 
     // Build embed fields
     const fields: Array<{ name: string; value: string; inline: boolean }> = [
-      { name: "Mitglied", value: `<@${args.discordId}>`, inline: true },
-      { name: "XP", value: `+${args.xp}`, inline: true },
-      { name: "Gesamt", value: `${args.totalXp} XP`, inline: true },
+      { name: "Karma", value: `${args.totalXp} (+${args.xp})`, inline: true },
       { name: "Aufgabe", value: args.taskName, inline: false },
     ];
 
@@ -55,9 +53,10 @@ export const notifyTaskComplete = action({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          content: `<@${args.discordId}> war aktiv! 💪`,
+          allowed_mentions: { users: [args.discordId] },
           embeds: [
             {
-              title: "✅ Aufgabe erledigt!",
               color: 0xff6b35, // PauseAI Orange
               fields,
             },
@@ -76,7 +75,7 @@ export const notifyTaskComplete = action({
   },
 });
 
-// Assign Discord role based on XP threshold
+// Assign Discord role based on Karma threshold
 export const assignRole = action({
   args: {
     discordId: v.string(),
@@ -138,7 +137,7 @@ export const assignRole = action({
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                content: `🎉 <@${args.discordId}> hat ${args.newXp} XP erreicht und die Rolle **${roleName}** erhalten!`,
+                content: `🎉 <@${args.discordId}> hat ${args.newXp} Karma erreicht und die Rolle **${roleName}** erhalten!`,
               }),
             }
           );
