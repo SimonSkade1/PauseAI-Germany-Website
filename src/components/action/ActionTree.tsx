@@ -5,7 +5,7 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import * as d3 from "d3";
 import { useAction, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { getRoleForXp, getRoleClass, type Task } from "@/lib/types";
+import { getRoleForKarma, getRoleClass, type Task } from "@/lib/types";
 import { getLucideForEmoji } from "@/lib/emojiToIcon";
 import { toPascalCase } from "@/lib/icons";
 import { TaskModal } from "./TaskModal";
@@ -66,19 +66,19 @@ function createLucideSvgElement(iconName: string): SVGElement | null {
   return svgElement;
 }
 
-// XP tier definitions with visible circles (like planets)
-const XP_TIERS = [
-  { maxXp: 10, radius: 200 },
-  { maxXp: 25, radius: 270 },
-  { maxXp: 50, radius: 340 },
-  { maxXp: 100, radius: 410 },
-  { maxXp: 200, radius: 480 },
-  { maxXp: 400, radius: 550 },
-  { maxXp: 600, radius: 620 },
-  { maxXp: 1000, radius: 760 },
-  { maxXp: 2000, radius: 830 },
-  { maxXp: 4000, radius: 900 },
-  { maxXp: Infinity, radius: 2000 }
+// Karma tier definitions with visible circles (like planets)
+const KARMA_TIERS = [
+  { maxKarma: 10, radius: 200 },
+  { maxKarma: 25, radius: 270 },
+  { maxKarma: 50, radius: 340 },
+  { maxKarma: 100, radius: 410 },
+  { maxKarma: 200, radius: 480 },
+  { maxKarma: 400, radius: 550 },
+  { maxKarma: 600, radius: 620 },
+  { maxKarma: 1000, radius: 760 },
+  { maxKarma: 2000, radius: 830 },
+  { maxKarma: 4000, radius: 900 },
+  { maxKarma: Infinity, radius: 2000 }
 ];
 
 // Get consistent hash for ordering tasks within the same tier
@@ -97,7 +97,7 @@ function calculateTierLayout(tasks: Task[]) {
 
   // First, group tasks by tier
   const tasksByTier: Task[][] = [];
-  for (let i = 0; i < XP_TIERS.length; i++) {
+  for (let i = 0; i < KARMA_TIERS.length; i++) {
     tasksByTier.push([]);
   }
 
@@ -106,8 +106,8 @@ function calculateTierLayout(tasks: Task[]) {
 
   // Assign each task to its tier
   sortedTasks.forEach((task) => {
-    for (let i = 0; i < XP_TIERS.length; i++) {
-      if (task.xp <= XP_TIERS[i].maxXp) {
+    for (let i = 0; i < KARMA_TIERS.length; i++) {
+      if (task.xp <= KARMA_TIERS[i].maxKarma) {
         tasksByTier[i].push(task);
         break;
       }
@@ -183,7 +183,7 @@ export function ActionTree() {
       .finally(() => setLoadingTasks(false));
   }, [getTasks]);
 
-  const totalXp = userData?.total_xp ?? 0;
+  const totalKarma = userData?.total_xp ?? 0;
 
   // Draw the tree using D3
   useEffect(() => {
@@ -537,7 +537,7 @@ export function ActionTree() {
     // === DRAW TIER CIRCLES ===
 
     const mobileMaxRingRadius = 900;
-    XP_TIERS.forEach((tier, tierIndex) => {
+    KARMA_TIERS.forEach((tier, tierIndex) => {
       if (isMobileLike && tier.radius > mobileMaxRingRadius) return;
       mainGroup.append("circle")
         .attr("class", `tier-circle tier-${tierIndex}`)
@@ -560,7 +560,7 @@ export function ActionTree() {
     tierLayout
       .filter(item => completedTasks.has(item.task.id))
       .forEach(item => {
-        const pos = getPositionForTier(item.angle, XP_TIERS[item.tierIndex].radius);
+        const pos = getPositionForTier(item.angle, KARMA_TIERS[item.tierIndex].radius);
 
         let lineStroke = "rgba(255, 148, 22, 0.5)";
         if (!isMobileLite) {
@@ -602,7 +602,7 @@ export function ActionTree() {
       const isRepeatable = task.repeatable ?? false;
       const isWichtig = task.wichtig ?? false;
       const completionCount = userData?.completion_counts?.[task.id] ?? 0;
-      const pos = getPositionForTier(item.angle, XP_TIERS[item.tierIndex].radius);
+      const pos = getPositionForTier(item.angle, KARMA_TIERS[item.tierIndex].radius);
 
       const group = mainGroup.append("g")
         .attr("class", "node-group")
@@ -968,7 +968,7 @@ export function ActionTree() {
       }
     }
 
-    // XP text below
+    // Karma text below
     userGroup.append("text")
       .attr("text-anchor", "middle")
       .attr("y", 62)
@@ -976,7 +976,7 @@ export function ActionTree() {
       .attr("font-size", "13px")
       .attr("font-weight", "bold")
       .attr("font-family", "var(--font-headline)")
-      .text(`${totalXp} XP`);
+      .text(`${totalKarma} Karma`);
 
     const setZoomPerfMode = (isActive: boolean) => {
       if (!isMobileLike) return;
@@ -1054,7 +1054,7 @@ export function ActionTree() {
       }
       svg.on(".zoom", null);
     };
-  }, [tasks, userData?.completed_tasks, userData?.completion_counts, totalXp, session?.user?.image]);
+  }, [tasks, userData?.completed_tasks, userData?.completion_counts, totalKarma, session?.user?.image]);
 
   const loading = loadingTasks || isSessionLoading;
 
@@ -1141,7 +1141,7 @@ export function ActionTree() {
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block mt-2 text-[#FF9416] hover:text-[#FF9416]/80 font-body underline">
-            Hier findest du die gleichen Aufgaben als einfache Aufgabenliste.
+            Hier findest du die gleichen Aktionen als einfache Liste.
           </a>
         </div>
 
@@ -1149,7 +1149,7 @@ export function ActionTree() {
         {!session && (
           <div className="mb-6 text-center flex flex-wrap items-center justify-center gap-4 p-4 bg-[#1e1e2e]/50 border border-[#FF9416]/20 backdrop-blur-sm">
             <span className="font-body text-gray-300">
-              Wenn du willst, kannst du dich mit Discord einloggen, um deine Fortschritte zu speichern und Punkte zu sammeln.
+              Wenn du willst, kannst du dich mit Discord einloggen, um deine Fortschritte zu speichern und Karma zu sammeln.
             </span>
             <button
               onClick={() => signIn("discord")}
@@ -1177,11 +1177,11 @@ export function ActionTree() {
               </span>
               {userData && (
                 <div className="flex items-center gap-2 mt-1">
-                  <span className={`px-2 py-0.5 rounded text-xs ${getRoleClass(getRoleForXp(userData.total_xp))}`}>
-                    {getRoleForXp(userData.total_xp)}
+                  <span className={`px-2 py-0.5 rounded text-xs ${getRoleClass(getRoleForKarma(userData.total_xp))}`}>
+                    {getRoleForKarma(userData.total_xp)}
                   </span>
                   <span className="font-body text-[#FF9416] text-sm font-bold">
-                    {userData.total_xp} XP
+                    {userData.total_xp} Karma
                   </span>
                 </div>
               )}
@@ -1226,7 +1226,7 @@ export function ActionTree() {
         {/* Instructions */}
         <div className="mt-6 p-5 bg-[#1e1e2e]/50 border-l-4 border-[#FF9416] backdrop-blur-sm">
           <p className="font-body text-gray-300 text-sm md:text-base">
-            <span className="text-[#FF9416] font-headline font-bold">Anleitung:</span> Klicke auf Aufgaben, um sie zu erledigen. Sammle Punkte und steige in den Rollen auf, um Teil unseres Teams zu werden und PauseAI Germany aktiv mitzugestalten!
+            <span className="text-[#FF9416] font-headline font-bold">Anleitung:</span> Klicke auf ein Icon, um die Aktion und Infos anzuzeigen. Erledige Aktionen, sammle Karma und steige in den Rollen auf, um Teil unseres Teams zu werden und PauseAI Deutschland aktiv mitzugestalten!
           </p>
         </div>
       </div>

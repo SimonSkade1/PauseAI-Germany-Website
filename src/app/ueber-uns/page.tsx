@@ -29,7 +29,7 @@ function HeroSection() {
             {/* Color image (bottom layer) */}
             <Image
               src="/img_gruendung.jpg"
-              alt="PauseAI Germany Gründung"
+              alt="PauseAI Deutschland Gründung"
               width={1193}
               height={889}
               className="w-full h-full object-contain"

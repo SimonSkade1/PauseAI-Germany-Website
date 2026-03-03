@@ -27,12 +27,12 @@ export interface TaskCompletionResponse {
   xp_earned: number;
 }
 
-// Role levels based on XP
+// Role levels based on Karma
 export type UserRole = "Neues Mitglied" | "Engagiertes Mitglied" | "Aktives Mitglied";
 
-export function getRoleForXp(xp: number): UserRole {
-  if (xp >= 900) return "Aktives Mitglied";
-  if (xp >= 300) return "Engagiertes Mitglied";
+export function getRoleForKarma(karma: number): UserRole {
+  if (karma >= 900) return "Aktives Mitglied";
+  if (karma >= 300) return "Engagiertes Mitglied";
   return "Neues Mitglied";
 }
 

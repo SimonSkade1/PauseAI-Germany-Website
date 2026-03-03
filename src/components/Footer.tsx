@@ -123,7 +123,7 @@ export default function Footer() {
 
         <div className="border-t border-black/10 mt-10 pt-8 text-center">
           <p className="font-body text-black/50 text-sm">
-            &copy; {new Date().getFullYear()} PauseAI Germany. Alle Rechte
+            &copy; {new Date().getFullYear()} PauseAI Deutschland. Alle Rechte
             vorbehalten.
           </p>
         </div>
