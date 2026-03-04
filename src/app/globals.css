@@ -365,19 +365,39 @@ a.orange-link:hover {
 }
 
 /* Role badge styles for leaderboard */
+.role-0 {
+  background: #2a2a2a;
+  color: #d1d5db;
+}
+
 .role-1 {
-  background: #2d4a3e;
-  color: #6bcf8e;
+  background: #4a3f1c;
+  color: #facc15;
 }
 
 .role-2 {
-  background: #2d3a4a;
-  color: #6ba8cf;
+  background: #4a2f14;
+  color: #fb923c;
 }
 
 .role-3 {
-  background: #3d2d4a;
-  color: #a56bcf;
+  background: #1f4a2d;
+  color: #4ade80;
+}
+
+.role-4 {
+  background: #1f3c6b;
+  color: #60a5fa;
+}
+
+.role-5 {
+  background: #4a3627;
+  color: #d6a77a;
+}
+
+.role-6 {
+  background: #5b1f1f;
+  color: #f87171;
 }
 
 /* Custom scrollbar for modal content */

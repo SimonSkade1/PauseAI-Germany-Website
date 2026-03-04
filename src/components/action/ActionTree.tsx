@@ -5,7 +5,7 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import * as d3 from "d3";
 import { useAction, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { getRoleForKarma, getRoleClass, type Task } from "@/lib/types";
+import { canAccessTaskLevel, getRankForKarma, getRankForLevel, type Task } from "@/lib/types";
 import { getLucideForEmoji } from "@/lib/emojiToIcon";
 import { toPascalCase } from "@/lib/icons";
 import { TaskModal } from "./TaskModal";
@@ -15,6 +15,8 @@ import * as lucideStatic from "lucide-static";
 const PAUSEAI_ORANGE = "#FF9416";
 const PAUSEAI_GOLD = "#FFD700";
 const CARD_BG = "#1e1e2e";
+const AVAILABLE_COLOR = "#ffffff";
+const LOCKED_COLOR = "#9ca3af";
 
 const LAYOUT = {
   width: 1200,
@@ -171,6 +173,7 @@ export function ActionTree() {
         // Add Lucide icon mapping to each task
         const tasksWithIcons = notionTasks.map((t) => ({
           ...t,
+          level: Number.isFinite(t.level) ? Math.max(0, Math.floor(t.level)) : 0,
           icon: getLucideForEmoji(t.emoji),
         }));
         setTasks(tasksWithIcons);
@@ -184,6 +187,7 @@ export function ActionTree() {
   }, [getTasks]);
 
   const totalKarma = userData?.total_xp ?? 0;
+  const currentRank = getRankForKarma(totalKarma);
 
   // Draw the tree using D3
   useEffect(() => {
@@ -601,13 +605,16 @@ export function ActionTree() {
       const isCompleted = completedTasks.has(task.id);
       const isRepeatable = task.repeatable ?? false;
       const isWichtig = task.wichtig ?? false;
+      const isLocked = !canAccessTaskLevel(totalKarma, task.level);
+      const requiredRankForTask = getRankForLevel(task.level);
       const completionCount = userData?.completion_counts?.[task.id] ?? 0;
       const pos = getPositionForTier(item.angle, KARMA_TIERS[item.tierIndex].radius);
 
       const group = mainGroup.append("g")
         .attr("class", "node-group")
         .attr("transform", `translate(${pos.x}, ${pos.y})`)
-        .style("cursor", "pointer");
+        .style("cursor", isLocked ? "not-allowed" : "pointer")
+        .attr("opacity", isLocked ? 0.55 : 1);
 
       // Transparent click area (larger than icon for easier clicking)
       group.append("circle")
@@ -617,7 +624,9 @@ export function ActionTree() {
         .style("pointer-events", "all");
 
       if (isMobileLite) {
-        const nodeStroke = isCompleted ? PAUSEAI_ORANGE : (isWichtig ? PAUSEAI_GOLD : "#666666");
+        const nodeStroke = isLocked
+          ? LOCKED_COLOR
+          : (isCompleted ? PAUSEAI_ORANGE : (isWichtig ? PAUSEAI_GOLD : AVAILABLE_COLOR));
 
         group.append("circle")
           .attr("r", 18)
@@ -652,7 +661,7 @@ export function ActionTree() {
             group.append("text")
               .attr("text-anchor", "middle")
               .attr("dominant-baseline", "middle")
-              .attr("fill", "#ffffff")
+              .attr("fill", nodeStroke)
               .attr("font-size", "16px")
               .text(task.emoji || "•");
           }
@@ -660,7 +669,7 @@ export function ActionTree() {
           group.append("text")
             .attr("text-anchor", "middle")
             .attr("dominant-baseline", "middle")
-            .attr("fill", "#ffffff")
+            .attr("fill", nodeStroke)
             .attr("font-size", "16px")
             .text(task.emoji || "•");
         }
@@ -677,10 +686,22 @@ export function ActionTree() {
             .text(completionCount.toString());
         }
 
-        group.on("click", (event) => {
-          event.stopPropagation();
-          setSelectedTask(task);
-        });
+        if (isLocked) {
+          group.append("text")
+            .attr("x", 14)
+            .attr("y", 14)
+            .attr("text-anchor", "middle")
+            .attr("fill", LOCKED_COLOR)
+            .attr("font-size", "8px")
+            .attr("font-weight", "bold")
+            .attr("font-family", "var(--font-headline)")
+            .text("LOCK");
+        } else {
+          group.on("click", (event) => {
+            event.stopPropagation();
+            setSelectedTask(task);
+          });
+        }
         return;
       }
 
@@ -691,10 +712,13 @@ export function ActionTree() {
         .style("pointer-events", "none");
 
       // Estimate text width for background
-      const estimatedWidth = Math.min(task.name.length * 7 + 16, 200);
+      const lockHint = `Ab ${requiredRankForTask.label} (${requiredRankForTask.minXp} Karma)`;
+      const primaryLabel = task.name.length > 25 ? task.name.slice(0, 25) + "..." : task.name;
+      const tooltipLabel = isLocked ? lockHint : primaryLabel;
+      const estimatedWidth = Math.min(tooltipLabel.length * 7 + 20, 260);
 
       // Important tasks get gold tooltip, others get orange
-      const tooltipColor = isWichtig ? PAUSEAI_GOLD : PAUSEAI_ORANGE;
+      const tooltipColor = isLocked ? LOCKED_COLOR : (isWichtig ? PAUSEAI_GOLD : PAUSEAI_ORANGE);
 
       // Tooltip background
       tooltipGroup.append("rect")
@@ -718,7 +742,7 @@ export function ActionTree() {
         .attr("font-size", "12px")
         .attr("font-weight", "600")
         .attr("font-family", "var(--font-headline)")
-        .text(task.name.length > 25 ? task.name.slice(0, 25) + "..." : task.name);
+        .text(tooltipLabel);
 
       // Tooltip arrow pointing down
       tooltipGroup.append("path")
@@ -727,26 +751,8 @@ export function ActionTree() {
         .attr("fill", tooltipColor)
         .attr("opacity", 0.95);
 
-      // Important (wichtig) task effects: pulsing ring + gold glow
-      if (!isMobileLike && isWichtig && !isCompleted) {
-        // Static highlight ring for important tasks
-        group.append("circle")
-          .attr("class", "wichtig-pulsing-ring")
-          .attr("r", 30)
-          .attr("fill", "none")
-          .attr("stroke", PAUSEAI_GOLD)
-          .attr("stroke-width", 2)
-          .attr("stroke-opacity", 0.6);
-
-        // Gold glow background
-        group.append("circle")
-          .attr("class", "wichtig-glow-bg")
-          .attr("r", 35)
-          .attr("fill", "url(#wichtig-glow)");
-      }
-
       // Glow effect for completed tasks
-      if (!isMobileLike && isCompleted) {
+      if (!isMobileLike && isCompleted && !isLocked) {
         // For repeatable tasks, use an orange glow that gets more intense with each completion
         const glowOpacity = isRepeatable ? 0.5 + Math.min(completionCount * 0.1, 0.5) : 0.8;
         const glowColor = isRepeatable ? "#FF9416" : PAUSEAI_ORANGE;
@@ -792,9 +798,11 @@ export function ActionTree() {
       if (iconSvg) {
         const clonedIcon = group.node()!.appendChild(iconSvg.cloneNode(true) as SVGElement);
         // Completed tasks are orange, unfinished important tasks are black for contrast, others stay gray
-        const iconStrokeColor = isCompleted
+        const iconStrokeColor = isLocked
+          ? LOCKED_COLOR
+          : (isCompleted
           ? PAUSEAI_ORANGE
-          : (isWichtig ? "#ffffff" : "#666666");
+          : (isWichtig ? PAUSEAI_GOLD : AVAILABLE_COLOR));
         d3.select(clonedIcon)
           .attr("class", "task-icon")
           .attr("width", iconSize)
@@ -814,20 +822,22 @@ export function ActionTree() {
           .attr("transform", "translate(20, -20)");
 
 
-        // Use cached repeat icon
-        let repeatIcon = iconCacheRef.current.get("repeat");
+        // Use cached rotate-cw icon for repeatable tasks
+        let repeatIcon = iconCacheRef.current.get("rotate-cw");
         if (!repeatIcon) {
-          const newSvg = createLucideSvgElement("repeat");
+          const newSvg = createLucideSvgElement("rotate-cw");
           if (newSvg) {
-            iconCacheRef.current.set("repeat", newSvg);
+            iconCacheRef.current.set("rotate-cw", newSvg);
             repeatIcon = newSvg;
           }
         }
         if (repeatIcon) {
           const clonedRepeatIcon = badgeGroup.node()!.appendChild(repeatIcon.cloneNode(true) as SVGElement);
-          const repeatIconColor = isCompleted
+          const repeatIconColor = isLocked
+            ? LOCKED_COLOR
+            : (isCompleted
             ? PAUSEAI_ORANGE
-            : (isWichtig ? "#ffffff" : "#666666");
+            : (isWichtig ? PAUSEAI_GOLD : AVAILABLE_COLOR));
           d3.select(clonedRepeatIcon)
             .attr("width", 20)
             .attr("height", 20)
@@ -842,10 +852,12 @@ export function ActionTree() {
         }
 
         // Completion count - shown inside the repeat icon, transparent
-        const countColor = isCompleted
+        const countColor = isLocked
+          ? LOCKED_COLOR
+          : (isCompleted
           ? PAUSEAI_ORANGE
-          : (isWichtig ? "#ffffff" : "#666666");
-        const countText = badgeGroup.append("text")
+          : (isWichtig ? PAUSEAI_GOLD : AVAILABLE_COLOR));
+        badgeGroup.append("text")
           .attr("text-anchor", "middle")
           .attr("dy", "3")
           .attr("fill", countColor)
@@ -857,10 +869,12 @@ export function ActionTree() {
 
       // Hover effect
       group.on("mouseenter", function () {
-        d3.select(this).select(".task-icon")
-          .transition()
-          .duration(150)
-          .attr("transform", "scale(1.1)");
+        if (!isLocked) {
+          d3.select(this).select(".task-icon")
+            .transition()
+            .duration(150)
+            .attr("transform", "scale(1.1)");
+        }
 
         d3.select(this).select(".tooltip-group")
           .transition()
@@ -876,10 +890,12 @@ export function ActionTree() {
       });
 
       group.on("mouseleave", function () {
-        d3.select(this).select(".task-icon")
-          .transition()
-          .duration(150)
-          .attr("transform", "scale(1)");
+        if (!isLocked) {
+          d3.select(this).select(".task-icon")
+            .transition()
+            .duration(150)
+            .attr("transform", "scale(1)");
+        }
 
         d3.select(this).select(".tooltip-group")
           .transition()
@@ -895,10 +911,12 @@ export function ActionTree() {
       });
 
       // Click handler
-      group.on("click", (event) => {
-        event.stopPropagation();
-        setSelectedTask(task);
-      });
+      if (!isLocked) {
+        group.on("click", (event) => {
+          event.stopPropagation();
+          setSelectedTask(task);
+        });
+      }
     });
 
     // === USER AVATAR (drawn after lines to appear on top) ===
@@ -985,7 +1003,7 @@ export function ActionTree() {
       backgroundGroup.selectAll(".background-grid, .particles")
         .attr("display", displayValue);
 
-      mainGroup.selectAll(".tooltip-group, .wichtig-pulsing-ring, .wichtig-glow-bg")
+      mainGroup.selectAll(".tooltip-group, .glow-bg")
         .attr("display", displayValue);
     };
 
@@ -1002,7 +1020,7 @@ export function ActionTree() {
     };
 
     const zoom = d3.zoom<SVGSVGElement, unknown>()
-      .scaleExtent([0.35, 2])
+      .scaleExtent([0.35, 3])
       .on("start", () => {
         if (!isMobileLike) return;
         if (zoomPerfRestoreTimer !== null) {
@@ -1177,8 +1195,8 @@ export function ActionTree() {
               </span>
               {userData && (
                 <div className="flex items-center gap-2 mt-1">
-                  <span className={`px-2 py-0.5 rounded text-xs ${getRoleClass(getRoleForKarma(userData.total_xp))}`}>
-                    {getRoleForKarma(userData.total_xp)}
+                  <span className={`px-2 py-0.5 rounded text-xs ${currentRank.className}`}>
+                    {currentRank.label}
                   </span>
                   <span className="font-body text-[#FF9416] text-sm font-bold">
                     {userData.total_xp} Karma
@@ -1214,8 +1232,12 @@ export function ActionTree() {
             <span className="font-body">Erledigt</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="w-3 h-3 rounded-full bg-[#666666]" />
+            <span className="w-3 h-3 rounded-full bg-[#ffffff]" />
             <span className="font-body">Verfügbar</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="w-3 h-3 rounded-full bg-[#9ca3af]" />
+            <span className="font-body">Gesperrt</span>
           </div>
           <div className="flex items-center gap-2">
             <span className="w-3 h-3 rounded-full bg-[#FFD700]" />

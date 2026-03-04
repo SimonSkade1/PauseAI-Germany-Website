@@ -1,17 +1,25 @@
 import { action } from "./_generated/server";
 import { v } from "convex/values";
 
-// Role thresholds
 const ROLE_THRESHOLDS = [
-  { xp: 150, level: 2 },
-  { xp: 400, level: 3 },
-];
+  { xp: 30, level: 1, name: "Novize" },
+  { xp: 100, level: 2, name: "Lehrling" },
+  { xp: 300, level: 3, name: "Aufklärer" },
+  { xp: 1000, level: 4, name: "Aktivist" },
+  { xp: 3000, level: 5, name: "Pionier" },
+  { xp: 10000, level: 6, name: "Meister" },
+] as const;
 
-// Get role name for Karma
-function getRoleForXp(karma: number): string {
-  if (karma >= 900) return "Aktives Mitglied";
-  if (karma >= 300) return "Engagiertes Mitglied";
-  return "Neues Mitglied";
+function getHighestRankForXp(karma: number) {
+  let highest: { xp: number; level: number; name: string } = { xp: 0, level: 0, name: "Kein Rang" };
+  for (const threshold of ROLE_THRESHOLDS) {
+    if (karma >= threshold.xp) {
+      highest = threshold;
+    } else {
+      break;
+    }
+  }
+  return highest;
 }
 
 // Notify Discord about task completion
@@ -33,7 +41,6 @@ export const notifyTaskComplete = action({
       return { success: false, error: "Missing credentials" };
     }
 
-    // Build embed fields
     const fields: Array<{ name: string; value: string; inline: boolean }> = [
       { name: "Karma", value: `${args.totalXp} (+${args.xp})`, inline: true },
       { name: "Aufgabe", value: args.taskName, inline: false },
@@ -43,7 +50,6 @@ export const notifyTaskComplete = action({
       fields.push({ name: "Kommentar", value: args.comment, inline: false });
     }
 
-    // Post message to Discord
     const response = await fetch(
       `https://discord.com/api/v10/channels/${channelId}/messages`,
       {
@@ -57,7 +63,7 @@ export const notifyTaskComplete = action({
           allowed_mentions: { users: [args.discordId] },
           embeds: [
             {
-              color: 0xff6b35, // PauseAI Orange
+              color: 0xff6b35,
               fields,
             },
           ],
@@ -75,7 +81,7 @@ export const notifyTaskComplete = action({
   },
 });
 
-// Assign Discord role based on Karma threshold
+// Assign exactly one Discord role based on highest Karma threshold
 export const assignRole = action({
   args: {
     discordId: v.string(),
@@ -92,61 +98,77 @@ export const assignRole = action({
     }
 
     const roleIds = {
+      1: process.env.ROLE_LEVEL_1,
       2: process.env.ROLE_LEVEL_2,
       3: process.env.ROLE_LEVEL_3,
+      4: process.env.ROLE_LEVEL_4,
+      5: process.env.ROLE_LEVEL_5,
+      6: process.env.ROLE_LEVEL_6,
+    } as const;
+
+    const newRank = getHighestRankForXp(args.newXp);
+    const oldRank = getHighestRankForXp(args.oldXp);
+
+    const applyRoleChange = async (roleId: string, method: "PUT" | "DELETE") => {
+      const response = await fetch(
+        `https://discord.com/api/v10/guilds/${guildId}/members/${args.discordId}/roles/${roleId}`,
+        {
+          method,
+          headers: {
+            Authorization: `Bot ${botToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        const error = await response.text();
+        console.error("Discord role assignment error:", error);
+        throw new Error("Failed to assign role");
+      }
     };
 
-    // Check if user crossed any threshold
-    for (const threshold of ROLE_THRESHOLDS) {
-      if (args.newXp >= threshold.xp && args.oldXp < threshold.xp) {
-        const roleId = roleIds[threshold.level as keyof typeof roleIds];
+    try {
+      for (let level = 1; level <= 6; level++) {
+        const roleId = roleIds[level as keyof typeof roleIds];
         if (!roleId) {
-          console.error(`Missing ROLE_LEVEL_${threshold.level}`);
+          console.error(`Missing ROLE_LEVEL_${level}`);
           continue;
         }
 
-        // Assign role via Discord API
-        const response = await fetch(
-          `https://discord.com/api/v10/guilds/${guildId}/members/${args.discordId}/roles/${roleId}`,
+        if (level === newRank.level) {
+          await applyRoleChange(roleId, "PUT");
+        } else {
+          await applyRoleChange(roleId, "DELETE");
+        }
+      }
+    } catch (error) {
+      return { success: false, error: error instanceof Error ? error.message : "Failed to assign role" };
+    }
+
+    if (newRank.level > oldRank.level && newRank.level > 0) {
+      const channelId = process.env.DID_A_THING_CHANNEL_ID;
+      if (channelId) {
+        await fetch(
+          `https://discord.com/api/v10/channels/${channelId}/messages`,
           {
-            method: "PUT",
+            method: "POST",
             headers: {
               Authorization: `Bot ${botToken}`,
               "Content-Type": "application/json",
             },
+            body: JSON.stringify({
+              content: `🎉 <@${args.discordId}> hat ${args.newXp} Karma erreicht und die Rolle **${newRank.name}** erhalten!`,
+            }),
           }
         );
-
-        if (!response.ok) {
-          const error = await response.text();
-          console.error("Discord role assignment error:", error);
-          return { success: false, error: "Failed to assign role" };
-        }
-
-        const roleName = getRoleForXp(args.newXp);
-
-        // Send notification about new role
-        const channelId = process.env.DID_A_THING_CHANNEL_ID;
-        if (channelId) {
-          await fetch(
-            `https://discord.com/api/v10/channels/${channelId}/messages`,
-            {
-              method: "POST",
-              headers: {
-                Authorization: `Bot ${botToken}`,
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                content: `🎉 <@${args.discordId}> hat ${args.newXp} Karma erreicht und die Rolle **${roleName}** erhalten!`,
-              }),
-            }
-          );
-        }
-
-        return { success: true, roleAssigned: threshold.level, roleName };
       }
     }
 
-    return { success: true, roleAssigned: null };
+    return {
+      success: true,
+      roleAssigned: newRank.level > 0 ? newRank.level : null,
+      roleName: newRank.level > 0 ? newRank.name : null,
+    };
   },
 });

@@ -194,11 +194,18 @@ export const getTasks = action({
         ) as any;
         const name = nameProp?.title?.[0]?.plain_text ?? "";
 
-        // Extract time investment (Zeitinvestment in Stunden)
-        const timeProp = Object.values(props).find(
-          (v: any) => v?.type === "number"
-        ) as any;
-        const timeInvestment = timeProp?.number ?? 1;
+        const levelProp = props["Level"] as any;
+        const level =
+          levelProp?.type === "number" && typeof levelProp.number === "number" && Number.isFinite(levelProp.number)
+            ? Math.max(0, Math.floor(levelProp.number))
+            : 0;
+
+        // Exact Notion property for time investment
+        const timeProp = props["Zeitinvestment (Stunden)"] as any;
+        const timeInvestment =
+          timeProp?.type === "number" && typeof timeProp.number === "number" && Number.isFinite(timeProp.number)
+            ? timeProp.number
+            : 1;
 
         // Calculate XP: 1 hour = 100 XP
         const xp = Math.round(timeInvestment * 100);
@@ -231,6 +238,7 @@ export const getTasks = action({
           id: page.id,
           name,
           xp,
+          level,
           emoji,
           link,
           repeatable,
@@ -243,4 +251,3 @@ export const getTasks = action({
     return tasks;
   },
 });
-

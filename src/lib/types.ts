@@ -3,6 +3,7 @@ export interface Task {
   id: string;
   name: string;
   xp: number;
+  level: number;
   emoji: string;
   link: string;
   icon?: string;       // Computed from emoji via getLucideForEmoji()
@@ -27,24 +28,58 @@ export interface TaskCompletionResponse {
   xp_earned: number;
 }
 
-// Role levels based on Karma
-export type UserRole = "Neues Mitglied" | "Engagiertes Mitglied" | "Aktives Mitglied";
+export interface RankInfo {
+  level: number;
+  minXp: number;
+  label: string;
+  className: string;
+}
 
+export const RANKS: RankInfo[] = [
+  { level: 0, minXp: 0, label: "Kein Rang", className: "role-0" },
+  { level: 1, minXp: 30, label: "Novize", className: "role-1" },
+  { level: 2, minXp: 100, label: "Lehrling", className: "role-2" },
+  { level: 3, minXp: 300, label: "Aufklärer", className: "role-3" },
+  { level: 4, minXp: 1000, label: "Aktivist", className: "role-4" },
+  { level: 5, minXp: 3000, label: "Pionier", className: "role-5" },
+  { level: 6, minXp: 10000, label: "Meister", className: "role-6" },
+];
+
+export type UserRole = RankInfo["label"];
+
+export function getRankForKarma(karma: number): RankInfo {
+  const safeKarma = Math.max(0, karma);
+  let activeRank = RANKS[0];
+  for (const rank of RANKS) {
+    if (safeKarma >= rank.minXp) {
+      activeRank = rank;
+    } else {
+      break;
+    }
+  }
+  return activeRank;
+}
+
+export function getRankLevelForKarma(karma: number): number {
+  return getRankForKarma(karma).level;
+}
+
+export function getRankForLevel(level: number): RankInfo {
+  const normalizedLevel = Number.isFinite(level) ? Math.max(0, Math.floor(level)) : 0;
+  return RANKS.find((rank) => rank.level === normalizedLevel) ?? RANKS[RANKS.length - 1];
+}
+
+export function canAccessTaskLevel(userKarma: number, taskLevel: number): boolean {
+  const normalizedTaskLevel = Number.isFinite(taskLevel) ? Math.max(0, Math.floor(taskLevel)) : 0;
+  return getRankLevelForKarma(userKarma) >= normalizedTaskLevel;
+}
+
+// Backward-compatible helpers for existing call sites
 export function getRoleForKarma(karma: number): UserRole {
-  if (karma >= 900) return "Aktives Mitglied";
-  if (karma >= 300) return "Engagiertes Mitglied";
-  return "Neues Mitglied";
+  return getRankForKarma(karma).label;
 }
 
 export function getRoleClass(role: UserRole): string {
-  switch (role) {
-    case "Aktives Mitglied":
-      return "role-3";
-    case "Engagiertes Mitglied":
-      return "role-2";
-    case "Neues Mitglied":
-      return "role-1";
-    default:
-      return "role-1";
-  }
+  const rank = RANKS.find((r) => r.label === role);
+  return rank?.className ?? "role-0";
 }
