@@ -16,7 +16,7 @@ const PAUSEAI_ORANGE = "#FF9416";
 const PAUSEAI_GOLD = "#FFD700";
 const CARD_BG = "#1e1e2e";
 const AVAILABLE_COLOR = "#ffffff";
-const LOCKED_COLOR = "#9ca3af";
+const LOCKED_COLOR = "#323336";
 
 const LAYOUT = {
   width: 1200,
@@ -717,8 +717,8 @@ export function ActionTree() {
       const tooltipLabel = isLocked ? lockHint : primaryLabel;
       const estimatedWidth = Math.min(tooltipLabel.length * 7 + 20, 260);
 
-      // Important tasks get gold tooltip, others get orange
-      const tooltipColor = isLocked ? LOCKED_COLOR : (isWichtig ? PAUSEAI_GOLD : PAUSEAI_ORANGE);
+      // Keep tooltip styling constant for readability
+      const tooltipColor = "#030305";
 
       // Tooltip background
       tooltipGroup.append("rect")
@@ -738,7 +738,7 @@ export function ActionTree() {
         .attr("x", 0)
         .attr("y", -43)
         .attr("dy", "0.35em")
-        .attr("fill", "#030305")
+        .attr("fill", "#ffffff")
         .attr("font-size", "12px")
         .attr("font-weight", "600")
         .attr("font-family", "var(--font-headline)")
@@ -1248,7 +1248,7 @@ export function ActionTree() {
         {/* Instructions */}
         <div className="mt-6 p-5 bg-[#1e1e2e]/50 border-l-4 border-[#FF9416] backdrop-blur-sm">
           <p className="font-body text-gray-300 text-sm md:text-base">
-            <span className="text-[#FF9416] font-headline font-bold">Anleitung:</span> Klicke auf ein Icon, um die Aktion und Infos anzuzeigen. Erledige Aktionen, sammle Karma und steige in den Rollen auf, um Teil unseres Teams zu werden und PauseAI Deutschland aktiv mitzugestalten!
+            <span className="text-[#FF9416] font-headline font-bold">Anleitung:</span> Klicke auf ein Icon, um die Aktion und Infos anzuzeigen. Erledige Aktionen, sammle Karma und steige in den Rollen auf, um unsere Bewegung voranzubringen! Wenn du noch mehr tun willst, melde dich im "help-needed"-Channel auf unserem Discord.
           </p>
         </div>
       </div>

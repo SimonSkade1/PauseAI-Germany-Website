@@ -211,6 +211,7 @@ export function TaskModal({ task, completedTasks = [], onClose }: TaskModalProps
   if (!task) return null;
 
   const isLoggedIn = !!session;
+  const awardedXp = task.wichtig ? task.xp * 2 : task.xp;
 
   const handleSubmit = async () => {
     if (!isLoggedIn || !session.user.discordId) {
@@ -232,7 +233,7 @@ export function TaskModal({ task, completedTasks = [], onClose }: TaskModalProps
         taskId: task.id,
         discordId: session.user.discordId,
         discordName: session.user.name || "Unknown",
-        xp: task.xp,
+        xp: awardedXp,
         comment: comment || undefined,
         repeatable: task.repeatable,
       });
@@ -295,7 +296,7 @@ export function TaskModal({ task, completedTasks = [], onClose }: TaskModalProps
 
         <div className="mb-4 text-sm relative flex items-center gap-2 flex-shrink-0">
           <span className="px-3 py-1 bg-[#FF9416]/20 text-[#FF9416] font-body-bold border border-[#FF9416]/30">
-            +{task.xp} Karma
+            +{awardedXp} Karma
           </span>
           {task.wichtig && (
             <span className="px-3 py-1 bg-yellow-500/20 text-yellow-400 font-body-bold border border-yellow-500/30">

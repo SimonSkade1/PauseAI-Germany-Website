@@ -83,11 +83,13 @@ export const EMOJI_TO_LUCIDE: Record<string, string> = {
   // Places & Travel
   "📍": "map-pin",
   "🏠": "home",
+  "🏡": "home",
   "🏘️": "home",
   "🌍": "globe",
   "🌐": "globe",
   "🗺️": "map",
   "🧳": "briefcase",
+  "💼": "briefcase",
 
   // Writing & Documents
   "📄": "file-text",
@@ -113,6 +115,7 @@ export const EMOJI_TO_LUCIDE: Record<string, string> = {
   "💰": "coin",
   "🎁": "gift",
   "❤️": "heart",
+  "💭": "brain",
   "🏳️": "flag",
   "🏴": "flag",
   "🚩": "flag",
