@@ -41,8 +41,11 @@ export const notifyTaskComplete = action({
       return { success: false, error: "Missing credentials" };
     }
 
+    const currentRank = getHighestRankForXp(args.totalXp);
+
     const fields: Array<{ name: string; value: string; inline: boolean }> = [
       { name: "Karma", value: `${args.totalXp} (+${args.xp})`, inline: true },
+      { name: "Rolle", value: currentRank.name, inline: true },
       { name: "Aufgabe", value: args.taskName, inline: false },
     ];
 
