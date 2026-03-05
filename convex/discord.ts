@@ -84,6 +84,66 @@ export const notifyTaskComplete = action({
   },
 });
 
+export const notifyManualKarma = action({
+  args: {
+    targetDiscordId: v.string(),
+    awardedByDiscordId: v.string(),
+    awardedByDiscordName: v.string(),
+    amount: v.number(),
+    totalXp: v.number(),
+    reason: v.string(),
+    sourceMessageId: v.string(),
+    sourceChannelId: v.string(),
+  },
+  handler: async (_, args) => {
+    const channelId = process.env.DID_A_THING_CHANNEL_ID;
+    const botToken = process.env.DISCORD_TOKEN;
+
+    if (!channelId || !botToken) {
+      console.error("Missing Discord credentials");
+      return { success: false, error: "Missing credentials" };
+    }
+
+    const currentRank = getHighestRankForXp(args.totalXp);
+    const messageLink = `https://discord.com/channels/${process.env.GUILD_ID}/${args.sourceChannelId}/${args.sourceMessageId}`;
+
+    const response = await fetch(
+      `https://discord.com/api/v10/channels/${channelId}/messages`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bot ${botToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          content: `🧑‍⚖️ <@${args.awardedByDiscordId}> hat Karma vergeben.`,
+          allowed_mentions: { users: [args.awardedByDiscordId, args.targetDiscordId] },
+          embeds: [
+            {
+              color: 0x2ecc71,
+              fields: [
+                { name: "Empfänger", value: `<@${args.targetDiscordId}>`, inline: true },
+                { name: "Karma", value: `+${args.amount} (gesamt: ${args.totalXp})`, inline: true },
+                { name: "Rolle", value: currentRank.name, inline: true },
+                { name: "Grund", value: args.reason, inline: false },
+                { name: "Quelle", value: `[Originale Nachricht](${messageLink})`, inline: false },
+              ],
+            },
+          ],
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      const error = await response.text();
+      console.error("Discord API error:", error);
+      return { success: false, error };
+    }
+
+    return { success: true };
+  },
+});
+
 // Assign exactly one Discord role based on highest Karma threshold
 export const assignRole = action({
   args: {

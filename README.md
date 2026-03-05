@@ -42,3 +42,15 @@ https://meet.jit.si/PauseAI-Deutschland-Kennenlernen
 
 We use this chatroom for weekly meetings
 https://meet.jit.si/PauseAI-Deutschland
+
+## Discord bot
+
+we use convex as the database to save the completedtasks, manualkarmaevents and users.  
+we also use convex to run the bot backend (serverless)  
+ask Markus (mw3155dev@gmail.com) for access etc.  
+also see convex readme.  
+
+
+To make command work like "award karma" you have to register the command to the server via the register-discord-command.sh script.  
+(this needs to have .env.local vars set)  
+

@@ -1,0 +1,159 @@
+it works! now what else to configure?
+
+
+• 1. Create the message context command in Discord Developer Portal:
+
+  - Type: Message Command
+  - Name: Award Karma (exactly)
+
+  2. Ensure bot installation has scopes:
+
+  - bot
+  - applications.commands
+
+  3. Server role config:
+
+  - Choose moderator role(s)
+  - Put their role IDs into Vercel env DISCORD_MOD_ROLE_IDS (comma-separated)
+  - Redeploy after env change
+
+  4. Bot permissions in server:
+
+
+  - run npx convex deploy (or npx convex dev in your workflow)
+
+  - DISCORD_TOKEN
+  - DID_A_THING_CHANNEL_ID
+  - GUILD_ID
+  - ROLE_LEVEL_1 ... ROLE_LEVEL_6
+
+  7. Test end-to-end:
+
+  - Mod right-clicks a user message -> Apps -> Award Karma
+  - Enter amount/reason
+  - Verify:
+      - ephemeral success response
+      - did-a-thing notification post
+      - user XP increased in Convex
+      - role updated if threshold crossed
+
+  If you want, I can add a small admin query/mutation to list last manual karma events for quick auditing in-app.
+
+
+› • 1. Create the message context command in Discord Developer Portal:
+
+    - Type: Message Command
+
+
+• Discord changed UI labels a bit, but flow is:
+
+  1. Open Discord Developer Portal
+     https://discord.com/developers/applications -> your app.
+  2. Go to Commands (sometimes under Interactions or Application Commands).
+  3. Click Create Command / New Command.
+  4. Set:
+
+  - Command type: Message (Message Context Menu)
+  - Name: Award Karma (exact spelling/case)
+  - Integration / Install context: your server/guild (or global if you want)
+  - Default permissions: optional (you already enforce mod role in backend)
+
+  5. Save/Publish command.
+  6. In your Discord server, wait up to a few minutes (guild commands are usually fast), then test:
+
+  - Right-click a message -> Apps -> Award Karma.
+
+  If you don’t see Commands in portal:
+
+  - Check app was installed with applications.commands scope.
+  - Reinstall app to server via OAuth2 URL with bot applications.commands.
+
+
+› The doc you linked is correct. A **Message Command** is a **context menu command**, not a slash command. It appears when you **right-click a message → Apps → your command**. ([discord.com][1])
+
+  Important detail: **these commands are not usually created in the Developer Portal UI anymore**. Most apps register them **via the API or library (discord.js, pycord, etc.) when the bot starts**.
+
+  Example from the docs conceptually:
+
+  Type = `MESSAGE`
+  Name = `"Award Karma"`
+
+  They are registered like other application commands via:
+
+  ```
+  POST /applications/{application.id}/commands
+  ```
+
+  or guild version:
+
+  ```
+  POST /applications/{application.id}/guilds/{guild.id}/commands
+  ```
+
+  ([docs.discord.com][2])
+
+  Example payload:
+
+  ```
+  {
+    "name": "Award Karma",
+    "type": 3
+  }
+  ```
+
+  `type: 3` = **MESSAGE command**.
+
+  After registering, users see it by:
+
+  ```
+  Right click message
+  → Apps
+  → Award Karma
+  ```
+
+  Context menu commands cannot have options or arguments. ([discordjs.guide][3])
+
+  If you want, paste:
+
+  • your bot library (discord.js / discord.py / etc.)
+  • how you currently register slash commands
+
+  Then I can show the **exact code snippet to register the message command**, which is usually the real missing step.
+
+  [1]: https://discord.com/developers/docs/interactions/overview?utm_source=chatgpt.com "Overview of Interactions | Documentation"
+  [2]: https://docs.discord.com/developers/interactions/application-commands?utm_source=chatgpt.com "Application Commands - Documentation"
+  [3]: https://discordjs.guide/legacy/interactions/context-menus?utm_source=chatgpt.com "Context Menus | discord.js"
+
+
+• Exactly right. In your setup, the missing step is command registration.
+
+  Use this once (guild-scoped, fastest to appear):
+
+  export DISCORD_TOKEN="YOUR_BOT_TOKEN"
+  export APP_ID="YOUR_APPLICATION_ID"
+  export GUILD_ID="YOUR_SERVER_ID"
+
+  curl -X POST "https://discord.com/api/v10/applications/$APP_ID/guilds/$GUILD_ID/commands" \
+    -H "Authorization: Bot $DISCORD_TOKEN" \
+    -H "Content-Type: application/json" \
+    -d '{
+      "name": "Award Karma",
+      "type": 3
+    }'
+
+  Then verify:
+
+  curl -X GET "https://discord.com/api/v10/applications/$APP_ID/guilds/$GUILD_ID/commands" \
+    -H "Authorization: Bot $DISCORD_TOKEN"
+
+  You should see Award Karma with "type": 3.
+
+  Notes:
+
+  - type: 3 is message context menu command.
+  - Your backend requires the name to be exactly Award Karma.
+  - If you change command name later, update route.ts accordingly.
+
+  After this, test in Discord:
+
+  - Right-click any message -> Apps -> Award Karma.

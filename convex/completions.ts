@@ -69,3 +69,83 @@ export const completeTask = mutation({
     };
   },
 });
+
+export const grantManualKarma = mutation({
+  args: {
+    targetDiscordId: v.string(),
+    targetDiscordName: v.string(),
+    awardedByDiscordId: v.string(),
+    awardedByDiscordName: v.string(),
+    amount: v.number(),
+    reason: v.string(),
+    sourceMessageId: v.string(),
+    sourceChannelId: v.string(),
+    sourceGuildId: v.optional(v.string()),
+    idempotencyKey: v.string(),
+  },
+  handler: async (ctx, args) => {
+    if (!Number.isInteger(args.amount) || args.amount <= 0 || args.amount > 5000) {
+      throw new Error("Invalid karma amount");
+    }
+
+    const duplicate = await ctx.db
+      .query("manualKarmaEvents")
+      .withIndex("by_idempotency_key", (q) => q.eq("idempotencyKey", args.idempotencyKey))
+      .first();
+
+    if (duplicate) {
+      return {
+        success: true,
+        totalXp: duplicate.totalXpAfter,
+        oldXp: duplicate.totalXpAfter - duplicate.amount,
+        duplicate: true,
+      };
+    }
+
+    let targetUser = await ctx.db
+      .query("users")
+      .withIndex("by_discord_id", (q) => q.eq("discordId", args.targetDiscordId))
+      .first();
+
+    if (!targetUser) {
+      const userId = await ctx.db.insert("users", {
+        discordId: args.targetDiscordId,
+        discordName: args.targetDiscordName,
+        totalXp: 0,
+      });
+      targetUser = await ctx.db.get(userId);
+    }
+
+    if (!targetUser) {
+      throw new Error("Failed to create target user");
+    }
+
+    const oldXp = targetUser.totalXp;
+    const newXp = oldXp + args.amount;
+
+    await ctx.db.patch(targetUser._id, {
+      totalXp: newXp,
+    });
+
+    await ctx.db.insert("manualKarmaEvents", {
+      targetDiscordId: args.targetDiscordId,
+      awardedByDiscordId: args.awardedByDiscordId,
+      awardedByDiscordName: args.awardedByDiscordName,
+      amount: args.amount,
+      reason: args.reason,
+      sourceMessageId: args.sourceMessageId,
+      sourceChannelId: args.sourceChannelId,
+      sourceGuildId: args.sourceGuildId,
+      idempotencyKey: args.idempotencyKey,
+      totalXpAfter: newXp,
+      createdAt: Date.now(),
+    });
+
+    return {
+      success: true,
+      totalXp: newXp,
+      oldXp,
+      duplicate: false,
+    };
+  },
+});
