@@ -172,11 +172,16 @@ export const assignRole = action({
     const newRank = getHighestRankForXp(args.newXp);
     const oldRank = getHighestRankForXp(args.oldXp);
 
-    const applyRoleChange = async (roleId: string, method: "PUT" | "DELETE") => {
-      const response = await fetch(
-        `https://discord.com/api/v10/guilds/${guildId}/members/${args.discordId}/roles/${roleId}`,
+    try {
+      const levelRoleIds = Object.values(roleIds).filter((roleId): roleId is string => Boolean(roleId));
+      if (levelRoleIds.length === 0) {
+        return { success: false, error: "No level role IDs configured" };
+      }
+
+      const memberResponse = await fetch(
+        `https://discord.com/api/v10/guilds/${guildId}/members/${args.discordId}`,
         {
-          method,
+          method: "GET",
           headers: {
             Authorization: `Bot ${botToken}`,
             "Content-Type": "application/json",
@@ -184,34 +189,58 @@ export const assignRole = action({
         }
       );
 
-      if (!response.ok) {
-        const error = await response.text();
-        console.error("Discord role assignment error:", {
+      if (!memberResponse.ok) {
+        const error = await memberResponse.text();
+        console.error("Discord member fetch error:", {
           discordId: args.discordId,
           guildId,
-          roleId,
-          method,
-          status: response.status,
+          status: memberResponse.status,
           error,
         });
-        return {
-          ok: false,
-          status: response.status,
-          error,
-        };
+        return { success: false, error: `Failed to fetch member: HTTP ${memberResponse.status}` };
       }
 
-      return { ok: true, status: response.status };
-    };
+      const member = (await memberResponse.json()) as { roles?: string[] };
+      const existingRoles = Array.isArray(member.roles) ? member.roles : [];
+      const filteredRoles = existingRoles.filter((roleId) => !levelRoleIds.includes(roleId));
 
-    try {
-      const nonCriticalFailures: Array<{
-        level: number;
-        roleId: string;
-        method: "PUT" | "DELETE";
-        status: number;
-        error: string;
-      }> = [];
+      if (newRank.level > 0) {
+        const targetRoleId = roleIds[newRank.level as keyof typeof roleIds];
+        if (!targetRoleId) {
+          return { success: false, error: `Missing ROLE_LEVEL_${newRank.level}` };
+        }
+        filteredRoles.push(targetRoleId);
+      }
+
+      const nextRoles = Array.from(new Set(filteredRoles));
+      const sameRoles =
+        nextRoles.length === existingRoles.length &&
+        nextRoles.every((roleId) => existingRoles.includes(roleId));
+
+      if (!sameRoles) {
+        const patchResponse = await fetch(
+          `https://discord.com/api/v10/guilds/${guildId}/members/${args.discordId}`,
+          {
+            method: "PATCH",
+            headers: {
+              Authorization: `Bot ${botToken}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ roles: nextRoles }),
+          }
+        );
+
+        if (!patchResponse.ok) {
+          const error = await patchResponse.text();
+          console.error("Discord role assignment error:", {
+            discordId: args.discordId,
+            guildId,
+            status: patchResponse.status,
+            error,
+          });
+          return { success: false, error: `Failed to update member roles: HTTP ${patchResponse.status}` };
+        }
+      }
 
       for (let level = 1; level <= 6; level++) {
         const roleId = roleIds[level as keyof typeof roleIds];
@@ -219,31 +248,6 @@ export const assignRole = action({
           console.error(`Missing ROLE_LEVEL_${level}`);
           continue;
         }
-
-        if (level === newRank.level) {
-          const result = await applyRoleChange(roleId, "PUT");
-          if (!result.ok) {
-            return {
-              success: false,
-              error: `Failed to assign target role ${roleId} (level ${level}): HTTP ${result.status}`,
-            };
-          }
-        } else {
-          const result = await applyRoleChange(roleId, "DELETE");
-          if (!result.ok) {
-            nonCriticalFailures.push({
-              level,
-              roleId,
-              method: "DELETE",
-              status: result.status,
-              error: result.error || "Unknown error",
-            });
-          }
-        }
-      }
-
-      if (nonCriticalFailures.length > 0) {
-        console.warn("Discord role cleanup had non-critical failures:", nonCriticalFailures);
       }
     } catch (error) {
       return { success: false, error: error instanceof Error ? error.message : "Failed to assign role" };
