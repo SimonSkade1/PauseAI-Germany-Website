@@ -1,6 +1,6 @@
 export type Row = Record<string, string>;
 export type WizardStep = 1 | 2 | 3 | 4;
-export type Chamber = "bundestag" | "europarl";
+export type Chamber = "bundestag" | "europarl" | "buergersprechstunde";
 export type Coord = { lat: number; lon: number };
 export type CoordMap = Record<string, Coord>;
 export type RowInfo = {
@@ -23,11 +23,13 @@ export type FilterField = "first" | "last" | "full" | "birthYear" | "party" | "d
 export const CSV_PATH_BY_CHAMBER: Record<Chamber, string> = {
   bundestag: "/BTAbgeordnete_with_bundesland.csv",
   europarl: "/EUAbgeordnete.csv",
+  buergersprechstunde: "/BTAbgeordnete_with_bundesland.csv",
 };
 
 export const FILTER_FIELDS_BY_CHAMBER: Record<Chamber, FilterField[]> = {
   bundestag: ["first", "last", "full", "birthYear", "party", "district", "email"],
   europarl: ["party"],
+  buergersprechstunde: ["first", "last", "full", "birthYear", "party", "district", "email"],
 };
 
 const FILTER_FIELD_LABELS: Record<FilterField, string> = {
