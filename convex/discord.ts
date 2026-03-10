@@ -2,12 +2,12 @@ import { action } from "./_generated/server";
 import { v } from "convex/values";
 
 const ROLE_THRESHOLDS = [
-  { xp: 30, level: 1, name: "Novize" },
+  { xp: 30, level: 1, name: "Neuling" },
   { xp: 200, level: 2, name: "Lehrling" },
-  { xp: 600, level: 3, name: "Aufklärer" },
-  { xp: 2000, level: 4, name: "Aktivist" },
-  { xp: 6000, level: 5, name: "Pionier" },
-  { xp: 20000, level: 6, name: "Meister" },
+  { xp: 600, level: 3, name: "Aufklärer:in" },
+  { xp: 2000, level: 4, name: "Aktivist:in" },
+  { xp: 6000, level: 5, name: "Pionier:in" },
+  { xp: 20000, level: 6, name: "Meister:in" },
 ] as const;
 
 function getHighestRankForXp(karma: number) {
@@ -44,14 +44,14 @@ export const notifyTaskComplete = action({
     const currentRank = getHighestRankForXp(args.totalXp);
 
     const fields: Array<{ name: string; value: string; inline: boolean }> = [
-      { name: "Karma", value: `${args.totalXp} (+${args.xp})`, inline: true },
-      { name: "Rolle", value: currentRank.name, inline: true },
       { name: "Aufgabe", value: args.taskName, inline: false },
     ];
 
     if (args.comment) {
       fields.push({ name: "Kommentar", value: args.comment, inline: false });
     }
+    fields.push({ name: "Karma", value: `${args.totalXp} (+${args.xp})`, inline: true });
+    fields.push({ name: "Rolle", value: currentRank.name, inline: true });
 
     const response = await fetch(
       `https://discord.com/api/v10/channels/${channelId}/messages`,
@@ -186,12 +186,33 @@ export const assignRole = action({
 
       if (!response.ok) {
         const error = await response.text();
-        console.error("Discord role assignment error:", error);
-        throw new Error("Failed to assign role");
+        console.error("Discord role assignment error:", {
+          discordId: args.discordId,
+          guildId,
+          roleId,
+          method,
+          status: response.status,
+          error,
+        });
+        return {
+          ok: false,
+          status: response.status,
+          error,
+        };
       }
+
+      return { ok: true, status: response.status };
     };
 
     try {
+      const nonCriticalFailures: Array<{
+        level: number;
+        roleId: string;
+        method: "PUT" | "DELETE";
+        status: number;
+        error: string;
+      }> = [];
+
       for (let level = 1; level <= 6; level++) {
         const roleId = roleIds[level as keyof typeof roleIds];
         if (!roleId) {
@@ -200,10 +221,29 @@ export const assignRole = action({
         }
 
         if (level === newRank.level) {
-          await applyRoleChange(roleId, "PUT");
+          const result = await applyRoleChange(roleId, "PUT");
+          if (!result.ok) {
+            return {
+              success: false,
+              error: `Failed to assign target role ${roleId} (level ${level}): HTTP ${result.status}`,
+            };
+          }
         } else {
-          await applyRoleChange(roleId, "DELETE");
+          const result = await applyRoleChange(roleId, "DELETE");
+          if (!result.ok) {
+            nonCriticalFailures.push({
+              level,
+              roleId,
+              method: "DELETE",
+              status: result.status,
+              error: result.error || "Unknown error",
+            });
+          }
         }
+      }
+
+      if (nonCriticalFailures.length > 0) {
+        console.warn("Discord role cleanup had non-critical failures:", nonCriticalFailures);
       }
     } catch (error) {
       return { success: false, error: error instanceof Error ? error.message : "Failed to assign role" };
@@ -221,7 +261,7 @@ export const assignRole = action({
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              content: `🎉 <@${args.discordId}> hat ${args.newXp} Karma erreicht und die Rolle **${newRank.name}** erhalten!`,
+              content: `🎉 <@${args.discordId}> hat ${args.newXp} Karma erreicht und ist jetzt **${newRank.name}**!`,
             }),
           }
         );
