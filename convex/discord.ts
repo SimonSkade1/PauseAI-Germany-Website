@@ -117,7 +117,7 @@ export const notifyManualKarma = action({
         },
         body: JSON.stringify({
           content: `🧑‍⚖️ <@${args.awardedByDiscordId}> hat Karma vergeben.`,
-          allowed_mentions: { users: [args.awardedByDiscordId, args.targetDiscordId] },
+          allowed_mentions: { users: [...new Set([args.awardedByDiscordId, args.targetDiscordId])] },
           embeds: [
             {
               color: 0x2ecc71,
