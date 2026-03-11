@@ -1248,6 +1248,7 @@ export function ActionTree() {
         <TaskModal
           task={selectedTask}
           completedTasks={userData?.completed_tasks || []}
+          completionCounts={userData?.completion_counts}
           onClose={() => setSelectedTask(null)}
         />
       )}

@@ -19,6 +19,7 @@ interface NotionBlock {
 interface TaskModalProps {
   task: Task | null;
   completedTasks?: string[];
+  completionCounts?: Record<string, number>;
   onClose: () => void;
 }
 
@@ -176,7 +177,7 @@ function renderInlineContent(texts?: Array<{ content: string; annotations?: any;
   });
 }
 
-export function TaskModal({ task, completedTasks = [], onClose }: TaskModalProps) {
+export function TaskModal({ task, completedTasks = [], completionCounts, onClose }: TaskModalProps) {
   const { data: session } = useSession();
   const completeTask = useMutation(api.completions.completeTask);
   const assignRole = useAction(api.discord.assignRole);
@@ -193,6 +194,8 @@ export function TaskModal({ task, completedTasks = [], onClose }: TaskModalProps
   // Check if task is already completed and not repeatable
   const isCompleted = task?.id ? completedTasks.includes(task.id) : false;
   const isTaskCompletedAndNotRepeatable = isCompleted && !task?.repeatable;
+  // For repeatable tasks, check how many times already completed
+  const completionCount = task?.id ? (completionCounts?.[task.id] ?? 0) : 0;
 
   useEffect(() => {
     if (task?.id) {
@@ -211,8 +214,8 @@ export function TaskModal({ task, completedTasks = [], onClose }: TaskModalProps
   if (!task) return null;
 
   const isLoggedIn = !!session;
-  // 1x karma first time, 0.5x on repeats
-  const awardedXp = isCompleted ? task.xp / 2 : task.xp;
+  // 1x karma first time, 0.5x on repeats (check completionCount for accuracy)
+  const awardedXp = completionCount > 0 ? task.xp / 2 : task.xp;
 
   const handleSubmit = async () => {
     if (!isLoggedIn || !session.user.discordId) {
