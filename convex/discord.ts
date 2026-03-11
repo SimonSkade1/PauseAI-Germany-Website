@@ -107,6 +107,17 @@ export const notifyManualKarma = action({
     const currentRank = getHighestRankForXp(args.totalXp);
     const messageLink = `https://discord.com/channels/${process.env.GUILD_ID}/${args.sourceChannelId}/${args.sourceMessageId}`;
 
+    const fields: Array<{ name: string; value: string; inline: boolean }> = [
+                { name: "Empfänger", value: `<@${args.targetDiscordId}>`, inline: true },
+                { name: "Karma", value: `${args.totalXp} (+${args.amount})`, inline: true },
+                { name: "Rolle", value: currentRank.name, inline: true },
+              ];
+
+    if (args.reason) {
+      fields.push({ name: "Grund", value: args.reason, inline: false });
+    }
+    fields.push({ name: "Aktion", value: `[Originale Nachricht](${messageLink})`, inline: false });
+
     const response = await fetch(
       `https://discord.com/api/v10/channels/${channelId}/messages`,
       {
@@ -121,13 +132,7 @@ export const notifyManualKarma = action({
           embeds: [
             {
               color: 0x2ecc71,
-              fields: [
-                { name: "Empfänger", value: `<@${args.targetDiscordId}>`, inline: true },
-                { name: "Karma", value: `+${args.amount} (gesamt: ${args.totalXp})`, inline: true },
-                { name: "Rolle", value: currentRank.name, inline: true },
-                { name: "Grund", value: args.reason, inline: false },
-                { name: "Quelle", value: `[Originale Nachricht](${messageLink})`, inline: false },
-              ],
+              fields: fields,
             },
           ],
         }),
