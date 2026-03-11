@@ -222,9 +222,9 @@ export const getTasks = action({
         )?.[1] as any;
         const repeatable = repeatableProp?.type === "checkbox" ? repeatableProp.checkbox : false;
 
-        // Extract "Kommentar notwendig" checkbox
+        // Extract "Kommentar notwendig" or "Kommentar erforderlich" checkbox
         const kommentarNoetigProp = Object.entries(props).find(
-          ([key, v]: [string, any]) => key === "Kommentar notwendig"
+          ([key, v]: [string, any]) => key === "Kommentar notwendig" || key === "Kommentar erforderlich"
         )?.[1] as any;
         const kommentarNoetig = kommentarNoetigProp?.type === "checkbox" ? kommentarNoetigProp.checkbox : false;
 
