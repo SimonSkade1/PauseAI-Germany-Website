@@ -2,12 +2,12 @@ import { action } from "./_generated/server";
 import { v } from "convex/values";
 
 const ROLE_THRESHOLDS = [
-  { xp: 30, level: 1, name: "Neuling" },
-  { xp: 200, level: 2, name: "Lehrling" },
-  { xp: 600, level: 3, name: "Aufklärer:in" },
-  { xp: 2000, level: 4, name: "Aktivist:in" },
-  { xp: 6000, level: 5, name: "Pionier:in" },
-  { xp: 20000, level: 6, name: "Meister:in" },
+  { xp: 1, level: 1, name: "Neuling" },
+  { xp: 100, level: 2, name: "Lehrling" },
+  { xp: 300, level: 3, name: "Aufklärer:in" },
+  { xp: 1000, level: 4, name: "Aktivist:in" },
+  { xp: 3000, level: 5, name: "Pionier:in" },
+  { xp: 10000, level: 6, name: "Meister:in" },
 ] as const;
 
 function getHighestRankForXp(karma: number) {

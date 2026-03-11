@@ -211,8 +211,8 @@ export function TaskModal({ task, completedTasks = [], onClose }: TaskModalProps
   if (!task) return null;
 
   const isLoggedIn = !!session;
-  // Only apply 2x multiplier for first completion of important tasks
-  const awardedXp = task.wichtig && !isCompleted ? task.xp * 2 : task.xp;
+  // 1x karma first time, 0.5x on repeats
+  const awardedXp = isCompleted ? task.xp / 2 : task.xp;
 
   const handleSubmit = async () => {
     if (!isLoggedIn || !session.user.discordId) {
