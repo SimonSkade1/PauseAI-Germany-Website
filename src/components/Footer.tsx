@@ -111,6 +111,14 @@ export default function Footer() {
               </li>
               <li>
                 <a
+                  href="/datenschutz"
+                  className="font-body text-black/70 text-sm hover:text-white transition-colors"
+                >
+                  Datenschutz
+                </a>
+              </li>
+              <li>
+                <a
                   href="/impressum"
                   className="font-body text-black/70 text-sm hover:text-white transition-colors"
                 >
