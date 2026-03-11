@@ -42,3 +42,34 @@ https://meet.jit.si/PauseAI-Deutschland-Kennenlernen
 
 We use this chatroom for weekly meetings
 https://meet.jit.si/PauseAI-Deutschland
+
+## Discord bot
+
+### Backend
+we use convex as the database to save the completedtasks, manualkarmaevents and users.  
+we also use convex to run the bot backend (serverless)  
+we could probably switch to vercel serverless with connection to convex db also.
+ask Markus (mw3155dev@gmail.com) for access etc.  
+to deploy use "npx convex deploy"
+also see convex readme.  
+
+### Discord Command 
+To make a discord command work like "Karma vergeben" you have to register the command to the server via the register-discord-command.sh script.  
+(this needs to have .env.local vars set)  
+The logic of the command is in src/app/api/discord/interactions/route.ts.  
+It is a Next.js API route that handles the Discord bot interaction.  
+It is deployed automatically serverless to vercel.  
+
+### Install bot to discord
+go to https://discord.com/developers/applications
+```
+Overview - Installation
+configure Default Install Settings
+Guild Install:
+Scopes
+applications.commands, bot
+Permissions
+Manage Roles, Send messages, View channels
+copy Install Link
+paste to browser
+```

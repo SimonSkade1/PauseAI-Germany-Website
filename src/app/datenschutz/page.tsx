@@ -39,7 +39,7 @@ export default function Datenschutz() {
               </h4>
               <p className="font-body text-pause-black/80 text-justify">
                 Die Datenverarbeitung auf dieser Website erfolgt durch den Websitebetreiber. Dessen Kontaktdaten
-                können Sie dem Abschnitt „Hinweis zur Verantwortlichen Stelle“ in dieser Datenschutzerklärung entnehmen.
+                können Sie dem Abschnitt „Hinweis zur Verantwortlichen Stelle" in dieser Datenschutzerklärung entnehmen.
               </p>
 
               <h4 className="font-body-bold text-pause-black/90 mt-4 mb-2 text-sm">
@@ -47,11 +47,14 @@ export default function Datenschutz() {
               </h4>
               <p className="font-body text-pause-black/80 text-justify">
                 Ihre Daten werden zum einen dadurch erhoben, dass Sie uns diese mitteilen. Hierbei kann es sich z. B. um
-                Daten handeln, die Sie in ein Kontaktformular eingeben.
+                Daten handeln, die Sie in ein Kontaktformular eingeben oder die im Rahmen einer Anmeldung über einen
+                Drittanbieter (Discord) übermittelt werden.
               </p>
               <p className="font-body text-pause-black/80 mt-2 text-justify">
-                Andere Daten werden automatisch oder nach Ihrer Einwilligung beim Besuch der Website durch unsere IT-Systeme erfasst. Das sind vor allem technische Daten (z. B. Internetbrowser, Betriebssystem oder Uhrzeit
-                des Seitenaufrufs). Die Erfassung dieser Daten erfolgt automatisch, sobald Sie diese Website betreten.
+                Andere Daten werden automatisch oder nach Ihrer Einwilligung beim Besuch der Website durch unsere
+                IT-Systeme erfasst. Das sind vor allem technische Daten (z. B. Internetbrowser, Betriebssystem oder
+                Uhrzeit des Seitenaufrufs). Die Erfassung dieser Daten erfolgt automatisch, sobald Sie diese Website
+                betreten.
               </p>
 
               <h4 className="font-body-bold text-pause-black/90 mt-4 mb-2 text-sm">
@@ -61,7 +64,9 @@ export default function Datenschutz() {
                 Ein Teil der Daten wird erhoben, um eine fehlerfreie Bereitstellung der Website zu gewährleisten. Andere
                 Daten können zur Analyse Ihres Nutzerverhaltens verwendet werden. Sofern über die Website Verträge
                 geschlossen oder abgeschlossen werden können, werden die übermittelten Daten auch für Vertragsangebote,
-                Bestellungen oder sonstige Auftragsanfragen verarbeitet.
+                Bestellungen oder sonstige Auftragsanfragen verarbeitet. Auf der Aktionen-Seite werden Ihre Daten
+                außerdem zur Authentifizierung, zur Zuordnung erledigter Aufgaben sowie zur Veröffentlichung von
+                Aktionsergebnissen in unserem Discord-Server genutzt.
               </p>
 
               <h4 className="font-body-bold text-pause-black/90 mt-4 mb-2 text-sm">
@@ -86,33 +91,51 @@ export default function Datenschutz() {
                 2. Hosting
               </h2>
               <p className="font-body text-pause-black/80 text-justify">
-                Wir hosten die Inhalte unserer Website bei folgendem Anbieter:
+                Wir hosten die Inhalte unserer Website bei folgenden Anbietern:
               </p>
 
               <h3 className="font-body-bold text-pause-black mt-4 mb-2">
-                Externes Hosting
+                Vercel (Frontend-Hosting)
               </h3>
               <p className="font-body text-pause-black/80 text-justify">
-                Diese Website wird extern gehostet. Die personenbezogenen Daten, die auf dieser Website erfasst werden,
-                werden auf den Servern des Hosters / der Hoster gespeichert. Hierbei kann es sich v. a. um IP-Adressen,
+                Diese Website wird extern über Vercel gehostet. Die personenbezogenen Daten, die auf dieser Website
+                erfasst werden, werden auf den Servern von Vercel gespeichert. Hierbei kann es sich v. a. um IP-Adressen,
                 Kontaktanfragen, Meta- und Kommunikationsdaten, Vertragsdaten, Kontaktdaten, Namen, Websitezugriffe
                 und sonstige Daten, die über eine Website generiert werden, handeln.
               </p>
               <p className="font-body text-pause-black/80 mt-2 text-justify">
                 Das externe Hosting erfolgt zum Zwecke der Vertragserfüllung gegenüber unseren potenziellen und
                 bestehenden Kunden (Art. 6 Abs. 1 lit. b DSGVO) und im Interesse einer sicheren, schnellen und effizienten
-                Bereitstellung unseres Online-Angebots durch einen professionellen Anbieter (Art. 6 Abs.1 lit. f DSGVO).
+                Bereitstellung unseres Online-Angebots durch einen professionellen Anbieter (Art. 6 Abs. 1 lit. f DSGVO).
                 Sofern eine entsprechende Einwilligung abgefragt wurde, erfolgt die Verarbeitung ausschließlich auf
-                Grundlage von Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG, soweit die Einwilligung die Speicherung
-                von Cookies oder den Zugriff auf Informationen im Endgerät des Nutzers (z. B. Device-Fingerprinting) im
-                Sinne des TDDDG umfasst. Die Einwilligung ist jederzeit widerrufbar.
+                Grundlage von Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TDDDG. Die Einwilligung ist jederzeit widerrufbar.
               </p>
               <p className="font-body text-pause-black/80 mt-2 text-justify">
-                Unser(e) Hoster wird bzw. werden Ihre Daten nur insoweit verarbeiten, wie dies zur Erfüllung seiner
-                Leistungspflichten erforderlich ist und unsere Weisungen in Bezug auf diese Daten befolgen.
+                Unser Hoster wird Ihre Daten nur insoweit verarbeiten, wie dies zur Erfüllung seiner Leistungspflichten
+                erforderlich ist und unsere Weisungen in Bezug auf diese Daten befolgen.
               </p>
-              <p className="font-body text-pause-black/80 mt-2">
-                Wir setzen folgenden(n) Hoster ein: <strong>Vercel</strong>
+
+              <h3 className="font-body-bold text-pause-black mt-6 mb-2">
+                Convex (Datenbank und Backend)
+              </h3>
+              <p className="font-body text-pause-black/80 text-justify">
+                Für die Speicherung von Nutzerdaten und die Verarbeitung von Backend-Anfragen setzen wir den Dienst
+                Convex ein (Convex, Inc., 2261 Market Street #4990, San Francisco, CA 94114, USA). Die Datenhaltung
+                erfolgt in der Region <strong>EU West 1</strong> (Irland), sodass Ihre Daten innerhalb der Europäischen Union
+                gespeichert werden.
+              </p>
+              <p className="font-body text-pause-black/80 mt-2 text-justify">
+                In der Convex-Datenbank werden folgende personenbezogene Daten gespeichert: Discord-Nutzer-ID,
+                Discord-Nutzername, erzielte XP-Punkte sowie erledigte Aufgaben inklusive Zeitstempel, erhaltenem
+                XP-Wert und optionalem Kommentar. Die Daten verbleiben bis zur Löschung des Nutzerkontos auf Anfrage.
+              </p>
+              <p className="font-body text-pause-black/80 mt-2 text-justify">
+                Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung bzw. vorvertragliche Maßnahmen) sowie
+                Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an einem stabilen und sicheren Betrieb der Plattform).
+                Weitere Informationen finden Sie in der Datenschutzerklärung von Convex:{" "}
+                <a href="https://www.convex.dev/privacy" target="_blank" rel="noopener noreferrer" className="orange-link">
+                  https://www.convex.dev/privacy
+                </a>.
               </p>
             </section>
 
@@ -154,7 +177,7 @@ export default function Datenschutz() {
                 <p>c/o Coordes</p>
                 <p>12103 Berlin</p>
                 <p className="mt-2">Telefon: +49 1525 6369342</p>
-                <p>E-Mail: <a href="mailto:benjamin.schmidt.mail.work@gmail.com" className="orange-link">benjamin.schmidt.mail.work@gmail.com</a></p>
+                <p>E-Mail: <a href="mailto:germany@pauseai.info" className="orange-link">germany@pauseai.info</a></p>
               </div>
               <p className="font-body text-pause-black/80 mt-4 text-justify">
                 Verantwortliche Stelle ist die natürliche oder juristische Person, die allein oder gemeinsam mit anderen über
@@ -202,10 +225,14 @@ export default function Datenschutz() {
                 Wir geben personenbezogene Daten nur dann an externe Stellen weiter, wenn dies im Rahmen einer
                 Vertragserfüllung erforderlich ist, wenn wir gesetzlich hierzu verpflichtet sind (z. B. Weitergabe von Daten
                 an Steuerbehörden), wenn wir ein berechtigtes Interesse nach Art. 6 Abs. 1 lit. f DSGVO an der Weitergabe
-                haben oder wenn eine sonstige Rechtsgrundlage die Datenweitergabe erlaubt. Beim Einsatz von
-                Auftragsverarbeitern geben wir personenbezogene Daten unserer Kunden nur auf Grundlage eines gültigen
-                Vertrags über Auftragsverarbeitung weiter. Im Falle einer gemeinsamen Verarbeitung wird ein Vertrag über
-                gemeinsame Verarbeitung geschlossen.
+                haben oder wenn eine sonstige Rechtsgrundlage die Datenweitergabe erlaubt.
+              </p>
+              <p className="font-body text-pause-black/80 mt-2 text-justify">
+                Im Rahmen der Aktionen-Funktion werden personenbezogene Daten (Discord-Nutzername, erledigte
+                Aufgaben) an Discord Inc. sowie an Convex, Inc. weitergegeben. Einzelheiten hierzu entnehmen Sie den
+                Abschnitten 2 und 5 dieser Datenschutzerklärung. Beim Einsatz von Auftragsverarbeitern geben wir
+                personenbezogene Daten unserer Kunden nur auf Grundlage eines gültigen Vertrags über
+                Auftragsverarbeitung weiter.
               </p>
 
               <h3 className="font-body-bold text-pause-black mt-6 mb-2">
@@ -290,8 +317,8 @@ export default function Datenschutz() {
                   Einschränkung der Verarbeitung Ihrer personenbezogenen Daten zu verlangen.
                 </li>
                 <li>
-                  Wenn die Verarbeitung Ihrer personenbezogenen Daten unrechtmäßig geschieht/geschieht, können Sie
-                  statt der Löschung die Einschränkung der Datenverarbeitung verlangen.
+                  Wenn die Verarbeitung Ihrer personenbezogenen Daten unrechtmäßig geschieht, können Sie statt der
+                  Löschung die Einschränkung der Datenverarbeitung verlangen.
                 </li>
                 <li>
                   Wenn wir Ihre personenbezogenen Daten nicht mehr benötigen, Sie sie jedoch zur Ausübung,
@@ -318,8 +345,9 @@ export default function Datenschutz() {
               </h3>
               <p className="font-body text-pause-black/80 text-justify">
                 Diese Seite nutzt aus Sicherheitsgründen und zum Schutz der Übertragung vertraulicher Inhalte, wie zum
-                Beispiel Bestellungen oder Anfragen, die Sie an uns als Seitenbetreiber senden, eine SSL- bzw. TLS-Verschlüsselung. Eine verschlüsselte Verbindung erkennen Sie daran, dass die Adresszeile des Browsers von
-                „http://“ auf „https://“ wechselt und an dem Schloss-Symbol in Ihrer Browserzeile.
+                Beispiel Bestellungen oder Anfragen, die Sie an uns als Seitenbetreiber senden, eine SSL- bzw.
+                TLS-Verschlüsselung. Eine verschlüsselte Verbindung erkennen Sie daran, dass die Adresszeile des Browsers
+                von „http://" auf „https://" wechselt und an dem Schloss-Symbol in Ihrer Browserzeile.
               </p>
               <p className="font-body text-pause-black/80 mt-2 text-justify">
                 Wenn die SSL- bzw. TLS-Verschlüsselung aktiviert ist, können die Daten, die Sie an uns übermitteln, nicht
@@ -337,7 +365,8 @@ export default function Datenschutz() {
                 Newsletterdaten
               </h3>
               <p className="font-body text-pause-black/80 text-justify">
-                Wenn Sie den auf der Website angebotenen Newsletter beziehen möchten, benötigen wir von Ihnen eine E-Mail-Adresse sowie Informationen, welche uns die Überprüfung gestatten, dass Sie der Inhaber der
+                Wenn Sie den auf der Website angebotenen Newsletter beziehen möchten, benötigen wir von Ihnen eine
+                E-Mail-Adresse sowie Informationen, welche uns die Überprüfung gestatten, dass Sie der Inhaber der
                 angegebenen E-Mail-Adresse sind und mit dem Empfang des Newsletters einverstanden sind. Weitere
                 Daten werden nicht bzw. nur auf freiwilliger Basis erhoben. Diese Daten verwenden wir ausschließlich für
                 den Versand der angeforderten Informationen und geben diese nicht an Dritte weiter.
@@ -346,7 +375,7 @@ export default function Datenschutz() {
                 Die Verarbeitung der in das Newsletteranmeldeformular eingegebenen Daten erfolgt ausschließlich auf
                 Grundlage Ihrer Einwilligung (Art. 6 Abs. 1 lit. a DSGVO). Die erteilte Einwilligung zur Speicherung der
                 Daten, der E-Mail-Adresse sowie deren Nutzung zum Versand des Newsletters können Sie jederzeit
-                widerrufen, etwa über den „Austragen“-Link im Newsletter. Die Rechtmäßigkeit der bereits erfolgten
+                widerrufen, etwa über den „Austragen"-Link im Newsletter. Die Rechtmäßigkeit der bereits erfolgten
                 Datenverarbeitungsvorgänge bleibt vom Widerruf unberührt.
               </p>
               <p className="font-body text-pause-black/80 mt-2 text-justify">
@@ -370,10 +399,90 @@ export default function Datenschutz() {
               </p>
             </section>
 
-            {/* 5. Plugins und Tools */}
+            {/* 5. Discord-Login und Aktionen */}
             <section>
               <h2 className="font-section text-lg text-pause-black mb-4">
-                5. Plugins und Tools
+                5. Discord-Login und Aktionen
+              </h2>
+
+              <h3 className="font-body-bold text-pause-black mt-4 mb-2">
+                Anmeldung mit Discord (OAuth 2.0)
+              </h3>
+              <p className="font-body text-pause-black/80 text-justify">
+                Auf unserer Aktionen-Seite bieten wir Ihnen die Möglichkeit, sich über Ihr Discord-Konto anzumelden
+                (OAuth 2.0). Wenn Sie sich auf diese Weise einloggen, werden Sie auf die Seite von Discord Inc.
+                weitergeleitet und müssen dort die Freigabe bestimmter Daten bestätigen. Dabei übermittelt Discord
+                an uns folgende Daten aus Ihrem Profil: Discord-Nutzer-ID, Discord-Nutzername sowie Ihr Profilbild.
+              </p>
+              <p className="font-body text-pause-black/80 mt-2 text-justify">
+                Diese Daten verwenden wir ausschließlich zur Authentifizierung Ihres Kontos auf unserer Plattform sowie
+                zur Zuordnung Ihrer durchgeführten Aktionen. Eine Weitergabe an Dritte außerhalb des technischen
+                Betriebs der Plattform findet nicht statt.
+              </p>
+              <p className="font-body text-pause-black/80 mt-2 text-justify">
+                Rechtsgrundlage für die Verarbeitung ist Art. 6 Abs. 1 lit. a DSGVO (Einwilligung durch aktive Anmeldung
+                via Discord) sowie Art. 6 Abs. 1 lit. b DSGVO, soweit die Datenverarbeitung zur Bereitstellung der
+                Aktionen-Funktion erforderlich ist.
+              </p>
+
+              <h3 className="font-body-bold text-pause-black mt-6 mb-2">
+                Session-Cookie und JWT
+              </h3>
+              <p className="font-body text-pause-black/80 text-justify">
+                Nach erfolgreicher Anmeldung wird eine Sitzung über ein httpOnly-Session-Cookie verwaltet, das ein
+                JSON Web Token (JWT) enthält. Dieses JWT speichert vorübergehend Ihre Discord-Nutzer-ID, Ihren
+                Nutzernamen, Ihr Profilbild sowie den Discord OAuth-Zugriffstoken. Das Cookie ist auf 30 Tage befristet
+                und wird danach automatisch ungültig. Der OAuth-Zugriffstoken wird ausschließlich im JWT-Cookie
+                gespeichert und nicht in unserer Datenbank persistiert.
+              </p>
+              <p className="font-body text-pause-black/80 mt-2 text-justify">
+                Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO sowie § 25 Abs. 2 Nr. 2 TDDDG, da das Cookie technisch
+                zwingend für die Bereitstellung der eingeloggten Funktionen erforderlich ist.
+              </p>
+
+              <h3 className="font-body-bold text-pause-black mt-6 mb-2">
+                Gespeicherte Daten in der Datenbank
+              </h3>
+              <p className="font-body text-pause-black/80 text-justify">
+                In unserer Convex-Datenbank (EU West 1, Irland) werden dauerhaft folgende Daten gespeichert, solange
+                Ihr Konto aktiv ist:
+              </p>
+              <ul className="font-body text-pause-black/80 mt-2 list-disc list-inside space-y-2 text-justify">
+                <li>Discord-Nutzer-ID und Discord-Nutzername (zur Kontoidentifikation)</li>
+                <li>Gesamte XP-Punkte (Spielstand)</li>
+                <li>Erledigte Aufgaben: Aufgaben-ID, erzielte XP, Zeitstempel der Erledigung, optionaler Kommentar</li>
+              </ul>
+              <p className="font-body text-pause-black/80 mt-4 text-justify">
+                Alle in der Datenbank gespeicherten personenbezogenen Daten werden auf Antrag gelöscht. Wenden Sie
+                sich hierzu bitte an die oben genannte verantwortliche Stelle.
+              </p>
+
+              <h3 className="font-body-bold text-pause-black mt-6 mb-2">
+                Veröffentlichung von Aktionsergebnissen in Discord
+              </h3>
+              <p className="font-body text-pause-black/80 text-justify">
+                Wenn Sie auf der Aktionen-Seite eine Aufgabe erledigen, werden die entsprechenden Ergebnisse
+                automatisch in unserem Discord-Server veröffentlicht. Dabei werden Ihr Discord-Nutzername sowie
+                Details zur durchgeführten Aufgabe an Discord übermittelt und dort gespeichert. Diese Veröffentlichung
+                ist integraler Bestandteil der Aktionen-Funktion, der Sie durch die Nutzung der Seite zustimmen.
+              </p>
+              <p className="font-body text-pause-black/80 mt-2 text-justify">
+                Discord ist ein Dienst der Discord Inc., 444 De Haro Street, Suite 200, San Francisco, CA 94107, USA. Die
+                Datenübertragung in die USA erfolgt auf Grundlage der Standardvertragsklauseln der Europäischen
+                Kommission sowie des EU-US Data Privacy Framework. Wir weisen darauf hin, dass wir keinen Einfluss auf
+                den Umfang der Daten haben, die Discord im Rahmen des OAuth-Prozesses auf eigene Verantwortung
+                erhebt und speichert. Für diese Datenverarbeitung ist Discord als eigenverantwortliche Stelle zuständig.
+                Weitere Informationen finden Sie in der Datenschutzerklärung von Discord:{" "}
+                <a href="https://discord.com/privacy" target="_blank" rel="noopener noreferrer" className="orange-link">
+                  https://discord.com/privacy
+                </a>.
+              </p>
+            </section>
+
+            {/* 6. Plugins und Tools */}
+            <section>
+              <h2 className="font-section text-lg text-pause-black mb-4">
+                6. Plugins und Tools
               </h2>
 
               <h3 className="font-body-bold text-pause-black mt-4 mb-2">
