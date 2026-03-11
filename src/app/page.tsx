@@ -517,7 +517,7 @@ function ActionSection() {
 
           {/* Werde jetzt aktiv */}
           <a
-            href="/action"
+            href="/aktionen"
             className="group flex bg-white p-6 md:p-8 border border-[#1a1a1a] md:border-2 cursor-pointer hover:bg-[#FFFAF5] transition-colors min-h-[190px]"
           >
             <div className="flex items-start md:gap-4 flex-1">

@@ -1205,7 +1205,7 @@ export function ActionTree() {
               )}
             </div>
             <button
-              onClick={() => signOut({ callbackUrl: '/action' })}
+              onClick={() => signOut({ callbackUrl: '/aktionen' })}
               className="flex items-center gap-2 bg-[#5865F2] hover:bg-[#4752C4] text-white font-headline px-4 py-2 text-sm transition-all hover:scale-105"
             >
               <DiscordIcon size="w-4 h-4" />
