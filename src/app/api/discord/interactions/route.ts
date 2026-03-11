@@ -199,7 +199,7 @@ export async function POST(req: NextRequest) {
     if (commandType !== 3) {
       return ephemeralError("Unsupported command type.");
     }
-    if (commandName !== "Award Karma") {
+    if (commandName !== "Karma vergeben") {
       return ephemeralError("Unsupported command name.");
     }
 
@@ -226,7 +226,7 @@ export async function POST(req: NextRequest) {
       type: MODAL_RESPONSE_TYPE,
       data: {
         custom_id: customId,
-        title: "Award Karma",
+        title: "Karma vergeben",
         components: [
           {
             type: 1,
@@ -234,12 +234,12 @@ export async function POST(req: NextRequest) {
               {
                 type: 4,
                 custom_id: "karma_amount",
-                label: "Karma amount",
+                label: "Karma",
                 style: 1,
                 min_length: 1,
                 max_length: 4,
                 required: true,
-                placeholder: "e.g. 10",
+                placeholder: "z.B. 100",
               },
             ],
           },
@@ -249,12 +249,12 @@ export async function POST(req: NextRequest) {
               {
                 type: 4,
                 custom_id: "karma_reason",
-                label: "Reason",
+                label: "Grund",
                 style: 2,
                 min_length: 3,
                 max_length: 300,
-                required: true,
-                placeholder: "What did they do?",
+                required: false,
+                placeholder: "",
               },
             ],
           },

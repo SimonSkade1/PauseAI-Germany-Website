@@ -986,16 +986,6 @@ export function ActionTree() {
       }
     }
 
-    // Karma text below
-    userGroup.append("text")
-      .attr("text-anchor", "middle")
-      .attr("y", 62)
-      .attr("fill", PAUSEAI_ORANGE)
-      .attr("font-size", "13px")
-      .attr("font-weight", "bold")
-      .attr("font-family", "var(--font-headline)")
-      .text(`${totalKarma} Karma`);
-
     const setZoomPerfMode = (isActive: boolean) => {
       if (!isMobileLike) return;
       const displayValue = isActive ? "none" : null;

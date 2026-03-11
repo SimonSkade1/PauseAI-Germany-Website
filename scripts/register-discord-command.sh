@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-COMMAND_NAME="${COMMAND_NAME:-Award Karma}"
+COMMAND_NAME="${COMMAND_NAME:-Karma vergeben}"
 ENV_FILE="${ENV_FILE:-.env.local}"
 
 if [[ -f "${ENV_FILE}" ]]; then
@@ -27,7 +27,7 @@ for var in "${required_vars[@]}"; do
     echo "  DISCORD_TOKEN=... APP_ID=... GUILD_ID=... $0" >&2
     echo "  or keep them in ${ENV_FILE} and run: $0" >&2
     echo "Optional:" >&2
-    echo "  COMMAND_NAME='Award Karma'" >&2
+    echo "  COMMAND_NAME='Karma vergeben'" >&2
     echo "  ENV_FILE=.env.local" >&2
     exit 1
   fi
