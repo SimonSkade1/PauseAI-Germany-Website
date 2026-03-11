@@ -529,7 +529,7 @@ function ActionSection() {
                   Werde jetzt <span className="text-[#FF9416] border-b-2 border-transparent group-hover:border-[#FF9416] transition-colors">aktiv</span>
                 </h3>
                 <p className="font-body text-pause-black/80 text-base mt-auto text-right">
-                  Erledige sofort kleine oder große Aufgaben.
+                  Erledige sofort kleine oder große Aktionen.
                 </p>
               </div>
             </div>

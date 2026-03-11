@@ -44,7 +44,7 @@ export const notifyTaskComplete = action({
     const currentRank = getHighestRankForXp(args.totalXp);
 
     const fields: Array<{ name: string; value: string; inline: boolean }> = [
-      { name: "Aufgabe", value: args.taskName, inline: false },
+      { name: "Aktion", value: args.taskName, inline: false },
     ];
 
     if (args.comment) {

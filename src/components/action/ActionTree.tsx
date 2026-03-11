@@ -1136,7 +1136,7 @@ export function ActionTree() {
     return (
       <section className="bg-pause-gray-dark py-12 md:py-16 min-h-[600px]">
         <div className="max-w-6xl mx-auto px-6 text-center">
-          <p className="font-body text-gray-400">Keine Aufgaben gefunden.</p>
+          <p className="font-body text-gray-400">Keine Aktionen gefunden.</p>
         </div>
       </section>
     );

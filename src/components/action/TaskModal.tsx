@@ -364,7 +364,7 @@ export function TaskModal({ task, completedTasks = [], onClose }: TaskModalProps
         {!isLoggedIn ? (
           <div className="text-center py-6 relative flex-shrink-0">
             <p className="font-body text-gray-300 mb-4">
-              Logge dich mit Discord ein, um diese Aufgabe als erledigt zu markieren und Karma zu sammeln!
+              Logge dich mit Discord ein, um diese Aktion als erledigt zu markieren und Karma zu sammeln!
             </p>
             <button
               onClick={() => signIn("discord")}
@@ -406,7 +406,7 @@ export function TaskModal({ task, completedTasks = [], onClose }: TaskModalProps
                 className="w-4 h-4 rounded border-gray-600 accent-[#FF9416]"
               />
               <span className="font-body text-gray-300 text-sm group-hover:text-gray-200 transition-colors">
-                Aufgabe inklusive Kommentar im Discord teilen
+                Aktion inklusive Kommentar im Discord teilen
               </span>
             </label>
 
