@@ -1,0 +1,24 @@
+Subject: Terminanfrage Bürgersprechstunde: Risiken künstlicher Intelligenz
+
+
+{{anrede}} {{recipientName}},
+
+Als Bürger Ihres Wahlkreises wende ich mich an Sie mit der Bitte um einen Gesprächstermin im Rahmen Ihrer Bürgersprechstunde.
+
+Ich möchte mit Ihnen über ein Problem sprechen, dessen Ausmaß und Dringlichkeit den meisten Menschen noch nicht bewusst ist: die Bedrohung durch zunehmend leistungsfähige KI-Systeme, und insbesondere das Risiko einer künstlichen Superintelligenz, die eine existenzielle Gefahr für die Menschheit darstellt.
+
+Ich habe mich intensiv mit diesem Thema auseinandergesetzt und engagiere mich bei PauseAI Deutschland, einer Bürgerinitiative für sichere KI-Entwicklung. Dabei ist mir klar geworden, dass derzeit niemand wirklich versteht, was in den neuronalen Netzen moderner KI-Systeme passiert, und dass existierende Sicherheitspläne zutiefst unzureichend sind. Da die Fähigkeiten von KI-Systemen deutlich schneller voranschreiten als unser Verständnis und unsere Sicherheitsmethoden, sind politische Intervention und internationale Kooperation dringend erforderlich.
+
+Mit dieser Einschätzung bin ich nicht allein:
+
+"The research question is: how do you prevent them from ever wanting to take control? And nobody knows the answer. [...] If you take the existential risk seriously, as I now do, it might be quite sensible to just stop developing these things any further." – Geoffrey Hinton, Nobelpreisträger und einer der Pioniere künstlicher neuronaler Netze
+
+"Rogue AI may be dangerous for the whole of humanity. Banning powerful AI systems (say beyond the abilities of GPT-4) that are given autonomy and agency would be a good start." – Yoshua Bengio, Pionier für Deep Learning und meistzitierter lebender Wissenschaftler
+
+"We call for a prohibition on the development of superintelligence, not lifted before there is broad scientific consensus that it will be done safely and controllably, and strong public buy-in." – Superintelligence Statement, unterzeichnet von über 100.000 Personen, inklusive der beiden obigen Pioniere
+
+Gerne würde ich Ihnen im persönlichen Gespräch die zentralen Risiken sowie mögliche Lösungsansätze genauer erläutern. Bitte teilen Sie mir mit, ob und wann eine Terminvereinbarung möglich ist.
+
+Mit freundlichen Grüßen
+
+{{senderName}}

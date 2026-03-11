@@ -177,7 +177,9 @@ function ContentSection() {
           Wir wollen den Spalt zwischen den dramatischen Warnungen von KI-Expert:innen und der öffentlichen Debatte schließen. Unser wirksamstes Mittel ist, sachlich und lösungsorientiert über die Risiken von KI-Entwicklung aufzuklären. Immer mehr Freiwillige tragen etwa mit Vorträgen oder Flyeraktionen dazu bei, die kollektive Schockstarre zu überwinden.
           <br />
           <br />
-          Auf unserem <a href="https://discord.gg/pvZ5PmRX4R" target="_blank" rel="noopener noreferrer" className="orange-link font-body-bold">Discord-Server</a> erfährst Du mehr über aktuell laufende Projekte. Dort treffen wir uns jeden Donnerstag um 18 Uhr für ein Videomeeting, zu dem Du herzlich eingeladen bist!
+          Auf unserem <a href="https://discord.gg/pvZ5PmRX4R" target="_blank" rel="noopener noreferrer" className="orange-link font-body-bold">Discord-Server</a> erfährst Du mehr über aktuell laufende Projekte. 
+          Außerdem veranstalten wir jeden Donnerstag um 18 Uhr ein <a href="https://www.pause-ai.de/mitmachen" target="_blank" rel="noopener noreferrer" className="orange-link font-body-bold">
+          Community-Treffen,</a>  zu dem Du herzlich eingeladen bist!
           </>}
           className="scroll-mt-24"
         />

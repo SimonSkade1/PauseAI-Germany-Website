@@ -87,7 +87,7 @@ export default function AbgeordneteSelect({
 
   // Load PLZ -> Wahlkreis mapping (Bundestag only)
   useEffect(() => {
-    if (chamber !== "bundestag") {
+    if (chamber !== "bundestag" && chamber !== "buergersprechstunde") {
       setPlzMapping({});
       return;
     }
@@ -189,7 +189,7 @@ export default function AbgeordneteSelect({
   }, []);
 
   const plzWkNumbers = useMemo(() => {
-    if (chamber !== "bundestag") return null;
+    if (chamber !== "bundestag" && chamber !== "buergersprechstunde") return null;
     const value = search.trim().replace(/\s+/g, "");
     if (!/^\d{4,5}$/.test(value)) return null;
     const wahlkreise = plzMapping[value] ?? [];
@@ -253,7 +253,7 @@ export default function AbgeordneteSelect({
   const filtered = useMemo(() => {
     if (!rowsWithInfo.length) return [] as RowWithInfo[];
 
-    const numericPlzSearch = chamber === "bundestag" && /^\d{4,5}$/.test(normalizedSearch);
+    const numericPlzSearch = (chamber === "bundestag" || chamber === "buergersprechstunde") && /^\d{4,5}$/.test(normalizedSearch);
     const query = search.trim().toLowerCase();
 
     if (isEuroparlPlzSearch) {
@@ -404,7 +404,7 @@ export default function AbgeordneteSelect({
 
         {step === 1 && (
           <div className="space-y-4 bg-white p-2 md:p-3">
-            <div className="grid gap-2 md:grid-cols-2">
+            <div className="grid gap-2 md:grid-cols-3">
               <button
                 type="button"
                 onClick={() => handleChooseChamber("bundestag")}
@@ -426,6 +426,17 @@ export default function AbgeordneteSelect({
                 }`}
               >
                 <div className="font-section text-xs text-pause-black mb-1">EU-Parlament</div>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleChooseChamber("buergersprechstunde")}
+                className={`border px-3 py-3 text-left text-sm cursor-pointer transition-colors ${
+                  chamber === "buergersprechstunde"
+                    ? "border-[#ffbf73] bg-[#fff1de]"
+                    : "border-zinc-300 bg-white hover:bg-[#fff7ec]"
+                }`}
+              >
+                <div className="font-section text-xs text-pause-black mb-1">Bürgersprechstunde</div>
               </button>
             </div>
           </div>
@@ -526,7 +537,7 @@ export default function AbgeordneteSelect({
                                 )}
                               </div>
                             )}
-                            {chamber === "bundestag" &&
+                            {(chamber === "bundestag" || chamber === "buergersprechstunde") &&
                               (item.info.bundesland || item.info.district) && (
                                 <div className="text-xs text-gray-600 mt-1">
                                   {bundestagSubtitle(item.info)}
@@ -568,6 +579,8 @@ export default function AbgeordneteSelect({
                 templateFile={
                   chamber === "europarl"
                     ? "mail_mep_appell.txt"
+                    : chamber === "buergersprechstunde"
+                    ? "mail_mdb_buergersprechstunde.txt"
                     : "mail_mdb_appell.txt"
                 }
                 initialRecipientName={selectedInfo.last || selectedInfo.full}
