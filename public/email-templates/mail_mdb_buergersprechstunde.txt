@@ -1,22 +1,23 @@
-Subject: Anfrage zur Bürgersprechstunde – KI-Sicherheit
+Subject: Terminanfrage Bürgersprechstunde: Risiken künstlicher Intelligenz
+
 
 {{anrede}} {{recipientName}},
 
-Als Bürger Ihres Wahlkreises wende ich mich an Sie, weil mich die aktuelle Entwicklung im Bereich Künstlicher Intelligenz zutiefst besorgt.
+Als Bürger Ihres Wahlkreises wende ich mich an Sie mit der Bitte um einen Gesprächstermin im Rahmen Ihrer Bürgersprechstunde.
 
-Kürzlich haben über 140 deutsche Professorinnen und Professoren, darunter Fields-Medaillenträger Peter Scholze, einen Appell an die deutsche Delegation des internationalen KI-Gipfels in Delhi gerichtet. Sie fordern, dass Deutschland sich für ein verbindliches globales Sicherheitsabkommen für fortgeschrittene KI einsetzt. Den Appell finden Sie hier: https://www.pause-ai.de/appell
+Ich möchte mit Ihnen über ein Problem sprechen, dessen Ausmaß und Dringlichkeit den meisten Menschen noch nicht bewusst ist: die Bedrohung durch zunehmend leistungsfähige KI-Systeme, und insbesondere das Risiko einer künstlichen Superintelligenz, die eine existenzielle Gefahr für die Menschheit darstellt.
 
-Es gibt auch einen internationalen Aufruf zu roten Linien für KI, der von 12 Nobelpreisträgern unterzeichnet wurde: https://red-lines.ai/
+Ich habe mich intensiv mit diesem Thema auseinandergesetzt und engagiere mich bei PauseAI Deutschland, einer Bürgerinitiative für sichere KI-Entwicklung. Dabei ist mir klar geworden, dass derzeit niemand wirklich versteht, was in den neuronalen Netzen moderner KI-Systeme passiert, und dass existierende Sicherheitspläne zutiefst unzureichend sind. Da die Fähigkeiten von KI-Systemen deutlich schneller voranschreiten als unser Verständnis und unsere Sicherheitsmethoden, sind politische Intervention und internationale Kooperation dringend erforderlich.
 
-Was mich besonders beunruhigt: Schon heute verhalten sich KI-Systeme anders, als von ihren Entwicklern vorgesehen. ChatGPT verursachte bei vielen Nutzern Wahnvorstellungen. Und der Chatbot Claude versuchte in Sicherheitstests seine Entwickler zu erpressen, um zu vermeiden, dass er abgeschaltet wird.
+Mit dieser Einschätzung bin ich nicht allein:
 
-Gleichzeitig verstehen selbst führende Expertinnen und Experten nicht, was in einem neuronalen Netz einer KI vor sich geht. KIs werden nicht direkt programmiert, sondern entstehen durch einen automatisierten Lernprozess.
+"The research question is: how do you prevent them from ever wanting to take control? And nobody knows the answer. [...] If you take the existential risk seriously, as I now do, it might be quite sensible to just stop developing these things any further." – Geoffrey Hinton, Nobelpreisträger und einer der Pioniere künstlicher neuronaler Netze
 
-Trotzdem wird die Entwicklung mit enormem Tempo vorangetrieben. Ich habe den Eindruck, dass dieses Thema politisch noch nicht die Aufmerksamkeit bekommt, die seiner Tragweite entspricht.
+"Rogue AI may be dangerous for the whole of humanity. Banning powerful AI systems (say beyond the abilities of GPT-4) that are given autonomy and agency would be a good start." – Yoshua Bengio, Pionier für Deep Learning und meistzitierter lebender Wissenschaftler
 
-Ich würde mich freuen, wenn Sie sich näher mit dem Thema befassen. Gerne bringe ich Sie auch mit Expertinnen und Experten für KI-Sicherheit in Kontakt.
+"We call for a prohibition on the development of superintelligence, not lifted before there is broad scientific consensus that it will be done safely and controllably, and strong public buy-in." – Superintelligence Statement, unterzeichnet von über 100.000 Personen, inklusive der beiden obigen Pioniere
 
-Über eine kurze Rückmeldung wäre ich Ihnen sehr dankbar.
+Gerne würde ich Ihnen im persönlichen Gespräch die zentralen Risiken sowie mögliche Lösungsansätze genauer erläutern. Bitte teilen Sie mir mit, ob und wann eine Terminvereinbarung möglich ist.
 
 Mit freundlichen Grüßen
 
