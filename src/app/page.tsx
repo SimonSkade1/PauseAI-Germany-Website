@@ -190,9 +190,9 @@ function HeroSection() {
         />
       </div>
 
-      {/* Content: right-aligned on all screen sizes, positioned at ~1/3 from top */}
-      <div className="relative z-10 w-full flex justify-end px-6 md:px-12 lg:px-20 xl:px-32 pt-[5vh] md:pt-[30vh]">
-        <div className="text-right">
+      {/* Content: centered on mobile, right-aligned on desktop */}
+      <div className="relative z-10 w-full flex justify-center px-6 md:justify-end md:px-12 lg:px-20 xl:px-32 pt-[5vh] md:pt-[30vh]">
+        <div className="text-center md:text-right">
           <h1 className="font-headline text-2xl text-white mb-6 md:text-5xl lg:text-5xl xl:text-6xl animate-fade-in-up">
             Wir können den <br />KI-Kontrollverlust<br /> noch verhindern
           </h1>
@@ -201,7 +201,8 @@ function HeroSection() {
               href="/mitmachen"
               className="inline-flex items-center justify-center border border-white bg-[#FF9416] px-5 py-2.5 font-section text-sm tracking-wider text-black transition-colors hover:bg-[#e88510] md:px-6 md:py-3 md:text-base"
             >
-              Hilf mit, jetzt Klarheit zu schaffen!
+              <span className="hidden md:inline">Hilf mit, jetzt Klarheit zu schaffen!</span>
+              <span className="md:hidden">Hilf mit!</span>
             </Link>
           </div>
         </div>
