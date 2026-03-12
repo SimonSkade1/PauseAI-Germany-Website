@@ -224,8 +224,8 @@ export function TaskModal({ task, completedTasks = [], completionCounts, onClose
     }
 
     // Validate comment if required
-    if (task.kommentarNoetig && comment.length < 100) {
-      setError("Bitte füge einen Kommentar mit mindestens 100 Zeichen hinzu.");
+    if (task.kommentarNoetig && comment.length < 20) {
+      setError("Bitte füge einen Kommentar mit mindestens 20 Zeichen hinzu.");
       return;
     }
 
@@ -384,20 +384,20 @@ export function TaskModal({ task, completedTasks = [], completionCounts, onClose
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
                 placeholder={task.kommentarNoetig
-                  ? "Bitte beschreibe kurz was du gemacht hast (min. 100 Zeichen)..."
+                  ? "Bitte beschreibe kurz was du gemacht hast (min. 20 Zeichen)..."
                   : "Optional: Beschreibe kurz was du gemacht hast..."
                 }
                 className={`w-full px-4 py-3 bg-[#0a0a0a] text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-[#FF9416] resize-y min-h-[80px] font-body transition-all ${
-                  task.kommentarNoetig && comment.length > 0 && comment.length < 100
+                  task.kommentarNoetig && comment.length > 0 && comment.length < 20
                     ? "border-red-500"
                     : "border-gray-700"
                 } focus:border-[#FF9416]`}
               />
               {task.kommentarNoetig && (
                 <div className={`absolute bottom-2 right-2 text-xs font-body ${
-                  comment.length >= 100 ? "text-green-400" : "text-gray-500"
+                  comment.length >= 20 ? "text-green-400" : "text-gray-500"
                 }`}>
-                  {comment.length}/100
+                  {comment.length}/20
                 </div>
               )}
             </div>
@@ -430,15 +430,15 @@ export function TaskModal({ task, completedTasks = [], completionCounts, onClose
               </button>
               <button
                 onClick={handleSubmit}
-                disabled={isSubmitting || isTaskCompletedAndNotRepeatable || (task.kommentarNoetig && comment.length < 100)}
+                disabled={isSubmitting || isTaskCompletedAndNotRepeatable || (task.kommentarNoetig && comment.length < 20)}
                 className="flex-1 bg-gradient-to-r from-[#FF9416] to-[#FFAB76] text-white font-headline py-3 px-6 hover:from-[#e88510] hover:to-[#FF9416] transition-all disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wider hover:scale-105 hover:shadow-[0_0_20px_rgba(255,148,22,0.4)]"
               >
                 {isSubmitting
                   ? "Wird gespeichert..."
                   : isTaskCompletedAndNotRepeatable
                     ? "Bereits erledigt"
-                    : task.kommentarNoetig && comment.length < 100
-                      ? `Noch ${100 - comment.length} Zeichen...`
+                    : task.kommentarNoetig && comment.length < 20
+                      ? `Noch ${20 - comment.length} Zeichen...`
                       : "Erledigt!"
                 }
               </button>
