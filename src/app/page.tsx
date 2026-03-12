@@ -201,8 +201,8 @@ function HeroSection() {
               href="/mitmachen"
               className="inline-flex items-center justify-center border border-white bg-[#FF9416] px-5 py-2.5 font-section text-sm tracking-wider text-black transition-colors hover:bg-[#e88510] md:px-6 md:py-3 md:text-base"
             >
-              <span className="hidden md:inline">Hilf mit, jetzt Klarheit zu schaffen!</span>
-              <span className="md:hidden">Hilf mit!</span>
+              <span className="hidden md:inline">Erfahre, wie du helfen kannst</span>
+              <span className="md:hidden">Erfahre, wie du helfen kannst</span>
             </Link>
           </div>
         </div>
@@ -547,11 +547,11 @@ function ActionSection() {
               </span>
               <div className="flex-1 flex flex-col h-full">
                 <h3 className="font-section text-lg text-pause-black mb-3 md:text-xl">
-                  Kontaktiere deinen{" "}
-                  <span className="text-[#FF9416] border-b-2 border-transparent group-hover:border-[#FF9416] transition-colors">Abgeordneten</span>
+                  Kontaktiere deine:n{" "}
+                  <span className="text-[#FF9416] border-b-2 border-transparent group-hover:border-[#FF9416] transition-colors">Abgeordnete:n</span>
                 </h3>
                 <p className="font-body text-pause-black/80 text-base mt-auto text-right">
-                  Finde deinen Abgeordneten mit unserem Tool und nutze unsere Mailvorlage.
+                  Finde deine:n Abgeordnete:n mit unserem Tool und nutze unsere Mailvorlage.
                 </p>
               </div>
             </div>
