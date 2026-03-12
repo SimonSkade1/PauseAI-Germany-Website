@@ -18,7 +18,7 @@ const WEEKLY_MEETING_LABEL = "Donnerstag 18:00";
 const WEEKLY_MEETING_TITLE = "PauseAI Deutschland Community-Treffen";
 const WEEKLY_MEETING_DESCRIPTION = "Wöchentliches PauseAI Deutschland Community-Treffen.";
 const JITSI_INFO_TEXT = "Unsere Kennenlern-Calls finden per Jitsi statt. Du brauchst keinen Account und kannst sowohl am PC als auch per Handy teilnehmen.";
-const DISCORD_INFO_TEXT = "Unser wöchentliches virtuelles Treffen finden per Discord statt. Du brauchst einen Account um teilzunehmen.";
+const DISCORD_INFO_TEXT = "Unser wöchentliches virtuelles Treffen findet per Discord statt. Du brauchst einen Account um teilzunehmen.";
 
 type Slot = {
   key: "sunday" | "monday";
@@ -207,6 +207,7 @@ function buildWeeklyMeetingGoogleCalendarUrl(start: Date): string {
     dates: `${formatUtcForCalendar(start)}/${formatUtcForCalendar(end)}`,
     details: `${WEEKLY_MEETING_DESCRIPTION}\n\n${DISCORD_INFO_TEXT}\n\nDiscord: ${DISCORD_WEEKLY_URL}`,
     location: DISCORD_WEEKLY_URL,
+    recur: "RRULE:FREQ=WEEKLY;WKST=SU;BYDAY=TH",
   });
 
   return `https://calendar.google.com/calendar/render?${params.toString()}`;
@@ -230,6 +231,7 @@ function downloadWeeklyMeetingIcs(start: Date): void {
     `SUMMARY:${WEEKLY_MEETING_TITLE}`,
     `DESCRIPTION:${WEEKLY_MEETING_DESCRIPTION}\\n\\n${DISCORD_INFO_TEXT}\\n\\nDiscord: ${DISCORD_WEEKLY_URL}`,
     `LOCATION:${DISCORD_WEEKLY_URL}`,
+    "RRULE:FREQ=WEEKLY;WKST=SU;BYDAY=TH",
     "END:VEVENT",
     "END:VCALENDAR",
   ].join("\r\n");
