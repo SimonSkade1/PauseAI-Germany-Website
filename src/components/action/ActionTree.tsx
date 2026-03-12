@@ -1231,7 +1231,7 @@ export function ActionTree() {
           </div>
           <div className="flex items-center gap-2">
             <span className="w-3 h-3 rounded-full bg-[#FFD700]" />
-            <span className="font-body">Wichtig (2x Karma)</span>
+            <span className="font-body">Wichtig</span>
           </div>
         </div>
 
@@ -1248,6 +1248,7 @@ export function ActionTree() {
         <TaskModal
           task={selectedTask}
           completedTasks={userData?.completed_tasks || []}
+          completionCounts={userData?.completion_counts}
           onClose={() => setSelectedTask(null)}
         />
       )}

@@ -37,12 +37,12 @@ export interface RankInfo {
 
 export const RANKS: RankInfo[] = [
   { level: 0, minXp: 0, label: "Kein Rang", className: "role-0" },
-  { level: 1, minXp: 30, label: "Neuling", className: "role-1" },
-  { level: 2, minXp: 200, label: "Lehrling", className: "role-2" },
-  { level: 3, minXp: 600, label: "Aufklärer:in", className: "role-3" },
-  { level: 4, minXp: 2000, label: "Aktivist:in", className: "role-4" },
-  { level: 5, minXp: 6000, label: "Pionier:in", className: "role-5" },
-  { level: 6, minXp: 20000, label: "Meister:in", className: "role-6" },
+  { level: 1, minXp: 1, label: "Neuling", className: "role-1" },
+  { level: 2, minXp: 100, label: "Lehrling", className: "role-2" },
+  { level: 3, minXp: 300, label: "Aufklärer:in", className: "role-3" },
+  { level: 4, minXp: 1000, label: "Aktivist:in", className: "role-4" },
+  { level: 5, minXp: 3000, label: "Pionier:in", className: "role-5" },
+  { level: 6, minXp: 10000, label: "Meister:in", className: "role-6" },
 ];
 
 export type UserRole = RankInfo["label"];
