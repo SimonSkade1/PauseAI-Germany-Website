@@ -1231,7 +1231,7 @@ export function ActionTree() {
           </div>
           <div className="flex items-center gap-2">
             <span className="w-3 h-3 rounded-full bg-[#FFD700]" />
-            <span className="font-body">Wichtig</span>
+            <span className="font-body">Strategisch Wichtig</span>
           </div>
         </div>
 

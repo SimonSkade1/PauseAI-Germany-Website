@@ -270,18 +270,18 @@ export function TaskModal({ task, completedTasks = [], completionCounts, onClose
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in-up overflow-y-auto"
+      className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-start justify-center p-4 animate-fade-in-up overflow-y-auto"
       onClick={onClose}
     >
       <div
-        className="relative bg-gradient-to-br from-[#1e1e2e] to-[#141414] p-6 md:p-8 max-w-3xl w-full border-2 border-[#FF9416] shadow-[0_0_60px_rgba(255,148,22,0.3)] my-8 max-h-[90vh] overflow-hidden flex flex-col"
+        className="relative bg-gradient-to-br from-[#1e1e2e] to-[#141414] p-6 md:p-8 max-w-3xl w-full border-2 border-[#FF9416] shadow-[0_0_60px_rgba(255,148,22,0.3)] my-8"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Ambient glow effect */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#FF9416]/10 to-[#FF6B9D]/10 pointer-events-none"></div>
 
         {/* Header with icon */}
-        <div className="flex items-start gap-4 mb-4 relative flex-shrink-0">
+        <div className="flex items-start gap-4 mb-4 relative">
           <div className="w-12 h-12 bg-[#FF9416]/20 flex items-center justify-center border border-[#FF9416]/50 flex-shrink-0">
             <DynamicIcon name={task.icon || "star"} className="w-6 h-6 text-[#FF9416]" />
           </div>
@@ -298,13 +298,13 @@ export function TaskModal({ task, completedTasks = [], completionCounts, onClose
           </button>
         </div>
 
-        <div className="mb-4 text-sm relative flex items-center gap-2 flex-shrink-0">
+        <div className="mb-4 text-sm relative flex items-center gap-2">
           <span className="px-3 py-1 bg-[#FF9416]/20 text-[#FF9416] font-body-bold border border-[#FF9416]/30">
             +{awardedXp} Karma
           </span>
           {task.wichtig && (
             <span className="px-3 py-1 bg-yellow-500/20 text-yellow-400 font-body-bold border border-yellow-500/30">
-              Wichtig
+              Strategisch Wichtig
             </span>
           )}
           {task.repeatable && (
@@ -320,7 +320,7 @@ export function TaskModal({ task, completedTasks = [], completionCounts, onClose
         </div>
 
         {/* Notion Content Section */}
-        <div className="flex-1 overflow-y-auto pr-2 relative mb-6 min-h-0 modal-content-scroll">
+        <div className="relative mb-6 overflow-x-auto">
           {isLoadingContent ? (
             <div className="flex items-center justify-center py-8">
               <div className="flex flex-col items-center gap-4">
@@ -366,7 +366,7 @@ export function TaskModal({ task, completedTasks = [], completionCounts, onClose
         </div>
 
         {!isLoggedIn ? (
-          <div className="text-center py-6 relative flex-shrink-0">
+          <div className="text-center py-6 relative">
             <p className="font-body text-gray-300 mb-4">
               Logge dich mit Discord ein, um diese Aktion als erledigt zu markieren und Karma zu sammeln!
             </p>
@@ -379,7 +379,7 @@ export function TaskModal({ task, completedTasks = [], completionCounts, onClose
           </div>
         ) : (
           <>
-            <div className="relative flex-shrink-0 mb-4">
+            <div className="relative mb-4">
               <textarea
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
@@ -420,7 +420,7 @@ export function TaskModal({ task, completedTasks = [], completionCounts, onClose
               </div>
             )}
 
-            <div className="flex gap-3 relative flex-shrink-0">
+            <div className="flex gap-3 relative">
               <button
                 onClick={onClose}
                 disabled={isSubmitting}
