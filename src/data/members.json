@@ -2,9 +2,16 @@
   {
     "id": "benjamin-schmidt",
     "name": "  Benjamin",
-    "description": "1. Vorsitzender PauseAI Deutschland, Bioinformatiker, Martin-Luther-Universität Halle-Wittenberg",
+    "description": "Leiter PauseAI Deutschland\nBioinformatiker, Martin-Luther-Universität Halle-Wittenberg",
     "quote": "Als Informatiker finde ich KI und neue Technologien faszinierend. Doch aktuell wird über unsere KI-Zukunft ohne das Wissen und die Mitbestimmung der meisten Menschen entschieden. Bevor wir gesellschaftliche Strukturen grundlegend verändern und große Risiken eingehen, brauchen wir einen breiten wissenschaftlichen und gesellschaftlichen Konsens. Der erste Schritt dahin ist die Aufklärung von Bürger:innen und Politiker:innen über Chancen und Risiken von KI.",
     "image": "/profile-pics/benjamin-schmidt.jpg"
+  },
+  {
+    "id": "simon",
+    "name": "Simon",
+    "description": "Leiter PauseAI Deutschland\nKI-Sicherheitsforscher",
+    "quote": "Die Menschheit ist wie ein Funke in der Nacht, der entweder erlischt oder Licht in das Universum bringt. Wir haben so viel für das es sich zu kämpfen lohnt. Von Lachen zu Liebe, von Bewusstsein zu Sympathie. Lasst uns zusammen arbeiten, um den Funken zu bewahren und aufblühen zu lassen.",
+    "image": "/profile-pics/simon.png"
   },
   {
     "id": "hauke",
@@ -12,13 +19,6 @@
     "description": "Student der Politikwissenschaften, Freiburg",
     "quote": "Seit 2022 beschäftige ich mich mit den Risiken durch fortgeschrittene KI-Systeme, ob im Bluedot Impact AI Governance Kurs oder in meiner Bachelorarbeit zum EU AI Act. Mit meinem Engagement bei PauseAI möchte ich dazu beitragen, eine gesellschaftliche Debatte anzustoßen, die den großen Risiken dieser Technologie gerecht wird. Und mir macht Hoffnung, dass die Menschen in meinem Umfeld diese Risiken auch nicht akzeptieren wollen, wenn ich mit ihnen darüber rede. Ich wünsche mir, auch langfristig ein gutes Leben in einer demokratischen freiheitlichen Gesellschaft führen zu können.",
     "image": "/profile-pics/hauke.jpeg"
-  },
-  {
-    "id": "simon",
-    "name": "Simon",
-    "description": "KI-Sicherheitsforscher und 2. Vorsitzender bei PauseAI Deutschland",
-    "quote": "Die Menschheit ist wie ein Funke in der Nacht, der entweder erlischt oder Licht in das Universum bringt. Wir haben so viel für das es sich zu kämpfen lohnt. Von Lachen zu Liebe, von Bewusstsein zu Sympathie. Lasst uns zusammen arbeiten, um den Funken zu bewahren und aufblühen zu lassen.",
-    "image": "/profile-pics/simon.png"
   },
   {
     "id": "adrian-glubrecht",

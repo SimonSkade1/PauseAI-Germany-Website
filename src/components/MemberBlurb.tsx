@@ -38,7 +38,7 @@ export default function MemberBlurb({ name, description, quote, image }: MemberB
             <span className="font-body-bold text-[#FF9416] text-lg md:text-xl">
               {name}
             </span>
-            <span className="font-body text-black text-sm md:text-base mt-1">
+            <span className="font-body text-black text-sm md:text-base mt-1 whitespace-pre-line">
               {description}
             </span>
           </div>

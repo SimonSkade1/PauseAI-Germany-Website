@@ -20,8 +20,8 @@ export default function Impressum() {
                 Angaben gemäß § 5 TMG
               </h2>
               <div className="font-body text-pause-black/80 space-y-1">
-                <p className="font-body-bold">PauseAI Deutschland e.V. i.G.</p>
-                <p>(Verein in Gründung)</p>
+                <p className="font-body-bold">PauseAI Deutschland</p>
+                <p>(Bürgerbewegung)</p>
                 <p className="mt-4">Burgemeisterstraße 30</p>
                 <p>c/o Coordes</p>
                 <p>12103 Berlin</p>
@@ -31,7 +31,7 @@ export default function Impressum() {
             {/* Vertreten durch */}
             <section>
               <h2 className="font-section text-lg text-pause-black mb-4">
-                Vertreten durch den Vorstand
+                Vertreten durch
               </h2>
               <ul className="font-body text-pause-black/80 space-y-1">
                 <li>Benjamin Schmidt</li>
@@ -62,14 +62,22 @@ export default function Impressum() {
               </div>
             </section>
 
-            {/* Registereintrag */}
+            {/* Lobbyregister */}
             <section>
               <h2 className="font-section text-lg text-pause-black mb-4">
-                Registereintrag
+                Lobbyregister
               </h2>
               <p className="font-body text-pause-black/80">
-                Der Verein befindet sich derzeit im Gründungsprozess. Die
-                Eintragung in das Vereinsregister ist beantragt.
+                PauseAI Deutschland ist im{" "}
+                <a
+                  href="https://www.lobbyregister.bundestag.de/suche/R007813"
+                  className="orange-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Lobbyregister des Deutschen Bundestages
+                </a>
+                {" "}eingetragen (Registernummer: R007813).
               </p>
             </section>
 
