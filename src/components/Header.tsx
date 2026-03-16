@@ -56,20 +56,23 @@ export default function Header({ topOffset = 0 }: HeaderProps) {
     setIsMenuOpen(false);
   };
 
-  // Desktop navigation links (only 3 main links)
+  // Desktop navigation links
   const desktopNavLinks = [
-    { href: "/#was-du-tun-kannst", label: "Hilf mit", external: false },
+    { href: "/mitmachen", label: "Mitmachen", external: false },
+    { href: "/#was-du-tun-kannst", label: "Aktiv werden", external: false },
+    { href: "https://ki-risiken.de", label: "Informieren", external: true },
     { href: "/ueber-uns", label: "Über uns", external: false },
-    { href: "https://ki-risiken.de", label: "Mehr lernen", external: true },
   ];
 
   // Mobile menu structure with sublinks
   const mobileMenuItems = [
     { href: "/", label: "Startseite", external: false },
-    { href: "/#was-du-tun-kannst", label: "Hilf mit", external: false },
-    { 
-      href: "/ueber-uns", 
-      label: "Über uns", 
+    { href: "/mitmachen", label: "Mitmachen", external: false },
+    { href: "/#was-du-tun-kannst", label: "Aktiv werden", external: false },
+    { href: "https://ki-risiken.de", label: "Informieren", external: true },
+    {
+      href: "/ueber-uns",
+      label: "Über uns",
       external: false,
       sublinks: [
         { href: "/ueber-uns#unser-ziel", label: "Unser Ziel" },
@@ -77,7 +80,6 @@ export default function Header({ topOffset = 0 }: HeaderProps) {
         { href: "/ueber-uns#was-wir-tun", label: "Was wir tun" },
       ]
     },
-    { href: "https://ki-risiken.de", label: "Mehr lernen", external: true },
     { href: "/kontakt", label: "Kontakt", external: false },
     { href: "https://pauseai.info", label: "International", external: true },
   ];
