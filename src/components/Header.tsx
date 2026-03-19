@@ -58,28 +58,39 @@ export default function Header({ topOffset = 0 }: HeaderProps) {
 
   // Desktop navigation links
   const desktopNavLinks = [
-    { href: "/mitmachen", label: "Mitmachen", external: false },
-    { href: "/#was-du-tun-kannst", label: "Aktiv werden", external: false },
+    {
+      href: "/mitmachen",
+      label: "Mitmachen",
+      external: false,
+      sublinks: [
+        { href: "/mitmachen", label: "Kennen lernen" },
+        { href: "/aktionen", label: "Aktiv werden" },
+        { href: "/contactlawmakers", label: "Politik kontaktieren" },
+        { href: "/spenden", label: "Spenden" },
+      ]
+    },
     { href: "/informieren", label: "Informieren", external: false },
     { href: "/ueber-uns", label: "Über uns", external: false },
+    { href: "/shop", label: "Shop", external: false, disabled: true },
   ];
 
   // Mobile menu structure with sublinks
   const mobileMenuItems = [
     { href: "/", label: "Startseite", external: false },
-    { href: "/mitmachen", label: "Mitmachen", external: false },
-    { href: "/#was-du-tun-kannst", label: "Aktiv werden", external: false },
-    { href: "/informieren", label: "Informieren", external: false },
     {
-      href: "/ueber-uns",
-      label: "Über uns",
+      href: "/mitmachen",
+      label: "Mitmachen",
       external: false,
       sublinks: [
-        { href: "/ueber-uns#unser-ziel", label: "Unser Ziel" },
-        { href: "/ueber-uns#unser-ansatz", label: "Unser Ansatz" },
-        { href: "/ueber-uns#was-wir-tun", label: "Was wir tun" },
+        { href: "/mitmachen", label: "Kennen lernen" },
+        { href: "/aktionen", label: "Aktiv werden" },
+        { href: "/contactlawmakers", label: "Politik kontaktieren" },
+        { href: "/spenden", label: "Spenden" },
       ]
     },
+    { href: "/informieren", label: "Informieren", external: false },
+    { href: "/ueber-uns", label: "Über uns", external: false },
+    { href: "/shop", label: "Shop", external: false, disabled: true },
     { href: "/kontakt", label: "Kontakt", external: false },
     { href: "https://pauseai.info", label: "International", external: true },
   ];
@@ -107,8 +118,47 @@ export default function Header({ topOffset = 0 }: HeaderProps) {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-6">
-            {desktopNavLinks.map((link) =>
-              link.external ? (
+            {desktopNavLinks.map((link) => {
+              if ("disabled" in link && link.disabled) {
+                return (
+                  <span
+                    key={link.href}
+                    className="relative font-section text-sm tracking-wider text-black/50 cursor-not-allowed md:text-base group"
+                  >
+                    {link.label}
+                    <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap bg-[#1a1a1a] text-white text-xs px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                      Bald verfügbar
+                    </span>
+                  </span>
+                );
+              }
+              const hasSublinks = "sublinks" in link && link.sublinks;
+              return hasSublinks ? (
+                <div
+                  key={link.href}
+                  className="relative group"
+                >
+                  <span className="font-section text-sm tracking-wider text-black transition-colors hover:text-white md:text-base cursor-pointer inline-flex items-center gap-1">
+                    {link.label}
+                    <svg className="w-3 h-3 transition-transform group-hover:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                      <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </span>
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                    <div className="bg-[#1a1a1a] rounded-lg shadow-xl py-2 min-w-[220px]">
+                      {link.sublinks!.map((sublink) => (
+                        <Link
+                          key={sublink.href}
+                          href={sublink.href}
+                          className="block px-5 py-2.5 font-section text-sm tracking-wider text-white/90 hover:text-white hover:bg-[#FF9416] transition-colors first:rounded-t-lg last:rounded-b-lg"
+                        >
+                          {sublink.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ) : link.external ? (
                 <a
                   key={link.href}
                   href={link.href}
@@ -126,8 +176,8 @@ export default function Header({ topOffset = 0 }: HeaderProps) {
                 >
                   {link.label}
                 </Link>
-              )
-            )}
+              );
+            })}
           </nav>
 
           {/* Mobile Hamburger Button */}
@@ -157,50 +207,63 @@ export default function Header({ topOffset = 0 }: HeaderProps) {
         }`}
       >
         <nav className="flex flex-col items-start gap-6">
-          {mobileMenuItems.map((item) => (
-            <div key={item.href} className="flex flex-col items-start">
-              {item.external ? (
-                <a
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={closeMenu}
-                  className="font-body text-2xl text-white transition-colors hover:text-[#FF9416] flex items-center gap-3"
-                >
-                  <svg className="w-4 h-4 text-[#FF9416]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                    <path d="M5 12h14M13 5l7 7-7 7" strokeLinecap="square" strokeLinejoin="miter" />
-                  </svg>
-                  {item.label}
-                </a>
-              ) : (
-                <Link
-                  href={item.href}
-                  onClick={closeMenu}
-                  className="font-body text-2xl text-white transition-colors hover:text-[#FF9416] flex items-center gap-3"
-                >
-                  <svg className="w-4 h-4 text-[#FF9416]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                    <path d="M5 12h14M13 5l7 7-7 7" strokeLinecap="square" strokeLinejoin="miter" />
-                  </svg>
-                  {item.label}
-                </Link>
-              )}
-              {/* Render sublinks if they exist */}
-              {item.sublinks && (
-                <div className="flex flex-col items-start pl-2 ml-7 mt-3 gap-2 border-l border-[#FF9416]">
-                  {item.sublinks.map((sublink) => (
-                    <Link
-                      key={sublink.href}
-                      href={sublink.href}
-                      onClick={closeMenu}
-                      className="font-body text-lg text-white/70 transition-colors hover:text-[#FF9416] pl-3"
-                    >
-                      {sublink.label}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
+          {mobileMenuItems.map((item) => {
+            const isDisabled = "disabled" in item && item.disabled;
+            return (
+              <div key={item.href} className="flex flex-col items-start">
+                {isDisabled ? (
+                  <span className="font-body text-2xl text-white/40 cursor-not-allowed flex items-center gap-3 relative group">
+                    <svg className="w-4 h-4 text-white/20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                      <path d="M5 12h14M13 5l7 7-7 7" strokeLinecap="square" strokeLinejoin="miter" />
+                    </svg>
+                    {item.label}
+                    <span className="absolute left-full ml-3 top-1/2 -translate-y-1/2 whitespace-nowrap bg-[#FF9416] text-black text-sm px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                      Coming soon
+                    </span>
+                  </span>
+                ) : item.external ? (
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={closeMenu}
+                    className="font-body text-2xl text-white transition-colors hover:text-[#FF9416] flex items-center gap-3"
+                  >
+                    <svg className="w-4 h-4 text-[#FF9416]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                      <path d="M5 12h14M13 5l7 7-7 7" strokeLinecap="square" strokeLinejoin="miter" />
+                    </svg>
+                    {item.label}
+                  </a>
+                ) : (
+                  <Link
+                    href={item.href}
+                    onClick={closeMenu}
+                    className="font-body text-2xl text-white transition-colors hover:text-[#FF9416] flex items-center gap-3"
+                  >
+                    <svg className="w-4 h-4 text-[#FF9416]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                      <path d="M5 12h14M13 5l7 7-7 7" strokeLinecap="square" strokeLinejoin="miter" />
+                    </svg>
+                    {item.label}
+                  </Link>
+                )}
+                {/* Render sublinks if they exist */}
+                {item.sublinks && (
+                  <div className="flex flex-col items-start pl-2 ml-7 mt-3 gap-2 border-l border-[#FF9416]">
+                    {item.sublinks.map((sublink) => (
+                      <Link
+                        key={sublink.href}
+                        href={sublink.href}
+                        onClick={closeMenu}
+                        className="font-body text-lg text-white/70 transition-colors hover:text-[#FF9416] pl-3"
+                      >
+                        {sublink.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </nav>
       </div>
     </>
