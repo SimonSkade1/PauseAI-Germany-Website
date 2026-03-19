@@ -62,6 +62,7 @@ export default function Header({ topOffset = 0 }: HeaderProps) {
     { href: "/#was-du-tun-kannst", label: "Aktiv werden", external: false },
     { href: "https://ki-risiken.de", label: "Informieren", external: true },
     { href: "/ueber-uns", label: "Über uns", external: false },
+    { href: "/shop", label: "Shop", external: false },
   ];
 
   // Mobile menu structure with sublinks
@@ -80,6 +81,7 @@ export default function Header({ topOffset = 0 }: HeaderProps) {
         { href: "/ueber-uns#was-wir-tun", label: "Was wir tun" },
       ]
     },
+    { href: "/shop", label: "Shop", external: false },
     { href: "/kontakt", label: "Kontakt", external: false },
     { href: "https://pauseai.info", label: "International", external: true },
   ];
