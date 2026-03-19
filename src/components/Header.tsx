@@ -138,12 +138,12 @@ export default function Header({ topOffset = 0 }: HeaderProps) {
                   key={link.href}
                   className="relative group"
                 >
-                  <span className="font-section text-sm tracking-wider text-black transition-colors hover:text-white md:text-base cursor-pointer inline-flex items-center gap-1">
+                  <Link href="/#was-du-tun-kannst" className="font-section text-sm tracking-wider text-black transition-colors hover:text-white md:text-base cursor-pointer inline-flex items-center gap-1">
                     {link.label}
                     <svg className="w-3 h-3 transition-transform group-hover:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
                       <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
-                  </span>
+                  </Link>
                   <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                     <div className="bg-[#1a1a1a] rounded-lg shadow-xl py-2 min-w-[220px]">
                       {link.sublinks!.map((sublink) => (
