@@ -1,0 +1,128 @@
+[
+  {
+    "id": "tshirt-weiss",
+    "name": "PauseAI T-Shirt (Weiß)",
+    "description": "Klassisches weißes T-Shirt mit PauseAI-Logo. 100% Baumwolle, Fair-Trade-zertifiziert. Zeige deine Unterstützung für sichere KI-Entwicklung.",
+    "price": 2000,
+    "category": "clothing",
+    "images": [
+      "https://imgproxy.fourthwall.com/r-MJWLMF99e4RZ8s1uMzT4soHNR22eTVwhMAR1IE4C8/w:720/sm:1/enc/eg9886qmMH_ky86L/1Rgwo5T52_ySKQdM/TAVgZWTUWYd38axi/AteGmFzMKntSHFXP/oQ91kD_OK62S4JhC/UAvJ9ctKhFXge_xk/jfEziKieTqz8B3O7/PjMF2O0nMB4Dd0vb/iHITAOB76i6FPPkm/Z0avb1P1jBxTQfJS/9JuJEX7unBunq7FN/Xa5uMq0r13sCTaiW/pz7oMO29TDpL4HlW/nsXbXHM_nlWom7cD/66dY3RdHrP0"
+    ],
+    "variants": [
+      { "id": "tshirt-weiss-s", "color": "Weiß", "colorHex": "#FFFFFF", "size": "S", "inStock": true },
+      { "id": "tshirt-weiss-m", "color": "Weiß", "colorHex": "#FFFFFF", "size": "M", "inStock": true },
+      { "id": "tshirt-weiss-l", "color": "Weiß", "colorHex": "#FFFFFF", "size": "L", "inStock": true },
+      { "id": "tshirt-weiss-xl", "color": "Weiß", "colorHex": "#FFFFFF", "size": "XL", "inStock": true }
+    ],
+    "featured": true,
+    "soldOut": false
+  },
+  {
+    "id": "tshirt-orange",
+    "name": "PauseAI T-Shirt (Orange)",
+    "description": "Auffälliges orangefarbenes T-Shirt mit PauseAI-Logo. 100% Baumwolle, Fair-Trade-zertifiziert. In unserer Signalfarbe.",
+    "price": 2000,
+    "category": "clothing",
+    "images": [
+      "https://imgproxy.fourthwall.com/fu4UCSG9wMczN7qBHpGswRw0w1jhB85qv57F02TgfSA/w:720/sm:1/enc/2F7-E1Q4oQ_JwIbV/m0rIH5cilsd3VF-S/7J4oJa8M9joJkGQ_/_UHGO1dcy6yzl6BH/d-_m1zn7E2FUd5xi/jNuDH7SDhBw33THU/h1mixzN_GRBmx5pZ/kx9VaBlBS5VR_aYP/rzGHq18Cqz4Ui6zQ/FDC77lFa5yx1vIFk/MPyThVc0VlEEfvgb/cwSMcwQUohb7q89j/wnkyXVYD-yoIvBQJ/ZK0mr4__yfNDYYd6/7dqmAPCA4Zs"
+    ],
+    "variants": [
+      { "id": "tshirt-orange-s", "color": "Orange", "colorHex": "#FF9416", "size": "S", "inStock": true },
+      { "id": "tshirt-orange-m", "color": "Orange", "colorHex": "#FF9416", "size": "M", "inStock": true },
+      { "id": "tshirt-orange-l", "color": "Orange", "colorHex": "#FF9416", "size": "L", "inStock": true },
+      { "id": "tshirt-orange-xl", "color": "Orange", "colorHex": "#FF9416", "size": "XL", "inStock": true }
+    ],
+    "featured": true,
+    "soldOut": false
+  },
+  {
+    "id": "sticker-10er",
+    "name": "PauseAI Sticker (10er Pack)",
+    "description": "10 hochwertige, wetterfeste Vinyl-Sticker mit PauseAI-Logo. Perfekt zum Verteilen auf Demos, in der Uni oder im Büro.",
+    "price": 300,
+    "category": "stickers",
+    "images": [
+      "https://imgproxy.fourthwall.com/SW7b3SgT4oL2oQYWWvhMRgNu9VyYiGXJu3QIzn-lZU0/w:720/sm:1/enc/iBRQCbFKQgG23s9s/D4Fg1AYyeqDeekAm/3EsRotn9LSKp9aFo/l0HbShYDmu6UbnlL/rTsXKHLrJmrkYK96/uG0FQGdOHBxuassg/XXw-5WkG0rKQ15BW/VtXxL9yj-HuS025u/cazVAx-NFvEAyaea/ZnuKK5UpLc0eDTz_/SWkgFBZ05cFkw6QQ/DFxBhx_qwrrlHIfq/1r4VkYlCDmEzFh-f/ONpQ1hISZ4VlkHz-/X8jkBfI8SPc"
+    ],
+    "variants": [
+      { "id": "sticker-10er-one", "color": "Standard", "colorHex": "#FF9416", "size": "Einheitsgröße", "inStock": true }
+    ],
+    "featured": false,
+    "soldOut": false
+  },
+  {
+    "id": "pins",
+    "name": "PauseAI Pins",
+    "description": "Elegante Anstecknadeln mit PauseAI-Logo. Hochwertige Emaille-Verarbeitung. Trage deine Überzeugung sichtbar.",
+    "price": 1000,
+    "category": "accessories",
+    "images": [
+      "https://imgproxy.fourthwall.com/lczsgrbErmP5adz9KwQL_Ps1i8If6WOYxxwacTjD9ek/w:720/sm:1/enc/4TbCroLHERV5hLDR/-xLc3fUw6zxHTsGS/mZfor7SSHwxYjSWp/XSFqC9JLg0IHrOEb/f21LHUwKfuYSDX9f/5Icu7I5Wdx8OeXqQ/DggW1wDO0r6oXL1c/gusQh0sZF5xq5gPp/DFDjdmHCxmgxvAm3/0WDAovzERdrhYZ7v/XLq0UEmCCtX2XrBm/Yp0EEjkfQ_vwRrHA/XyGihAMnSygUJ-OS/TxSBDOt33jTyt9ax/ss5Ld-uLlPg"
+    ],
+    "variants": [
+      { "id": "pins-one", "color": "Standard", "colorHex": "#FF9416", "size": "Einheitsgröße", "inStock": true }
+    ],
+    "featured": false,
+    "soldOut": false
+  },
+  {
+    "id": "tasse",
+    "name": "PauseAI Tasse (Keramik)",
+    "description": "Hochwertige Keramiktasse mit PauseAI-Motiv. Spülmaschinenfest, 330 ml Fassungsvermögen. Für den täglichen Kaffee mit Haltung.",
+    "price": 1200,
+    "category": "accessories",
+    "images": [
+      "https://imgproxy.fourthwall.com/btLKaT43a_A82wZ0TMxECUmwhUr0ejosNgwh6ANZZOQ/w:720/sm:1/enc/u5rmcXxjg1hEcKWx/tFqX78j0L6UXYAUJ/9sjO-_MdaqqG6EV8/kIVbxANr7yAMllNh/3D0vA3bbYHATdnxn/dpbpTlnurQp1mx52/YBdJQ8LInLwNPOKx/YQbMB0mUAKz69DVE/fRfyqoxGLzwjPEyn/cm6faOj7Xd4QS3rQ/jhCF9hqlQ-OPYFQG/CJ3LHpLs-D7bwPP_/JkxfmUbdZyycD2Hy/tocSqBflw6o_VWu5/EM3s4G-18I0"
+    ],
+    "variants": [
+      { "id": "tasse-one", "color": "Weiß", "colorHex": "#FFFFFF", "size": "Einheitsgröße", "inStock": true }
+    ],
+    "featured": true,
+    "soldOut": false
+  },
+  {
+    "id": "trinkflasche",
+    "name": "PauseAI Trinkflasche (Schwarz)",
+    "description": "Isolierte Edelstahl-Trinkflasche mit PauseAI-Gravur. Hält Getränke 12 Stunden warm oder 24 Stunden kalt. 500 ml.",
+    "price": 1800,
+    "category": "accessories",
+    "images": [
+      "https://imgproxy.fourthwall.com/fu4UCSG9wMczN7qBHpGswRw0w1jhB85qv57F02TgfSA/w:720/sm:1/enc/2F7-E1Q4oQ_JwIbV/m0rIH5cilsd3VF-S/7J4oJa8M9joJkGQ_/_UHGO1dcy6yzl6BH/d-_m1zn7E2FUd5xi/jNuDH7SDhBw33THU/h1mixzN_GRBmx5pZ/kx9VaBlBS5VR_aYP/rzGHq18Cqz4Ui6zQ/FDC77lFa5yx1vIFk/MPyThVc0VlEEfvgb/cwSMcwQUohb7q89j/wnkyXVYD-yoIvBQJ/ZK0mr4__yfNDYYd6/7dqmAPCA4Zs"
+    ],
+    "variants": [
+      { "id": "trinkflasche-one", "color": "Schwarz", "colorHex": "#1a1a1a", "size": "Einheitsgröße", "inStock": true }
+    ],
+    "featured": false,
+    "soldOut": false
+  },
+  {
+    "id": "stoffbeutel",
+    "name": "PauseAI Stoffbeutel",
+    "description": "Robuster Stoffbeutel aus Bio-Baumwolle mit PauseAI-Aufdruck. Perfekt für Einkauf, Uni oder als Alltagsbegleiter.",
+    "price": 1500,
+    "category": "accessories",
+    "images": [
+      "https://imgproxy.fourthwall.com/r-MJWLMF99e4RZ8s1uMzT4soHNR22eTVwhMAR1IE4C8/w:720/sm:1/enc/eg9886qmMH_ky86L/1Rgwo5T52_ySKQdM/TAVgZWTUWYd38axi/AteGmFzMKntSHFXP/oQ91kD_OK62S4JhC/UAvJ9ctKhFXge_xk/jfEziKieTqz8B3O7/PjMF2O0nMB4Dd0vb/iHITAOB76i6FPPkm/Z0avb1P1jBxTQfJS/9JuJEX7unBunq7FN/Xa5uMq0r13sCTaiW/pz7oMO29TDpL4HlW/nsXbXHM_nlWom7cD/66dY3RdHrP0"
+    ],
+    "variants": [
+      { "id": "stoffbeutel-one", "color": "Natur", "colorHex": "#F5F0E8", "size": "Einheitsgröße", "inStock": true }
+    ],
+    "featured": false,
+    "soldOut": false
+  },
+  {
+    "id": "cap",
+    "name": "PauseAI Cap",
+    "description": "Stylische Cap mit gesticktem PauseAI-Logo. Verstellbar, aus robustem Baumwoll-Twill. Für jede Kopfform geeignet.",
+    "price": 2000,
+    "category": "accessories",
+    "images": [
+      "https://imgproxy.fourthwall.com/lczsgrbErmP5adz9KwQL_Ps1i8If6WOYxxwacTjD9ek/w:720/sm:1/enc/4TbCroLHERV5hLDR/-xLc3fUw6zxHTsGS/mZfor7SSHwxYjSWp/XSFqC9JLg0IHrOEb/f21LHUwKfuYSDX9f/5Icu7I5Wdx8OeXqQ/DggW1wDO0r6oXL1c/gusQh0sZF5xq5gPp/DFDjdmHCxmgxvAm3/0WDAovzERdrhYZ7v/XLq0UEmCCtX2XrBm/Yp0EEjkfQ_vwRrHA/XyGihAMnSygUJ-OS/TxSBDOt33jTyt9ax/ss5Ld-uLlPg"
+    ],
+    "variants": [
+      { "id": "cap-one", "color": "Schwarz", "colorHex": "#1a1a1a", "size": "Einheitsgröße", "inStock": true }
+    ],
+    "featured": true,
+    "soldOut": false
+  }
+]
