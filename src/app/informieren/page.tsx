@@ -367,6 +367,57 @@ const papers: Resource[] = [
   },
 ];
 
+const statements: Resource[] = [
+  {
+    title: "Statement on AI Safety",
+    href: "https://aistatement.com/",
+    external: true,
+    language: "EN",
+  },
+  {
+    title: "Red Lines for AI",
+    href: "https://red-lines.ai/",
+    external: true,
+    language: "EN",
+  },
+  {
+    title: "Superintelligence Statement",
+    href: "https://superintelligence-statement.org/",
+    external: true,
+    language: "EN",
+  },
+  {
+    title: "ControlAI Open Statement",
+    href: "https://controlai.com/open-statement",
+    external: true,
+    language: "EN",
+  },
+  {
+    title: "International AI Treaty",
+    href: "https://aitreaty.org/",
+    external: true,
+    language: "EN",
+  },
+  {
+    title: "KI-Gipfel müssen Sicherheit wieder ernst nehmen",
+    href: "https://www.change.org/p/ki-gipfel-m%C3%BCssen-sicherheit-wieder-ernst-nehmen",
+    external: true,
+    language: "DE",
+  },
+  {
+    title: "PauseAI Global Statement",
+    href: "https://pauseai.info/statement",
+    external: true,
+    language: "EN",
+  },
+  {
+    title: "Say No to Dangerous AI",
+    href: "https://pauseai.info/sayno",
+    external: true,
+    language: "EN",
+  },
+];
+
 const organizations: Resource[] = [
   {
     title: "ControlAI",
@@ -462,6 +513,7 @@ export default function InformierenPage() {
           title="Wissenschaftliche Arbeiten"
           items={papers}
         />
+        <ResourceSection title="Stellungnahmen" items={statements} />
         <ResourceSection title="Organisationen" items={organizations} />
 
         {/* CTA */}
