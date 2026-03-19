@@ -60,7 +60,7 @@ export default function Header({ topOffset = 0 }: HeaderProps) {
   const desktopNavLinks = [
     { href: "/mitmachen", label: "Mitmachen", external: false },
     { href: "/#was-du-tun-kannst", label: "Aktiv werden", external: false },
-    { href: "https://ki-risiken.de", label: "Informieren", external: true },
+    { href: "/informieren", label: "Informieren", external: false },
     { href: "/ueber-uns", label: "Über uns", external: false },
     { href: "/shop", label: "Shop", external: false },
   ];
@@ -70,7 +70,7 @@ export default function Header({ topOffset = 0 }: HeaderProps) {
     { href: "/", label: "Startseite", external: false },
     { href: "/mitmachen", label: "Mitmachen", external: false },
     { href: "/#was-du-tun-kannst", label: "Aktiv werden", external: false },
-    { href: "https://ki-risiken.de", label: "Informieren", external: true },
+    { href: "/informieren", label: "Informieren", external: false },
     {
       href: "/ueber-uns",
       label: "Über uns",
