@@ -1,0 +1,78 @@
+[
+  {
+    "id": "freiburg",
+    "city": "Freiburg",
+    "lat": 47.999,
+    "lng": 7.842,
+    "contact": {
+      "name": "Anna Müller",
+      "email": "freiburg@pauseai.de",
+      "phone": "+49 123 4567890"
+    },
+    "links": {
+      "whatsapp": "https://chat.whatsapp.com/placeholder-freiburg",
+      "signal": "https://signal.group/placeholder-freiburg",
+      "telegram": "https://t.me/placeholder_freiburg"
+    },
+    "lumaUrl": "https://lu.ma/pauseai-freiburg",
+    "meetingSchedule": "Jeden 2. Donnerstag, 19:00 Uhr",
+    "description": "Aktive Gruppe im Breisgau mit regelmäßigen Infoabenden und Aktionen."
+  },
+  {
+    "id": "halle",
+    "city": "Halle (Saale)",
+    "lat": 51.482,
+    "lng": 11.970,
+    "contact": {
+      "name": "Thomas Weber",
+      "email": "halle@pauseai.de",
+      "phone": "+49 123 4567891"
+    },
+    "links": {
+      "whatsapp": "https://chat.whatsapp.com/placeholder-halle",
+      "signal": "https://signal.group/placeholder-halle",
+      "telegram": "https://t.me/placeholder_halle"
+    },
+    "lumaUrl": "https://lu.ma/pauseai-halle",
+    "meetingSchedule": "Jeden 1. Mittwoch, 18:30 Uhr",
+    "description": "Lokalgruppe in Sachsen-Anhalt mit Fokus auf universitäre Aufklärung."
+  },
+  {
+    "id": "leipzig",
+    "city": "Leipzig",
+    "lat": 51.340,
+    "lng": 12.375,
+    "contact": {
+      "name": "Marie Schmidt",
+      "email": "leipzig@pauseai.de",
+      "phone": "+49 123 4567892"
+    },
+    "links": {
+      "whatsapp": "https://chat.whatsapp.com/placeholder-leipzig",
+      "signal": "https://signal.group/placeholder-leipzig",
+      "telegram": "https://t.me/placeholder_leipzig"
+    },
+    "lumaUrl": "https://lu.ma/pauseai-leipzig",
+    "meetingSchedule": "Jeden 3. Dienstag, 19:00 Uhr",
+    "description": "Engagierte Community in Sachsen mit regelmäßigen Stammtischen."
+  },
+  {
+    "id": "bonn",
+    "city": "Bonn",
+    "lat": 50.735,
+    "lng": 7.100,
+    "contact": {
+      "name": "Jan Fischer",
+      "email": "bonn@pauseai.de",
+      "phone": "+49 123 4567893"
+    },
+    "links": {
+      "whatsapp": "https://chat.whatsapp.com/placeholder-bonn",
+      "signal": "https://signal.group/placeholder-bonn",
+      "telegram": "https://t.me/placeholder_bonn"
+    },
+    "lumaUrl": "https://lu.ma/pauseai-bonn",
+    "meetingSchedule": "Jeden 2. Montag, 18:00 Uhr",
+    "description": "Lokalgruppe im Rheinland mit Verbindungen zur politischen Szene in Bonn."
+  }
+]

@@ -418,3 +418,23 @@ a.orange-link:hover {
 .modal-content-scroll::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 148, 22, 0.6);
 }
+
+/* Leaflet popup styling */
+.leaflet-popup-content-wrapper {
+  border-radius: 2px;
+  border: 2px solid #1a1a1a;
+  box-shadow: none;
+}
+
+.leaflet-popup-content {
+  font-family: var(--font-body);
+  margin: 12px 16px;
+}
+
+.leaflet-popup-content p {
+  margin: 0;
+}
+
+.leaflet-popup-tip {
+  border: 1px solid #1a1a1a;
+}
