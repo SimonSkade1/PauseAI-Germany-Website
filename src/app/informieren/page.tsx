@@ -2,11 +2,12 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Link from "next/link";
 import { ExternalLink } from "lucide-react";
+import { ReactNode } from "react";
 
 type Resource = {
   title: string;
   href: string;
-  description?: string;
+  description?: ReactNode;
   external?: boolean;
   language?: "DE" | "EN";
 };
@@ -47,19 +48,36 @@ const internalLinks: Resource[] = [
   {
     title: "Appell zum KI-Gipfel 2026",
     href: "/appell",
-    description: "Unser offener Appell für sichere KI-Entwicklung.",
-  },
-  {
-    title: "Über 140 Professor*innen fordern KI-Sicherheit",
-    href: "https://www.forschung-und-lehre.de/politik/ueber-140-professorinnen-und-professoren-fordern-ki-sicherheit-7541",
-    description: "Artikel über unseren Appell in Forschung & Lehre.",
-    external: true,
-    language: "DE",
+    description: (
+      <>
+        Unser offener Appell für sichere KI-Entwicklung.{" "}
+        <a
+          href="https://www.forschung-und-lehre.de/politik/ueber-140-professorinnen-und-professoren-fordern-ki-sicherheit-7541"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="orange-link font-body-bold inline-flex items-center gap-1"
+        >
+          Artikel
+          <ExternalLink className="inline h-3.5 w-3.5 shrink-0" />
+        </a>
+        .{" "}
+        <a
+          href="https://www.youtube.com/watch?v=4QwlOJzKGGw"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="orange-link font-body-bold inline-flex items-center gap-1"
+        >
+          Interview
+          <ExternalLink className="inline h-3.5 w-3.5 shrink-0" />
+        </a>
+        .
+      </>
+    ),
   },
   {
     title: "EU parliamentarians acknowledge the catastrophic risks of artificial intelligence",
     href: "https://pauseai.substack.com/p/eu-parliamentarians-acknowledge-the",
-    description: "Bericht über unseren Protest vor dem EU-Parlament im Februar.",
+    description: "Bericht über den Protest von PauseAI vor dem EU-Parlament im Februar.",
     external: true,
     language: "EN",
   },
@@ -147,12 +165,6 @@ const newsletters: Resource[] = [
 
 const videos: Resource[] = [
   {
-    title: "Warum fordern 133 deutsche Professoren ein KI-Sicherheitsabkommen? Mit Simon Skade von Pause AI",
-    href: "https://www.youtube.com/watch?v=4QwlOJzKGGw",
-    external: true,
-    language: "DE",
-  },
-  {
     title: "Karl Olsberg's YouTube Kanal",
     href: "https://www.youtube.com/@KarlOlsbergAutor",
     external: true,
@@ -194,6 +206,13 @@ const podcasts: Resource[] = [
     description: "Interview mit Karl Hans Bläsius im Deutschlandfunk (18.2.2026).",
     external: true,
     language: "DE",
+  },
+  {
+    title: "Godfather of AI: They Keep Silencing Me But I’m Trying to Warn Them!",
+    href: "https://www.youtube.com/watch?v=giT0ytynSqg",
+    description: "Interview mit Geoffrey Hinton, Turing-Award-Preisträger und Mitbegründer der modernen KI.  (16.6.2025).",
+    external: true,
+    language: "EN",
   },
   {
     title: "AI is MUTATING: And We Don't Know What It is Doing | Connor Leahy",
