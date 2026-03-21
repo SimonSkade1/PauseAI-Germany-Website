@@ -20,6 +20,33 @@ export type RowInfo = {
 export type RowWithInfo = { row: Row; info: RowInfo };
 export type FilterField = "first" | "last" | "full" | "birthYear" | "party" | "district" | "email";
 
+export const TEMPLATE_FILE_BY_CHAMBER: Record<Chamber, string> = {
+  bundestag: "mail_mdb_appell.txt",
+  europarl: "mail_mep_appell.txt",
+  buergersprechstunde: "mail_mdb_buergersprechstunde.txt",
+};
+
+export const CHAMBER_RECIPIENT_LABEL: Record<Chamber, string> = {
+  bundestag: "An Mitglied des Bundestags",
+  europarl: "An Mitglied des EU-Parlaments",
+  buergersprechstunde: "An Mitglied des Bundestags",
+};
+
+export function parseTemplateMeta(raw: string): { subject: string; preview: string } {
+  const m = raw.match(/^(?:Subject|Betreff):(.*)\r?\n\r?\n([\s\S]*)/i);
+  if (!m) {
+    const preview = raw.split("\n").filter((l) => l.trim() && !l.includes("{{")).slice(0, 5).join(" ");
+    return { subject: "", preview };
+  }
+  const subject = m[1].trim();
+  const preview = m[2]
+    .split("\n")
+    .filter((l) => l.trim() && !l.includes("{{"))
+    .slice(0, 5)
+    .join(" ");
+  return { subject, preview };
+}
+
 export const CSV_PATH_BY_CHAMBER: Record<Chamber, string> = {
   bundestag: "/BTAbgeordnete_with_bundesland.csv",
   europarl: "/EUAbgeordnete.csv",
@@ -58,7 +85,7 @@ const ROW_INFO_KEYS: Record<Exclude<keyof RowInfo, "full">, string[]> = {
 
 const FULL_NAME_KEYS = ["Name", "FullName", "full", "name"];
 
-export const STEP_ITEMS = ["Parlament", "Empfänger:in", "Dein Name", "Mail"];
+export const STEP_ITEMS = ["Vorlage", "Empfänger:in", "Dein Name", "Mail"];
 export const WIZARD_STEP_KEY = "__contactWizardStep";
 
 export function parseCSV(text: string): { headers: string[]; rows: Row[] } {

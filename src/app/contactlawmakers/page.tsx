@@ -14,7 +14,7 @@ export default function ContactLawmakers() {
           <div className="max-w-5xl mx-auto px-6">
             <h1 className="font-headline text-3xl md:text-4xl text-pause-black mb-4">Kontakt zu Abgeordneten</h1>
             <p className="font-body text-pause-black/80 mb-6">
-            Mit unserem Tool kannst du ganz einfach Kontakt zu deinen Abgeordneten aufnehmen und zur Aufklärung über die Risiken von KI beitragen.
+            Mit unserem Tool kannst du ganz einfach Kontakt zu Politiker:innen aufnehmen und zur Aufklärung über die Risiken von KI beitragen.
             </p>
             <p className="font-body text-pause-black/80 mb-6">
             Wir empfehlen, die Vorlage anzupassen. 

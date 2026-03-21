@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import EmailTemplateViewer from "./EmailTemplateViewer";
 import {
   bundestagSubtitle,
+  CHAMBER_RECIPIENT_LABEL,
   CSV_PATH_BY_CHAMBER,
   displayNameWithoutTitle,
   europarlSubtitle,
@@ -13,8 +14,10 @@ import {
   labelForField,
   parseCSV,
   parseLatLong,
+  parseTemplateMeta,
   partyColor,
   STEP_ITEMS,
+  TEMPLATE_FILE_BY_CHAMBER,
   valueForFilterField,
   WIZARD_STEP_KEY,
   type Chamber,
@@ -41,6 +44,16 @@ export default function AbgeordneteSelect({
   const [step, setStep] = useState<WizardStep>(1);
   const [chamber, setChamber] = useState<Chamber | null>(null);
   const [mailDraft, setMailDraft] = useState<MailDraft>({ recipient: "" });
+  const [templateMeta, setTemplateMeta] = useState<Partial<Record<Chamber, { subject: string; preview: string }>>>({});
+
+  useEffect(() => {
+    (["bundestag", "europarl", "buergersprechstunde"] as const).forEach((c) => {
+      fetch(`/email-templates/${TEMPLATE_FILE_BY_CHAMBER[c]}`)
+        .then((r) => r.text())
+        .then((text) => setTemplateMeta((prev) => ({ ...prev, [c]: parseTemplateMeta(text) })))
+        .catch(() => {});
+    });
+  }, []);
 
   const handleDraftChange = useCallback((draft: MailDraft) => {
     setMailDraft((prev) => {
@@ -403,42 +416,27 @@ export default function AbgeordneteSelect({
         </div>
 
         {step === 1 && (
-          <div className="space-y-4 bg-white p-2 md:p-3">
-            <div className="grid gap-2 md:grid-cols-3">
+          <div className="space-y-2 bg-white p-2 md:p-3">
+            {(["bundestag", "europarl", "buergersprechstunde"] as const).map((c) => (
               <button
+                key={c}
                 type="button"
-                onClick={() => handleChooseChamber("bundestag")}
-                className={`border px-3 py-3 text-left text-sm cursor-pointer transition-colors ${
-                  chamber === "bundestag"
+                onClick={() => handleChooseChamber(c)}
+                className={`w-full border px-4 py-3 text-left cursor-pointer transition-colors ${
+                  chamber === c
                     ? "border-[#ffbf73] bg-[#fff1de]"
                     : "border-zinc-300 bg-white hover:bg-[#fff7ec]"
                 }`}
               >
-                <div className="font-section text-xs text-pause-black mb-1">Bundestag</div>
+                <div className="font-section text-xs text-pause-black/60 mb-0.5">{CHAMBER_RECIPIENT_LABEL[c]}</div>
+                <div className="font-section text-sm font-medium text-pause-black mb-1">
+                  {templateMeta[c]?.subject ?? "…"}
+                </div>
+                <div className="text-xs text-pause-black/70 line-clamp-5">
+                  {templateMeta[c]?.preview ?? ""}
+                </div>
               </button>
-              <button
-                type="button"
-                onClick={() => handleChooseChamber("europarl")}
-                className={`border px-3 py-3 text-left text-sm cursor-pointer transition-colors ${
-                  chamber === "europarl"
-                    ? "border-[#ffbf73] bg-[#fff1de]"
-                    : "border-zinc-300 bg-white hover:bg-[#fff7ec]"
-                }`}
-              >
-                <div className="font-section text-xs text-pause-black mb-1">EU-Parlament</div>
-              </button>
-              <button
-                type="button"
-                onClick={() => handleChooseChamber("buergersprechstunde")}
-                className={`border px-3 py-3 text-left text-sm cursor-pointer transition-colors ${
-                  chamber === "buergersprechstunde"
-                    ? "border-[#ffbf73] bg-[#fff1de]"
-                    : "border-zinc-300 bg-white hover:bg-[#fff7ec]"
-                }`}
-              >
-                <div className="font-section text-xs text-pause-black mb-1">Bürgersprechstunde</div>
-              </button>
-            </div>
+            ))}
           </div>
         )}
 
@@ -576,13 +574,7 @@ export default function AbgeordneteSelect({
           <div className="space-y-4 bg-white p-2 md:p-3">
             {selected && selectedInfo ? (
               <EmailTemplateViewer
-                templateFile={
-                  chamber === "europarl"
-                    ? "mail_mep_appell.txt"
-                    : chamber === "buergersprechstunde"
-                    ? "mail_mdb_buergersprechstunde.txt"
-                    : "mail_mdb_appell.txt"
-                }
+                templateFile={chamber ? TEMPLATE_FILE_BY_CHAMBER[chamber] : "mail_mdb_appell.txt"}
                 initialRecipientName={selectedInfo.last || selectedInfo.full}
                 initialRecipientEmail={mailDraft.recipient || selectedInfo.email}
                 initialRecipientAnrede={selectedInfo.anrede}
