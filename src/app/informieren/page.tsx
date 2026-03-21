@@ -520,13 +520,10 @@ export default function InformierenPage() {
         <section className="mx-auto max-w-5xl px-6 pb-10 md:px-10">
           <div className="rounded-sm border-2 border-[#1a1a1a] bg-[#FFFAF5] p-6 md:p-8">
             <h2 className="font-section text-lg text-pause-black md:text-xl mb-4">
-              Überzeugt? Dann werde aktiv!
+            Du hast Fragen, möchtest dich mit anderen austauschen oder erfahren was du tun kannst?
             </h2>
             <p className="font-body text-pause-black/85 max-w-3xl">
-              Es gibt viele Möglichkeiten zu helfen — einen Brief schreiben, zu
-              einer Aktion gehen, spenden oder einer Community beitreten. Auch
-              angesichts großer Risiken gibt es Hoffnung und wichtige Arbeit zu
-              tun.
+            All das kannst du in unserer Community tun. Wir laden dich herzlich ein, uns kennenzulernen. 
             </p>
             <Link
               href="/mitmachen"
@@ -540,7 +537,7 @@ export default function InformierenPage() {
         {/* Noch nicht ganz sicher? */}
         <section className="mx-auto max-w-5xl px-6 pb-16 md:px-10">
           <h2 className="font-section text-lg text-pause-black md:text-xl mb-4">
-            Noch nicht ganz sicher?
+            Dir fällt es schwer, über das Thema nachzudenken?
           </h2>
           <p className="font-body text-pause-black/85">
             Erfahre mehr über die{" "}
