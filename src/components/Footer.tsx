@@ -84,6 +84,8 @@ export default function Footer() {
             <p className="font-body text-black/70 text-sm">
               Wir klären über KI-Risiken auf und setzen uns für sichere
               KI-Entwicklung ein.
+              <br/>
+              Wir wollen nicht heutige KI abschaffen, sondern fordern ein globales Abkommen, das die Entwicklung unkontrollierbarer KI-Systeme verhindert.
             </p>
           </div>
 
