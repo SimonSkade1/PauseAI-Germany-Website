@@ -560,6 +560,18 @@ export default function OnboardingPage() {
               </button>
             </div>
           </div>
+          <div className="mt-6 rounded-sm border border-[#1a1a1a] bg-[#FFFAF5] p-6 md:p-8">
+            <h2 className="font-section text-lg text-pause-black md:text-xl">Auf eigene Faust</h2>
+            <p className="mt-3 font-body text-pause-black/85">
+              Du willst lieber erstmal alleine loslegen und dich vielleicht später in die Community einbringen? Kein Problem! Auf unserer Aktionsseite findest du viele Möglichkeiten, direkt aktiv zu werden und etwas zu bewirken. Schau doch mal vorbei!
+            </p>
+            <a
+              href="/aktionen"
+              className="mt-5 inline-flex items-center justify-center border border-[#1a1a1a] bg-white px-4 py-2 font-section text-xs tracking-wider text-black transition-colors hover:bg-[#FF9416]"
+            >
+              Zu den Aktionen
+            </a>
+          </div>
         </section>
       </main>
       <Footer />
