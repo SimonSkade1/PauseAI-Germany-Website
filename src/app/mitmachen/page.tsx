@@ -17,6 +17,9 @@ const BERLIN_TIMEZONE = "Europe/Berlin";
 const WEEKLY_MEETING_LABEL = "Donnerstag 18:00";
 const WEEKLY_MEETING_TITLE = "PauseAI Deutschland Community-Treffen";
 const WEEKLY_MEETING_DESCRIPTION = "Wöchentliches PauseAI Deutschland Community-Treffen.";
+const DENKPAUSE_DURATION_MS = 2 * 60 * 60 * 1000;
+const DENKPAUSE_TITLE = "PauseAI Deutschland Denkpause";
+const DENKPAUSE_DESCRIPTION = "Offene Gesprächsrunde auf Discord. Keine Agenda, einfach vorbeikommen, Fragen stellen, über aktuelle KI-News reden, diskutieren, quatschen. Komm wann du willst, bleib so lange du magst.";
 const JITSI_INFO_TEXT = "Unsere Kennenlern-Calls finden per Jitsi statt. Du brauchst keinen Account und kannst sowohl am PC als auch per Handy teilnehmen.";
 const DISCORD_INFO_TEXT = "Unser wöchentliches virtuelles Treffen findet per Discord statt. Du brauchst einen Account um teilzunehmen.";
 
@@ -213,6 +216,54 @@ function buildWeeklyMeetingGoogleCalendarUrl(start: Date): string {
   return `https://calendar.google.com/calendar/render?${params.toString()}`;
 }
 
+function buildDenkpauseGoogleCalendarUrl(start: Date): string {
+  const end = new Date(start.getTime() + DENKPAUSE_DURATION_MS);
+  const params = new URLSearchParams({
+    action: "TEMPLATE",
+    text: DENKPAUSE_TITLE,
+    dates: `${formatUtcForCalendar(start)}/${formatUtcForCalendar(end)}`,
+    details: `${DENKPAUSE_DESCRIPTION}\n\nDiscord: ${DISCORD_URL}`,
+    location: DISCORD_URL,
+    recur: "RRULE:FREQ=WEEKLY;WKST=SU;BYDAY=WE",
+  });
+
+  return `https://calendar.google.com/calendar/render?${params.toString()}`;
+}
+
+function downloadDenkpauseIcs(start: Date): void {
+  const end = new Date(start.getTime() + DENKPAUSE_DURATION_MS);
+  const stamp = formatUtcForCalendar(new Date());
+  const uid = `${start.getTime()}-denkpause@pauseai.info`;
+  const icsContent = [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//PauseAI Deutschland//Denkpause//DE",
+    "CALSCALE:GREGORIAN",
+    "METHOD:PUBLISH",
+    "BEGIN:VEVENT",
+    `UID:${uid}`,
+    `DTSTAMP:${stamp}`,
+    `DTSTART:${formatUtcForCalendar(start)}`,
+    `DTEND:${formatUtcForCalendar(end)}`,
+    `SUMMARY:${DENKPAUSE_TITLE}`,
+    `DESCRIPTION:${DENKPAUSE_DESCRIPTION}\\n\\nDiscord: ${DISCORD_URL}`,
+    `LOCATION:${DISCORD_URL}`,
+    "RRULE:FREQ=WEEKLY;WKST=SU;BYDAY=WE",
+    "END:VEVENT",
+    "END:VCALENDAR",
+  ].join("\r\n");
+
+  const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = "pauseai-denkpause.ics";
+  document.body.appendChild(anchor);
+  anchor.click();
+  anchor.remove();
+  URL.revokeObjectURL(url);
+}
+
 function downloadWeeklyMeetingIcs(start: Date): void {
   const end = new Date(start.getTime() + WEEKLY_MEETING_DURATION_MS);
   const stamp = formatUtcForCalendar(new Date());
@@ -265,6 +316,14 @@ export default function OnboardingPage() {
   const weeklyMeetingGoogleCalendarUrl = useMemo(
     () => buildWeeklyMeetingGoogleCalendarUrl(nextWeeklyMeeting),
     [nextWeeklyMeeting],
+  );
+  const nextDenkpause = useMemo(
+    () => getNextSlotDate({ key: "sunday", label: "Mittwoch 19:00", weekday: 3, hour: 19, minute: 0 }),
+    [],
+  );
+  const denkpauseGoogleCalendarUrl = useMemo(
+    () => buildDenkpauseGoogleCalendarUrl(nextDenkpause),
+    [nextDenkpause],
   );
 
   return (
@@ -459,6 +518,42 @@ export default function OnboardingPage() {
               <button
                 type="button"
                 onClick={() => downloadWeeklyMeetingIcs(nextWeeklyMeeting)}
+                className="inline-flex items-center justify-center border border-[#1a1a1a] bg-white px-4 py-2 font-section text-xs tracking-wider text-black transition-colors hover:bg-[#FF9416]"
+              >
+                Standardkalender
+              </button>
+            </div>
+          </div>
+          <div className="mt-6 rounded-sm border border-[#1a1a1a] bg-[#FFFAF5] p-6 md:p-8">
+            <h2 className="font-section text-lg text-pause-black md:text-xl">Die Denkpause 💭</h2>
+            <p className="mt-3 font-body text-pause-black/85">
+              Offene Gesprächsrunde auf Discord. Keine Agenda, einfach vorbeikommen, Fragen stellen, über aktuelle KI-News reden, diskutieren, quatschen. Komm wann du willst, bleib so lange du magst.
+              <br/>
+              Jeden <span className="font-semibold">Mittwoch</span> von 19 bis 21 Uhr im Hangout-Channel. Nächste Denkpause:{" "}
+              <span className="font-body-bold">{formatGermanDate(nextDenkpause)}</span>
+            </p>
+            <p className="mt-2 font-body text-pause-black/85">
+              <a
+                href={DISCORD_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="orange-link font-body-bold"
+              >
+                Zum Discord-Server
+              </a>
+            </p>
+            <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+              <a
+                href={denkpauseGoogleCalendarUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center border border-[#1a1a1a] bg-white px-4 py-2 font-section text-xs tracking-wider text-black transition-colors hover:bg-[#FF9416]"
+              >
+                Google Kalender
+              </a>
+              <button
+                type="button"
+                onClick={() => downloadDenkpauseIcs(nextDenkpause)}
                 className="inline-flex items-center justify-center border border-[#1a1a1a] bg-white px-4 py-2 font-section text-xs tracking-wider text-black transition-colors hover:bg-[#FF9416]"
               >
                 Standardkalender
