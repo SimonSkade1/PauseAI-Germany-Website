@@ -9,7 +9,7 @@ import { useMemo } from "react";
 const JITSI_ONBOARDING_URL = "https://meet.jit.si/PauseAI-Deutschland-Kennenlernen";
 const DISCORD_WEEKLY_URL = "https://discord.gg/e2Wh4WFwKm";
 const DISCORD_URL = "https://discord.gg/pvZ5PmRX4R";
-const WHATSAPP_URL = "https://chat.whatsapp.com/C7p9cdH41IE1MQwPHQLWCX";
+const WHATSAPP_URL = "https://chat.whatsapp.com/Kzq9UKXb82z3jAT1DTHtX4";
 const CALENDLY_URL = "https://calendly.com/hauke-h-posteo/neues-meeting";
 const ONBOARDING_DURATION_MS = 60 * 60 * 1000;
 const WEEKLY_MEETING_DURATION_MS = 60 * 60 * 1000;
