@@ -182,12 +182,35 @@ const videos: Resource[] = [
     href: "https://www.youtube.com/watch?v=lHlxx9gS7Ek",
     external: true,
     language: "DE",
+    description: "15min"
+  },
+  {
+    title: "Why experts fear superintelligent AI – and what we can do about it",
+    href: "https://www.youtube.com/watch?v=oAJUuY6gAnY",
+    external: true,
+    language: "EN",
+    description: "2,5min"
   },
   {
     title: "Why AI Is Our Ultimate Test and Greatest Invitation | Tristan Harris | TED",
     href: "https://www.youtube.com/watch?v=6kPHnl-RsVI",
     external: true,
     language: "EN",
+    description: "15min"
+  },
+  {
+    title: "How To Prevent The AI Apocalypse",
+    href: "https://www.youtube.com/watch?v=zeabrXV8zNE",
+    external: true,
+    language: "EN",
+    description: "15min"
+  },
+  {
+    title: "We're Not Ready for Superintelligence",
+    href: "https://www.youtube.com/watch?v=5KVDDfAkRgc",
+    external: true,
+    language: "EN",
+    description: "34min"
   },
   {
     title: "Playlist: Introduction to AI Risks",
