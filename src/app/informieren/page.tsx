@@ -106,6 +106,13 @@ const importantWebsites: Resource[] = [
     language: "DE",
   },
   {
+    title: "The AI Chronicle",
+    href: "https://chronicle.torchbearer.community/?lang=de",
+    description: "Die wichtigsten Ereignisse in der Geschichte der KI im Hinblick auf Sicherheit, von 1950 bis jetzt",
+    external: true,
+    language: "DE",
+  },
+  {
     title: "ControlAI Quotes",
     href: "https://controlai.com/quotes",
     description: "Zitate wichtiger Personen zum Thema exisistenzielle Risiken der KI.",
@@ -115,7 +122,7 @@ const importantWebsites: Resource[] = [
   {
     title: "The Compendium",
     href: "https://www.thecompendium.ai/",
-    description: "Warum das aktuelle KI-Wettrennen so gefährlich ist und was wir dagegen tun können, von Connor Leahy et al.",
+    description: "Über die Gefahr des aktuelle KI-Wettrennens und was wir dagegen tun können, von Connor Leahy et al.",
     external: true,
     language: "EN",
   },
