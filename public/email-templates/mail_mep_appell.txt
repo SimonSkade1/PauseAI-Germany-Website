@@ -11,7 +11,7 @@ Schon heute zeigen KI-Systeme in Sicherheitstests Täuschungsverhalten. Laut Stu
 
 Der EU-AI-Act ist ein wichtiger Schritt, adressiert nach Einschätzung vieler Forschender jedoch vor allem bestehende Anwendungen und nicht die sehr leistungsfähigen KI-Systeme, die laut Stuart Russell schon in den nächsten Jahren möglich sind.
 
-Ergänzend haben kürzlich über 140 deutsche Professorinnen und Professoren, darunter Fields-Medaillenträger Peter Scholze, die deutsche Delegation beim internationalen KI-Gipfel in Delhi aufgefordert, sich für ein verbindliches globales Sicherheitsabkommen für fortgeschrittene KI einzusetzen:
+Ergänzend haben kürzlich über 150 deutsche Professorinnen und Professoren, darunter Fields-Medaillenträger Peter Scholze, die deutsche Delegation beim internationalen KI-Gipfel in Delhi aufgefordert, sich für ein verbindliches globales Sicherheitsabkommen für fortgeschrittene KI einzusetzen:
 https://www.pause-ai.de/appell
 
 Ich möchte Sie daher bitten, sich näher mit den Risiken sehr leistungsfähiger KI-Systeme zu befassen und mögliche politische Maßnahmen zu prüfen.

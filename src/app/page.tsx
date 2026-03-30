@@ -596,7 +596,7 @@ export default function Home() {
               Appell zum KI-Gipfel 2026
             </span>
             <span className="ml-2 hidden font-body text-xs md:text-sm lg:inline">
-              Über 140 Professorinnen und Professoren fordern mehr Sicherheit beim Thema KI
+              Über 150 Professorinnen und Professoren fordern mehr Sicherheit beim Thema KI
             </span>
           </p>
           <Link
