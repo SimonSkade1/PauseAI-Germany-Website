@@ -6,12 +6,10 @@ import Image from "next/image";
 import { Info } from "lucide-react";
 import { useMemo } from "react";
 
-const JITSI_ONBOARDING_URL = "https://meet.jit.si/PauseAI-Deutschland-Kennenlernen";
 const DISCORD_WEEKLY_URL = "https://discord.gg/e2Wh4WFwKm";
 const DISCORD_URL = "https://discord.gg/pvZ5PmRX4R";
 const WHATSAPP_URL = "https://chat.whatsapp.com/Kzq9UKXb82z3jAT1DTHtX4";
 const CALENDLY_URL = "https://calendly.com/hauke-h-posteo/neues-meeting";
-const ONBOARDING_DURATION_MS = 60 * 60 * 1000;
 const WEEKLY_MEETING_DURATION_MS = 60 * 60 * 1000;
 const BERLIN_TIMEZONE = "Europe/Berlin";
 const WEEKLY_MEETING_LABEL = "Donnerstag 18:00";
@@ -20,21 +18,7 @@ const WEEKLY_MEETING_DESCRIPTION = "Wöchentliches PauseAI Deutschland Community
 const DENKPAUSE_DURATION_MS = 2 * 60 * 60 * 1000;
 const DENKPAUSE_TITLE = "PauseAI Deutschland Denkpause";
 const DENKPAUSE_DESCRIPTION = "Offene Gesprächsrunde auf Discord. Keine Agenda, einfach vorbeikommen, Fragen stellen, über aktuelle KI-News reden, diskutieren, quatschen. Komm wann du willst, bleib so lange du magst.";
-const JITSI_INFO_TEXT = "Unsere Kennenlern-Calls finden per Jitsi statt. Du brauchst keinen Account und kannst sowohl am PC als auch per Handy teilnehmen.";
 const DISCORD_INFO_TEXT = "Unser wöchentliches virtuelles Treffen findet per Discord statt. Du brauchst einen Account um teilzunehmen.";
-
-type Slot = {
-  key: "sunday" | "monday";
-  label: string;
-  weekday: number;
-  hour: number;
-  minute: number;
-};
-
-const SLOTS: Slot[] = [
-  { key: "sunday", label: "Sonntag 16:00", weekday: 0, hour: 16, minute: 0 },
-  { key: "monday", label: "Montag 19:00", weekday: 1, hour: 19, minute: 0 },
-];
 
 function getBerlinWeekday(date: Date): number {
   const weekdayText = new Intl.DateTimeFormat("en-US", {
@@ -116,7 +100,7 @@ function zonedDateTimeToUtc(
   return new Date(utcGuessMs - offsetMs);
 }
 
-function getNextSlotDate(slot: Slot, referenceDate: Date = new Date()): Date {
+function getNextSlotDate(slot: { label: string; weekday: number; hour: number; minute: number }, referenceDate: Date = new Date()): Date {
   const currentBerlin = getBerlinDateParts(referenceDate);
   const currentWeekday = getBerlinWeekday(referenceDate);
   const currentMinutes = currentBerlin.hour * 60 + currentBerlin.minute;
@@ -154,52 +138,6 @@ function formatGermanDate(date: Date): string {
 
 function formatUtcForCalendar(date: Date): string {
   return date.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z");
-}
-
-function buildGoogleCalendarUrl(slotLabel: string, start: Date): string {
-  const end = new Date(start.getTime() + ONBOARDING_DURATION_MS);
-  const params = new URLSearchParams({
-    action: "TEMPLATE",
-    text: `PauseAI Deutschland Kennenlern-Call (${slotLabel})`,
-    dates: `${formatUtcForCalendar(start)}/${formatUtcForCalendar(end)}`,
-    details: `Kennenlern-Call mit Hauke (Max: 1 Stunde).\n\n${JITSI_INFO_TEXT}\n\nJitsi: ${JITSI_ONBOARDING_URL}`,
-    location: JITSI_ONBOARDING_URL,
-  });
-
-  return `https://calendar.google.com/calendar/render?${params.toString()}`;
-}
-
-function downloadIcs(slotLabel: string, start: Date): void {
-  const end = new Date(start.getTime() + ONBOARDING_DURATION_MS);
-  const stamp = formatUtcForCalendar(new Date());
-  const uid = `${start.getTime()}-${slotLabel.replace(/\s+/g, "-").toLowerCase()}@pauseai.info`;
-  const icsContent = [
-    "BEGIN:VCALENDAR",
-    "VERSION:2.0",
-    "PRODID:-//PauseAI Deutschland//Onboarding//DE",
-    "CALSCALE:GREGORIAN",
-    "METHOD:PUBLISH",
-    "BEGIN:VEVENT",
-    `UID:${uid}`,
-    `DTSTAMP:${stamp}`,
-    `DTSTART:${formatUtcForCalendar(start)}`,
-    `DTEND:${formatUtcForCalendar(end)}`,
-    `SUMMARY:PauseAI Deutschland Kennenlern-Call (${slotLabel})`,
-    `DESCRIPTION:Kennenlern-Call mit Hauke (Max: 1 Stunde).\\n\\n${JITSI_INFO_TEXT}\\n\\nJitsi: ${JITSI_ONBOARDING_URL}`,
-    `LOCATION:${JITSI_ONBOARDING_URL}`,
-    "END:VEVENT",
-    "END:VCALENDAR",
-  ].join("\r\n");
-
-  const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const anchor = document.createElement("a");
-  anchor.href = url;
-  anchor.download = `pauseai-onboarding-${slotLabel.replace(/\s+/g, "-").toLowerCase()}.ics`;
-  document.body.appendChild(anchor);
-  anchor.click();
-  anchor.remove();
-  URL.revokeObjectURL(url);
 }
 
 function buildWeeklyMeetingGoogleCalendarUrl(start: Date): string {
@@ -299,14 +237,6 @@ function downloadWeeklyMeetingIcs(start: Date): void {
 }
 
 export default function OnboardingPage() {
-  const nextDates = useMemo<Record<Slot["key"], Date>>(
-    () => ({
-      sunday: getNextSlotDate(SLOTS[0]),
-      monday: getNextSlotDate(SLOTS[1]),
-    }),
-    [],
-  );
-
   const calendlyConfigured = useMemo(() => CALENDLY_URL.trim().length > 0, []);
   const whatsappConfigured = useMemo(() => WHATSAPP_URL.trim().length > 0, []);
   const nextWeeklyMeeting = useMemo(
@@ -345,101 +275,38 @@ export default function OnboardingPage() {
                 className="h-[72px] w-[72px] rounded-full object-cover"
               />
               <p className="font-body text-pause-black/85">
-                Ich bin Hauke. Ich leite die Kennenlern-Calls. Ich erkläre dir, wer wir sind, was wir tun und wie du mitmachen kannst. Und beantworte alle Fragen, die du hast.
-                Du kannst dir hier einen Termin aussuchen.
+                Hi, ich bin Hauke. Ich erkläre dir, wer wir sind, was wir tun und wie du mitmachen kannst. Und beantworte alle Fragen, die du hast.
+                Buch dir einfach einen Termin.
               </p>
             </div>
           </div>
 
-          <div className="mb-6 rounded-sm border border-[#1a1a1a] bg-[#FFFAF5] p-4">
-            <div className="flex items-start gap-3">
-              <Info
-                aria-hidden="true"
-                className="mt-0.5 h-5 w-5 shrink-0 text-pause-black"
-                strokeWidth={2}
-              />
-              <p className="font-body text-pause-black/85">
-              {JITSI_INFO_TEXT}
-              </p>
-            </div>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-3">
-            {SLOTS.map((slot) => {
-              const nextStart = nextDates[slot.key];
-              const googleCalendarUrl = buildGoogleCalendarUrl(slot.label, nextStart);
-
-              return (
-                <article
-                  key={slot.key}
-                  className="flex h-full flex-col rounded-sm border-2 border-[#1a1a1a] bg-white p-6"
+          <article className="flex flex-col rounded-sm border-2 border-[#1a1a1a] bg-white p-6">
+            <h2 className="font-section text-xl text-pause-black">1:1 Kennenlerngespräch</h2>
+            <p className="mt-3 font-body text-pause-black/85">
+              Such dir einen Termin aus, der dir passt. Der Call findet per Google Meet statt.
+            </p>
+            <div className="mt-5">
+              {calendlyConfigured ? (
+                <a
+                  href={CALENDLY_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center border border-[#1a1a1a] bg-[#FF9416] px-4 py-2 font-section text-xs tracking-wider text-black transition-colors hover:bg-[#e88510]"
                 >
-                  <h2 className="font-section text-xl text-pause-black">{slot.label}</h2>
-                  <p className="mt-3 font-body text-pause-black/85">
-                    Nächster Call:{" "}
-                    <span className="font-body-bold">
-                      {formatGermanDate(nextStart)}
-                    </span>
-                  </p>
-                  <p className="mt-2 font-body text-pause-black/85">
-                    {" "}
-                    <a
-                      href={JITSI_ONBOARDING_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="orange-link font-body-bold"
-                    >
-                      Zum Jitsi-Raum
-                    </a>
-                  </p>
-                  <div className="mt-5 flex flex-col gap-3">
-                    <a
-                      href={googleCalendarUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-auto inline-flex items-center justify-center border border-[#1a1a1a] bg-[#FF9416] px-4 py-2 font-section text-xs tracking-wider text-black transition-colors hover:bg-[#e88510]"
-                    >
-                      Google Kalender
-                    </a>
-                    <button
-                      type="button"
-                      onClick={() => downloadIcs(slot.label, nextStart)}
-                      className="inline-flex items-center justify-center border border-[#1a1a1a] bg-[#FF9416] px-4 py-2 font-section text-xs tracking-wider text-black transition-colors hover:bg-[#e88510] disabled:cursor-not-allowed disabled:text-gray-500"
-                    >
-                      Standardkalender
-                    </button>
-                  </div>
-                </article>
-              );
-            })}
-
-            <article className="flex h-full flex-col rounded-sm border-2 border-[#1a1a1a] bg-white p-6">
-              <h2 className="font-section text-xl text-pause-black">Andere Zeit</h2>
-              <p className="mt-3 font-body text-pause-black/85">
-                Passt Sonntag oder Montag nicht? <br/> Dann buch dir direkt ein 1:1.
-              </p>
-              <div className="mt-5">
-                {calendlyConfigured ? (
-                  <a
-                    href={CALENDLY_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-auto inline-flex w-full items-center justify-center border border-[#1a1a1a] bg-[#FF9416] px-4 py-2 font-section text-xs tracking-wider text-black transition-colors hover:bg-[#e88510]"
-                  >
-                    1:1 buchen
-                  </a>
-                ) : (
-                  <button
-                    type="button"
-                    disabled
-                    className="mt-auto inline-flex w-full cursor-not-allowed items-center justify-center border border-[#1a1a1a] bg-gray-200 px-4 py-2 font-section text-xs tracking-wider text-gray-500"
-                  >
-                    Calendly-Link folgt
-                  </button>
-                )}
-              </div>
-            </article>
-          </div>
+                  Termin buchen
+                </a>
+              ) : (
+                <button
+                  type="button"
+                  disabled
+                  className="inline-flex cursor-not-allowed items-center justify-center border border-[#1a1a1a] bg-gray-200 px-4 py-2 font-section text-xs tracking-wider text-gray-500"
+                >
+                  Calendly-Link folgt
+                </button>
+              )}
+            </div>
+          </article>
         </section>
 
         <section className="mx-auto max-w-5xl px-6 pb-16 md:px-10">
