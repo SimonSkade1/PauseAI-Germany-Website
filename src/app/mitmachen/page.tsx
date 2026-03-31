@@ -240,7 +240,7 @@ export default function OnboardingPage() {
   const calendlyConfigured = useMemo(() => CALENDLY_URL.trim().length > 0, []);
   const whatsappConfigured = useMemo(() => WHATSAPP_URL.trim().length > 0, []);
   const nextWeeklyMeeting = useMemo(
-    () => getNextSlotDate({ key: "sunday", label: WEEKLY_MEETING_LABEL, weekday: 4, hour: 18, minute: 0 }),
+    () => getNextSlotDate({ label: WEEKLY_MEETING_LABEL, weekday: 4, hour: 18, minute: 0 }),
     [],
   );
   const weeklyMeetingGoogleCalendarUrl = useMemo(
@@ -248,7 +248,7 @@ export default function OnboardingPage() {
     [nextWeeklyMeeting],
   );
   const nextDenkpause = useMemo(
-    () => getNextSlotDate({ key: "sunday", label: "Mittwoch 19:00", weekday: 3, hour: 19, minute: 0 }),
+    () => getNextSlotDate({ label: "Mittwoch 19:00", weekday: 3, hour: 19, minute: 0 }),
     [],
   );
   const denkpauseGoogleCalendarUrl = useMemo(
