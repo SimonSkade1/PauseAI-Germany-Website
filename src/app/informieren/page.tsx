@@ -163,6 +163,13 @@ const newsletters: Resource[] = [
     language: "EN",
   },
   {
+    title: "Torchbearer Community Newsletter",
+    href: "https://torchbearercommunity.substack.com/",
+    external: true,
+    language: "EN",
+  },
+  
+  {
     title: "Future of Life Institute Newsletter",
     href: "https://futureoflife.org/newsletter/",
     external: true,
