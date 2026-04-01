@@ -476,6 +476,13 @@ const organizations: Resource[] = [
     language: "EN",
   },
   {
+    title: "Torchbearer Community",
+    href: "https://www.torchbearer.community/",
+    description: "Internationale ehrenamtliche Community mit ähnlichen Zielen wie PauseAI/ControlAI",
+    external: true,
+    language: "EN",
+  },  
+  {
     title: "Future of Life Institute",
     href: "https://futureoflife.org/cause-area/artificial-intelligence/",
     description:
