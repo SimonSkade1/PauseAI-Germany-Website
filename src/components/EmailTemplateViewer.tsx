@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 type Props = {
   templateFile?: string;
+  chamber?: string;
   initialRecipientName?: string;
   initialRecipientEmail?: string;
   initialRecipientAnrede?: string;
@@ -23,6 +24,7 @@ type Props = {
 
 export default function EmailPreviewPage({
   templateFile = 'mail_mdb_appell.txt',
+  chamber = 'unknown',
   initialRecipientName = '',
   initialRecipientEmail = '',
   initialRecipientAnrede = '',
@@ -169,6 +171,27 @@ export default function EmailPreviewPage({
   }, [editableRecipient, editableSubject, editableBody, onDraftChange]);
 
   const openMailComposer = async () => {
+    // Fire-and-forget: record the click for aggregate stats by calling the
+    // Convex public mutation HTTP endpoint directly. This deliberately does
+    // not use useMutation/ConvexProvider so the page still works in
+    // environments where NEXT_PUBLIC_CONVEX_URL isn't set. If the URL is
+    // missing, we simply skip tracking. If the request fails, we swallow
+    // the error so the compose action always proceeds.
+    const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL;
+    if (convexUrl) {
+      fetch(`${convexUrl}/api/mutation`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          path: 'emailTracking:recordEmailSendClick',
+          args: { templateFile, chamber, mailTarget },
+          format: 'json',
+        }),
+      }).catch((err) => {
+        console.warn('Email tracking failed (non-fatal):', err);
+      });
+    }
+
     const to = editableRecipient || '';
     const subject = editableSubject || '';
     const body = editableBody || '';

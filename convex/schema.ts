@@ -31,4 +31,16 @@ export default defineSchema({
   })
     .index("by_target_discord_id", ["targetDiscordId"])
     .index("by_idempotency_key", ["idempotencyKey"]),
+
+  // Anonymous click counter for the "Mail öffnen" button in the contact-lawmakers
+  // flow. Deliberately stores no personal data (no sender name, no recipient,
+  // no IP) so that aggregate counts can be collected without GDPR consent.
+  emailSendClicks: defineTable({
+    templateFile: v.string(),
+    chamber: v.string(),
+    mailTarget: v.string(),
+    clickedAt: v.number(),
+  })
+    .index("by_template", ["templateFile"])
+    .index("by_clicked_at", ["clickedAt"]),
 });

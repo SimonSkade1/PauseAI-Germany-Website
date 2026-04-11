@@ -584,6 +584,7 @@ export default function AbgeordneteSelect({
             {selected && selectedInfo ? (
               <EmailTemplateViewer
                 templateFile={chamber ? TEMPLATE_FILE_BY_CHAMBER[chamber] : "mail_mdb_appell.txt"}
+                chamber={chamber ?? "unknown"}
                 initialRecipientName={selectedInfo.last || selectedInfo.full}
                 initialRecipientEmail={mailDraft.recipient || selectedInfo.email}
                 initialRecipientAnrede={selectedInfo.anrede}
