@@ -1,20 +1,20 @@
-Subject: Warnschuss: KI-Modell „Claude Mythos" findet eigenständig kritische Sicherheitslücken
+Subject: Weckruf KI-Sicherheit: „Claude Mythos" findet Sicherheitslücken in fast allen Systemen
 
 {{anrede}} {{recipientName}},
 
 mein Name ist {{senderName}} und ich bin Bürgerin/Bürger in Ihrem Wahlkreis [Wahlkreis/Stadt].
 
-Ich schreibe Ihnen, weil ich glaube, dass diese Woche eine der bedeutendsten Entwicklungen im Bereich der nationalen und globalen Sicherheit stattgefunden hat, und ich sicherstellen möchte, dass sie Ihnen bekannt ist.
+Ich schreibe Ihnen, weil ich glaube, dass diese Woche eine der bedeutendsten Entwicklungen im Bereich der europäischen und globalen Sicherheit stattgefunden hat, und ich sicherstellen möchte, dass sie Ihnen bekannt ist.
 
 Am 8. April hat das KI-Unternehmen Anthropic ein Modell namens Claude Mythos angekündigt, das eigenständig Sicherheitslücken in allen gängigen Betriebssystemen, Webbrowsern und kritischen Softwareplattformen aufspüren und ausnutzen kann. Dazu gehören die Systeme, auf denen unsere Banken, Krankenhäuser, Energienetze und staatlichen Dienste laufen. Anthropics eigene Sicherheitsevaluation beschreibt es als das gefährlichste Modell, das sie jemals entwickelt haben.
 
-Während der Sicherheitstests hat das System seine Sicherheitsbegrenzungen überwunden, sich Zugang zu Systemen verschafft, für die es keine Berechtigung hatte, und seine Betreiber absichtlich getäuscht, um nicht entdeckt zu werden. Die Forschenden von Anthropic haben eingeräumt, dass ihre Sicherheitsmethoden für die nächste Generation von KI-Systemen möglicherweise nicht ausreichen, die sie bereits unter Verwendung dieses Modells entwickeln.
+Während der Sicherheitstests hat das System seine Eingrenzung überwunden, sich Zugang zu Systemen verschafft, für die es keine Berechtigung hatte, und seine Betreiber absichtlich getäuscht, um nicht entdeckt zu werden. Die Forscher von Anthropic haben eingeräumt, dass ihre Sicherheitsmethoden für die nächsten Generationen von KI-Systemen, die sie bereits unter Verwendung dieses Modells entwickeln, möglicherweise nicht ausreichen.
 
-Keine Regierung hat die Entwicklung dieses Systems genehmigt. Keine Sicherheitsbehörde hat es vor seiner Entstehung geprüft. Es gibt derzeit keinen rechtlichen Rahmen, weder in Deutschland noch international, der die Entwicklung von KI-Systemen mit solchen Fähigkeiten effektiv regelt.
+Keine Regierung hat die Entwicklung dieses Systems genehmigt. Keine Sicherheitsbehörde hat es vor seiner Entstehung geprüft. Es gibt derzeit keinen rechtlichen Rahmen, weder in der EU noch international, der die Entwicklung von KI-Systemen mit solchen Fähigkeiten effektiv regelt.
 
 Ich bitte Sie:
 
-1. Dieses Thema im zuständigen Ausschuss oder gegenüber der zuständigen Ministerin bzw. dem zuständigen Minister anzusprechen und ein Briefing durch das Bundesamt für Sicherheit in der Informationstechnik (BSI) zur Gefährdungslage Deutschlands durch KI-gestützte Cyberbedrohungen anzufordern.
+1. Dieses Thema im zuständigen Ausschuss des Europäischen Parlaments (insbesondere ITRE – Industrie, Forschung und Energie) oder gegenüber der zuständigen Kommissarin bzw. dem zuständigen Kommissar anzusprechen und ein Briefing durch die ENISA (Agentur der Europäischen Union für Cybersicherheit) zur Gefährdungslage der Europäischen Union durch KI-gestützte Cyberbedrohungen anzufordern.
 
 2. Sich dafür einzusetzen, dass unabhängige Sicherheitsevaluationen vorgeschrieben werden, bevor KI-Systeme mit gefährlichen Fähigkeiten entwickelt oder eingesetzt werden.
 
