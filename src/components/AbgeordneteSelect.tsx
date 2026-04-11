@@ -29,6 +29,10 @@ import {
 
 type MailDraft = { recipient: string };
 
+// Chambers whose templates currently feature the latest "Warnschuss" appeal —
+// surfaced in step 1 with a faded-orange tint so they read as the active picks.
+const HIGHLIGHTED_CHAMBERS = new Set<Chamber>(["bundestag", "europarl"]);
+
 export default function AbgeordneteSelect({
   onSelect,
 }: {
@@ -417,26 +421,31 @@ export default function AbgeordneteSelect({
 
         {step === 1 && (
           <div className="space-y-2 bg-white p-2 md:p-3">
-            {(["bundestag", "europarl", "buergersprechstunde"] as const).map((c) => (
-              <button
-                key={c}
-                type="button"
-                onClick={() => handleChooseChamber(c)}
-                className={`w-full border px-4 py-3 text-left cursor-pointer transition-colors ${
-                  chamber === c
-                    ? "border-[#ffbf73] bg-[#fff1de]"
-                    : "border-zinc-300 bg-white hover:bg-[#fff7ec]"
-                }`}
-              >
-                <div className="font-section text-xs text-pause-black/60 mb-0.5">{CHAMBER_RECIPIENT_LABEL[c]}</div>
-                <div className="font-section text-sm font-medium text-pause-black mb-1">
-                  {templateMeta[c]?.subject ?? "…"}
-                </div>
-                <div className="text-xs text-pause-black/70 line-clamp-5">
-                  {templateMeta[c]?.preview ?? ""}
-                </div>
-              </button>
-            ))}
+            {(["bundestag", "europarl", "buergersprechstunde"] as const).map((c) => {
+              const isSelected = chamber === c;
+              const isHighlighted = HIGHLIGHTED_CHAMBERS.has(c);
+              const buttonClass = isSelected
+                ? "border-[#ffbf73] bg-[#fff1de]"
+                : isHighlighted
+                  ? "border-[#ffd9a8] bg-[#fff5e6] hover:bg-[#ffeacc]"
+                  : "border-zinc-300 bg-white hover:bg-[#fff7ec]";
+              return (
+                <button
+                  key={c}
+                  type="button"
+                  onClick={() => handleChooseChamber(c)}
+                  className={`w-full border px-4 py-3 text-left cursor-pointer transition-colors ${buttonClass}`}
+                >
+                  <div className="font-section text-xs text-pause-black/60 mb-0.5">{CHAMBER_RECIPIENT_LABEL[c]}</div>
+                  <div className="font-section text-sm font-medium text-pause-black mb-1">
+                    {templateMeta[c]?.subject ?? "…"}
+                  </div>
+                  <div className="text-xs text-pause-black/70 line-clamp-5">
+                    {templateMeta[c]?.preview ?? ""}
+                  </div>
+                </button>
+              );
+            })}
           </div>
         )}
 

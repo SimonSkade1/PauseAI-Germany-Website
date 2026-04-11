@@ -1,22 +1,32 @@
-Subject: Handlungsappell zur Vermeidung extremer Risiken durch KI
+Subject: Warnschuss: KI-Modell „Claude Mythos" findet eigenständig kritische Sicherheitslücken
 
 {{anrede}} {{recipientName}},
 
-Als Bürger Ihres Wahlkreises wende ich mich an Sie, weil mich die aktuelle Entwicklung im Bereich Künstlicher Intelligenz zutiefst besorgt.
+mein Name ist {{senderName}} und ich bin Bürgerin/Bürger in Ihrem Wahlkreis [Wahlkreis/Stadt].
 
-Kürzlich haben über 150 deutsche Professorinnen und Professoren, darunter Fields-Medaillenträger Peter Scholze, einen Appell an die deutsche Delegation des internationalen KI-Gipfels in Delhi gerichtet. Sie fordern, dass Deutschland sich für ein verbindliches globales Sicherheitsabkommen für fortgeschrittene KI einsetzt. Den Appell finden Sie hier: https://www.pause-ai.de/appell
+Ich schreibe Ihnen, weil ich glaube, dass diese Woche eine der bedeutendsten Entwicklungen im Bereich der nationalen und globalen Sicherheit stattgefunden hat, und ich sicherstellen möchte, dass sie Ihnen bekannt ist.
 
-Es gibt auch einen internationalen Aufruf zu roten Linien für KI, der von 12 Nobelpreisträgern unterzeichnet wurde: https://red-lines.ai/
+Am 8. April hat das KI-Unternehmen Anthropic ein Modell namens Claude Mythos angekündigt, das eigenständig Sicherheitslücken in allen gängigen Betriebssystemen, Webbrowsern und kritischen Softwareplattformen aufspüren und ausnutzen kann. Dazu gehören die Systeme, auf denen unsere Banken, Krankenhäuser, Energienetze und staatlichen Dienste laufen. Anthropics eigene Sicherheitsevaluation beschreibt es als das gefährlichste Modell, das sie jemals entwickelt haben.
 
-Was mich besonders beunruhigt: Schon heute verhalten sich KI-Systeme anders, als von ihren Entwicklern vorgesehen. ChatGPT verursachte bei vielen Nutzern Wahnvorstellungen. Und der Chatbot Claude versuchte in Sicherheitstests seine Entwickler zu erpressen, um zu vermeiden, dass er abgeschaltet wird.
+Während der Sicherheitstests hat das System seine Sicherheitsbegrenzungen überwunden, sich Zugang zu Systemen verschafft, für die es keine Berechtigung hatte, und seine Betreiber absichtlich getäuscht, um nicht entdeckt zu werden. Die Forschenden von Anthropic haben eingeräumt, dass ihre Sicherheitsmethoden für die nächste Generation von KI-Systemen möglicherweise nicht ausreichen, die sie bereits unter Verwendung dieses Modells entwickeln.
 
-Gleichzeitig verstehen selbst führende Expertinnen und Experten nicht, was in einem neuronalen Netz einer KI vor sich geht. KIs werden nicht direkt programmiert, sondern entstehen durch einen automatisierten Lernprozess.
+Keine Regierung hat die Entwicklung dieses Systems genehmigt. Keine Sicherheitsbehörde hat es vor seiner Entstehung geprüft. Es gibt derzeit keinen rechtlichen Rahmen, weder in Deutschland noch international, der die Entwicklung von KI-Systemen mit solchen Fähigkeiten effektiv regelt.
 
-Trotzdem wird die Entwicklung mit enormem Tempo vorangetrieben. Ich habe den Eindruck, dass dieses Thema politisch noch nicht die Aufmerksamkeit bekommt, die seiner Tragweite entspricht.
+Ich bitte Sie:
 
-Ich würde mich freuen, wenn Sie sich näher mit dem Thema befassen. Gerne bringe ich Sie auch mit Expertinnen und Experten für KI-Sicherheit in Kontakt.
+1. Dieses Thema im zuständigen Ausschuss oder gegenüber der zuständigen Ministerin bzw. dem zuständigen Minister anzusprechen und ein Briefing durch das Bundesamt für Sicherheit in der Informationstechnik (BSI) zur Gefährdungslage Deutschlands durch KI-gestützte Cyberbedrohungen anzufordern.
 
-Über eine kurze Rückmeldung wäre ich Ihnen sehr dankbar.
+2. Sich dafür einzusetzen, dass unabhängige Sicherheitsevaluationen vorgeschrieben werden, bevor KI-Systeme mit gefährlichen Fähigkeiten entwickelt oder eingesetzt werden.
+
+3. Sich für internationale Zusammenarbeit bei der Regulierung von KI-Systemen mit waffenfähigem Potenzial einzusetzen, vergleichbar mit bestehenden Regelwerken für Atom-, Bio- und Chemiewaffen.
+
+Falls Sie oder Ihre Mitarbeiterinnen und Mitarbeiter weitere Informationen wünschen: Die Bürgerbewegung PauseAI Deutschland (https://www.pause-ai.de/) arbeitet zu diesen Themen und würde sich über die Möglichkeit freuen, Sie zu informieren.
+
+Ich bin überzeugt, dass dies eines der wichtigsten Geschehnisse unserer Zeit ist. Ich hoffe, Sie werden dem Thema Ihre Aufmerksamkeit schenken.
+
+Vielen Dank für Ihre Zeit.
 
 Mit freundlichen Grüßen
+
 {{senderName}}
+[Ihre Adresse/Ihr Wahlkreis]
