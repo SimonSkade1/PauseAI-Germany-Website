@@ -43,4 +43,25 @@ export default defineSchema({
   })
     .index("by_template", ["templateFile"])
     .index("by_clicked_at", ["clickedAt"]),
+
+  // Anonymous page view counter fired on every route mount + client navigation.
+  // Stores only the path, a coarse referrer category, and a timestamp — no IP,
+  // no user agent, no session ID, no full referrer URL. Aggregate-only design
+  // keeps it outside the GDPR consent envelope.
+  //
+  // source categories:
+  //   "direct"   — empty document.referrer (typed URL, bookmark, app link, or
+  //                privacy-stripped click — cannot be distinguished)
+  //   "internal" — referrer hostname matches current hostname (in-site nav)
+  //   "search"   — referrer is a known search engine
+  //   "social"   — referrer is a known social platform
+  //   "external" — any other non-empty referrer hostname
+  pageViews: defineTable({
+    path: v.string(),
+    source: v.string(),
+    viewedAt: v.number(),
+  })
+    .index("by_path", ["path"])
+    .index("by_source", ["source"])
+    .index("by_viewed_at", ["viewedAt"]),
 });

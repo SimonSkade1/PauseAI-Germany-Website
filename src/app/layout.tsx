@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Saira_Condensed, Montserrat, Roboto_Slab } from "next/font/google";
 import "./globals.css";
+import PageViewTracker from "@/components/PageViewTracker";
 
 const sairaCondensed = Saira_Condensed({
   weight: "700",
@@ -42,6 +43,7 @@ export default function RootLayout({
       <body
         className={`${sairaCondensed.variable} ${montserrat.variable} ${robotoSlab.variable} antialiased`}
       >
+        <PageViewTracker />
         {children}
       </body>
     </html>

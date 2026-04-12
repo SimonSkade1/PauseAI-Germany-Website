@@ -12,6 +12,7 @@ import type * as completions from "../completions.js";
 import type * as discord from "../discord.js";
 import type * as emailTracking from "../emailTracking.js";
 import type * as notion from "../notion.js";
+import type * as pageTracking from "../pageTracking.js";
 import type * as users from "../users.js";
 
 import type {
@@ -25,6 +26,7 @@ declare const fullApi: ApiFromModules<{
   discord: typeof discord;
   emailTracking: typeof emailTracking;
   notion: typeof notion;
+  pageTracking: typeof pageTracking;
   users: typeof users;
 }>;
 
