@@ -174,70 +174,106 @@ const quotes = [
 
 
 
-function EventBanner() {
-  const [event, setEvent] = useState<{
-    name: string;
-    date: string;
-    url: string;
-  } | null>(null);
+type BannerEvent = { name: string; date: string; url: string };
+
+function formatEventDate(start_at: string, timezone: string) {
+  const startDate = new Date(start_at);
+  const tz = timezone || "Europe/Berlin";
+
+  const day = new Intl.DateTimeFormat("de-DE", {
+    day: "numeric",
+    month: "long",
+    timeZone: tz,
+  }).format(startDate);
+
+  const hour = new Intl.DateTimeFormat("de-DE", {
+    hour: "numeric",
+    hour12: false,
+    timeZone: tz,
+  }).format(startDate);
+
+  return `${day} · ${hour}`;
+}
+
+function EventBanner({ onHeight }: { onHeight: (h: number) => void }) {
+  const [nextEvent, setNextEvent] = useState<BannerEvent | null>(null);
+  const [featuredEvent, setFeaturedEvent] = useState<BannerEvent | null>(null);
 
   useEffect(() => {
     fetch("/api/next-event")
       .then((res) => res.json())
       .then((data) => {
-        if (!data) return;
-
-        const startDate = new Date(data.start_at);
-        const tz = data.timezone || "Europe/Berlin";
-
-        const day = new Intl.DateTimeFormat("de-DE", {
-          day: "numeric",
-          month: "long",
-          timeZone: tz,
-        }).format(startDate);
-
-        const hour = new Intl.DateTimeFormat("de-DE", {
-          hour: "numeric",
-          hour12: false,
-          timeZone: tz,
-        }).format(startDate);
-
-        setEvent({
-          name: data.name,
-          date: `${day} · ${hour}`,
-          url: `https://lu.ma/${data.url}`,
-        });
+        if (data?.next) {
+          setNextEvent({
+            name: data.next.name,
+            date: formatEventDate(data.next.start_at, data.next.timezone),
+            url: `https://lu.ma/${data.next.url}`,
+          });
+        }
+        if (data?.featured) {
+          setFeaturedEvent({
+            name: data.featured.name,
+            date: formatEventDate(data.featured.start_at, data.featured.timezone),
+            url: `https://lu.ma/${data.featured.url}`,
+          });
+        }
       })
-      .catch(() => {
-        // Silently fail — banner just shows the button without event details
-      });
+      .catch(() => {});
   }, []);
 
+  const hasFeatured = !!featuredEvent;
+
+  useEffect(() => {
+    onHeight(hasFeatured ? 88 : 56);
+  }, [hasFeatured, onHeight]);
+
   return (
-    <div className="fixed left-0 right-0 top-0 z-[60] h-14 border-b border-[#FF9416]/35 bg-black/95 text-[#FF9416] shadow-[0_8px_24px_rgba(0,0,0,0.35)]">
-      <div className="mx-auto flex h-full max-w-7xl items-center justify-center gap-2 px-2 sm:gap-3 sm:px-6 md:px-10">
-        {event && (
-          <a
-            href={event.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden truncate text-center text-[#FF9416] hover:text-[#FFB04D] transition-colors sm:block"
+    <div className={`fixed left-0 right-0 top-0 z-[60] ${hasFeatured ? "h-[88px]" : "h-14"} border-b border-[#FF9416]/35 bg-black/95 text-[#FF9416] shadow-[0_8px_24px_rgba(0,0,0,0.35)] transition-all`}>
+      <div className={`mx-auto flex flex-col justify-center h-full max-w-7xl px-2 sm:px-6 md:px-10 ${hasFeatured ? "gap-0.5" : ""}`}>
+        {/* Row 1: Next event */}
+        <div className="flex items-center justify-center gap-2 sm:gap-3">
+          {nextEvent && (
+            <a
+              href={nextEvent.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden truncate text-center text-[#FF9416] hover:text-[#FFB04D] transition-colors sm:block"
+            >
+              <span className="font-body-bold text-[11px] sm:text-sm md:text-base">
+                {nextEvent.name}
+              </span>
+              <span className="ml-2 hidden font-body text-xs md:text-sm lg:inline">
+                {nextEvent.date}
+              </span>
+            </a>
+          )}
+          <Link
+            href="/#veranstaltungen"
+            className="group inline-flex flex-shrink-0 items-center gap-1 whitespace-nowrap rounded-sm border border-[#FF9416] bg-[#FF9416]/10 px-3 py-1.5 font-section text-[11px] uppercase tracking-[0.12em] text-[#FF9416] transition-colors hover:bg-[#FF9416] hover:text-black sm:gap-2 sm:px-4 sm:py-1.5 sm:text-xs sm:tracking-[0.14em]"
           >
-            <span className="font-body-bold text-[11px] sm:text-sm md:text-base">
-              {event.name}
-            </span>
-            <span className="ml-2 hidden font-body text-xs md:text-sm lg:inline">
-              {event.date}
-            </span>
-          </a>
+            Veranstaltungen
+            <span className="transition-transform group-hover:translate-x-0.5">→</span>
+          </Link>
+        </div>
+
+        {/* Row 2: Featured event */}
+        {featuredEvent && (
+          <div className="flex items-center justify-center">
+            <a
+              href={featuredEvent.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="truncate text-center text-white/70 hover:text-white transition-colors"
+            >
+              <span className="font-body text-[10px] sm:text-xs md:text-sm">
+                Highlight: {featuredEvent.name}
+              </span>
+              <span className="ml-2 hidden font-body text-[10px] sm:text-xs lg:inline">
+                {featuredEvent.date}
+              </span>
+            </a>
+          </div>
         )}
-        <Link
-          href="/#veranstaltungen"
-          className="group inline-flex flex-shrink-0 items-center gap-1 whitespace-nowrap rounded-sm border border-[#FF9416] bg-[#FF9416]/10 px-3 py-1.5 font-section text-[11px] uppercase tracking-[0.12em] text-[#FF9416] transition-colors hover:bg-[#FF9416] hover:text-black sm:gap-2 sm:px-4 sm:py-1.5 sm:text-xs sm:tracking-[0.14em]"
-        >
-          Veranstaltungen
-          <span className="transition-transform group-hover:translate-x-0.5">→</span>
-        </Link>
       </div>
     </div>
   );
@@ -678,10 +714,13 @@ function ActionSection() {
 
 
 export default function Home() {
+  const [bannerHeight, setBannerHeight] = useState(56);
+  const handleBannerHeight = useCallback((h: number) => setBannerHeight(h), []);
+
   return (
     <>
-      <EventBanner />
-      <Header topOffset={56} />
+      <EventBanner onHeight={handleBannerHeight} />
+      <Header topOffset={bannerHeight} />
       <main>
         <HeroSection />
         <ProblemSolutionSection />
