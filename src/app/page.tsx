@@ -174,6 +174,75 @@ const quotes = [
 
 
 
+function EventBanner() {
+  const [event, setEvent] = useState<{
+    name: string;
+    date: string;
+    url: string;
+  } | null>(null);
+
+  useEffect(() => {
+    fetch("/api/next-event")
+      .then((res) => res.json())
+      .then((data) => {
+        if (!data) return;
+
+        const startDate = new Date(data.start_at);
+        const tz = data.timezone || "Europe/Berlin";
+
+        const day = new Intl.DateTimeFormat("de-DE", {
+          day: "numeric",
+          month: "long",
+          timeZone: tz,
+        }).format(startDate);
+
+        const hour = new Intl.DateTimeFormat("de-DE", {
+          hour: "numeric",
+          hour12: false,
+          timeZone: tz,
+        }).format(startDate);
+
+        setEvent({
+          name: data.name,
+          date: `${day} · ${hour}`,
+          url: `https://lu.ma/${data.url}`,
+        });
+      })
+      .catch(() => {
+        // Silently fail — banner just shows the button without event details
+      });
+  }, []);
+
+  return (
+    <div className="fixed left-0 right-0 top-0 z-[60] h-14 border-b border-[#FF9416]/35 bg-black/95 text-[#FF9416] shadow-[0_8px_24px_rgba(0,0,0,0.35)]">
+      <div className="mx-auto flex h-full max-w-7xl items-center justify-center gap-2 px-2 sm:gap-3 sm:px-6 md:px-10">
+        {event && (
+          <a
+            href={event.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden truncate text-center text-[#FF9416] hover:text-[#FFB04D] transition-colors sm:block"
+          >
+            <span className="font-body-bold text-[11px] sm:text-sm md:text-base">
+              {event.name}
+            </span>
+            <span className="ml-2 hidden font-body text-xs md:text-sm lg:inline">
+              {event.date}
+            </span>
+          </a>
+        )}
+        <Link
+          href="/#veranstaltungen"
+          className="group inline-flex flex-shrink-0 items-center gap-1 whitespace-nowrap rounded-sm border border-[#FF9416] bg-[#FF9416]/10 px-3 py-1.5 font-section text-[11px] uppercase tracking-[0.12em] text-[#FF9416] transition-colors hover:bg-[#FF9416] hover:text-black sm:gap-2 sm:px-4 sm:py-1.5 sm:text-xs sm:tracking-[0.14em]"
+        >
+          Veranstaltungen
+          <span className="transition-transform group-hover:translate-x-0.5">→</span>
+        </Link>
+      </div>
+    </div>
+  );
+}
+
 function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-start overflow-hidden pt-32 md:pt-20">
@@ -611,25 +680,7 @@ function ActionSection() {
 export default function Home() {
   return (
     <>
-      <div className="fixed left-0 right-0 top-0 z-[60] h-14 border-b border-[#FF9416]/35 bg-black/95 text-[#FF9416] shadow-[0_8px_24px_rgba(0,0,0,0.35)]">
-        <div className="mx-auto flex h-full max-w-7xl items-center justify-center gap-2 px-2 sm:gap-3 sm:px-6 md:px-10">
-          <p className="hidden truncate text-center text-[#FF9416] sm:block">
-            <span className="font-body-bold text-[11px] sm:text-sm md:text-base">
-              Launchevent PauseAI Berlin
-            </span>
-            <span className="ml-2 hidden font-body text-xs md:text-sm lg:inline">
-              15. April · 18 Uhr
-            </span>
-          </p>
-          <Link
-            href="/#veranstaltungen"
-            className="group inline-flex flex-shrink-0 items-center gap-1 whitespace-nowrap rounded-sm border border-[#FF9416] bg-[#FF9416]/10 px-3 py-1.5 font-section text-[11px] uppercase tracking-[0.12em] text-[#FF9416] transition-colors hover:bg-[#FF9416] hover:text-black sm:gap-2 sm:px-4 sm:py-1.5 sm:text-xs sm:tracking-[0.14em]"
-          >
-            Veranstaltungen
-            <span className="transition-transform group-hover:translate-x-0.5">→</span>
-          </Link>
-        </div>
-      </div>
+      <EventBanner />
       <Header topOffset={56} />
       <main>
         <HeroSection />
