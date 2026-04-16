@@ -573,23 +573,93 @@ function ProblemSolutionSection() {
   );
 }
 
-function LumaCalendarSection() {
+type EventData = {
+  name: string;
+  start_at: string;
+  end_at: string;
+  timezone: string;
+  url: string;
+  cover_url: string | null;
+  location_type: string;
+  geo_address_info: { city?: string } | null;
+};
+
+function EventCard({ event }: { event: EventData }) {
+  const start = new Date(event.start_at);
+  const tz = event.timezone || "Europe/Berlin";
+
+  const dayNum = new Intl.DateTimeFormat("de-DE", { day: "numeric", timeZone: tz }).format(start);
+  const monthShort = new Intl.DateTimeFormat("de-DE", { month: "short", timeZone: tz }).format(start).replace(".", "");
+  const time = new Intl.DateTimeFormat("de-DE", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: tz }).format(start);
+
+  const isOnline = event.location_type === "meet" || event.location_type === "virtual";
+  const locationLabel = isOnline
+    ? "Online"
+    : event.geo_address_info?.city || "Vor Ort";
+
+  return (
+    <a
+      href={`https://lu.ma/${event.url}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group flex bg-white border border-[#1a1a1a] md:border-2 cursor-pointer hover:bg-[#FFFAF5] transition-colors"
+    >
+      {/* Date block */}
+      <div className="flex flex-col items-center justify-center w-20 md:w-28 flex-shrink-0 bg-[#1a1a1a] text-white py-4 md:py-6">
+        <span className="font-headline text-2xl md:text-4xl leading-none">{dayNum}</span>
+        <span className="font-section text-xs md:text-sm tracking-wider uppercase mt-1">{monthShort}</span>
+      </div>
+
+      {/* Event details */}
+      <div className="flex-1 flex flex-col justify-center p-4 md:p-6 min-w-0">
+        <h3 className="font-section text-base md:text-lg text-pause-black leading-snug truncate group-hover:text-[#FF9416] transition-colors">
+          {event.name}
+        </h3>
+        <div className="flex items-center gap-3 mt-2 font-body text-sm text-pause-black/60">
+          <span>{time} Uhr</span>
+          <span className="text-pause-black/30">·</span>
+          <span>{locationLabel}</span>
+        </div>
+      </div>
+
+      {/* Arrow */}
+      <div className="hidden md:flex items-center pr-6 text-[#FF9416] text-2xl transition-transform group-hover:translate-x-2">
+        →
+      </div>
+    </a>
+  );
+}
+
+function EventsSection() {
+  const [events, setEvents] = useState<EventData[]>([]);
+
+  useEffect(() => {
+    fetch("/api/events")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) setEvents(data);
+      })
+      .catch(() => {});
+  }, []);
+
   return (
     <section id="veranstaltungen" className="bg-white py-16 md:py-24">
       <div className="max-w-[75vw] mx-auto px-0 md:px-12">
         <h2 className="font-headline text-3xl text-pause-black text-left mb-12 md:text-5xl lg:text-6xl">
           Veranstaltungen
         </h2>
-        <iframe
-          src="https://luma.com/embed/calendar/cal-zalx0j0ZcHpAlEB/events?locale=de"
-          width="100%"
-          height="450"
-          frameBorder="0"
-          style={{ border: "1px solid #bfcbda88", borderRadius: "4px" }}
-          allowFullScreen
-          aria-hidden={false}
-          tabIndex={0}
-        />
+
+        {events.length === 0 ? (
+          <p className="font-body text-pause-black/60 text-lg">
+            Aktuell keine bevorstehenden Veranstaltungen.
+          </p>
+        ) : (
+          <div className="space-y-4">
+            {events.map((event) => (
+              <EventCard key={event.url} event={event} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
@@ -725,7 +795,7 @@ export default function Home() {
         <HeroSection />
         <ProblemSolutionSection />
         <QuotesSection />
-        <LumaCalendarSection />
+        <EventsSection />
         <ActionSection />
       </main>
       <Footer />
