@@ -151,7 +151,7 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="https://x.com/pauseai_germany"
+                  href="https://x.com/pauseai_de"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="font-body text-black/70 text-sm hover:text-white transition-colors flex items-center gap-2"
