@@ -90,7 +90,7 @@ function ChronicleSection() {
       <section className="bg-[#1a1a1a] py-20 md:py-32">
         <div className="max-w-4xl mx-auto px-6 md:px-12">
           <div className="mb-20 md:mb-28">
-            <h2 className="font-headline text-2xl md:text-4xl lg:text-5xl text-white mb-8 text-center">Der Status quo</h2>
+            <h2 className="font-headline text-2xl md:text-4xl lg:text-5xl text-white mb-8 text-center">KI im Jahr 2026</h2>
             <p className="font-body-bold text-lg text-white mb-4 leading-relaxed">
               OpenAI hat als offizielles Ziel, KI zu bauen, die Menschen „<a href="https://openai.com/charter/" target="_blank" rel="noopener noreferrer" className="orange-link-dark">bei den meisten wirtschaftlich wertvollen Tätigkeiten übertrifft</a>".
             </p>
