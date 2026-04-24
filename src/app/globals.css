@@ -230,14 +230,25 @@ body {
 
 /* Orange link styling */
 a.orange-link {
-  color: var(--pause-orange);
+  color: var(--pause-black);
   text-decoration: none;
   transition: all 0.2s ease;
-  border-bottom: 2px solid transparent;
+  border-bottom: 2px solid var(--pause-orange);
 }
 
 a.orange-link:hover {
-  border-bottom-color: var(--pause-orange);
+  color: var(--pause-orange);
+}
+
+a.orange-link-dark {
+  color: white;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border-bottom: 2px solid var(--pause-orange);
+}
+
+a.orange-link-dark:hover {
+  color: var(--pause-orange);
 }
 
 /* Large paragraph text for content pages */

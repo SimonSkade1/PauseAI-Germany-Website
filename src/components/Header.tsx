@@ -2,39 +2,37 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
-type HeaderProps = {
-  topOffset?: number;
-};
+type BannerEvent = { name: string; date: string; url: string };
 
-export default function Header({ topOffset = 0 }: HeaderProps) {
+function formatEventDate(start_at: string, timezone: string) {
+  const startDate = new Date(start_at);
+  const tz = timezone || "Europe/Berlin";
+  const day = new Intl.DateTimeFormat("de-DE", { day: "numeric", month: "long", timeZone: tz }).format(startDate);
+  const hour = new Intl.DateTimeFormat("de-DE", { hour: "numeric", hour12: false, timeZone: tz }).format(startDate);
+  return `${day} · ${hour} Uhr`;
+}
+
+export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const [eventCallout, setEventCallout] = useState<BannerEvent | null>(null);
 
-  // Handle scroll behavior - hide on scroll down, show on scroll up
   useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      
-      if (currentScrollY < 10) {
-        // Always show at top of page
-        setIsVisible(true);
-      } else if (currentScrollY > lastScrollY) {
-        // Scrolling down - hide navbar
-        setIsVisible(false);
-      } else {
-        // Scrolling up - show navbar
-        setIsVisible(true);
-      }
-      
-      setLastScrollY(currentScrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
+    fetch("/api/next-event")
+      .then((res) => res.json())
+      .then((data) => {
+        const ev = data?.featured || data?.next;
+        if (ev) {
+          setEventCallout({
+            name: ev.name,
+            date: formatEventDate(ev.start_at, ev.timezone),
+            url: `https://lu.ma/${ev.url}`,
+          });
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   // Prevent body scroll when menu is open
   useEffect(() => {
@@ -98,13 +96,10 @@ export default function Header({ topOffset = 0 }: HeaderProps) {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 bg-[#FF9416] transition-transform duration-300 ${
-          isVisible ? "translate-y-0" : "-translate-y-full"
-        } ${isMenuOpen ? "translate-y-0" : ""}`}
-        style={{ top: topOffset }}
+        className="fixed left-0 right-0 top-0 z-50 bg-[#FF9416]"
       >
-        <div className="flex items-center justify-between px-8 md:px-16 lg:px-24 py-4">
-          <Link href="/" className="flex items-center gap-3">
+        <div className="flex items-center justify-between px-8 md:px-16 lg:px-24 py-3">
+          <Link href="/" className="flex items-center gap-3 shrink-0">
             <Image
               src="/Logo Outlined.png"
               alt="PauseAI Logo"
@@ -115,6 +110,24 @@ export default function Header({ topOffset = 0 }: HeaderProps) {
               priority
             />
           </Link>
+
+          {/* Event callout */}
+          <div className="hidden md:flex flex-1 justify-center mx-4">
+            {eventCallout && (
+              <a
+                href={eventCallout.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-2 max-w-sm lg:max-w-md"
+              >
+                <span className="font-section text-[10px] uppercase tracking-wider text-black/50 shrink-0">Event</span>
+                <span className="w-px h-3 bg-black/30 shrink-0" />
+                <span className="font-section text-sm tracking-wider text-black group-hover:text-white transition-colors truncate">{eventCallout.name}</span>
+                <span className="font-body text-xs text-black/60 group-hover:text-white/80 transition-colors hidden lg:inline shrink-0">{eventCallout.date}</span>
+                <span className="text-black/50 group-hover:text-white transition-colors text-xs shrink-0">→</span>
+              </a>
+            )}
+          </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-6">

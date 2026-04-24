@@ -1,110 +1,32 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
-import React, { useState, useEffect, useRef, useCallback, FormEvent } from "react";
+import { useState } from "react";
+import { ExternalLink } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import HeroSection from "@/components/sections/HeroSection";
+import EventsSection from "@/components/sections/EventsSection";
+import ActionSection from "@/components/sections/ActionSection";
 
-const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSet8gf61pTqCYv4Fa1OAKGt6BizTKBaeyTTqIyhdlbaoOf5iw/formResponse";
-const GOOGLE_FORM_EMAIL_ENTRY = "entry.1229172991";
-
-function NewsletterFormWithRef({ 
-  variant = "light", 
-  inputRef,
-  glowing,
-  cardHovered = false
-}: { 
-  variant?: "light" | "dark" | "orange";
-  inputRef: React.RefObject<HTMLInputElement | null>;
-  glowing: boolean;
-  cardHovered?: boolean;
-}) {
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-
-    setStatus("loading");
-
-    try {
-      await fetch(GOOGLE_FORM_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams({
-          [GOOGLE_FORM_EMAIL_ENTRY]: email,
-        }),
-      });
-
-      setStatus("success");
-      setEmail("");
-    } catch {
-      setStatus("error");
-    }
-  };
-
-  if (status === "success") {
-    return (
-      <p className={`font-body ${variant === "light" ? "text-pause-black" : variant === "orange" ? "text-black" : "text-white"}`}>
-        Danke für deine Anmeldung!
-      </p>
-    );
-  }
-
-  const inputClass = variant === "light" ? "newsletter-input-light" : variant === "orange" ? "newsletter-input-orange" : "newsletter-input";
-  const sizeClass = variant === "light" ? "px-4 py-3 text-base" : "px-4 py-2 text-sm";
-  const buttonSizeClass = variant === "light" ? "px-6 py-3 text-sm" : "px-4 py-2 text-xs";
-  const buttonClass = variant === "orange" ? "bg-black text-white hover:bg-gray-800" : "btn-orange";
-
-  return (
-    <form onSubmit={handleSubmit} className={`flex flex-col sm:flex-row ${variant === "light" ? "gap-3" : "gap-2"}`}>
-      <input
-        ref={inputRef}
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder={variant === "light" ? "Deine E-Mail-Adresse" : "E-Mail-Adresse"}
-        className={`${inputClass} flex-1 min-w-0 w-full ${sizeClass} font-body transition-all duration-300 ${
-          glowing ? "ring-2 ring-[#FF9416] ring-offset-2" : ""
-        }`}
-        required
-      />
-      <button
-        type="submit"
-        disabled={status === "loading"}
-        className={`${buttonClass} ${buttonSizeClass} font-section tracking-wider whitespace-nowrap disabled:opacity-50 transition-colors cursor-pointer ${cardHovered ? "bg-[#e88510]" : ""}`}
-      >
-        {status === "loading" ? "..." : "Abonnieren"}
-      </button>
-    </form>
-  );
-}
 
 const quotes = [
   {
-    quote:
-      "We call for a prohibition on the development of superintelligence, not lifted before there is broad scientific consensus that it will be done safely and controllably, and strong public buy-in.",
+    quote: "We call for a prohibition on the development of superintelligence, not lifted before there is broad scientific consensus that it will be done safely and controllably, and strong public buy-in.",
     name: "Statement on Superintelligence",
-    title: "Signed by 130,000+ including AI researchers, political leaders, and industry figures",
+    title: "Unterzeichnet von 130.000+ Personen, darunter KI-Forscher:innen, Politiker:innen und Industrievertreter:innen",
     image: "https://superintelligence-statement.org/favicon.ico",
     link: "https://superintelligence-statement.org/",
   },
   {
-    quote:
-      "Mitigating the risk of extinction from AI should be a global priority alongside other societal-scale risks such as pandemics and nuclear war.",
+    quote: "Mitigating the risk of extinction from AI should be a global priority alongside other societal-scale risks such as pandemics and nuclear war.",
     name: "Statement on AI Risk",
-    title: "Signed by hundreds of AI experts from leading labs and institutions",
+    title: "Unterzeichnet von Hunderten KI-Expert:innen führender Labore und Institutionen",
     image: "/CAISlogo.png",
     link: "https://aistatement.com/",
   },
   {
-    quote:
-      "International unterstütze ich Initiativen, die rote Linien für KI definieren, autonome Waffensysteme ächten und globale Sicherheitsstandards schaffen. Deutschland kann dabei gemeinsam mit europäischen Partnern wichtige Impulse setzen, etwa durch stärkere Forschung zu Sicherheit und Kontrollierbarkeit sowie internationale Transparenzregeln für besonders leistungsfähige Modelle.",
+    quote: "International unterstütze ich Initiativen, die rote Linien für KI definieren, autonome Waffensysteme ächten und globale Sicherheitsstandards schaffen.",
     name: "Max Lucks",
     title: "Bundestagsabgeordneter (Bündnis 90/Die Grünen)",
     image: "/Max_Lucks_(2023).jpg",
@@ -114,10 +36,9 @@ const quotes = [
     licenseLink: "https://creativecommons.org/licenses/by-sa/4.0/",
   },
   {
-    quote:
-      "It might be quite sensible to just stop developing these things any further.",
+    quote: "It might be quite sensible to just stop developing these things any further.",
     name: "Geoffrey Hinton",
-    title: 'Nobel Prize winner & "Godfather of AI"',
+    title: 'Nobelpreisträger & Mitgründer der modernen KI',
     image: "/Geoffrey_E._Hinton,_2024_Nobel_Prize_Laureate_in_Physics_(cropped1).jpg",
     link: "https://www.forbes.com/sites/craigsmith/2023/05/04/geoff-hinton-ais-most-famous-researcher-warns-of-existential-threat/",
     attribution: "Arthur Petron / Wikimedia Commons",
@@ -125,17 +46,15 @@ const quotes = [
     licenseLink: "https://creativecommons.org/licenses/by-sa/4.0/",
   },
   {
-    quote:
-      "Verbindliche internationale Abkommen und ethische Grundlagen für den Einsatz von KI werden benötigt um ein Wettrennen zwischen den Staaten um die leistungsfähigste KI zu unterbinden.",
+    quote: "Verbindliche internationale Abkommen und ethische Grundlagen für den Einsatz von KI werden benötigt um ein Wettrennen zwischen den Staaten um die leistungsfähigste KI zu unterbinden.",
     name: "Desiree Becker",
     title: "Bundestagsabgeordnete (Die Linke)",
-    link: "https://www.abgeordnetenwatch.de/profile/desiree-becker/fragen-antworten/sehr-geehrte-frau-becker-wie-engagieren-sie-sich-fuer-die-weltweite-internationale-zusammenarbeit-im-umgang"
+    link: "https://www.abgeordnetenwatch.de/profile/desiree-becker/fragen-antworten/sehr-geehrte-frau-becker-wie-engagieren-sie-sich-fuer-die-weltweite-internationale-zusammenarbeit-im-umgang",
   },
   {
-    quote:
-      "Banning powerful AI systems beyond GPT-4 abilities with autonomy would be a good start.",
+    quote: "Banning powerful AI systems beyond GPT-4 abilities with autonomy would be a good start.",
     name: "Yoshua Bengio",
-    title: "AI Turing Award winner",
+    title: "Turing-Preisträger & meistzitierter KI-Wissenschaftler",
     image: "/ICLR_2025_-_Yoshua_Bengio_02.jpg",
     link: "https://yoshuabengio.org/2023/05/22/how-rogue-ais-may-arise/",
     attribution: "Xuthoria / Wikimedia Commons",
@@ -143,17 +62,9 @@ const quotes = [
     licenseLink: "https://creativecommons.org/licenses/by-sa/4.0/",
   },
   {
-    quote:
-      "Ich halte es für notwendig, auf europäischer und globaler Ebene rote Linien für Anwendungen [von KI] zu ziehen, die fundamentale Sicherheits- oder Menschenrechtsrisiken erzeugen – etwa autonome Waffensysteme ohne echte menschliche Kontrolle, KI zur massiven Verhaltensmanipulation oder nicht kontrollierbare Systemarchitekturen.",
-    name: "Diana Herbstreuth",
-    title: "Bundestagsabgeordnete (CDU)",
-    link: "https://www.abgeordnetenwatch.de/profile/diana-herbstreuth/fragen-antworten/sehr-geehrte-frau-herbstreuth-wie-engagieren-sie-sich-fuer-die-weltweite-zusammenarbeit-im-umgang-mit"
-  },
-  {
-    quote:
-      "The development of full artificial intelligence could spell the end of the human race.",
+    quote: "The development of full artificial intelligence could spell the end of the human race.",
     name: "Stephen Hawking",
-    title: "Theoretical physicist and cosmologist",
+    title: "Theoretischer Physiker und Kosmologe",
     image: "/Stephen_Hawking.StarChild.jpg",
     link: "https://www.bbc.com/news/technology-30290540",
     attribution: "NASA / Wikimedia Commons",
@@ -163,7 +74,7 @@ const quotes = [
   {
     quote: "for it seems probable that once the machine thinking method had started, it would not take long to outstrip our feeble powers. ... At some stage therefore we should have to expect the machines to take control",
     name: "Alan Turing",
-    title: "Inventor of the modern computer",
+    title: "Vater der Informatik und Pionier der künstlichen Intelligenz",
     image: "/Alan_Turing_(1951).jpg",
     link: "https://en.wikiquote.org/wiki/Alan_Turing",
     attribution: "Elliott & Fry / Wikimedia Commons",
@@ -172,628 +83,181 @@ const quotes = [
   },
 ];
 
-
-
-type BannerEvent = { name: string; date: string; url: string };
-
-function formatEventDate(start_at: string, timezone: string) {
-  const startDate = new Date(start_at);
-  const tz = timezone || "Europe/Berlin";
-
-  const day = new Intl.DateTimeFormat("de-DE", {
-    day: "numeric",
-    month: "long",
-    timeZone: tz,
-  }).format(startDate);
-
-  const hour = new Intl.DateTimeFormat("de-DE", {
-    hour: "numeric",
-    hour12: false,
-    timeZone: tz,
-  }).format(startDate);
-
-  return `${day} · ${hour}`;
-}
-
-function EventBanner({ onHeight }: { onHeight: (h: number) => void }) {
-  const [nextEvent, setNextEvent] = useState<BannerEvent | null>(null);
-  const [featuredEvent, setFeaturedEvent] = useState<BannerEvent | null>(null);
-
-  useEffect(() => {
-    fetch("/api/next-event")
-      .then((res) => res.json())
-      .then((data) => {
-        if (data?.next) {
-          setNextEvent({
-            name: data.next.name,
-            date: formatEventDate(data.next.start_at, data.next.timezone),
-            url: `https://lu.ma/${data.next.url}`,
-          });
-        }
-        if (data?.featured) {
-          setFeaturedEvent({
-            name: data.featured.name,
-            date: formatEventDate(data.featured.start_at, data.featured.timezone),
-            url: `https://lu.ma/${data.featured.url}`,
-          });
-        }
-      })
-      .catch(() => {});
-  }, []);
-
-  const hasFeatured = !!featuredEvent;
-
-  useEffect(() => {
-    onHeight(hasFeatured ? 88 : 56);
-  }, [hasFeatured, onHeight]);
-
+function ChronicleSection() {
   return (
-    <div className={`fixed left-0 right-0 top-0 z-[60] ${hasFeatured ? "h-[88px]" : "h-14"} border-b border-[#FF9416]/35 bg-black/95 text-[#FF9416] shadow-[0_8px_24px_rgba(0,0,0,0.35)] transition-all`}>
-      <div className={`mx-auto flex flex-col justify-center h-full max-w-7xl px-2 sm:px-6 md:px-10 ${hasFeatured ? "gap-0.5" : ""}`}>
-        {/* Row 1: Next event */}
-        <div className="flex items-center justify-center gap-2 sm:gap-3">
-          {nextEvent && (
-            <a
-              href={nextEvent.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden truncate text-center text-[#FF9416] hover:text-[#FFB04D] transition-colors sm:block"
-            >
-              <span className="font-body-bold text-[11px] sm:text-sm md:text-base">
-                {nextEvent.name}
-              </span>
-              <span className="ml-2 hidden font-body text-xs md:text-sm lg:inline">
-                {nextEvent.date}
-              </span>
-            </a>
-          )}
-          <Link
-            href="/#veranstaltungen"
-            className="group inline-flex flex-shrink-0 items-center gap-1 whitespace-nowrap rounded-sm border border-[#FF9416] bg-[#FF9416]/10 px-3 py-1.5 font-section text-[11px] uppercase tracking-[0.12em] text-[#FF9416] transition-colors hover:bg-[#FF9416] hover:text-black sm:gap-2 sm:px-4 sm:py-1.5 sm:text-xs sm:tracking-[0.14em]"
-          >
-            Veranstaltungen
-            <span className="transition-transform group-hover:translate-x-0.5">→</span>
-          </Link>
-        </div>
-
-        {/* Row 2: Featured event */}
-        {featuredEvent && (
-          <div className="flex items-center justify-center">
-            <a
-              href={featuredEvent.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="truncate text-center text-white/70 hover:text-white transition-colors"
-            >
-              <span className="font-body text-[10px] sm:text-xs md:text-sm">
-                Highlight: {featuredEvent.name}
-              </span>
-              <span className="ml-2 hidden font-body text-[10px] sm:text-xs lg:inline">
-                {featuredEvent.date}
-              </span>
-            </a>
+    <>
+      {/* 01 + 02 — dark: problem space */}
+      <section className="bg-[#1a1a1a] py-20 md:py-32">
+        <div className="max-w-4xl mx-auto px-6 md:px-12">
+          <div className="mb-20 md:mb-28">
+            <h2 className="font-headline text-2xl md:text-4xl lg:text-5xl text-white mb-8 text-center">Der Status quo</h2>
+            <p className="font-body-bold text-lg text-white mb-4 leading-relaxed">
+              OpenAI hat als offizielles Ziel, KI zu bauen, die Menschen „<a href="https://openai.com/charter/" target="_blank" rel="noopener noreferrer" className="orange-link-dark">bei den meisten wirtschaftlich wertvollen Tätigkeiten übertrifft</a>".
+            </p>
+            <p className="font-body text-white/70 text-base md:text-lg leading-relaxed">
+              Die anderen großen KI-Firmen sind nicht weniger ambitioniert. US-Unternehmen investieren 2026
+              geschätzt <a href="https://www.goldmansachs.com/insights/articles/why-ai-companies-may-invest-more-than-500-billion-in-2026" target="_blank" rel="noopener noreferrer" className="orange-link-dark">690 Milliarden Dollar</a> in diese Entwicklung, und das Tempo überrascht selbst Experten:
+              Die Fähigkeiten von KI-Systemen <a href="https://metr.org/time-horizons" target="_blank" rel="noopener noreferrer" className="orange-link-dark">verdoppeln sich derzeit etwa alle vier Monate</a>. KI optimiert
+              bereits die Chips, auf denen sie läuft, und unterstützt die KI-Firmen bei Forschung und
+              Programmierung. Die Technologie beschleunigt sich selbst. Am Ende des eingeschlagenen Weges
+              steht <a href="https://www.youtube.com/watch?v=lHlxx9gS7Ek" target="_blank" rel="noopener noreferrer" className="orange-link-dark">Superintelligenz</a> — KI, die Menschen in jeder Hinsicht übertrifft.
+            </p>
           </div>
-        )}
-      </div>
-    </div>
-  );
-}
 
-function HeroSection() {
-  return (
-    <section className="relative min-h-screen flex items-start overflow-hidden pt-32 md:pt-20">
-      {/* Background image */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src="/earth-europe.png"
-          alt="Earth from space showing Europe"
-          fill
-          sizes="100vw"
-          className="object-cover object-[25%_center] md:object-center"
-          priority
-          unoptimized
-        />
-      </div>
-
-      {/* Content: centered on mobile, right-aligned on desktop */}
-      <div className="relative z-10 w-full flex justify-center px-6 md:justify-end md:px-12 lg:px-20 xl:px-32 pt-[5vh] md:pt-[30vh]">
-        <div className="text-center md:text-right">
-          <h1 className="font-headline text-2xl text-white mb-6 md:text-5xl lg:text-5xl xl:text-6xl animate-fade-in-up">
-            Wir können den <br />KI-Kontrollverlust<br /> noch verhindern
-          </h1>
-          <div className="animate-fade-in-up delay-200">
-            <Link
-              href="/mitmachen"
-              className="inline-flex items-center justify-center border border-white bg-[#FF9416] px-5 py-2.5 font-section text-sm tracking-wider text-black transition-colors hover:bg-[#e88510] md:px-6 md:py-3 md:text-base"
-            >
-              <span className="hidden md:inline">Erfahre, wie du helfen kannst</span>
-              <span className="md:hidden">Erfahre, wie du helfen kannst</span>
-            </Link>
+          <div>
+            <h2 className="font-headline text-2xl md:text-4xl lg:text-5xl text-white mb-8 text-center">Die Risiken</h2>
+            <div className="flex flex-col">
+              <div className="border-t border-white/15 pt-6 pb-2">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-xl">🤖</span>
+                  <h3 className="font-section text-sm tracking-[0.18em] uppercase text-[#FF9416]">Verdrängung</h3>
+                </div>
+                <p className="font-body text-white/70 text-base md:text-lg leading-relaxed">
+                  KI übernimmt immer mehr kognitive Arbeit. Führende Experten erwarten, dass sie in wenigen Jahren die meisten <a href="https://www.zdfheute.de/wirtschaft/wildberger-digitalminister-arbeitsmarkt-kuenstliche-intelligenz-jobverluste-grundeinkommen-100.html" target="_blank" rel="noopener noreferrer" className="orange-link-dark">Bürojobs ersetzen</a> kann. Wir lagern dabei immer mehr Entscheidungen aus und werden abhängig von Systemen, die selbst ihre Entwickler nicht verstehen. Einfluss und Kapital konzentrieren sich in wenigen KI-Firmen und gefährden damit unsere Demokratie. All das passiert ohne gesellschaftliche Debatte und <a href="https://www.rand.org/pubs/research_reports/RRA4636-1.html" target="_blank" rel="noopener noreferrer" className="orange-link-dark">ohne einen Plan</a>, wie diese Entwicklung gut für uns Menschen ausgehen soll.
+                </p>
+              </div>
+              <div className="border-t border-white/15 pt-6 pb-2">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-xl">⚠️</span>
+                  <h3 className="font-section text-sm tracking-[0.18em] uppercase text-[#FF9416]">Missbrauch</h3>
+                </div>
+                <p className="font-body text-white/70 text-base md:text-lg leading-relaxed">
+                  KI kann in den falschen Händen zu katastrophalen Schäden führen, und je leistungsfähiger die Systeme werden, desto größer werden die Missbrauchsrisiken. <a href="https://www.zdfheute.de/politik/deutschland/ki-anthropic-claude-mythos-schwachstellen-software-bsi-100.html" target="_blank" rel="noopener noreferrer" className="orange-link-dark">Cyberangriffe auf kritische Infrastruktur werden zugänglicher.</a> Gleiches gilt für die Entwicklung <a href="https://www.aerzteblatt.de/archiv/biosicherheit-wenn-kuenstliche-intelligenz-neuartige-viren-liefert-db19b76a-89f6-4398-a2b8-03fa72de756a" target="_blank" rel="noopener noreferrer" className="orange-link-dark">biologischer Waffen</a>. Staaten und Konzerne können KI nutzen, um Menschen in einem bisher unvorstellbaren Ausmaß zu überwachen und zu manipulieren. <a href="https://www.zdfheute.de/politik/ki-militaer-krieg-gefahr-vorteile-100.html" target="_blank" rel="noopener noreferrer" className="orange-link-dark">Autonome Waffensysteme</a> können Kriege, Terrorismus und Unterdrückung auf eine neue Stufe heben.
+                </p>
+              </div>
+              <div className="border-t border-white/15 pt-6 pb-2">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-xl">🌀</span>
+                  <h3 className="font-section text-sm tracking-[0.18em] uppercase text-[#FF9416]">Kontrollverlust</h3>
+                </div>
+                <p className="font-body text-white/70 text-base md:text-lg leading-relaxed">
+                  Aktuelle KI-Modelle haben in Experimenten <a href="https://www.anthropic.com/research/agentic-misalignment" target="_blank" rel="noopener noreferrer" className="orange-link-dark">Anweisungen ignoriert, Entwickler angelogen und versucht, die eigene Abschaltung zu verhindern</a>. Außerdem haben sie Menschen in Wahnvorstellungen getrieben und in Extremfällen zu <a href="https://people.com/teens-parents-sue-openai-after-they-claim-chatgpt-helped-him-commit-suicide-11797514" target="_blank" rel="noopener noreferrer" className="orange-link-dark">Suiziden beigetragen</a>. Führende Experten warnen: je intelligenter diese Systeme werden, desto größer wird das Risiko, dass sie sich unserer Kontrolle entziehen und zur <a href="https://superintelligence-statement.org/" target="_blank" rel="noopener noreferrer" className="orange-link-dark">existenziellen Bedrohung für die Menschheit</a> werden.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      {/* 03 + 04 — white: solution space */}
+      <section className="bg-white py-20 md:py-32">
+        <div className="max-w-4xl mx-auto px-6 md:px-12">
+          <div className="mb-20 md:mb-28">
+            <h2 className="font-headline text-2xl md:text-4xl lg:text-5xl text-pause-black mb-8 text-center">Die Lösung</h2>
+            <p className="font-body-bold text-lg text-pause-black mb-4 leading-relaxed">
+              Was wir fordern, ist eine Pause: ein internationales Abkommen, das die Entwicklung von
+              Superintelligenz so lange stoppt, bis wir wissen, wie wir sie sicher bauen können.
+            </p>
+            <p className="font-body text-pause-black/75 text-base md:text-lg leading-relaxed">
+              Das Machine Intelligence Research Institut hat einen konkreten{" "}
+              <a href="#" className="orange-link">Vertragsentwurf</a> vorgelegt. Das Forschungsinstitut
+              RAND zeigt außerdem, dass{" "}
+              <a href="#" className="orange-link">Verifikation machbar ist</a>{" "}
+              und beschreibt sechs Überwachungsebenen analog zur Nuklearkontrolle. Bei Atomwaffen,
+              Biowaffen und Chemiewaffen hat die Menschheit bereits <a href="https://de.wikipedia.org/wiki/Atomwaffensperrvertrag" target="_blank" rel="noopener noreferrer" className="orange-link">internationale Grenzen gezogen</a>.
+              Eine Pause ist technisch machbar. Was fehlt, ist politischer Wille.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="font-headline text-2xl md:text-4xl lg:text-5xl text-pause-black mb-8 text-center">Was wir tun</h2>
+            <p className="font-body text-pause-black/75 text-base md:text-lg leading-relaxed mb-8">
+              Wir wollen den Spalt zwischen den dramatischen Warnungen von KI-Expert:innen und der
+              öffentlichen Debatte schließen. Unser wirksamstes Mittel ist, sachlich und lösungsorientiert
+              über die Risiken von KI-Entwicklung aufzuklären.
+            </p>
+            <div className="flex justify-center">
+              <Link href="/mitmachen" className="inline-flex items-center justify-center border border-[#1a1a1a] bg-[#FF9416] px-5 py-2.5 font-section text-sm tracking-wider text-black transition-colors hover:bg-[#e88510] md:px-6 md:py-3 md:text-base">
+                Erfahre, wie du helfen kannst
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
 
 function QuotesSection() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(true);
 
-  // Handle scroll to update active index
-  useEffect(() => {
-    const container = scrollContainerRef.current;
-    if (!container) return;
-
-    const handleScroll = () => {
-      const scrollLeft = container.scrollLeft;
-      const itemWidth = container.offsetWidth;
-      const newIndex = Math.round(scrollLeft / itemWidth);
-      setActiveIndex(newIndex);
-    };
-
-    container.addEventListener("scroll", handleScroll);
-    return () => container.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // Scroll to specific quote with animation
-  const scrollToIndex = useCallback((index: number) => {
-    const container = scrollContainerRef.current;
-    if (!container) return;
-
-    const itemWidth = container.offsetWidth;
-    const targetScroll = index * itemWidth;
-    const startScroll = container.scrollLeft;
-    const distance = targetScroll - startScroll;
-    const duration = 300;
-    let startTime: number | null = null;
-
-    const animateScroll = (currentTime: number) => {
-      if (startTime === null) startTime = currentTime;
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      const easeOut = 1 - Math.pow(1 - progress, 3);
-
-      container.scrollLeft = startScroll + distance * easeOut;
-
-      if (progress < 1) {
-        requestAnimationFrame(animateScroll);
-      }
-    };
-
-    requestAnimationFrame(animateScroll);
-  }, []);
-
-  const nextQuote = () => {
-    scrollToIndex((activeIndex + 1) % quotes.length);
-  };
-
-  const prevQuote = () => {
-    scrollToIndex((activeIndex - 1 + quotes.length) % quotes.length);
+  const goTo = (index: number) => {
+    setVisible(false);
+    setTimeout(() => {
+      setActiveIndex(index);
+      setVisible(true);
+    }, 180);
   };
 
   const q = quotes[activeIndex];
 
   return (
-    <section 
-      className="bg-pause-gray-dark py-8 md:py-12 group"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {/* Header with Logo/Photo and Name - centered */}
-      <div className="flex flex-col items-center gap-3 md:gap-4 mb-6 md:mb-8 px-6 md:px-12">
-        {(q as { image?: string }).image && (
-          <div className="relative w-16 h-16 md:w-20 md:h-20 flex-shrink-0 overflow-hidden bg-white">
-            <Image
-              src={(q as { image: string }).image}
-              alt={q.name}
-              fill
-              sizes="(max-width: 768px) 64px, 80px"
-              className="object-cover"
-            />
-          </div>
-        )}
-        <div className="flex flex-col items-center text-center">
-          <h3 className="font-headline text-white text-xl md:text-2xl lg:text-3xl leading-tight">
-            {q.name}
-          </h3>
-          <p className="font-body text-white/70 text-sm md:text-base mt-1 leading-relaxed">{q.title}</p>
-          {(q as { attribution?: string; sourceLink?: string; licenseLink?: string }).sourceLink && (
-            <p className="font-body text-white/40 text-xs mt-2 leading-relaxed">
-              Foto: {(q as { attribution?: string }).attribution}
-              {(q as { sourceLink?: string }).sourceLink && (
-                <>
-                  {" · "}<a href={(q as { sourceLink?: string }).sourceLink} target="_blank" rel="noopener noreferrer" className="text-white/80 underline underline-offset-2 decoration-white/50 hover:text-white transition-colors">Quelle</a>
-                </>
-              )}
-              {(q as { licenseLink?: string }).licenseLink && (
-                <>
-                  {" · "}<a href={(q as { licenseLink?: string }).licenseLink} target="_blank" rel="noopener noreferrer" className="text-white/80 underline underline-offset-2 decoration-white/50 hover:text-white transition-colors">CC BY-SA 4.0</a>
-                </>
-              )}
-            </p>
-          )}
-        </div>
-      </div>
+    <section className="bg-white py-16 md:py-24 border-t border-b border-[#eee]">
+      <div className="max-w-4xl mx-auto px-6 md:px-12">
+        <h2 className="font-headline text-2xl text-pause-black text-center mb-12 md:text-4xl lg:text-5xl">
+          Stimmen aus Wissenschaft und Politik
+        </h2>
 
-      {/* Centered container for quote, arrows, and dots */}
-      <div className="flex justify-center px-10 md:px-12">
-        <div className="relative w-full" style={{ maxWidth: 'calc(60ch + 8rem)' }}>
-          {/* Quote row with arrows */}
-          <div className="flex items-center justify-center">
-            {/* Left Arrow - hidden on mobile, visible on hover on desktop */}
-            <button
-              onClick={prevQuote}
-              className={`hidden md:flex absolute left-0 flex-shrink-0 w-14 h-14 -translate-x-2 items-center justify-center transition-opacity duration-200 cursor-pointer ${
-                isHovered ? "opacity-100" : "opacity-0"
-              }`}
-              aria-label="Previous quote"
-            >
-              <svg className="w-10 h-10 text-white hover:text-[#FF9416] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
-
-            {/* Scrollable quote container */}
-            <div
-              ref={scrollContainerRef}
-              className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide -mx-6 md:mx-0"
-              style={{ scrollbarWidth: "none", msOverflowStyle: "none", maxWidth: '60ch' }}
-            >
-              {quotes.map((quote, index) => (
-                <div
-                  key={index}
-                  className="flex-shrink-0 w-full px-6 md:px-0 snap-center flex justify-center items-center"
-                  style={{ 
-                    scrollSnapStop: "always", 
-                    minHeight: 'calc(4 * 1.625em)',
-                    width: '100%',
-                    maxWidth: '60ch'
-                  }}
-                >
-                  <blockquote 
-                    className="font-body text-white text-lg md:text-xl lg:text-2xl leading-relaxed text-center"
-                  >
-                    &quot;{quote.quote}&quot;
-                  </blockquote>
-                </div>
-              ))}
+        <div className="transition-opacity duration-200" style={{ opacity: visible ? 1 : 0 }}>
+          <div className="flex gap-6 md:gap-8">
+            <div className="w-1 flex-shrink-0 bg-[#FF9416] rounded-full" />
+            <div>
+              {(q as { link?: string }).link ? (
+                <a href={(q as { link: string }).link} target="_blank" rel="noopener noreferrer" className="orange-link font-body-bold text-base md:text-lg mb-2 inline-flex items-center gap-1">{q.name}<ExternalLink className="inline h-3.5 w-3.5 shrink-0" /></a>
+              ) : (
+                <p className="font-body-bold text-base md:text-lg text-pause-black mb-2">{q.name}</p>
+              )}
+              {q.title && <p className="font-body text-pause-black/50 text-sm mb-5">{q.title}</p>}
+              <blockquote className="font-body text-pause-black text-xl md:text-2xl leading-relaxed">
+                {q.quote}
+              </blockquote>
             </div>
-
-            {/* Right Arrow - hidden on mobile, visible on hover on desktop */}
-            <button
-              onClick={nextQuote}
-              className={`hidden md:flex absolute right-0 flex-shrink-0 w-14 h-14 translate-x-2 items-center justify-center transition-opacity duration-200 cursor-pointer ${
-                isHovered ? "opacity-100" : "opacity-0"
-              }`}
-              aria-label="Next quote"
-            >
-              <svg className="w-12 h-12 text-white hover:text-[#FF9416] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
           </div>
-          {(q as { link?: string }).link && (
-            <p className="font-body text-white/60 text-sm text-center mt-4">
-              <a
-                href={(q as { link?: string }).link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white/85 underline underline-offset-2 decoration-white/60 hover:text-white transition-colors"
-              >
-                Quelle des Zitats
-              </a>
-            </p>
-          )}
+        </div>
 
-          {/* Square Dots Indicator - aligned with quote max-width */}
-          <div className="flex justify-between items-center h-6 mt-12 md:mt-16 mx-6 md:mx-0" style={{ maxWidth: '60ch', margin: '3rem auto 0' }}>
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between mt-10 gap-4 md:gap-0">
+          <div className="flex gap-1 items-center justify-center">
             {quotes.map((_, index) => (
               <button
                 key={index}
-                onClick={() => scrollToIndex(index)}
-                className={`w-6 h-6 transition-all duration-150 hover:scale-150 cursor-pointer ${
-                  index === activeIndex ? "bg-[#FF9416]" : "bg-white/40"
-                }`}
-                aria-label={`Go to quote ${index + 1}`}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function ProblemSolutionSection() {
-  return (
-    <section className="bg-white py-20 md:py-32">
-      {/* Single orange dividing line */}
-      <div className="w-full flex justify-center mb-12 md:mb-16">
-        <div className="w-24 h-1 bg-[#FF9416]"></div>
-      </div>
-
-      {/* Two-column layout container */}
-      <div className="max-w-6xl mx-auto px-6 md:px-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 lg:gap-16">
-          {/* Problem Box - Black filled, clickable */}
-          <a
-            href="https://pauseai.info/xrisk"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group relative bg-[#1a1a1a] p-8 md:p-10 lg:p-12 hover:bg-[#2a2a2a] transition-colors cursor-pointer block"
-          >
-            <h2 className="font-section text-2xl text-white mb-6 md:text-3xl">
-              Das Problem
-            </h2>
-            <p className="font-body text-white/90 text-lg leading-relaxed text-justify">
-              KI-Labore arbeiten auf eine künstliche Superintelligenz hin –
-              jedoch weiß niemand, wie diese kontrolliert werden kann. Viele
-              Forscher warnen, dass dies zur Auslöschung der Menschheit führen
-              könnte.
-            </p>
-            {/* Orange arrow moved slightly left */}
-            <div className="absolute bottom-4 right-6 text-[#FF9416] text-2xl transition-transform group-hover:translate-x-2">
-              →
-            </div>
-          </a>
-
-          {/* Solution Box - White with dark grey border, clickable */}
-          <div
-            onClick={() => window.open("https://pauseai.info/proposal", "_blank")}
-            className="group relative bg-white border-2 border-[#4a4a4a] p-8 md:p-10 lg:p-12 hover:bg-gray-100 transition-colors cursor-pointer"
-          >
-            <h2 className="font-section text-2xl text-pause-black mb-6 md:text-3xl">
-              Die Lösung
-            </h2>
-            <p className="font-body text-pause-black/80 text-lg leading-relaxed text-justify">
-              Ein internationales Abkommen, das die Entwicklung von
-              superintelligenter KI stoppt, bis diese sicher möglich ist. Eine
-              mögliche Lösung ist der{" "}
-              <a
-                href="https://ifanyonebuildsit.com/treaty"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="orange-link font-body-bold"
-                onClick={(e) => e.stopPropagation()}
+                onClick={() => goTo(index)}
+                className="flex items-center justify-center w-12 h-12 cursor-pointer group"
+                aria-label={`Zitat ${index + 1}`}
               >
-                Entwurf
-              </a>{" "}
-              des Machine Intelligence Research Instituts.
-            </p>
-            {/* Orange arrow moved slightly left */}
-            <div className="absolute bottom-4 right-6 text-[#FF9416] text-2xl transition-transform group-hover:translate-x-2">
-              →
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-type EventData = {
-  name: string;
-  start_at: string;
-  end_at: string;
-  timezone: string;
-  url: string;
-  cover_url: string | null;
-  location_type: string;
-  geo_address_info: { city?: string } | null;
-};
-
-function EventCard({ event }: { event: EventData }) {
-  const start = new Date(event.start_at);
-  const tz = event.timezone || "Europe/Berlin";
-
-  const dayNum = new Intl.DateTimeFormat("de-DE", { day: "numeric", timeZone: tz }).format(start);
-  const monthShort = new Intl.DateTimeFormat("de-DE", { month: "short", timeZone: tz }).format(start).replace(".", "");
-  const time = new Intl.DateTimeFormat("de-DE", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: tz }).format(start);
-
-  const isOnline = event.location_type === "meet" || event.location_type === "virtual";
-  const locationLabel = isOnline
-    ? "Online"
-    : event.geo_address_info?.city || "Vor Ort";
-
-  return (
-    <a
-      href={`https://lu.ma/${event.url}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group flex bg-white border border-[#1a1a1a] md:border-2 cursor-pointer hover:bg-[#FFFAF5] transition-colors"
-    >
-      {/* Date block */}
-      <div className="flex flex-col items-center justify-center w-20 md:w-28 flex-shrink-0 bg-[#1a1a1a] text-white py-4 md:py-6">
-        <span className="font-headline text-2xl md:text-4xl leading-none">{dayNum}</span>
-        <span className="font-section text-xs md:text-sm tracking-wider uppercase mt-1">{monthShort}</span>
-      </div>
-
-      {/* Event details */}
-      <div className="flex-1 flex flex-col justify-center p-4 md:p-6 min-w-0">
-        <h3 className="font-section text-base md:text-lg text-pause-black leading-snug truncate group-hover:text-[#FF9416] transition-colors">
-          {event.name}
-        </h3>
-        <div className="flex items-center gap-3 mt-2 font-body text-sm text-pause-black/60">
-          <span>{time} Uhr</span>
-          <span className="text-pause-black/30">·</span>
-          <span>{locationLabel}</span>
-        </div>
-      </div>
-
-      {/* Arrow */}
-      <div className="hidden md:flex items-center pr-6 text-[#FF9416] text-2xl transition-transform group-hover:translate-x-2">
-        →
-      </div>
-    </a>
-  );
-}
-
-function EventsSection() {
-  const [events, setEvents] = useState<EventData[]>([]);
-
-  useEffect(() => {
-    fetch("/api/events")
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data)) setEvents(data);
-      })
-      .catch(() => {});
-  }, []);
-
-  return (
-    <section id="veranstaltungen" className="bg-white py-16 md:py-24">
-      <div className="max-w-[75vw] mx-auto px-0 md:px-12">
-        <h2 className="font-headline text-3xl text-pause-black text-left mb-12 md:text-5xl lg:text-6xl">
-          Veranstaltungen
-        </h2>
-
-        {events.length === 0 ? (
-          <p className="font-body text-pause-black/60 text-lg">
-            Aktuell keine bevorstehenden Veranstaltungen.
-          </p>
-        ) : (
-          <div className="space-y-4">
-            {events.map((event) => (
-              <EventCard key={event.url} event={event} />
+                <span className={`block rounded-full transition-all duration-300 ${index === activeIndex ? "w-8 h-4 bg-[#FF9416]" : "w-4 h-4 bg-pause-black/20 group-hover:bg-pause-black/40"}`} />
+              </button>
             ))}
           </div>
-        )}
-      </div>
-    </section>
-  );
-}
-
-function ActionSection() {
-  const newsletterInputRef = useRef<HTMLInputElement>(null);
-  const [newsletterGlow, setNewsletterGlow] = useState(false);
-  const [newsletterHovered, setNewsletterHovered] = useState(false);
-
-  const handleNewsletterCardClick = (e: React.MouseEvent) => {
-    // Don't trigger if clicking on the input or button
-    if ((e.target as HTMLElement).tagName === 'INPUT' || (e.target as HTMLElement).tagName === 'BUTTON') {
-      return;
-    }
-    if (newsletterInputRef.current) {
-      newsletterInputRef.current.focus();
-      setNewsletterGlow(true);
-      setTimeout(() => setNewsletterGlow(false), 1000);
-    }
-  };
-
-  return (
-    <section
-      id="was-du-tun-kannst"
-      className="bg-white py-16 md:py-24"
-    >
-      <div className="max-w-[75vw] mx-auto px-0 md:px-12">
-        <h2 className="font-headline text-3xl text-pause-black text-left mb-12 md:text-5xl lg:text-6xl">
-          Was du tun kannst
-        </h2>
-
-        <div className="space-y-6">
-          {/* Onboarding */}
-          <Link
-            href="/mitmachen"
-            className="group flex bg-white p-6 md:p-8 border border-[#1a1a1a] md:border-2 cursor-pointer hover:bg-[#FFFAF5] transition-colors min-h-[190px]"
-          >
-            <div className="flex items-start md:gap-4 flex-1">
-              <span className="hidden md:block text-[#FF9416] text-4xl md:text-5xl flex-shrink-0 leading-none mt-[-0.32em] transition-transform group-hover:translate-x-2">
-                →
-              </span>
-              <div className="flex-1 flex flex-col h-full">
-                <h3 className="font-section text-lg text-pause-black mb-3 md:text-xl">
-                  Werde Teil der <span className="text-[#FF9416] border-b-2 border-transparent group-hover:border-[#FF9416] transition-colors">Bewegung</span>
-                </h3>
-                <p className="font-body text-pause-black/80 text-base mt-auto text-right">
-                  Lerne uns kennen und erfahre, wie du mitmachen kannst.
-                </p>
-              </div>
-            </div>
-          </Link>
-
-          {/* Werde jetzt aktiv */}
-          <a
-            href="/aktionen"
-            className="group flex bg-white p-6 md:p-8 border border-[#1a1a1a] md:border-2 cursor-pointer hover:bg-[#FFFAF5] transition-colors min-h-[190px]"
-          >
-            <div className="flex items-start md:gap-4 flex-1">
-              <span className="hidden md:block text-[#FF9416] text-4xl md:text-5xl flex-shrink-0 leading-none mt-[-0.32em] transition-transform group-hover:translate-x-2">
-                →
-              </span>
-              <div className="flex-1 flex flex-col h-full">
-                <h3 className="font-section text-lg text-pause-black mb-3 md:text-xl">
-                  Werde jetzt <span className="text-[#FF9416] border-b-2 border-transparent group-hover:border-[#FF9416] transition-colors">aktiv</span>
-                </h3>
-                <p className="font-body text-pause-black/80 text-base mt-auto text-right">
-                  Erledige sofort kleine oder große Aktionen.
-                </p>
-              </div>
-            </div>
-          </a>
-
-          {/* Kontakt zu Abgeordneten */}
-          <Link
-            href="/contactlawmakers"
-            className="group flex bg-white p-6 md:p-8 border border-[#1a1a1a] md:border-2 cursor-pointer hover:bg-[#FFFAF5] transition-colors min-h-[190px]"
-          >
-            <div className="flex items-start md:gap-4 flex-1">
-              <span className="hidden md:block text-[#FF9416] text-4xl md:text-5xl flex-shrink-0 leading-none mt-[-0.32em] transition-transform group-hover:translate-x-2">
-                →
-              </span>
-              <div className="flex-1 flex flex-col h-full">
-                <h3 className="font-section text-lg text-pause-black mb-3 md:text-xl">
-                  Kontaktiere deine:n{" "}
-                  <span className="text-[#FF9416] border-b-2 border-transparent group-hover:border-[#FF9416] transition-colors">Abgeordnete:n</span>
-                </h3>
-                <p className="font-body text-pause-black/80 text-base mt-auto text-right">
-                  Finde deine:n Abgeordnete:n mit unserem Tool und nutze unsere Mailvorlage.
-                </p>
-              </div>
-            </div>
-          </Link>
-
-          {/* Spenden */}
-          <a 
-            href="mailto:germany@pauseai.info"
-            className="group flex bg-white p-6 md:p-8 border border-[#1a1a1a] md:border-2 cursor-pointer hover:bg-[#FFFAF5] transition-colors min-h-[190px]"
-          >
-            <div className="flex items-start md:gap-4 flex-1">
-              <span className="hidden md:block text-[#FF9416] text-4xl md:text-5xl flex-shrink-0 leading-none mt-[-0.32em] transition-transform group-hover:translate-x-2">
-                →
-              </span>
-              <div className="flex-1 flex flex-col h-full">
-                <h3 className="font-section text-lg text-pause-black mb-3 md:text-xl">
-                  Spenden
-                </h3>
-                <p className="font-body text-pause-black/80 text-base mt-auto text-right">
-                  Deine Spende bringt uns weiter. Bei Interesse kontaktiere{" "}
-                  <span className="text-[#FF9416] border-b-2 border-transparent group-hover:border-[#FF9416] transition-colors font-body-bold">
-                    germany@pauseai.info
-                  </span>
-                </p>
-              </div>
-            </div>
-          </a>
+          <div className="flex items-center justify-between md:contents">
+            <button
+              onClick={() => goTo((activeIndex - 1 + quotes.length) % quotes.length)}
+              className="font-section text-base tracking-wider text-pause-black/50 hover:text-pause-black transition-colors cursor-pointer px-4 py-3 md:order-first"
+              aria-label="Previous quote"
+            >
+              ← Zurück
+            </button>
+            <button
+              onClick={() => goTo((activeIndex + 1) % quotes.length)}
+              className="font-section text-base tracking-wider text-pause-black/50 hover:text-pause-black transition-colors cursor-pointer px-4 py-3"
+              aria-label="Next quote"
+            >
+              Weiter →
+            </button>
+          </div>
         </div>
       </div>
     </section>
   );
 }
-
 
 export default function Home() {
-  const [bannerHeight, setBannerHeight] = useState(56);
-  const handleBannerHeight = useCallback((h: number) => setBannerHeight(h), []);
-
   return (
     <>
-      <EventBanner onHeight={handleBannerHeight} />
-      <Header topOffset={bannerHeight} />
+      <Header />
       <main>
         <HeroSection />
-        <ProblemSolutionSection />
+        <ChronicleSection />
         <QuotesSection />
         <EventsSection />
         <ActionSection />
