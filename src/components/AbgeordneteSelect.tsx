@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import EmailTemplateViewer from "./EmailTemplateViewer";
 import {
   bundestagSubtitle,
-  CHAMBER_RECIPIENT_LABEL,
   CSV_PATH_BY_CHAMBER,
   displayNameWithoutTitle,
   europarlSubtitle,
@@ -28,10 +27,17 @@ import {
 } from "./abgeordneteSelectHelpers";
 
 type MailDraft = { recipient: string };
+type ParliamentGroup = "bundestag" | "europarl";
 
-// Chambers whose templates currently feature the latest "Warnschuss" appeal —
-// surfaced in step 1 with a faded-orange tint so they read as the active picks.
-const HIGHLIGHTED_CHAMBERS = new Set<Chamber>(["bundestag", "europarl"]);
+const CHAMBER_GROUPS: Record<ParliamentGroup, Chamber[]> = {
+  bundestag: ["mdb_mythos", "bundestag", "buergersprechstunde"],
+  europarl: ["mep_mythos", "europarl"],
+};
+
+const PARLIAMENT_GROUP_LABEL: Record<ParliamentGroup, string> = {
+  bundestag: "🇩🇪 Bundestag",
+  europarl: "🇪🇺 EU-Parlament",
+};
 
 export default function AbgeordneteSelect({
   onSelect,
@@ -46,12 +52,13 @@ export default function AbgeordneteSelect({
   const [plzCoords, setPlzCoords] = useState<CoordMap>({});
   const [senderName, setSenderName] = useState("");
   const [step, setStep] = useState<WizardStep>(1);
+  const [parliamentGroup, setParliamentGroup] = useState<ParliamentGroup | null>(null);
   const [chamber, setChamber] = useState<Chamber | null>(null);
   const [mailDraft, setMailDraft] = useState<MailDraft>({ recipient: "" });
   const [templateMeta, setTemplateMeta] = useState<Partial<Record<Chamber, { subject: string; preview: string }>>>({});
 
   useEffect(() => {
-    (["bundestag", "europarl", "buergersprechstunde"] as const).forEach((c) => {
+    (["bundestag", "europarl", "buergersprechstunde", "mdb_mythos", "mep_mythos"] as const).forEach((c) => {
       fetch(`/email-templates/${TEMPLATE_FILE_BY_CHAMBER[c]}`)
         .then((r) => r.text())
         .then((text) => setTemplateMeta((prev) => ({ ...prev, [c]: parseTemplateMeta(text) })))
@@ -104,7 +111,7 @@ export default function AbgeordneteSelect({
 
   // Load PLZ -> Wahlkreis mapping (Bundestag only)
   useEffect(() => {
-    if (chamber !== "bundestag" && chamber !== "buergersprechstunde") {
+    if (chamber !== "bundestag" && chamber !== "buergersprechstunde" && chamber !== "mdb_mythos") {
       setPlzMapping({});
       return;
     }
@@ -206,7 +213,7 @@ export default function AbgeordneteSelect({
   }, []);
 
   const plzWkNumbers = useMemo(() => {
-    if (chamber !== "bundestag" && chamber !== "buergersprechstunde") return null;
+    if (chamber !== "bundestag" && chamber !== "buergersprechstunde" && chamber !== "mdb_mythos") return null;
     const value = search.trim().replace(/\s+/g, "");
     if (!/^\d{4,5}$/.test(value)) return null;
     const wahlkreise = plzMapping[value] ?? [];
@@ -235,7 +242,7 @@ export default function AbgeordneteSelect({
   }, [rowsWithInfo, filterableFields]);
 
   const normalizedSearch = search.trim().replace(/\s+/g, "");
-  const isEuroparlPlzSearch = chamber === "europarl" && /^\d{5}$/.test(normalizedSearch);
+  const isEuroparlPlzSearch = (chamber === "europarl" || chamber === "mep_mythos") && /^\d{5}$/.test(normalizedSearch);
 
   const nearestEuroparl = useMemo(() => {
     const empty = {
@@ -270,7 +277,7 @@ export default function AbgeordneteSelect({
   const filtered = useMemo(() => {
     if (!rowsWithInfo.length) return [] as RowWithInfo[];
 
-    const numericPlzSearch = (chamber === "bundestag" || chamber === "buergersprechstunde") && /^\d{4,5}$/.test(normalizedSearch);
+    const numericPlzSearch = (chamber === "bundestag" || chamber === "buergersprechstunde" || chamber === "mdb_mythos") && /^\d{4,5}$/.test(normalizedSearch);
     const query = search.trim().toLowerCase();
 
     if (isEuroparlPlzSearch) {
@@ -336,7 +343,7 @@ export default function AbgeordneteSelect({
 
     const handlePopState = (event: PopStateEvent) => {
       const nextStep = event.state?.[WIZARD_STEP_KEY];
-      if (typeof nextStep === "number" && nextStep >= 1 && nextStep <= 4) {
+      if (typeof nextStep === "number" && nextStep >= 1 && nextStep <= 5) {
         setStep(nextStep as WizardStep);
       }
     };
@@ -348,12 +355,13 @@ export default function AbgeordneteSelect({
   const canGoToStep = useCallback(
     (targetStep: number) => {
       if (targetStep === 1) return true;
-      if (targetStep === 2) return chamber !== null;
-      if (targetStep === 3) return chamber !== null && !!selected;
-      if (targetStep === 4) return chamber !== null && !!selected && !!senderName.trim();
+      if (targetStep === 2) return parliamentGroup !== null;
+      if (targetStep === 3) return parliamentGroup !== null && chamber !== null;
+      if (targetStep === 4) return parliamentGroup !== null && chamber !== null && !!selected;
+      if (targetStep === 5) return parliamentGroup !== null && chamber !== null && !!selected && !!senderName.trim();
       return false;
     },
-    [chamber, selected, senderName],
+    [parliamentGroup, chamber, selected, senderName],
   );
 
   const goToStep = useCallback(
@@ -367,6 +375,16 @@ export default function AbgeordneteSelect({
     [canGoToStep, pushStepToHistory, step],
   );
 
+  const resetForParliamentSwitch = useCallback(() => {
+    setSearch("");
+    setFilters({});
+    setSelected(null);
+    setChamber(null);
+    setSenderName("");
+    setMailDraft({ recipient: "" });
+    onSelect?.(null);
+  }, [onSelect]);
+
   const resetForChamberSwitch = useCallback(() => {
     setSearch("");
     setFilters({});
@@ -376,16 +394,26 @@ export default function AbgeordneteSelect({
     onSelect?.(null);
   }, [onSelect]);
 
+  const handleChooseParliamentGroup = useCallback(
+    (group: ParliamentGroup) => {
+      resetForParliamentSwitch();
+      setParliamentGroup(group);
+      goToStep(2, { ignoreGuards: true });
+    },
+    [goToStep, resetForParliamentSwitch],
+  );
+
   const handleChooseChamber = useCallback(
     (nextChamber: Chamber) => {
       resetForChamberSwitch();
       setChamber(nextChamber);
-      goToStep(2, { ignoreGuards: true });
+      goToStep(3, { ignoreGuards: true });
     },
     [goToStep, resetForChamberSwitch],
   );
+
   const canGoPrev = step > 1;
-  const canGoNext = step < 4 && canGoToStep(step + 1);
+  const canGoNext = step < 5 && canGoToStep(step + 1);
   const currentStepLabel = STEP_ITEMS[step - 1];
 
   return (
@@ -405,14 +433,14 @@ export default function AbgeordneteSelect({
               Zurück
             </button>
             <div className="min-w-0 text-center px-2">
-              <div className="text-xs font-section text-gray-700">Schritt {step}/4</div>
+              <div className="text-xs font-section text-gray-700">Schritt {step}/5</div>
               <div className="text-sm font-section text-pause-black truncate">{currentStepLabel}</div>
             </div>
             <button
               type="button"
               onClick={() => canGoNext && goToStep(step + 1)}
               disabled={!canGoNext}
-              className="min-w-[80px] border-2 border-[#9f5500] bg-[#ff9416] px-3 py-1.5 text-xs font-section text-black cursor-pointer transition-colors hover:bg-[#e88510] disabled:cursor-not-allowed disabled:opacity-50"
+              className="min-w-[80px] border-2 border-zinc-800 bg-white px-3 py-1.5 text-xs font-section text-black cursor-pointer transition-colors hover:bg-zinc-100 disabled:cursor-not-allowed disabled:opacity-50"
             >
               Weiter
             </button>
@@ -421,35 +449,50 @@ export default function AbgeordneteSelect({
 
         {step === 1 && (
           <div className="space-y-2 bg-white p-2 md:p-3">
-            {(["bundestag", "europarl", "buergersprechstunde"] as const).map((c) => {
-              const isSelected = chamber === c;
-              const isHighlighted = HIGHLIGHTED_CHAMBERS.has(c);
-              const buttonClass = isSelected
-                ? "border-[#ffbf73] bg-[#fff1de]"
-                : isHighlighted
-                  ? "border-[#ffd9a8] bg-[#fff5e6] hover:bg-[#ffeacc]"
-                  : "border-zinc-300 bg-white hover:bg-[#fff7ec]";
-              return (
-                <button
-                  key={c}
-                  type="button"
-                  onClick={() => handleChooseChamber(c)}
-                  className={`w-full border px-4 py-3 text-left cursor-pointer transition-colors ${buttonClass}`}
-                >
-                  <div className="font-section text-xs text-pause-black/60 mb-0.5">{CHAMBER_RECIPIENT_LABEL[c]}</div>
-                  <div className="font-section text-sm font-medium text-pause-black mb-1">
-                    {templateMeta[c]?.subject ?? "…"}
-                  </div>
-                  <div className="text-xs text-pause-black/70 line-clamp-5">
-                    {templateMeta[c]?.preview ?? ""}
-                  </div>
-                </button>
-              );
-            })}
+            {(["bundestag", "europarl"] as const).map((group) => (
+              <button
+                key={group}
+                type="button"
+                onClick={() => handleChooseParliamentGroup(group)}
+                className={`w-full border px-4 py-3 text-left cursor-pointer transition-colors ${
+                  parliamentGroup === group
+                    ? "border-zinc-400 bg-zinc-100"
+                    : "border-zinc-300 bg-white hover:bg-zinc-50"
+                }`}
+              >
+                <div className="font-section text-base font-medium text-pause-black">
+                  {PARLIAMENT_GROUP_LABEL[group]}
+                </div>
+              </button>
+            ))}
           </div>
         )}
 
-        {step === 2 && (
+        {step === 2 && parliamentGroup && (
+          <div className="space-y-2 bg-white p-2 md:p-3">
+            {CHAMBER_GROUPS[parliamentGroup].map((c) => (
+              <button
+                key={c}
+                type="button"
+                onClick={() => handleChooseChamber(c)}
+                className={`w-full border px-4 py-3 text-left cursor-pointer transition-colors ${
+                  chamber === c
+                    ? "border-zinc-400 bg-zinc-100"
+                    : "border-zinc-300 bg-white hover:bg-zinc-50"
+                }`}
+              >
+                <div className="font-section text-sm font-medium text-pause-black mb-1">
+                  {templateMeta[c]?.subject ?? "…"}
+                </div>
+                <div className="text-xs text-pause-black/70 line-clamp-5">
+                  {templateMeta[c]?.preview ?? ""}
+                </div>
+              </button>
+            ))}
+          </div>
+        )}
+
+        {step === 3 && (
           <div className="bg-white p-2 md:p-3">
             {!allRows ? (
               <div>Lade Abgeordnete…</div>
@@ -460,7 +503,7 @@ export default function AbgeordneteSelect({
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     placeholder={
-                      chamber === "europarl"
+                      chamber === "europarl" || chamber === "mep_mythos"
                         ? "Suche nach Name, Partei, PLZ, Stadt oder Bundesland..."
                         : "Suche nach Name, Partei, PLZ, Stadt..."
                     }
@@ -468,8 +511,8 @@ export default function AbgeordneteSelect({
                   />
                 </div>
 
-                {chamber === "europarl" && isEuroparlPlzSearch && (
-                  <div className="text-xs text-pause-black border-l-4 border-[#ff9416] pl-2">
+                {(chamber === "europarl" || chamber === "mep_mythos") && isEuroparlPlzSearch && (
+                  <div className="text-xs text-pause-black border-l-4 border-zinc-400 pl-2">
                     {nearestEuroparl.inputPlzFound
                       ? "Nächste 5 Büros von Mitgliedern des Europarlaments zu dieser PLZ."
                       : "PLZ nicht gefunden."}
@@ -499,7 +542,7 @@ export default function AbgeordneteSelect({
                 <div className="max-h-72 overflow-auto border border-zinc-200 bg-white">
                   {filtered.length === 0 ? (
                     <div className="p-3 text-sm text-gray-600">
-                      {chamber === "europarl" && isEuroparlPlzSearch && !nearestEuroparl.inputPlzFound
+                      {(chamber === "europarl" || chamber === "mep_mythos") && isEuroparlPlzSearch && !nearestEuroparl.inputPlzFound
                         ? "PLZ nicht gefunden."
                         : "Keine Einträge gefunden."}
                     </div>
@@ -510,14 +553,14 @@ export default function AbgeordneteSelect({
                           key={item.info.email || `${item.info.full}-${idx}`}
                           className={`cursor-pointer px-3 py-2 transition-colors border-b border-zinc-100 last:border-b-0 ${
                             selected?.row === item.row
-                              ? "bg-[#fff1de] border-l-2 border-l-[#ff9416]"
+                              ? "bg-zinc-100 border-l-2 border-l-zinc-400"
                               : "hover:bg-zinc-50"
                           }`}
                           onClick={() => {
                             setSelected(item);
                             onSelect?.(item.row);
                             setMailDraft((prev) => ({ ...prev, recipient: item.info.email || "" }));
-                            goToStep(3, { ignoreGuards: true });
+                            goToStep(4, { ignoreGuards: true });
                           }}
                         >
                           <div className="flex flex-col">
@@ -534,7 +577,7 @@ export default function AbgeordneteSelect({
                                 </div>
                               )}
                             </div>
-                            {chamber === "europarl" && (
+                            {(chamber === "europarl" || chamber === "mep_mythos") && (
                               <div className="text-xs text-gray-600 mt-1">
                                 {europarlSubtitle(item.info)}
                                 {nearestEuroparl.distanceByRow.has(item.row) && (
@@ -544,7 +587,7 @@ export default function AbgeordneteSelect({
                                 )}
                               </div>
                             )}
-                            {(chamber === "bundestag" || chamber === "buergersprechstunde") &&
+                            {(chamber === "bundestag" || chamber === "buergersprechstunde" || chamber === "mdb_mythos") &&
                               (item.info.bundesland || item.info.district) && (
                                 <div className="text-xs text-gray-600 mt-1">
                                   {bundestagSubtitle(item.info)}
@@ -556,13 +599,12 @@ export default function AbgeordneteSelect({
                     </ul>
                   )}
                 </div>
-
               </div>
             )}
           </div>
         )}
 
-        {step === 3 && (
+        {step === 4 && (
           <div className="space-y-4 bg-white p-2 md:p-3">
             <div>
               <input
@@ -575,11 +617,10 @@ export default function AbgeordneteSelect({
                 placeholder="Dein Name"
               />
             </div>
-
           </div>
         )}
 
-        {step === 4 && (
+        {step === 5 && (
           <div className="space-y-4 bg-white p-2 md:p-3">
             {selected && selectedInfo ? (
               <EmailTemplateViewer
@@ -594,11 +635,10 @@ export default function AbgeordneteSelect({
             ) : (
               <div className="text-sm text-gray-600">Bitte zuerst eine Person in der Liste auswählen.</div>
             )}
-
           </div>
         )}
 
-        {step > 2 && !selected && (
+        {step > 3 && !selected && (
           <div className="text-sm text-gray-600">Bitte zuerst eine Person auswählen.</div>
         )}
       </div>

@@ -1,6 +1,6 @@
 export type Row = Record<string, string>;
-export type WizardStep = 1 | 2 | 3 | 4;
-export type Chamber = "bundestag" | "europarl" | "buergersprechstunde";
+export type WizardStep = 1 | 2 | 3 | 4 | 5;
+export type Chamber = "bundestag" | "europarl" | "buergersprechstunde" | "mdb_mythos" | "mep_mythos";
 export type Coord = { lat: number; lon: number };
 export type CoordMap = Record<string, Coord>;
 export type RowInfo = {
@@ -24,12 +24,8 @@ export const TEMPLATE_FILE_BY_CHAMBER: Record<Chamber, string> = {
   bundestag: "mail_mdb_appell.txt",
   europarl: "mail_mep_appell.txt",
   buergersprechstunde: "mail_mdb_buergersprechstunde.txt",
-};
-
-export const CHAMBER_RECIPIENT_LABEL: Record<Chamber, string> = {
-  bundestag: "An Mitglied des Bundestags",
-  europarl: "An Mitglied des EU-Parlaments",
-  buergersprechstunde: "An Mitglied des Bundestags",
+  mdb_mythos: "mail_mdb_mythos.txt",
+  mep_mythos: "mail_mep_mythos.txt",
 };
 
 export function parseTemplateMeta(raw: string): { subject: string; preview: string } {
@@ -51,12 +47,16 @@ export const CSV_PATH_BY_CHAMBER: Record<Chamber, string> = {
   bundestag: "/BTAbgeordnete_with_bundesland.csv",
   europarl: "/EUAbgeordnete.csv",
   buergersprechstunde: "/BTAbgeordnete_with_bundesland.csv",
+  mdb_mythos: "/BTAbgeordnete_with_bundesland.csv",
+  mep_mythos: "/EUAbgeordnete.csv",
 };
 
 export const FILTER_FIELDS_BY_CHAMBER: Record<Chamber, FilterField[]> = {
   bundestag: ["first", "last", "full", "birthYear", "party", "district", "email"],
   europarl: ["party"],
   buergersprechstunde: ["first", "last", "full", "birthYear", "party", "district", "email"],
+  mdb_mythos: ["first", "last", "full", "birthYear", "party", "district", "email"],
+  mep_mythos: ["party"],
 };
 
 const FILTER_FIELD_LABELS: Record<FilterField, string> = {
@@ -85,7 +85,7 @@ const ROW_INFO_KEYS: Record<Exclude<keyof RowInfo, "full">, string[]> = {
 
 const FULL_NAME_KEYS = ["Name", "FullName", "full", "name"];
 
-export const STEP_ITEMS = ["Vorlage", "Empfänger:in", "Dein Name", "Mail"];
+export const STEP_ITEMS = ["Parlament", "Vorlage", "Empfänger:in", "Dein Name", "Mail"];
 export const WIZARD_STEP_KEY = "__contactWizardStep";
 
 export function parseCSV(text: string): { headers: string[]; rows: Row[] } {

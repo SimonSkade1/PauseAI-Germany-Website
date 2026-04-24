@@ -1,30 +1,24 @@
-Subject: Ein neues KI-Modell stellt Bedrohung für Deutschland dar
+Subject: Internationale Regeln für fortgeschrittene KI
 
 {{anrede}} {{recipientName}},
 
-mein Name ist {{senderName}} und ich komme aus Ihrem Wahlkreis.
+Ich wende mich an Sie, weil mich die Gefahren der Künstlicher Intelligenz sehr beunruhigen.
 
-Ich schreibe Ihnen, weil ich glaube, dass vor Kurzem eine der bedeutendsten Entwicklungen im Bereich der nationalen und globalen Sicherheit stattgefunden hat, und ich sicherstellen möchte, dass sie Ihnen bekannt ist.
+Ende Februar wurde das Thema im Europäischen Parlament in Brüssel diskutiert. Der weltweit bekannte KI-Forscher Stuart Russell warnte dort vor einem möglichen Kontrollverlust bei sehr leistungsfähigen KI-Systemen und verglich die derzeitige Entwicklung mit einem „Russischen Roulette“ für die Menschheit. Mehrere Abgeordnete verschiedener Fraktionen betonten ebenfalls, dass neben den Chancen erhebliche existentielle und andere Risiken bestehen, die politisch adressiert werden müssen.
+https://pauseai.substack.com/p/eu-parliamentarians-acknowledge-the
 
-Am 8. April hat das KI-Unternehmen Anthropic ein Modell namens Claude Mythos angekündigt, das eigenständig Sicherheitslücken in allen gängigen Betriebssystemen, Webbrowsern und kritischen Softwareplattformen aufspüren und ausnutzen kann. Dazu gehören die Systeme, auf denen unsere Banken, Krankenhäuser, Energienetze und staatlichen Dienste laufen. Anthropics eigene interne Risikoprüfung beschreibt es als das gefährlichste Modell, das sie jemals entwickelt haben.
+Schon heute zeigen KI-Systeme in Sicherheitstests Täuschungsverhalten. Laut Stuart Russell lügen sie und versuchen in Experimenten sogar Menschen zu erpressen, um ihre Abschaltung zu verhindern. Gleichzeitig verstehen selbst die Entwickler nicht, was in einem solchen System intern geschieht.
 
-Während der Sicherheitstests hat das System die Schutzmechanismen ausgehebelt, die es kontrollierbar halten sollten, sich Zugang zu Systemen verschafft, für die es keine Berechtigung hatte, und seine Betreiber absichtlich getäuscht, um nicht entdeckt zu werden. Die Forscher von Anthropic haben eingeräumt, dass ihre Sicherheitsmethoden für die nächsten Generationen von KI-Systemen, die sie bereits unter Verwendung dieses Modells entwickeln, möglicherweise nicht ausreichen.
+Der EU-AI-Act ist ein wichtiger Schritt, adressiert nach Einschätzung vieler Forschender jedoch vor allem bestehende Anwendungen und nicht die sehr leistungsfähigen KI-Systeme, die laut Stuart Russell schon in den nächsten Jahren möglich sind.
 
-Keine Regierung hat die Entwicklung dieses Systems genehmigt. Keine Sicherheitsbehörde hat es vor seiner Entstehung geprüft. Es gibt derzeit keinen rechtlichen Rahmen, weder in der EU noch international, der die Entwicklung von KI-Systemen mit solchen Fähigkeiten effektiv regelt.
+Ergänzend haben kürzlich über 150 deutsche Professorinnen und Professoren, darunter Fields-Medaillenträger Peter Scholze, die deutsche Delegation beim internationalen KI-Gipfel in Delhi aufgefordert, sich für ein verbindliches globales Sicherheitsabkommen für fortgeschrittene KI einzusetzen:
+https://www.pause-ai.de/appell
 
-Ich bitte Sie:
+Ich möchte Sie daher bitten, sich näher mit den Risiken sehr leistungsfähiger KI-Systeme zu befassen und mögliche politische Maßnahmen zu prüfen.
 
-1. Dieses Thema im zuständigen Ausschuss des Europäischen Parlaments (insbesondere ITRE – Industrie, Forschung und Energie) oder gegenüber der zuständigen Kommissarin bzw. dem zuständigen Kommissar anzusprechen und ein Briefing durch die ENISA (Agentur der Europäischen Union für Cybersicherheit) zur Gefährdungslage der Europäischen Union durch KI-gestützte Cyberbedrohungen anzufordern.
+Gerne vermittle ich Ihnen den Kontakt zu Fachleuten aus der KI-Sicherheitsforschung.
 
-2. Sich dafür einzusetzen, dass unabhängige Sicherheitsprüfungen vorgeschrieben werden, bevor KI-Systeme mit gefährlichen Fähigkeiten entwickelt oder eingesetzt werden.
+Über eine kurze Rückmeldung würde ich mich sehr freuen.
 
-3. Sich für internationale Zusammenarbeit bei der Regulierung von KI-Systemen mit katastrophalen Potenzial einzusetzen, vergleichbar mit bestehenden Regelwerken für Atom-, Bio- und Chemiewaffen.
-
-Falls Sie oder Ihre Mitarbeiterinnen und Mitarbeiter weitere Informationen wünschen: Die Bürgerbewegung PauseAI Deutschland (https://www.pause-ai.de/) beschäftigt sich mit genau diesen Themen und brieft dazu auch Politikerinnen und Politiker.
-
-Ich glaube wirklich, dass dies eines der wichtigsten Geschehnisse unserer Zeit ist. Ich hoffe, Sie werden dem Thema Ihre Aufmerksamkeit schenken.
-
-Vielen Dank für Ihre Zeit.
-
-Mit freundlichen Grüßen,
+Mit freundlichen Grüßen
 {{senderName}}
