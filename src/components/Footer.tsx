@@ -1,67 +1,16 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { useState, FormEvent } from "react";
-
-const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSet8gf61pTqCYv4Fa1OAKGt6BizTKBaeyTTqIyhdlbaoOf5iw/formResponse";
-const GOOGLE_FORM_EMAIL_ENTRY = "entry.1229172991";
 
 function NewsletterForm() {
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-
-    setStatus("loading");
-
-    try {
-      await fetch(GOOGLE_FORM_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams({
-          [GOOGLE_FORM_EMAIL_ENTRY]: email,
-        }),
-      });
-
-      setStatus("success");
-      setEmail("");
-    } catch {
-      setStatus("error");
-    }
-  };
-
-  if (status === "success") {
-    return (
-      <p className="font-body text-black">
-        Danke für deine Anmeldung!
-      </p>
-    );
-  }
-
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-2">
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="E-Mail-Adresse"
-        className="newsletter-input-orange flex-1 px-4 py-2 text-sm font-body"
-        required
-      />
-      <button
-        type="submit"
-        disabled={status === "loading"}
-        className="bg-black text-white hover:bg-gray-800 px-4 py-2 text-xs font-section tracking-wider whitespace-nowrap disabled:opacity-50 transition-colors cursor-pointer"
-      >
-        {status === "loading" ? "..." : "Abonnieren"}
-      </button>
-    </form>
+    <a
+      href="https://pauseaide.substack.com"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-block bg-black text-white hover:bg-gray-800 px-4 py-2 text-xs font-section tracking-wider rounded-lg transition-colors"
+    >
+      Newsletter abonnieren
+    </a>
   );
 }
 

@@ -365,37 +365,13 @@ export default function Datenschutz() {
                 Newsletterdaten
               </h3>
               <p className="font-body text-pause-black/80 text-justify">
-                Wenn Sie den auf der Website angebotenen Newsletter beziehen möchten, benötigen wir von Ihnen eine
-                E-Mail-Adresse sowie Informationen, welche uns die Überprüfung gestatten, dass Sie der Inhaber der
-                angegebenen E-Mail-Adresse sind und mit dem Empfang des Newsletters einverstanden sind. Weitere
-                Daten werden nicht bzw. nur auf freiwilliger Basis erhoben. Diese Daten verwenden wir ausschließlich für
-                den Versand der angeforderten Informationen und geben diese nicht an Dritte weiter.
+                Wenn Sie unseren Newsletter abonnieren möchten, nutzen wir hierfür den Dienst Substack (Substack, Inc., 548 Market Street PMB 72296, San Francisco, CA 94104-5401, USA). Mit der Anmeldung zum Newsletter erklären Sie sich einverstanden, dass Ihre E-Mail-Adresse sowie ggf. weitere von Ihnen freiwillig angegebene Informationen an Substack übermittelt und dort gespeichert werden.
               </p>
               <p className="font-body text-pause-black/80 mt-2 text-justify">
-                Die Verarbeitung der in das Newsletteranmeldeformular eingegebenen Daten erfolgt ausschließlich auf
-                Grundlage Ihrer Einwilligung (Art. 6 Abs. 1 lit. a DSGVO). Die erteilte Einwilligung zur Speicherung der
-                Daten, der E-Mail-Adresse sowie deren Nutzung zum Versand des Newsletters können Sie jederzeit
-                widerrufen, etwa über den „Austragen"-Link im Newsletter. Die Rechtmäßigkeit der bereits erfolgten
-                Datenverarbeitungsvorgänge bleibt vom Widerruf unberührt.
+                Die Verarbeitung erfolgt auf Grundlage Ihrer Einwilligung (Art. 6 Abs. 1 lit. a DSGVO). Die erteilte Einwilligung können Sie jederzeit widerrufen, etwa über den Abmeldelink in jedem Newsletter oder direkt in Ihrem Substack-Konto. Die Rechtmäßigkeit der bis zum Widerruf erfolgten Datenverarbeitungsvorgänge bleibt vom Widerruf unberührt.
               </p>
               <p className="font-body text-pause-black/80 mt-2 text-justify">
-                Die von Ihnen zum Zwecke des Newsletter-Bezugs bei uns hinterlegten Daten werden von uns bis zu Ihrer
-                Abmeldung aus dem Newsletter bei uns bzw. dem Newsletterdiensteanbieter gespeichert und nach der
-                Abbestellung des Newsletters oder nach Zweckfortfall aus der Newsletterverteilerliste gelöscht. Wir
-                behalten uns vor, E-Mail-Adressen aus unserem Newsletterverteiler nach eigenem Ermessen im Rahmen
-                unseres berechtigten Interesses nach Art. 6 Abs. 1 lit. f DSGVO zu löschen oder zu sperren.
-              </p>
-              <p className="font-body text-pause-black/80 mt-2 text-justify">
-                Daten, die zu anderen Zwecken bei uns gespeichert wurden, bleiben hiervon unberührt.
-              </p>
-              <p className="font-body text-pause-black/80 mt-2 text-justify">
-                Nach Ihrer Abmeldung aus der Newsletterverteilerliste wird Ihre E-Mail-Adresse bei uns bzw. dem
-                Newsletterdiensteanbieter ggf. in einer Blacklist gespeichert, soweit dies zur Verhinderung künftiger
-                Mailings erforderlich ist. Die Daten aus der Blacklist werden nur für diesen Zweck verwendet und nicht mit
-                anderen Daten zusammengeführt. Dies dient sowohl Ihrem Interesse als auch unserem Interesse an der
-                Einhaltung der gesetzlichen Vorgaben beim Versand von Newslettern (berechtigtes Interesse im Sinne des
-                Art. 6 Abs. 1 lit. f DSGVO). Die Speicherung in der Blacklist ist zeitlich nicht befristet. Sie können der
-                Speicherung widersprechen, soweit Ihre Interessen unser berechtigtes Interesse überwiegen.
+                Die Datenübertragung in die USA erfolgt auf Grundlage der Standardvertragsklauseln der Europäischen Kommission. Wir weisen darauf hin, dass wir keinen Einfluss auf den Umfang der Daten haben, die Substack im Rahmen des Abonnements auf eigene Verantwortung erhebt und speichert. Weitere Informationen finden Sie in der Datenschutzerklärung von Substack: https://substack.com/privacy.
               </p>
             </section>
 
