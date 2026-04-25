@@ -150,9 +150,9 @@ function ChronicleSection() {
             </p>
             <p className="font-body text-pause-black/75 text-base md:text-lg leading-relaxed">
               Das Machine Intelligence Research Institut hat einen konkreten{" "}
-              <a href="#" className="orange-link">Vertragsentwurf</a> vorgelegt. Das Forschungsinstitut
+              <a href="https://techgov.intelligence.org/research/an-international-agreement-to-prevent-the-premature-creation-of-artificial-superintelligence" className="orange-link" target="_blank" rel="noopener noreferrer">Vertragsentwurf</a> vorgelegt. Das Forschungsinstitut
               RAND zeigt außerdem, dass{" "}
-              <a href="#" className="orange-link">Verifikation machbar ist</a>{" "}
+              <a href="https://www.rand.org/pubs/working_papers/WRA4077-1.html" className="orange-link" target="_blank" rel="noopener noreferrer">Verifikation machbar ist</a>{" "}
               und beschreibt sechs Überwachungsebenen analog zur Nuklearkontrolle. Bei Atomwaffen,
               Biowaffen und Chemiewaffen hat die Menschheit bereits <a href="https://de.wikipedia.org/wiki/Atomwaffensperrvertrag" target="_blank" rel="noopener noreferrer" className="orange-link">internationale Grenzen gezogen</a>.
               Eine Pause ist technisch machbar. Was fehlt, ist politischer Wille.
