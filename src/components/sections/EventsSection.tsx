@@ -176,6 +176,11 @@ export default function EventsSection() {
       <div className="max-w-4xl mx-auto px-6 md:px-12">
         <h2 className="font-headline text-2xl text-pause-black text-center mb-12 md:text-4xl lg:text-5xl">Veranstaltungen</h2>
         <div className="space-y-4">{events.map((event, i) => <EventCard key={event.href ?? event.url ?? i} event={event} />)}</div>
+        <div className="mt-8 flex justify-center">
+          <a href="/veranstaltung-vorschlagen" className="inline-flex items-center justify-center border border-[#1a1a1a] bg-white px-6 py-3 font-section text-sm tracking-wider text-black transition-colors hover:bg-[#FFFAF5]">
+            Themen vorschlagen und abstimmen →
+          </a>
+        </div>
       </div>
     </section>
   );
