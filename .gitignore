@@ -46,3 +46,8 @@ next-env.d.ts
 # python virtual environment
 .venv/
 .vercel
+
+# Playwright
+/test-results/
+/playwright-report/
+/playwright/.cache/

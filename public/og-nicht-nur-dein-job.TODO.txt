@@ -1,0 +1,8 @@
+PLACEHOLDER OG IMAGE — replace before launch.
+
+Required:
+- 1200x630 PNG, < 300kb
+- Title: "Nicht nur dein Job"
+- Subtitle: "Wenn wir die Kontrolle über KI verlieren, ist alles in Gefahr"
+- Brand: dark #1a1a1a background with orange #FF9416 accent
+- PauseAI logo present
