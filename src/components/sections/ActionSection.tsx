@@ -1,14 +1,15 @@
 "use client";
 
 import Link from "next/link";
+import LinkedHeading from "@/components/LinkedHeading";
 
 export default function ActionSection() {
   const cardClass = "group flex bg-white p-6 md:p-8 border border-[#1a1a1a] md:border-2 cursor-pointer hover:bg-[#FFFAF5] transition-colors min-h-[190px]";
 
   return (
-    <section id="was-du-tun-kannst" className="bg-white py-16 md:py-24">
-      <div className="max-w-4xl mx-auto px-6 md:px-12">
-        <h2 className="font-headline text-2xl text-pause-black text-center mb-12 md:text-4xl lg:text-5xl">Was du tun kannst</h2>
+    <section className="bg-white pb-16 md:pb-24">
+      <div className="max-w-4xl mx-auto px-6 md:px-12 pt-16 md:pt-24 border-t-2 border-[#eee]">
+        <LinkedHeading id="was-du-tun-kannst">Was du tun kannst</LinkedHeading>
         <div className="space-y-6">
           <Link href="/mitmachen" className={cardClass}>
             <div className="flex items-start md:gap-4 flex-1">
