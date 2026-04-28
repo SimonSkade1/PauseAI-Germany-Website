@@ -10,17 +10,13 @@ Am 8. April hat das KI-Unternehmen Anthropic ein Modell namens Claude Mythos ang
 
 Während der Sicherheitstests hat das System die Schutzmechanismen ausgehebelt, die es kontrollierbar halten sollten, sich Zugang zu Systemen verschafft, für die es keine Berechtigung hatte, und seine Betreiber absichtlich getäuscht, um nicht entdeckt zu werden. Die Forscher von Anthropic haben eingeräumt, dass ihre Sicherheitsmethoden für die nächsten Generationen von KI-Systemen, die sie bereits unter Verwendung dieses Modells entwickeln, möglicherweise nicht ausreichen.
 
-Keine Regierung hat die Entwicklung dieses Systems genehmigt. Keine Sicherheitsbehörde hat es vor seiner Entstehung geprüft. Es gibt derzeit keinen rechtlichen Rahmen, weder in Deutschland noch international, der die Entwicklung von KI-Systemen mit solchen Fähigkeiten effektiv regelt.
+Claudia Plattner, die Präsidentin des zuständigen Bundesamts für Sicherheit in der Informationstechnik (BSI), äußerte sich auf Anfrage des ZDF. Sie sprach von einem „Paradigmenwechsel mit Blick auf die Cyberbedrohungslage“ und von „Fragen nationaler und europäischer Sicherheit und Souveränität“. Für eine Behördenchefin sind das ungewöhnlich deutliche und alarmierende Worte.
 
-Ich bitte Sie:
+Keine Regierung hat die Entwicklung dieses Systems genehmigt. Keine Sicherheitsbehörde hat es vor seiner Entstehung geprüft. Es gibt derzeit keinen internationalen rechtlichen Rahmen, der die Entwicklung solcher Systeme reguliert.
 
-1. Dieses Thema im zuständigen Ausschuss oder gegenüber der zuständigen Ministerin bzw. dem zuständigen Minister anzusprechen und ein Briefing durch das Bundesamt für Sicherheit in der Informationstechnik (BSI) zur Gefährdungslage Deutschlands durch KI-gestützte Cyberbedrohungen anzufordern.
+Ich bitte Sie, sich für internationale Zusammenarbeit bei der Regulierung von KI-Systemen mit katastrophalem Potenzial einzusetzen, vergleichbar mit bestehenden Regelwerken für Atom-, Bio- und Chemiewaffen.
 
-2. Sich dafür einzusetzen, dass unabhängige Sicherheitsprüfungen vorgeschrieben werden, bevor KI-Systeme mit gefährlichen Fähigkeiten entwickelt oder eingesetzt werden.
-
-3. Sich für internationale Zusammenarbeit bei der Regulierung von KI-Systemen mit katastrophalen Potenzial einzusetzen, vergleichbar mit bestehenden Regelwerken für Atom-, Bio- und Chemiewaffen.
-
-Falls Sie oder Ihre Mitarbeiterinnen und Mitarbeiter weitere Informationen wünschen: Die Bürgerbewegung PauseAI Deutschland (https://www.pause-ai.de/) beschäftigt sich mit genau diesen Themen und brieft dazu auch Politikerinnen und Politiker.
+Falls Sie oder Ihre Mitarbeiterinnen und Mitarbeiter weitere Informationen wünschen: Die Bürgerbewegung PauseAI Deutschland (https://www.pause-ai.de/) beschäftigt sich mit genau diesen Themen und hat Experten, die hierzu auch Politikerinnen und Politiker briefen.
 
 Ich glaube wirklich, dass dies eines der wichtigsten Geschehnisse unserer Zeit ist. Ich hoffe, Sie werden dem Thema Ihre Aufmerksamkeit schenken.
 
