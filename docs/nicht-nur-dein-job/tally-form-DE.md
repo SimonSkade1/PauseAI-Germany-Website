@@ -1,7 +1,8 @@
 # Tally-Form (DE) — Spec für „Nicht nur dein Job"
 
 **Vorlage:** PauseAI Global Form `Gxo8AQ` (https://tally.so/r/Gxo8AQ)
-**Ziel-Form-ID:** wird beim Anlegen vergeben (z.B. `Hxo9BR`)
+**Ziel-Form-ID:** `q4Y2Ok` (Edit: https://tally.so/forms/q4Y2Ok/edit · Public: https://tally.so/r/q4Y2Ok)
+**Code-Konstante:** `TALLY_NICHT_NUR_DEIN_JOB_STORY` in `src/data/tally.ts`
 **Sprache:** Deutsch, du-Form (passend zur Tonalität von PauseAI Deutschland)
 **Verwendung:** wird in `/nicht-nur-dein-job/erzaehlung` (oder `/umfrage`) per `<iframe>` eingebettet.
 
@@ -261,31 +262,9 @@ Beim Einbetten in `/nicht-nur-dein-job/erzaehlung` (oder `/umfrage`) folgende Ta
 
 ## Code-Integration (sobald Form-ID vorliegt)
 
-In `src/app/nicht-nur-dein-job/erzaehlung/page.tsx` (neu anzulegen) oder als Ersatz für `umfrage/SurveyForm.tsx`:
+**Bereits implementiert** in `src/app/nicht-nur-dein-job/erzaehlung/page.tsx`. Die Form-ID liegt zentral in `src/data/tally.ts` (Konstante `TALLY_NICHT_NUR_DEIN_JOB_STORY`). Falls die ID sich ändert, ist eine Bearbeitung dort die einzige nötige Code-Änderung.
 
-```tsx
-import Script from "next/script";
-
-const TALLY_FORM_ID = "Hxo9BR"; // <-- echte ID einsetzen
-
-export default function Page() {
-  return (
-    <>
-      <iframe
-        data-tally-src={`https://tally.so/embed/${TALLY_FORM_ID}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1`}
-        loading="lazy"
-        width="100%"
-        height="700"
-        frameBorder={0}
-        title="Erzähl deine Geschichte"
-      />
-      <Script src="https://tally.so/widgets/embed.js" strategy="lazyOnload" />
-    </>
-  );
-}
-```
-
-`embed.js` ersetzt `data-tally-src` automatisch durch `src` und rezised iframes mit `dynamicHeight=1`. Vor dem Mounten des Scripts ist die iframe inert — kein Flash, kein Layout-Shift, weil wir eine `height="700"` Anfangs-Höhe setzen.
+`embed.js` ersetzt `data-tally-src` automatisch durch `src` und rezised iframes mit `dynamicHeight=1`. Vor dem Mounten des Scripts ist die iframe inert — kein Flash, kein Layout-Shift, weil wir eine `height="700"` Anfangs-Höhe und `min-h-[700px]` setzen.
 
 ---
 
