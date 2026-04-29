@@ -110,7 +110,7 @@ export default function TestimonialsSection() {
   };
 
   return (
-    <section id="stimmen" className="bg-white py-20 md:py-32 border-t border-pause-black/10">
+    <section data-section-id="stimmen" className="bg-white py-20 md:py-32 border-t border-pause-black/10">
       <div className="max-w-4xl mx-auto px-6 md:px-12" ref={sectionRef} tabIndex={-1}>
         <LinkedHeading id="stimmen">Stimmen aus dem Arbeitsalltag</LinkedHeading>
         <p className="font-body text-pause-black/75 text-base md:text-lg leading-relaxed mb-10 max-w-3xl">
