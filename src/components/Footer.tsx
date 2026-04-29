@@ -9,7 +9,7 @@ function NewsletterForm() {
       rel="noopener noreferrer"
       className="inline-block bg-black text-white hover:bg-gray-800 px-4 py-2 text-xs font-section tracking-wider rounded-lg transition-colors"
     >
-      Newsletter abonnieren
+      Zum Newsletter
     </a>
   );
 }
