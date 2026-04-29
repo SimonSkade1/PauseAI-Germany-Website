@@ -63,6 +63,7 @@ export default function Header() {
       sublinks: [
         { href: "/mitmachen", label: "Kennen lernen" },
         { href: "/aktionen", label: "Aktiv werden" },
+        { href: "/nicht-nur-dein-job", label: "Nicht nur dein Job" },
         { href: "/contactlawmakers", label: "Politik kontaktieren" },
         { href: "/spenden", label: "Spenden" },
       ]
@@ -82,6 +83,7 @@ export default function Header() {
       sublinks: [
         { href: "/mitmachen", label: "Kennen lernen" },
         { href: "/aktionen", label: "Aktiv werden" },
+        { href: "/nicht-nur-dein-job", label: "Nicht nur dein Job" },
         { href: "/contactlawmakers", label: "Politik kontaktieren" },
         { href: "/spenden", label: "Spenden" },
       ]
