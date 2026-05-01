@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Download } from "lucide-react";
+import { Download, ExternalLink } from "lucide-react";
 
 type LogoAsset = {
   file: string;
@@ -108,9 +108,18 @@ export default function PressePage() {
             <h1 className="font-headline text-4xl sm:text-5xl text-white mb-4">
               Presse & Medien
             </h1>
-            <p className="text-gray-300 text-lg max-w-2xl">
+            <p className="text-gray-300 text-lg max-w-2xl mb-6">
               Logos und Medien für Presseanfragen und Berichterstattung. Alle Dateien können frei für redaktionelle Zwecke verwendet werden.
             </p>
+            <a
+              href="https://drive.google.com/drive/folders/1bQ_MZ8giK-Mee4ABkO0BgcFInaXruNpa?usp=drive_link"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-colors text-sm font-body-bold"
+            >
+              <ExternalLink size={16} />
+              Weiteres Medienmaterial auf Google Drive
+            </a>
           </div>
         </section>
 
