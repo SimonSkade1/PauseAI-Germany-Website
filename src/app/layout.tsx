@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Saira_Condensed, Montserrat, Roboto_Slab } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const sairaCondensed = Saira_Condensed({
@@ -43,6 +44,7 @@ export default function RootLayout({
         className={`${sairaCondensed.variable} ${montserrat.variable} ${robotoSlab.variable} antialiased`}
       >
         {children}
+        <Analytics />
       </body>
     </html>
   );
