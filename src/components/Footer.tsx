@@ -23,7 +23,7 @@ export default function Footer() {
           <div>
             <Link href="/" className="inline-block mb-4" aria-label="Zur Startseite">
               <Image
-                src="/logos/logo-wordmark-outlined.png"
+                src="/logos/logo-wordmark-white-bg.png"
                 alt="PauseAI Logo"
                 width={140}
                 height={40}
@@ -74,6 +74,14 @@ export default function Footer() {
                   className="font-body text-black/70 text-sm hover:text-white transition-colors"
                 >
                   Impressum
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/presse"
+                  className="font-body text-black/70 text-sm hover:text-white transition-colors"
+                >
+                  Presse/Media
                 </a>
               </li>
             </ul>
