@@ -119,7 +119,7 @@ export default function AbgeordneteSelect({
 
     (async () => {
       try {
-        const response = await fetch("/plz_to_wahlkreis.csv");
+        const response = await fetch("/data/plz_to_wahlkreis.csv");
         if (!response.ok) return;
         const text = await response.text();
         if (!mounted) return;
@@ -177,7 +177,7 @@ export default function AbgeordneteSelect({
 
     (async () => {
       try {
-        const response = await fetch("/DE_plz_latlong_dedup.csv");
+        const response = await fetch("/data/DE_plz_latlong_dedup.csv");
         if (!response.ok) return;
         const text = await response.text();
         if (!mounted) return;

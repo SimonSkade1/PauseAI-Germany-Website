@@ -6,7 +6,7 @@ export default function HeroSection() {
     <section className="relative min-h-screen flex items-start overflow-hidden pt-32 md:pt-20">
       <div className="absolute inset-0 z-0">
         <Image
-          src="/earth-europe.png"
+          src="/images/earth-europe.png"
           alt="Earth from space showing Europe"
           fill
           sizes="100vw"

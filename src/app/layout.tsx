@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   description:
     "Wir bei PauseAI Deutschland klären die Bevölkerung und Politik über KI Risiken auf, insbesondere über existenzielles Risiko.",
   icons: {
-    icon: "/Logo.png",
+    icon: "/logos/logo-icon-square.png",
   },
 };
 
