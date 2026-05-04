@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Saira_Condensed, Montserrat, Roboto_Slab } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const sairaCondensed = Saira_Condensed({
@@ -28,7 +29,7 @@ export const metadata: Metadata = {
   description:
     "Wir bei PauseAI Deutschland klären die Bevölkerung und Politik über KI Risiken auf, insbesondere über existenzielles Risiko.",
   icons: {
-    icon: "/Logo.png",
+    icon: "/logos/logo-icon-square.png",
   },
 };
 
@@ -43,6 +44,7 @@ export default function RootLayout({
         className={`${sairaCondensed.variable} ${montserrat.variable} ${robotoSlab.variable} antialiased`}
       >
         {children}
+        <Analytics />
       </body>
     </html>
   );

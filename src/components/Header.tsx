@@ -75,6 +75,7 @@ export default function Header() {
 
   // Mobile menu structure with sublinks
   const mobileMenuItems = [
+    { href: "https://pauseaide.substack.com/p/kis-die-eigenstandig-hacken-konnen", label: "Neuer Blog: KIs, die eigenständig hacken", external: true, noIcon: true, megaphone: true },
     { href: "/", label: "Startseite", external: false },
     {
       href: "/mitmachen",
@@ -103,7 +104,7 @@ export default function Header() {
         <div className="flex items-center justify-between px-8 md:px-16 lg:px-24 py-3">
           <Link href="/" className="flex items-center gap-3 shrink-0">
             <Image
-              src="/Logo Outlined.png"
+              src="/logos/logo-wordmark-white-bg.png"
               alt="PauseAI Logo"
               width={140}
               height={40}
@@ -113,20 +114,42 @@ export default function Header() {
             />
           </Link>
 
-          {/* Event callout */}
-          <div className="hidden md:flex flex-1 justify-center mx-4">
-            {eventCallout && (
+          {/* Center callout: event takes priority, otherwise blog post */}
+          <div className="flex flex-1 justify-center mx-4">
+            {/* Mobile: always show "News →" which opens the menu */}
+            <button
+              onClick={toggleMenu}
+              className="md:hidden font-section text-sm tracking-wider text-black hover:text-white transition-colors flex items-center gap-1"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 10v4h3l7 4.5V5.5L6 10H3z"/><path d="M15 9.5a4 4 0 010 5"/><path d="M18 7.5a7 7 0 010 9"/></svg>
+              News <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+            {/* Desktop: event takes priority, then blog post */}
+            {eventCallout ? (
               <a
                 href={eventCallout.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center gap-2 max-w-sm lg:max-w-md"
+                className="hidden md:flex group items-center gap-2 max-w-sm lg:max-w-md"
               >
                 <span className="font-section text-[10px] uppercase tracking-wider text-black/50 shrink-0">Event</span>
                 <span className="w-px h-3 bg-black/30 shrink-0" />
                 <span className="font-section text-sm tracking-wider text-black group-hover:text-white transition-colors truncate">{eventCallout.name}</span>
                 <span className="font-body text-xs text-black/60 group-hover:text-white/80 transition-colors hidden lg:inline shrink-0">{eventCallout.date}</span>
                 <span className="text-black/50 group-hover:text-white transition-colors text-xs shrink-0">→</span>
+              </a>
+            ) : (
+              <a
+                href="https://pauseaide.substack.com/p/kis-die-eigenstandig-hacken-konnen"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hidden md:flex group items-center gap-2 max-w-sm lg:max-w-md"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 shrink-0 text-black group-hover:text-white transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 10v4h3l7 4.5V5.5L6 10H3z"/><path d="M15 9.5a4 4 0 010 5"/><path d="M18 7.5a7 7 0 010 9"/></svg>
+                <span className="font-section text-[10px] uppercase tracking-wider text-black/50 shrink-0">Neuer Blog</span>
+                <span className="w-px h-3 bg-black/30 shrink-0" />
+                <span className="font-section text-sm tracking-wider text-black group-hover:text-white transition-colors truncate">KIs, die eigenständig hacken</span>
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 shrink-0 text-black group-hover:text-white transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
               </a>
             )}
           </div>
@@ -244,9 +267,14 @@ export default function Header() {
                     onClick={closeMenu}
                     className="font-body text-2xl text-white transition-colors hover:text-[#FF9416] flex items-center gap-3"
                   >
-                    <svg className="w-4 h-4 text-[#FF9416]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                      <path d="M5 12h14M13 5l7 7-7 7" strokeLinecap="square" strokeLinejoin="miter" />
-                    </svg>
+                    {!("noIcon" in item && item.noIcon) && (
+                      <svg className="w-4 h-4 text-[#FF9416]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                        <path d="M5 12h14M13 5l7 7-7 7" strokeLinecap="square" strokeLinejoin="miter" />
+                      </svg>
+                    )}
+                    {"megaphone" in item && item.megaphone && (
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 shrink-0 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 10v4h3l7 4.5V5.5L6 10H3z"/><path d="M15 9.5a4 4 0 010 5"/><path d="M18 7.5a7 7 0 010 9"/></svg>
+                    )}
                     {item.label}
                   </a>
                 ) : (

@@ -25,7 +25,7 @@ function HeroSection() {
         {/* Left column: Image */}
         <div className="relative overflow-hidden aspect-[1193/889] w-full">
           <Image
-            src="/img_gruendung.jpg"
+            src="/images/img_gruendung.jpg"
             alt="PauseAI Deutschland Gründung"
             width={1193}
             height={889}
@@ -40,7 +40,7 @@ function HeroSection() {
             }}
           >
             <Image
-              src="/img_gruendung.jpg"
+              src="/images/img_gruendung.jpg"
               alt=""
               width={1193}
               height={889}

@@ -44,11 +44,11 @@ export function parseTemplateMeta(raw: string): { subject: string; preview: stri
 }
 
 export const CSV_PATH_BY_CHAMBER: Record<Chamber, string> = {
-  bundestag: "/BTAbgeordnete_with_bundesland.csv",
-  europarl: "/EUAbgeordnete.csv",
-  buergersprechstunde: "/BTAbgeordnete_with_bundesland.csv",
-  mdb_mythos: "/BTAbgeordnete_with_bundesland.csv",
-  mep_mythos: "/EUAbgeordnete.csv",
+  bundestag: "/data/BTAbgeordnete_with_bundesland.csv",
+  europarl: "/data/EUAbgeordnete.csv",
+  buergersprechstunde: "/data/BTAbgeordnete_with_bundesland.csv",
+  mdb_mythos: "/data/BTAbgeordnete_with_bundesland.csv",
+  mep_mythos: "/data/EUAbgeordnete.csv",
 };
 
 export const FILTER_FIELDS_BY_CHAMBER: Record<Chamber, FilterField[]> = {
