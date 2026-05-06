@@ -31,6 +31,16 @@ export default function ActionSection() {
             </div>
           </a>
 
+          <Link href="/lokalgruppen" className={cardClass}>
+            <div className="flex items-start md:gap-4 flex-1">
+              <span className="hidden md:block text-[#FF9416] text-4xl md:text-5xl flex-shrink-0 leading-none mt-[-0.32em] transition-transform group-hover:translate-x-2">→</span>
+              <div className="flex-1 flex flex-col h-full">
+                <h3 className="font-section text-lg text-pause-black mb-3 md:text-xl">Finde deine <span className="text-[#FF9416] border-b-2 border-transparent group-hover:border-[#FF9416] transition-colors">Lokalgruppe</span></h3>
+                <p className="font-body text-pause-black/80 text-base mt-auto text-right">Werde Teil einer Lokalgruppe in deiner Nähe.</p>
+              </div>
+            </div>
+          </Link>
+
           <Link href="/contactlawmakers" className={cardClass}>
             <div className="flex items-start md:gap-4 flex-1">
               <span className="hidden md:block text-[#FF9416] text-4xl md:text-5xl flex-shrink-0 leading-none mt-[-0.32em] transition-transform group-hover:translate-x-2">→</span>
@@ -40,6 +50,7 @@ export default function ActionSection() {
               </div>
             </div>
           </Link>
+
 
           <a href="mailto:germany@pauseai.info" className={cardClass}>
             <div className="flex items-start md:gap-4 flex-1">

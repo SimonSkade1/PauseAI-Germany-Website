@@ -63,6 +63,7 @@ export default function Header() {
       sublinks: [
         { href: "/mitmachen", label: "Kennen lernen" },
         { href: "/aktionen", label: "Aktiv werden" },
+        { href: "/lokalgruppen", label: "Lokalgruppen" },
         { href: "/contactlawmakers", label: "Politik kontaktieren" },
         { href: "/spenden", label: "Spenden" },
       ]
@@ -83,6 +84,7 @@ export default function Header() {
       sublinks: [
         { href: "/mitmachen", label: "Kennen lernen" },
         { href: "/aktionen", label: "Aktiv werden" },
+        { href: "/lokalgruppen", label: "Lokalgruppen" },
         { href: "/contactlawmakers", label: "Politik kontaktieren" },
         { href: "/spenden", label: "Spenden" },
       ]
