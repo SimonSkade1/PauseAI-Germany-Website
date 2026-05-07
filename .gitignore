@@ -46,3 +46,12 @@ next-env.d.ts
 # python virtual environment
 .venv/
 .vercel
+
+# Playwright
+/test-results/
+/playwright-report/
+/playwright/.cache/
+
+# Private / local-only notes (never pushed)
+/docs/private/
+/.claude/skills/
