@@ -1,12 +1,8 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import {
-  TALLY_NICHT_NUR_DEIN_JOB_STORY,
-  tallyEmbedSrc,
-} from "@/data/tally";
+import UmfrageEmbed from "./UmfrageEmbed";
 
 export const metadata: Metadata = {
   title: "Umfrage — Nicht nur dein Job | PauseAI Deutschland",
@@ -44,37 +40,7 @@ export default function UmfragePage() {
         </section>
         <section className="bg-white py-12 md:py-16" data-testid="tally-embed-section">
           <div className="max-w-2xl mx-auto px-6">
-            <iframe
-              data-tally-src={tallyEmbedSrc(TALLY_NICHT_NUR_DEIN_JOB_STORY)}
-              loading="lazy"
-              width="100%"
-              height="700"
-              frameBorder={0}
-              title="Erzähl deine Geschichte – PauseAI"
-              data-testid="tally-iframe"
-              className="block w-full min-h-[700px] border-0"
-            />
-            <noscript>
-              <p className="font-body text-pause-black/75 text-base leading-relaxed mt-6">
-                Diese Form benötigt JavaScript.{" "}
-                <a
-                  href={`https://tally.so/r/${TALLY_NICHT_NUR_DEIN_JOB_STORY}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="orange-link"
-                >
-                  Direkt bei Tally öffnen →
-                </a>
-              </p>
-            </noscript>
-            <p className="font-body text-xs text-pause-black/50 mt-8">
-              Form-Anbieter: Tally (EU). Mit dem Absenden willigst du in die Verarbeitung deiner
-              Angaben durch PauseAI Deutschland und Tally als Auftragsverarbeiter ein. Mehr in der{" "}
-              <Link href="/datenschutz" className="orange-link">
-                Datenschutzerklärung
-              </Link>
-              .
-            </p>
+            <UmfrageEmbed />
           </div>
         </section>
       </main>
