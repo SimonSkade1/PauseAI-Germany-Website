@@ -13,7 +13,7 @@ import PresseSection from "./PresseSection";
 
 const TITLE = "Nicht nur dein Job | PauseAI Deutschland";
 const DESCRIPTION =
-  "Wenn wir die Kontrolle über KI verlieren, ist alles, was wir wertschätzen, in Gefahr – Arbeit, Demokratie, Leben.";
+  "Wenn wir die Kontrolle über KI verlieren, steht weit mehr auf dem Spiel als unsere Jobs: unsere Demokratie, unsere Selbstbestimmung, unsere Existenz.";
 const URL = "https://pauseai.de/nicht-nur-dein-job";
 
 export const metadata: Metadata = {

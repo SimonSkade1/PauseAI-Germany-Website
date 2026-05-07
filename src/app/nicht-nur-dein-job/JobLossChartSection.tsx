@@ -86,8 +86,8 @@ export default function JobLossChartSection() {
             </p>
             <p className="font-body text-pause-black/75 leading-relaxed">
               Sie erfassen auch nicht, wer gar nicht erst eingestellt wird, weil eine Software
-              das hätte machen können. Diese {"„"}stillen{"“"} Verluste werden in keinem Dashboard
-              auftauchen.
+              das im nächsten Jahr tun können wird. Diese {"„"}stillen{"“"} Verluste werden in
+              keinem Dashboard auftauchen.
             </p>
           </div>
         </div>

@@ -7,6 +7,7 @@ import { JOBLOSS_FALLBACK_COUNT, JOBLOSS_FALLBACK_DATE, JOBLOSS_FALLBACK_DAILY }
 
 const NUM = new Intl.NumberFormat("de-DE");
 const DATE = new Intl.DateTimeFormat("de-DE", { day: "2-digit", month: "long", year: "numeric" });
+const POLL_MS = 60_000;
 
 interface Payload {
   count: number;
@@ -20,58 +21,81 @@ export default function JobLossCounterSection() {
   const [lastUpdated, setLastUpdated] = useState<string | null>(null);
   const [daily, setDaily] = useState<number[]>([]);
   const [displayed, setDisplayed] = useState(0);
-  const [animated, setAnimated] = useState(false);
+  const [revealed, setRevealed] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const displayedRef = useRef(0);
   const reduce = useReducedMotion();
 
   useEffect(() => {
     let cancelled = false;
-    fetch("/api/jobloss-count")
-      .then((r) => r.json() as Promise<Payload>)
-      .then((d) => {
-        if (cancelled) return;
-        setCount(d.count);
-        setLastUpdated(d.lastUpdated);
-        if (d.daily?.length) setDaily(d.daily.map((p) => p.value));
-        else setDaily(JOBLOSS_FALLBACK_DAILY.map((p) => p.value));
-      })
-      .catch(() => {
-        if (cancelled) return;
-        setCount(JOBLOSS_FALLBACK_COUNT);
-        setLastUpdated(JOBLOSS_FALLBACK_DATE);
-        setDaily(JOBLOSS_FALLBACK_DAILY.map((p) => p.value));
-      });
+
+    const load = () =>
+      fetch("/api/jobloss-count", { cache: "no-store" })
+        .then((r) => r.json() as Promise<Payload>)
+        .then((d) => {
+          if (cancelled) return;
+          setCount(d.count);
+          setLastUpdated(d.lastUpdated);
+          if (d.daily?.length) setDaily(d.daily.map((p) => p.value));
+          else setDaily(JOBLOSS_FALLBACK_DAILY.map((p) => p.value));
+        })
+        .catch(() => {
+          if (cancelled) return;
+          setCount((c) => c ?? JOBLOSS_FALLBACK_COUNT);
+          setLastUpdated((d) => d ?? JOBLOSS_FALLBACK_DATE);
+          setDaily((arr) => (arr.length ? arr : JOBLOSS_FALLBACK_DAILY.map((p) => p.value)));
+        });
+
+    load();
+    const iv = setInterval(load, POLL_MS);
+    const onVis = () => {
+      if (!document.hidden) load();
+    };
+    document.addEventListener("visibilitychange", onVis);
+
     return () => {
       cancelled = true;
+      clearInterval(iv);
+      document.removeEventListener("visibilitychange", onVis);
     };
   }, []);
 
   useEffect(() => {
-    if (!ref.current || count === null || animated) return;
+    if (!ref.current || revealed) return;
     const obs = new IntersectionObserver(
       (entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          setAnimated(true);
-          if (reduce) {
-            setDisplayed(count);
-          } else {
-            const start = performance.now();
-            const dur = 1600;
-            const tick = (t: number) => {
-              const p = Math.min(1, (t - start) / dur);
-              const eased = 1 - Math.pow(1 - p, 3);
-              setDisplayed(Math.round(eased * count));
-              if (p < 1) requestAnimationFrame(tick);
-            };
-            requestAnimationFrame(tick);
-          }
-        }
+        if (entries.some((e) => e.isIntersecting)) setRevealed(true);
       },
       { threshold: 0.3 },
     );
     obs.observe(ref.current);
     return () => obs.disconnect();
-  }, [count, animated, reduce]);
+  }, [revealed]);
+
+  useEffect(() => {
+    if (count === null || !revealed) return;
+    if (reduce) {
+      displayedRef.current = count;
+      setDisplayed(count);
+      return;
+    }
+    const from = displayedRef.current;
+    const to = count;
+    if (from === to) return;
+    const start = performance.now();
+    const dur = 1600;
+    let raf = 0;
+    const tick = (t: number) => {
+      const p = Math.min(1, (t - start) / dur);
+      const eased = 1 - Math.pow(1 - p, 3);
+      const v = Math.round(from + (to - from) * eased);
+      displayedRef.current = v;
+      setDisplayed(v);
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [count, revealed, reduce]);
 
   return (
     <section

@@ -24,8 +24,8 @@ export default function HeroSection() {
           Nicht nur dein Job.
         </h1>
         <p className="font-body text-xl md:text-2xl text-white/80 leading-relaxed mb-10 max-w-3xl">
-          Wenn wir die Kontrolle über KI verlieren, ist alles, was wir wertschätzen, in Gefahr –
-          Arbeit, Demokratie, Leben.
+          Wenn wir die Kontrolle über KI verlieren, steht weit mehr auf dem Spiel als unsere Jobs:
+          unsere Demokratie, unsere Selbstbestimmung, unsere Existenz.
         </p>
         <div className="flex flex-col sm:flex-row gap-4">
           <Link
@@ -40,6 +40,12 @@ export default function HeroSection() {
           >
             Stimmen lesen
           </a>
+          <Link
+            href="/#was-du-tun-kannst"
+            className="inline-flex items-center justify-center bg-[#FF9416] px-6 py-3 font-section text-base tracking-wider text-black transition-colors hover:bg-[#e88510]"
+          >
+            Jetzt Handeln →
+          </Link>
         </div>
       </div>
     </section>

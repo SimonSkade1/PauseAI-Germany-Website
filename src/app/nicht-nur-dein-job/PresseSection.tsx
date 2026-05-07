@@ -96,8 +96,8 @@ export default function PresseSection() {
       <div className="max-w-5xl mx-auto px-6 md:px-12">
         <LinkedHeading id="presse">Presse: bleib informiert</LinkedHeading>
         <p className="font-body text-pause-black/75 text-base md:text-lg leading-relaxed mb-10 max-w-3xl">
-          Eine kuratierte Auswahl von Berichten zu KI und Arbeitsmarkt – aus deutschen und
-          internationalen Quellen.
+          Eine Auswahl von Berichten zu KI und Arbeitsmarkt aus deutschen und internationalen
+          Quellen.
         </p>
 
         <div className="space-y-4 mb-10">
