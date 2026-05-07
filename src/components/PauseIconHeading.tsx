@@ -24,7 +24,7 @@ export default function PauseIconHeading({
         }}
       >
         <Image
-          src="/logos/logo-icon-circle.svg"
+          src="/logos/logo-icon-square-germany.png"
           alt=""
           width={654}
           height={654}
