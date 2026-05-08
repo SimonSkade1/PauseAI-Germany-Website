@@ -7,7 +7,7 @@ import { Info } from "lucide-react";
 import { useMemo } from "react";
 
 const DISCORD_WEEKLY_URL = "https://discord.gg/e2Wh4WFwKm";
-const DISCORD_URL = "https://discord.gg/pvZ5PmRX4R";
+const DISCORD_URL = "https://discord.gg/buq56hhaz4";
 const WHATSAPP_URL = "https://chat.whatsapp.com/JttcisnjAyY75wlWlBAmpp";
 const CALENDLY_URL = "https://calendly.com/hauke-h-posteo/neues-meeting";
 const WEEKLY_MEETING_DURATION_MS = 60 * 60 * 1000;
