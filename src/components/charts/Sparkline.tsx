@@ -46,6 +46,7 @@ export default function Sparkline({
       role="img"
       aria-label={ariaLabel}
       className="overflow-visible"
+      style={{ maxWidth: "100%" }}
     >
       <path d={path} fill="none" stroke={color} strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round" />
     </svg>

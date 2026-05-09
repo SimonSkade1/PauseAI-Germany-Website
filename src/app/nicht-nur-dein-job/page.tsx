@@ -10,10 +10,11 @@ import MehrAlsArbeitSection from "./MehrAlsArbeitSection";
 import PolitischeForderungSection from "./PolitischeForderungSection";
 import JobLossChartSection from "./JobLossChartSection";
 import PresseSection from "./PresseSection";
+import FloatingCTA from "./FloatingCTA";
 
 const TITLE = "Nicht nur dein Job | PauseAI Deutschland";
 const DESCRIPTION =
-  "Wenn wir die Kontrolle über KI verlieren, steht weit mehr auf dem Spiel als unsere Jobs: unsere Demokratie, unsere Selbstbestimmung, unsere Existenz.";
+  "Wenn wir die Kontrolle über KI verlieren, steht weit mehr auf dem Spiel als unsere Jobs: unsere Selbstbestimmung, unsere Demokratie, unsere Existenz.";
 const URL = "https://pauseai.de/nicht-nur-dein-job";
 
 export const metadata: Metadata = {
@@ -48,18 +49,19 @@ export default function NichtNurDeinJobPage() {
   return (
     <>
       <Header />
-      <main>
-        <HeroSection />
+      <main className="overflow-x-clip">
+        <HeroSection description={DESCRIPTION} />
         <JumpBar />
         <JobLossCounterSection />
-        <UmfrageCTASection />
-        <TestimonialsSection />
         <MehrAlsArbeitSection />
         <PolitischeForderungSection />
+        <TestimonialsSection />
+        <UmfrageCTASection />
         <JobLossChartSection />
         <PresseSection />
       </main>
       <Footer />
+      <FloatingCTA />
     </>
   );
 }

@@ -15,14 +15,19 @@ const LineChart = dynamic(() => import("@/components/charts/LineChart"), {
 
 const NUM = new Intl.NumberFormat("de-DE");
 
+function toCumulative(points: LinePoint[]): LinePoint[] {
+  let running = 0;
+  return points.map((p) => { running += p.value; return { date: p.date, value: running }; });
+}
+
 export default function JobLossChartSection() {
-  const [data, setData] = useState<LinePoint[]>(JOBLOSS_FALLBACK_DAILY);
+  const [data, setData] = useState<LinePoint[]>(() => toCumulative(JOBLOSS_FALLBACK_DAILY));
 
   useEffect(() => {
     fetch("/api/jobloss-count")
       .then((r) => r.json())
       .then((d) => {
-        if (Array.isArray(d.daily) && d.daily.length > 0) setData(d.daily);
+        if (Array.isArray(d.daily) && d.daily.length > 0) setData(toCumulative(d.daily));
       })
       .catch(() => {
         // already set to fallback
@@ -41,7 +46,7 @@ export default function JobLossChartSection() {
           und seriöse Medienberichte.
         </p>
 
-        <LineChart data={data} />
+        <LineChart data={data} yLabel="Stellenstreichungen kumulativ" />
 
         <div className="mt-16 grid md:grid-cols-2 gap-12 items-start">
           <div>

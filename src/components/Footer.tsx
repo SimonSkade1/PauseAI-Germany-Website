@@ -25,9 +25,8 @@ export default function Footer() {
               <Image
                 src="/logos/logo-wordmark-white-bg.png"
                 alt="PauseAI Logo"
-                width={140}
+                width={151}
                 height={40}
-                className="h-10 w-auto"
               />
             </Link>
             <p className="font-body text-black/70 text-sm">

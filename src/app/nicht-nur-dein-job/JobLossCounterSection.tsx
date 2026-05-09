@@ -7,7 +7,6 @@ import { JOBLOSS_FALLBACK_COUNT, JOBLOSS_FALLBACK_DATE, JOBLOSS_FALLBACK_DAILY }
 
 const NUM = new Intl.NumberFormat("de-DE");
 const DATE = new Intl.DateTimeFormat("de-DE", { day: "2-digit", month: "long", year: "numeric" });
-const POLL_MS = 60_000;
 
 interface Payload {
   count: number;
@@ -28,36 +27,22 @@ export default function JobLossCounterSection() {
 
   useEffect(() => {
     let cancelled = false;
-
-    const load = () =>
-      fetch("/api/jobloss-count", { cache: "no-store" })
-        .then((r) => r.json() as Promise<Payload>)
-        .then((d) => {
-          if (cancelled) return;
-          setCount(d.count);
-          setLastUpdated(d.lastUpdated);
-          if (d.daily?.length) setDaily(d.daily.map((p) => p.value));
-          else setDaily(JOBLOSS_FALLBACK_DAILY.map((p) => p.value));
-        })
-        .catch(() => {
-          if (cancelled) return;
-          setCount((c) => c ?? JOBLOSS_FALLBACK_COUNT);
-          setLastUpdated((d) => d ?? JOBLOSS_FALLBACK_DATE);
-          setDaily((arr) => (arr.length ? arr : JOBLOSS_FALLBACK_DAILY.map((p) => p.value)));
-        });
-
-    load();
-    const iv = setInterval(load, POLL_MS);
-    const onVis = () => {
-      if (!document.hidden) load();
-    };
-    document.addEventListener("visibilitychange", onVis);
-
-    return () => {
-      cancelled = true;
-      clearInterval(iv);
-      document.removeEventListener("visibilitychange", onVis);
-    };
+    fetch("/api/jobloss-count")
+      .then((r) => r.json() as Promise<Payload>)
+      .then((d) => {
+        if (cancelled) return;
+        setCount(d.count);
+        setLastUpdated(d.lastUpdated);
+        if (d.daily?.length) setDaily(d.daily.map((p) => p.value));
+        else setDaily(JOBLOSS_FALLBACK_DAILY.map((p) => p.value));
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setCount((c) => c ?? JOBLOSS_FALLBACK_COUNT);
+        setLastUpdated((d) => d ?? JOBLOSS_FALLBACK_DATE);
+        setDaily((arr) => (arr.length ? arr : JOBLOSS_FALLBACK_DAILY.map((p) => p.value)));
+      });
+    return () => { cancelled = true; };
   }, []);
 
   useEffect(() => {

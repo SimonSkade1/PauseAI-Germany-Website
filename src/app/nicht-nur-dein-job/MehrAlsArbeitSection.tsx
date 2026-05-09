@@ -17,15 +17,15 @@ const PILLARS: Pillar[] = [
         der ganzen Welt kompromittiert werden kann. Niemand hat das genehmigt. Niemand wurde
         gefragt. Auch Social Media zeigt seit fünfzehn Jahren, wohin das führt: Wahlen,
         psychische Gesundheit, öffentlicher Diskurs, geprägt von Systemen, über die nie
-        demokratisch entschieden wurde.{" "}
-        <a
+        demokratisch entschieden wurde.
+        <span className="block mt-2"><a
           href="https://substack.com/home/post/p-195688893"
           target="_blank"
           rel="noopener noreferrer"
           className="text-[#FF9416] underline-offset-2 hover:underline"
         >
-          Mehr zum Mythos-Vorfall →
-        </a>
+          Mehr erfahren →
+        </a></span>
       </>
     ),
   },
@@ -39,15 +39,15 @@ const PILLARS: Pillar[] = [
         Gesetzesentwürfe erzeugt und uns vorschlägt, was wir am besten konsumieren sollten.
         Doch in Summe entsteht eine Gesellschaft, die ihre eigenen Entscheidungen nicht mehr
         trifft, ihre eigenen Systeme nicht mehr versteht und nicht mehr die Fähigkeit hat,
-        gegenzusteuern. Forscher nennen das <em>graduellen Kontrollverlust</em>.{" "}
-        <a
+        gegenzusteuern. Forscher nennen das <em>graduellen Kontrollverlust</em>.
+        <span className="block mt-2"><a
           href="https://gradual-disempowerment.ai/"
           target="_blank"
           rel="noopener noreferrer"
           className="text-[#FF9416] underline-offset-2 hover:underline"
         >
-          Zum Forschungspapier →
-        </a>
+          Mehr erfahren →
+        </a></span>
       </>
     ),
   },

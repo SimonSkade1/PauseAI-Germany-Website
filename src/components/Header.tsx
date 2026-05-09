@@ -106,10 +106,8 @@ export default function Header() {
             <Image
               src="/logos/logo-wordmark-white-bg.png"
               alt="PauseAI Logo"
-              width={140}
+              width={151}
               height={40}
-              className="h-10"
-              style={{ width: "auto" }}
               priority
             />
           </Link>

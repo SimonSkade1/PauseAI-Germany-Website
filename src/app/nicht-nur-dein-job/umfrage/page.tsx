@@ -27,7 +27,7 @@ export default function UmfragePage() {
           />
           <div className="relative max-w-4xl mx-auto px-6 md:px-12">
             <p className="font-section text-sm tracking-[0.18em] uppercase text-[#FF9416] mb-6">
-              Kampagne · Frühjahr 2026
+              Aktuelle Kampagne
             </p>
             <h1 className="font-display text-5xl md:text-7xl lg:text-[5.5rem] leading-[1.02] mb-8">
               Erzähl deine Geschichte.

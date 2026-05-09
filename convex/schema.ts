@@ -62,57 +62,5 @@ export default defineSchema({
     .index("by_template", ["templateFile"])
     .index("by_clicked_at", ["clickedAt"]),
 
-  // Curated stories used on the /nicht-nur-dein-job campaign page.
-  // Read publicly when approved=true; mutations are admin-only via the dashboard.
-  testimonials: defineTable({
-    name: v.string(),
-    age: v.optional(v.number()),
-    profession: v.string(),
-    location: v.optional(v.string()),
-    story: v.string(),
-    approved: v.boolean(),
-    shareCount: v.optional(v.number()),
-    createdAt: v.number(),
-  })
-    .index("by_approved", ["approved"])
-    .index("by_created_at", ["createdAt"]),
 
-  // Curated press review entries for the /nicht-nur-dein-job campaign page.
-  pressItems: defineTable({
-    title: v.string(),
-    source: v.string(),
-    url: v.string(),
-    language: v.union(v.literal("de"), v.literal("en")),
-    category: v.union(
-      v.literal("entlassung"),
-      v.literal("studie"),
-      v.literal("video"),
-      v.literal("auswirkung"),
-      v.literal("missbrauch"),
-      v.literal("jugend"),
-    ),
-    publishedAt: v.number(),
-    excerpt: v.string(),
-    imageUrl: v.optional(v.string()),
-    createdAt: v.number(),
-  })
-    .index("by_published", ["publishedAt"])
-    .index("by_lang_cat", ["language", "category"]),
-
-  // User-submitted survey responses from /nicht-nur-dein-job/umfrage.
-  // GDPR-aware: contactEmail only stored when allowQuoting is true.
-  // Rate limited by submitterToken (UUID stored client-side in localStorage).
-  surveyResponses: defineTable({
-    profession: v.string(),
-    industry: v.string(),
-    ageRange: v.string(),
-    story: v.string(),
-    allowQuoting: v.boolean(),
-    contactEmail: v.optional(v.string()),
-    submitterToken: v.string(),
-    consentedAt: v.number(),
-    createdAt: v.number(),
-  })
-    .index("by_submitter_token", ["submitterToken"])
-    .index("by_created_at", ["createdAt"]),
 });
