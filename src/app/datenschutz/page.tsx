@@ -229,8 +229,9 @@ export default function Datenschutz() {
               </p>
               <p className="font-body text-pause-black/80 mt-2 text-justify">
                 Im Rahmen der Aktionen-Funktion werden personenbezogene Daten (Discord-Nutzername, erledigte
-                Aufgaben) an Discord Inc. sowie an Convex, Inc. weitergegeben. Einzelheiten hierzu entnehmen Sie den
-                Abschnitten 2 und 5 dieser Datenschutzerklärung. Beim Einsatz von Auftragsverarbeitern geben wir
+                Aufgaben) an Discord Inc. sowie an Convex, Inc. weitergegeben. Beim Ausfüllen unseres Umfrageformulars
+                werden die eingegebenen Daten an Tally BV weitergegeben. Einzelheiten hierzu entnehmen Sie den
+                Abschnitten 2, 5 und 6 dieser Datenschutzerklärung. Beim Einsatz von Auftragsverarbeitern geben wir
                 personenbezogene Daten unserer Kunden nur auf Grundlage eines gültigen Vertrags über
                 Auftragsverarbeitung weiter.
               </p>
@@ -462,6 +463,32 @@ export default function Datenschutz() {
               </h2>
 
               <h3 className="font-body-bold text-pause-black mt-4 mb-2">
+                Tally (Umfrageformular)
+              </h3>
+              <p className="font-body text-pause-black/80 text-justify">
+                Für die Durchführung unserer Umfrage „Nicht nur dein Job" nutzen wir den Dienst Tally (Tally BV,
+                Troonplaats 1, 9000 Gent, Belgien). Wenn Sie das Umfrageformular ausfüllen und absenden, werden die
+                von Ihnen eingegebenen Daten an Tally übermittelt und dort verarbeitet. Tally ist ein in der Europäischen
+                Union ansässiges Unternehmen; eine Übertragung Ihrer Daten in Drittstaaten findet nicht statt.
+              </p>
+              <p className="font-body text-pause-black/80 mt-2 text-justify">
+                Im Rahmen des Formulars werden folgende personenbezogene Daten erhoben: Name oder Vorname, Stadt
+                bzw. Postleitzahl, frei formulierte Geschichte, optional hochgeladene Fotos und Videos sowie – sofern
+                Sie der Kontaktaufnahme zustimmen – Ihre E-Mail-Adresse. Die Angabe der mit * gekennzeichneten
+                Felder ist erforderlich; alle weiteren Angaben sind freiwillig.
+              </p>
+              <p className="font-body text-pause-black/80 mt-2 text-justify">
+                Rechtsgrundlage für die Verarbeitung ist Art. 6 Abs. 1 lit. a DSGVO (Einwilligung durch freiwilliges
+                Ausfüllen und Absenden des Formulars). Sie können die Löschung Ihrer übermittelten Daten jederzeit
+                verlangen, indem Sie uns unter{" "}
+                <a href="mailto:germany@pauseai.info" className="orange-link">germany@pauseai.info</a>{" "}
+                kontaktieren. Weitere Informationen finden Sie in der Datenschutzerklärung von Tally:{" "}
+                <a href="https://tally.so/help/privacy-policy" target="_blank" rel="noopener noreferrer" className="orange-link">
+                  https://tally.so/help/privacy-policy
+                </a>.
+              </p>
+
+              <h3 className="font-body-bold text-pause-black mt-6 mb-2">
                 Google Fonts (lokales Hosting)
               </h3>
               <p className="font-body text-pause-black/80 text-justify">

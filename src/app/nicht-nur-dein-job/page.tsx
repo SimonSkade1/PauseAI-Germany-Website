@@ -10,6 +10,7 @@ import MehrAlsArbeitSection from "./MehrAlsArbeitSection";
 import PolitischeForderungSection from "./PolitischeForderungSection";
 import JobLossChartSection from "./JobLossChartSection";
 import PresseSection from "./PresseSection";
+import ShareSection from "./ShareSection";
 import FloatingCTA from "./FloatingCTA";
 
 const TITLE = "Nicht nur dein Job | PauseAI Deutschland";
@@ -57,6 +58,7 @@ export default function NichtNurDeinJobPage() {
         <PolitischeForderungSection />
         <TestimonialsSection />
         <UmfrageCTASection />
+        <ShareSection />
         <JobLossChartSection />
         <PresseSection />
       </main>

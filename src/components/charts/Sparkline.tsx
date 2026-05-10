@@ -11,6 +11,7 @@ interface Props {
   height?: number;
   color?: string;
   ariaLabel?: string;
+  yMin?: number;
 }
 
 export default function Sparkline({
@@ -19,16 +20,17 @@ export default function Sparkline({
   height = 40,
   color = "#FF9416",
   ariaLabel = "Verlauf der letzten 90 Tage",
+  yMin,
 }: Props) {
   const path = useMemo(() => {
     if (!data.length) return "";
     const x = scaleLinear()
       .domain(extent(data.map((_, i) => i)) as [number, number])
       .range([2, width - 2]);
-    const y = scaleLinear()
-      .domain([d3Min(data) ?? 0, d3Max(data) ?? 1])
-      .range([height - 2, 2])
-      .nice();
+    const yScale = scaleLinear()
+      .domain([yMin ?? d3Min(data) ?? 0, d3Max(data) ?? 1])
+      .range([height - 2, 2]);
+    const y = yMin === undefined ? yScale.nice() : yScale;
     const generator = d3Line<number>()
       .x((_, i) => x(i))
       .y((d) => y(d))

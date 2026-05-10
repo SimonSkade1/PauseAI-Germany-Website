@@ -1,10 +1,10 @@
 export const SECTIONS = [
-  { id: "hero", label: "Einstieg" },
   { id: "counter", label: "Zähler" },
-  { id: "mehr", label: "Mehr als Jobs" },
-  { id: "politische-forderung", label: "Forderung" },
+  { id: "mehr", label: "Gefahren" },
+  { id: "politische-forderung", label: "Lösung" },
   { id: "stimmen", label: "Stimmen" },
   { id: "umfrage-cta", label: "Deine Geschichte" },
+  { id: "teilen", label: "Teilen" },
   { id: "chart", label: "Daten" },
   { id: "presse", label: "Presse" },
 ] as const;

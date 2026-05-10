@@ -31,7 +31,7 @@ export default function JumpBar() {
       className="sticky top-[64px] z-30 bg-[#1a1a1a]/95 backdrop-blur border-b border-white/10"
     >
       <div className="max-w-5xl mx-auto px-4 md:px-12 overflow-x-auto">
-        <ul className="flex gap-1 md:gap-2 py-3 whitespace-nowrap">
+        <ul className="flex justify-center gap-1 md:gap-2 py-3 whitespace-nowrap">
           {SECTIONS.map((s) => (
             <li key={s.id}>
               <a

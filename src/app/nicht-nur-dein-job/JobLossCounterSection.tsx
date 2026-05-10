@@ -91,7 +91,7 @@ export default function JobLossCounterSection() {
     >
       <div className="max-w-4xl mx-auto px-6 md:px-12 text-center">
         <p className="font-section text-sm tracking-[0.18em] uppercase text-pause-black/60 mb-4">
-          Seit Januar 2025 — und es wird mehr
+          Seit Januar 2025 gab es
         </p>
         <p
           className="font-display text-6xl md:text-8xl text-[#FF9416] tabular-nums"
@@ -103,11 +103,15 @@ export default function JobLossCounterSection() {
         <p className="font-body text-lg md:text-xl text-pause-black/70 mt-4 max-w-2xl mx-auto">
           dokumentierte KI-bedingte Stellenstreichungen weltweit
         </p>
-        {daily.length > 0 && (
-          <div className="mt-10 flex justify-center">
-            <Sparkline data={daily} width={360} height={56} />
-          </div>
-        )}
+        {daily.length > 0 && (() => {
+          let running = 0;
+          const cumulative = daily.map((v) => (running += v));
+          return (
+            <div className="mt-10 flex justify-center">
+              <Sparkline data={cumulative} width={360} height={72} yMin={0} ariaLabel="Kumulative KI-bedingte Stellenstreichungen" />
+            </div>
+          );
+        })()}
         <p className="font-body text-xs text-pause-black/50 mt-6">
           Quelle:{" "}
           <a
