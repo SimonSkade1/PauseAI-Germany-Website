@@ -151,6 +151,12 @@ const importantWebsites: Resource[] = [
 
 const newsletters: Resource[] = [
   {
+    title: "PauseAI Deutschland Newsletter",
+    href: "https://pauseaide.substack.com/",
+    external: true,
+    language: "DE",
+  },
+  {
     title: "PauseAI Global Newsletter",
     href: "https://pauseai.substack.com/",
     external: true,

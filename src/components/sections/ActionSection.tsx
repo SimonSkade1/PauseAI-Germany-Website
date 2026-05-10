@@ -41,6 +41,16 @@ export default function ActionSection() {
             </div>
           </Link>
 
+          <Link href="/nicht-nur-dein-job" className={cardClass}>
+            <div className="flex items-start md:gap-4 flex-1">
+              <span className="hidden md:block text-[#FF9416] text-4xl md:text-5xl flex-shrink-0 leading-none mt-[-0.32em] transition-transform group-hover:translate-x-2">→</span>
+              <div className="flex-1 flex flex-col h-full">
+                <h3 className="font-section text-lg text-pause-black mb-3 md:text-xl">Unterstütze unsere <span className="text-[#FF9416] border-b-2 border-transparent group-hover:border-[#FF9416] transition-colors">Kampagne</span></h3>
+                <p className="font-body text-pause-black/80 text-base mt-auto text-right">Nicht nur dein Job – teile deine Geschichte und mach auf die Risiken aufmerksam.</p>
+              </div>
+            </div>
+          </Link>
+
           <Link href="/contactlawmakers" className={cardClass}>
             <div className="flex items-start md:gap-4 flex-1">
               <span className="hidden md:block text-[#FF9416] text-4xl md:text-5xl flex-shrink-0 leading-none mt-[-0.32em] transition-transform group-hover:translate-x-2">→</span>

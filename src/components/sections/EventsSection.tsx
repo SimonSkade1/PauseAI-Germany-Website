@@ -120,46 +120,44 @@ function EventCard({ event }: { event: EventData }) {
     </>
   );
 
+  const lumaUrl = event.url ? `https://lu.ma/${event.url}` : null;
+
   const body = (
     <div className="flex-1 flex flex-col justify-center p-4 md:p-6 min-w-0">
-      <h3 className="font-section text-base md:text-lg text-pause-black leading-snug group-hover:text-[#FF9416] transition-colors">{event.name}</h3>
+      <h3 className="font-section text-base md:text-lg text-pause-black leading-snug">{event.name}</h3>
       <div className="flex items-center gap-3 mt-2 font-body text-sm text-pause-black/60">
         <span>{locationLabel}</span>
       </div>
       {event.description && (
         <p className="font-body text-sm text-pause-black/60 mt-2 leading-relaxed">{event.description}</p>
       )}
-      {hasActions && (
-        <div className="flex flex-wrap gap-2 mt-4">
-          <a href={event.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center border border-[#1a1a1a] bg-[#FF9416] px-4 py-2 font-section text-xs tracking-wider text-black transition-colors hover:bg-[#e88510]">
-            Beitreten
+      <div className="flex flex-wrap gap-2 mt-4">
+        {hasActions ? (
+          <>
+            <a href={event.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center border border-[#1a1a1a] bg-[#FF9416] px-4 py-2 font-section text-xs tracking-wider text-black transition-colors hover:bg-[#e88510]">
+              Beitreten
+            </a>
+            <a href={event.googleCalendarUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center border border-[#1a1a1a] bg-white px-4 py-2 font-section text-xs tracking-wider text-black transition-colors hover:bg-[#FFFAF5]">
+              Google Kalender
+            </a>
+            <button type="button" onClick={() => downloadWeeklyIcs(event)} className="inline-flex items-center justify-center border border-[#1a1a1a] bg-white px-4 py-2 font-section text-xs tracking-wider text-black transition-colors hover:bg-[#FFFAF5] cursor-pointer">
+              Standardkalender
+            </button>
+          </>
+        ) : lumaUrl ? (
+          <a href={lumaUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center border border-[#1a1a1a] bg-[#FF9416] px-4 py-2 font-section text-xs tracking-wider text-black transition-colors hover:bg-[#e88510]">
+            Mehr Details →
           </a>
-          <a href={event.googleCalendarUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center border border-[#1a1a1a] bg-white px-4 py-2 font-section text-xs tracking-wider text-black transition-colors hover:bg-[#FFFAF5]">
-            Google Kalender
-          </a>
-          <button type="button" onClick={() => downloadWeeklyIcs(event)} className="inline-flex items-center justify-center border border-[#1a1a1a] bg-white px-4 py-2 font-section text-xs tracking-wider text-black transition-colors hover:bg-[#FFFAF5] cursor-pointer">
-            Standardkalender
-          </button>
-        </div>
-      )}
+        ) : null}
+      </div>
     </div>
   );
 
-  if (hasActions) {
-    return (
-      <div className="flex flex-col md:flex-row bg-white border border-[#1a1a1a] md:border-2">
-        {dateBlock}
-        {body}
-      </div>
-    );
-  }
-
   return (
-    <a href={`https://lu.ma/${event.url}`} target="_blank" rel="noopener noreferrer" className="group flex flex-col md:flex-row bg-white border border-[#1a1a1a] md:border-2 cursor-pointer hover:bg-[#FFFAF5] transition-colors">
+    <div className="flex flex-col md:flex-row bg-white border border-[#1a1a1a] md:border-2">
       {dateBlock}
       {body}
-      <div className="hidden md:flex items-center pr-6 text-[#FF9416] text-2xl transition-transform group-hover:translate-x-2">→</div>
-    </a>
+    </div>
   );
 }
 
