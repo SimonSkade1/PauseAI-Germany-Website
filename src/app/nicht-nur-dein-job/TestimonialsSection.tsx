@@ -9,7 +9,7 @@ import { STATIC_TESTIMONIALS, type Testimonial } from "@/data/testimonials";
 const SHARE_TEXT = (t: Testimonial) =>
   `„${t.story.length > 180 ? t.story.slice(0, 180) + "…" : t.story}" — ${t.name}${t.location ? `, ${t.location}` : ""}`;
 
-const SHARE_URL = "https://pauseai.de/nicht-nur-dein-job#stimmen";
+const SHARE_URL = "https://pause-ai.de/nicht-nur-dein-job#stimmen";
 
 export default function TestimonialsSection() {
   const testimonials: Testimonial[] = STATIC_TESTIMONIALS.filter((t) => t.approved);

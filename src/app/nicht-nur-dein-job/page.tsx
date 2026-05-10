@@ -16,7 +16,7 @@ import FloatingCTA from "./FloatingCTA";
 const TITLE = "Nicht nur dein Job | PauseAI Deutschland";
 const DESCRIPTION =
   "Wenn wir die Kontrolle über KI verlieren, steht weit mehr auf dem Spiel als unsere Jobs: unsere Selbstbestimmung, unsere Demokratie, unsere Existenz.";
-const URL = "https://pauseai.de/nicht-nur-dein-job";
+const URL = "https://pause-ai.de/nicht-nur-dein-job";
 
 export const metadata: Metadata = {
   title: TITLE,

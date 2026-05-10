@@ -7,7 +7,7 @@ import UmfrageEmbed from "./UmfrageEmbed";
 export const metadata: Metadata = {
   title: "Umfrage — Nicht nur dein Job | PauseAI Deutschland",
   description: "Erzähl uns, wie KI deinen Beruf verändert.",
-  alternates: { canonical: "https://pauseai.de/nicht-nur-dein-job/umfrage" },
+  alternates: { canonical: "https://pause-ai.de/nicht-nur-dein-job/umfrage" },
   robots: { index: true, follow: true },
 };
 
