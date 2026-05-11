@@ -8,8 +8,7 @@ export default function UmfrageCTASection() {
           Wo trifft KI dein Leben?
         </h2>
         <p className="font-body text-lg md:text-xl mb-10 max-w-2xl mx-auto">
-          Wir sammeln Geschichten aus ganz Deutschland: Programmierer:innen, Journalist:innen,
-          Lehrer:innen, Schüler:innen, Eltern, alle. Erzähl uns deine.
+          Wir sammeln Geschichten aus ganz Deutschland: Angestellte, Selbstständige, Arbeitsuchende, Azubis, Student:innen, Schüler:innen, Eltern, Senioren alle. Erzähl uns deine.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link

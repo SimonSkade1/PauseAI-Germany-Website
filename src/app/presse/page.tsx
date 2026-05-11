@@ -26,21 +26,6 @@ const logos: LogoAsset[] = [
     bg: "checkered",
   },
   {
-    file: "logo-icon-circle.png",
-    label: "Icon Kreis",
-    bg: "checkered",
-  },
-  {
-    file: "logo-icon-circle.svg",
-    label: "Icon Kreis (SVG)",
-    bg: "checkered",
-  },
-  {
-    file: "logo-icon-square.png",
-    label: "Icon Quadrat",
-    bg: "checkered",
-  },
-  {
     file: "logo-icon-square-germany.png",
     label: "Icon Quadrat Deutschland",
     bg: "checkered",

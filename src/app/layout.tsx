@@ -31,6 +31,19 @@ export const metadata: Metadata = {
   icons: {
     icon: "/logos/logo-icon-square-germany.png",
   },
+  openGraph: {
+    images: [
+      {
+        url: "/logos/logo-wordmark.png",
+        width: 1331,
+        height: 449,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/logos/logo-wordmark.png"],
+  },
 };
 
 export default function RootLayout({

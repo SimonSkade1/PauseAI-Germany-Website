@@ -30,9 +30,9 @@ export const metadata: Metadata = {
     locale: "de_DE",
     images: [
       {
-        url: "/og-nicht-nur-dein-job.png",
-        width: 1200,
-        height: 630,
+        url: "/logos/logo-icon-square-germany.png",
+        width: 654,
+        height: 654,
         alt: "Nicht nur dein Job — PauseAI Deutschland",
       },
     ],
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: TITLE,
     description: DESCRIPTION,
-    images: ["/og-nicht-nur-dein-job.png"],
+    images: ["/logos/logo-icon-square-germany.png"],
   },
   alternates: { canonical: URL },
 };

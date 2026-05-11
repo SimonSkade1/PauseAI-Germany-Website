@@ -175,6 +175,16 @@ export const STATIC_PRESS: PressItem[] = [
       "VW (35.000), ZF (14.000), Bosch (10.000), Continental (10.000+), Thyssenkrupp (11.000) – die größten deutschen Konzerne kürzen massiv. Bemerkenswert: kein einziges nennt KI als Begründung – die Welle kommt erst.",
   },
   {
+    title: "Chinesisches Gericht entscheidet: KI-bedingte Kündigung ist rechtswidrig",
+    source: "t3n",
+    url: "https://t3n.de/news/chinesisches-gericht-entscheidet-ki-bedingte-kuendigung-ist-rechtswidrig-1740822/",
+    language: "de",
+    category: "entlassung",
+    publishedAt: "2026-05-02",
+    excerpt:
+      "Ein chinesisches Gericht hat entschieden, dass Unternehmen künstliche Intelligenz nicht als Grund für Entlassungen nutzen dürfen. Der Fall eines Qualitätssicherungsbeauftragten, der durch KI ersetzt werden sollte, wird als wichtiges Signal für zukünftigen Arbeitnehmerschutz interpretiert.",
+  },
+  {
     title: "KI verändert den Jobmarkt flächendeckend",
     source: "it-business / Indeed Outlook 2026",
     url: "https://www.it-business.de/ki-veraendert-den-jobmarkt-flaechendeckend-a-f7aed131c41aab41c4bbc99d812ac5dc/",
