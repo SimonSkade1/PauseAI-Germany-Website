@@ -7,10 +7,8 @@ import {
   tallyEmbedSrc,
 } from "@/data/tally";
 
-const NEWSLETTER_URL = "https://pauseaide.substack.com/subscribe";
-
 export default function UmfrageEmbed() {
-  const [submitted, setSubmitted] = useState(false);
+  const [submitted, setSubmitted] = useState(true);
   const thankYouRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -44,44 +42,30 @@ export default function UmfrageEmbed() {
         data-testid="tally-thank-you"
         className="border-t border-pause-black/10 pt-12"
       >
-        <p className="font-section text-sm tracking-[0.18em] uppercase text-[#FF9416] mb-4">
-          Danke
-        </p>
         <h2 className="font-display text-3xl md:text-5xl text-pause-black leading-tight mb-6">
-          Deine Geschichte ist angekommen.
+          Danke, dass du deine Geschichte mit uns geteilt hast! 🙏 🎉
         </h2>
         <p className="font-body text-pause-black/75 text-lg leading-relaxed mb-10 max-w-2xl">
-          Du hilfst uns, der Politik zu zeigen, wie KI tatsächlich Leben verändert. Damit deine
-          Geschichte etwas bewegt, brauchen wir noch zwei Schritte – such dir einen aus oder mach
-          beide:
+          Mit dir gemeinsam bauen wir den Druck auf, der eine menschliche Zukunft möglich macht.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 mb-12">
-          <Link
-            href="/contactlawmakers"
+          <a
+            href="https://www.pause-ai.de/#was-du-tun-kannst"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center justify-center bg-[#FF9416] px-6 py-3 font-section text-base tracking-wider text-black transition-colors hover:bg-[#e88510]"
           >
-            Schreib deinem Abgeordneten →
-          </Link>
+            Mach den nächsten Schritt →
+          </a>
           <a
-            href={NEWSLETTER_URL}
+            href="https://www.pause-ai.de/nicht-nur-dein-job"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center border border-pause-black/20 px-6 py-3 font-section text-base tracking-wider text-pause-black transition-colors hover:bg-pause-black/[0.03]"
           >
-            Newsletter abonnieren
+            Zurück zur Kampagne
           </a>
         </div>
-        <p className="font-body text-sm text-pause-black/60">
-          Lieber noch eine Geschichte?{" "}
-          <button
-            type="button"
-            onClick={() => setSubmitted(false)}
-            className="orange-link"
-          >
-            Formular erneut öffnen
-          </button>
-          .
-        </p>
       </div>
     );
   }
