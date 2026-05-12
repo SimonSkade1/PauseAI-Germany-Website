@@ -8,7 +8,7 @@ import { useMemo } from "react";
 
 const DISCORD_WEEKLY_URL = "https://discord.gg/e2Wh4WFwKm";
 const DISCORD_URL = "https://discord.gg/buq56hhaz4";
-const WHATSAPP_URL = "https://chat.whatsapp.com/JttcisnjAyY75wlWlBAmpp";
+const WHATSAPP_URL = "https://chat.whatsapp.com/C7p9cdH41IE1MQwPHQLWCX"
 const CALENDLY_URL = "https://calendly.com/hauke-h-posteo/neues-meeting";
 const WEEKLY_MEETING_DURATION_MS = 60 * 60 * 1000;
 const BERLIN_TIMEZONE = "Europe/Berlin";
