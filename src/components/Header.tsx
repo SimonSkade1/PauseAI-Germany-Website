@@ -16,7 +16,7 @@ function formatEventDate(start_at: string, timezone: string) {
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [eventCallout, setEventCallout] = useState<BannerEvent | null>(null);
+  const [_eventCallout, setEventCallout] = useState<BannerEvent | null>(null);
 
   useEffect(() => {
     fetch("/api/next-event")
@@ -117,33 +117,17 @@ export default function Header() {
 
           {/* Center callout: desktop only */}
           <div className="hidden md:flex flex-1 justify-center mx-4">
-            {eventCallout ? (
-              <a
-                href={eventCallout.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex group items-center gap-2 max-w-sm lg:max-w-md"
-              >
-                <span className="font-section text-[10px] uppercase tracking-wider text-black/50 shrink-0">Event</span>
-                <span className="w-px h-3 bg-black/30 shrink-0" />
-                <span className="font-section text-sm tracking-wider text-black group-hover:text-white transition-colors truncate">{eventCallout.name}</span>
-                <span className="font-body text-xs text-black/60 group-hover:text-white/80 transition-colors hidden lg:inline shrink-0">{eventCallout.date}</span>
-                <span className="text-black/50 group-hover:text-white transition-colors text-xs shrink-0">→</span>
-              </a>
-            ) : (
-              <a
-                href="https://pauseaide.substack.com/p/kis-die-eigenstandig-hacken-konnen"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex group items-center gap-2 max-w-sm lg:max-w-md"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 shrink-0 text-black group-hover:text-white transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 10v4h3l7 4.5V5.5L6 10H3z"/><path d="M15 9.5a4 4 0 010 5"/><path d="M18 7.5a7 7 0 010 9"/></svg>
-                <span className="font-section text-[10px] uppercase tracking-wider text-black/50 shrink-0">Neuer Blog</span>
-                <span className="w-px h-3 bg-black/30 shrink-0" />
-                <span className="font-section text-sm tracking-wider text-black group-hover:text-white transition-colors truncate">KIs, die eigenständig hacken</span>
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 shrink-0 text-black group-hover:text-white transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-              </a>
-            )}
+            {/* TODO: switch back to eventCallout to show next event */}
+            <Link
+              href="/nicht-nur-dein-job"
+              className="flex group items-center gap-2 max-w-sm lg:max-w-md"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 shrink-0 text-black group-hover:text-white transition-colors" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 3a1 1 0 0 0-1 1v.5L4.5 9H3a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h.46l1.5 4.5A1 1 0 0 0 6 20h2a1 1 0 0 0 .95-1.32L7.54 15H8l9 4.5V20a1 1 0 0 0 2 0V4a1 1 0 0 0-1-1z"/></svg>
+              <span className="font-section text-xs uppercase tracking-wider text-black/50 shrink-0">Aktuelle Kampagne</span>
+              <span className="w-px h-3 bg-black/30 shrink-0" />
+              <span className="font-section text-base tracking-wider text-black group-hover:text-white transition-colors truncate">Nicht nur dein Job</span>
+              <span className="text-black/50 group-hover:text-white transition-colors text-xs shrink-0">→</span>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
@@ -237,19 +221,18 @@ export default function Header() {
         }`}
       >
         <nav className="flex flex-col items-start gap-6">
-          {eventCallout && (
-            <a
-              href={eventCallout.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={closeMenu}
-              className="flex flex-col gap-1 border-l-2 border-[#FF9416] pl-4"
-            >
-              <span className="font-section text-[10px] uppercase tracking-wider text-[#FF9416]">Nächstes Event</span>
-              <span className="font-body text-xl text-white hover:text-[#FF9416] transition-colors">{eventCallout.name}</span>
-              <span className="font-body text-sm text-white/50">{eventCallout.date}</span>
-            </a>
-          )}
+          {/* TODO: switch back to eventCallout to show next event */}
+          <Link
+            href="/nicht-nur-dein-job"
+            onClick={closeMenu}
+            className="flex flex-col gap-1 border-l-2 border-[#FF9416] pl-4"
+          >
+            <span className="font-section text-[10px] uppercase tracking-wider text-[#FF9416] flex items-center gap-1.5">
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 3a1 1 0 0 0-1 1v.5L4.5 9H3a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h.46l1.5 4.5A1 1 0 0 0 6 20h2a1 1 0 0 0 .95-1.32L7.54 15H8l9 4.5V20a1 1 0 0 0 2 0V4a1 1 0 0 0-1-1z"/></svg>
+              Aktuelle Kampagne
+            </span>
+            <span className="font-body text-xl text-white hover:text-[#FF9416] transition-colors">Nicht nur dein Job</span>
+          </Link>
           {mobileMenuItems.map((item) => {
             const isDisabled = "disabled" in item && item.disabled;
             return (
