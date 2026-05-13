@@ -23,9 +23,9 @@ export default function Footer() {
           <div>
             <Link href="/" className="inline-block mb-4" aria-label="Zur Startseite">
               <Image
-                src="/logos/logo-wordmark-white-bg.png"
+                src="/logos/logo-wordmark-DE-orange-bg.png"
                 alt="PauseAI Logo"
-                width={151}
+                width={198}
                 height={40}
               />
             </Link>

@@ -107,9 +107,9 @@ export default function Header() {
         <div className="flex items-center justify-between px-8 md:px-16 lg:px-24 py-3">
           <Link href="/" className="flex items-center gap-3 shrink-0">
             <Image
-              src="/logos/logo-wordmark-white-bg.png"
+              src="/logos/logo-wordmark-DE-orange-bg.png"
               alt="PauseAI Logo"
-              width={151}
+              width={198}
               height={40}
               priority
             />

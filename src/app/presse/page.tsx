@@ -6,7 +6,7 @@ import { Download, ExternalLink } from "lucide-react";
 type LogoAsset = {
   file: string;
   label: string;
-  bg: "dark" | "checkered";
+  bg: "dark" | "checkered" | "orange";
 };
 
 const logos: LogoAsset[] = [
@@ -26,6 +26,11 @@ const logos: LogoAsset[] = [
     bg: "checkered",
   },
   {
+    file: "logo-wordmark-DE-orange-bg.png",
+    label: "Wortmarke Deutschland (oranger Hintergrund)",
+    bg: "orange",
+  },
+  {
     file: "logo-icon-square-germany.png",
     label: "Icon Quadrat Deutschland",
     bg: "checkered",
@@ -34,8 +39,8 @@ const logos: LogoAsset[] = [
 
 const bgClass: Record<LogoAsset["bg"], string> = {
   dark: "bg-[#1a1a1a]",
-  checkered:
-    "bg-[length:16px_16px] bg-[position:0_0,8px_8px]",
+  checkered: "bg-[length:16px_16px] bg-[position:0_0,8px_8px]",
+  orange: "bg-[#FF9416]",
 };
 
 function LogoCard({ asset }: { asset: LogoAsset }) {
