@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Info } from "lucide-react";
 import { useMemo } from "react";
 
-const DISCORD_WEEKLY_URL = "https://discord.gg/e2Wh4WFwKm";
+const JITSI_WEEKLY_URL = "https://meet.jit.si/PauseAI-Deutschland";
 const DISCORD_URL = "https://discord.gg/buq56hhaz4";
 const WHATSAPP_URL = "https://chat.whatsapp.com/C7p9cdH41IE1MQwPHQLWCX"
 const CALENDLY_URL = "https://calendly.com/hauke-h-posteo/neues-meeting";
@@ -15,7 +15,7 @@ const BERLIN_TIMEZONE = "Europe/Berlin";
 const WEEKLY_MEETING_LABEL = "Donnerstag 18:00";
 const WEEKLY_MEETING_TITLE = "PauseAI Deutschland Community-Treffen";
 const WEEKLY_MEETING_DESCRIPTION = "Wöchentliches PauseAI Deutschland Community-Treffen.";
-const DISCORD_INFO_TEXT = "Unser wöchentliches virtuelles Treffen findet per Discord statt. Du brauchst einen Account um teilzunehmen.";
+const JITSI_INFO_TEXT = "Unser wöchentliches virtuelles Treffen findet per Jitsi statt. Kein Account nötig.";
 
 function getBerlinWeekday(date: Date): number {
   const weekdayText = new Intl.DateTimeFormat("en-US", {
@@ -143,8 +143,8 @@ function buildWeeklyMeetingGoogleCalendarUrl(start: Date): string {
     action: "TEMPLATE",
     text: `${WEEKLY_MEETING_TITLE}`,
     dates: `${formatUtcForCalendar(start)}/${formatUtcForCalendar(end)}`,
-    details: `${WEEKLY_MEETING_DESCRIPTION}\n\n${DISCORD_INFO_TEXT}\n\nDiscord: ${DISCORD_WEEKLY_URL}`,
-    location: DISCORD_WEEKLY_URL,
+    details: `${WEEKLY_MEETING_DESCRIPTION}\n\n${JITSI_INFO_TEXT}\n\nJitsi: ${JITSI_WEEKLY_URL}`,
+    location: JITSI_WEEKLY_URL,
     recur: "RRULE:FREQ=WEEKLY;WKST=SU;BYDAY=TH",
   });
 
@@ -167,8 +167,8 @@ function downloadWeeklyMeetingIcs(start: Date): void {
     `DTSTART:${formatUtcForCalendar(start)}`,
     `DTEND:${formatUtcForCalendar(end)}`,
     `SUMMARY:${WEEKLY_MEETING_TITLE}`,
-    `DESCRIPTION:${WEEKLY_MEETING_DESCRIPTION}\\n\\n${DISCORD_INFO_TEXT}\\n\\nDiscord: ${DISCORD_WEEKLY_URL}`,
-    `LOCATION:${DISCORD_WEEKLY_URL}`,
+    `DESCRIPTION:${WEEKLY_MEETING_DESCRIPTION}\\n\\n${JITSI_INFO_TEXT}\\n\\nJitsi: ${JITSI_WEEKLY_URL}`,
+    `LOCATION:${JITSI_WEEKLY_URL}`,
     "RRULE:FREQ=WEEKLY;WKST=SU;BYDAY=TH",
     "END:VEVENT",
     "END:VCALENDAR",
@@ -291,26 +291,22 @@ export default function OnboardingPage() {
           <div className="mt-6 rounded-sm border border-[#1a1a1a] bg-[#FFFAF5] p-6 md:p-8">
             <h2 className="font-section text-lg text-pause-black md:text-xl">Wöchentliches virtuelles Treffen</h2>
             <p className="mt-3 font-body text-pause-black/85">
-              Wir beginnen mit einer Vorstellungsrunde und erzählen, was in der letzten Woche passiert ist und was demnächst ansteht.
-              <br/>
-              Der Hauptteil besteht meistens aus zwei Dingen: 
-              Zuerst machen wir gemeinsam eine kleine Aktion, z.B. Politikern schreiben oder etwas auf Social-Media teilen.
-              Danach gibt es einen Content-Teil, bei dem wir gemeinsam diskutieren, brainstormen oder in ein bestimmtes Thema tiefer eintauchen.
+              Wir behandeln jeden Donnerstag ein bestimmtes Thema rund um Risiken durch KI. Es ist eine Mischung aus Austausch, Aktion und Content.
+              Bevor wir uns dem Thema widmen, erzählen wir, was in der letzten Woche passiert und machen eine kleine gemeinsame Aktion.
               Und zum Schluss gibt es natürlich immer die Möglichkeit, sich locker untereinander auszutauschen.
+              Jeder ist willkommen, auch wenn du nur mal reinschnuppern möchtest; kein Fachwissen notwendig.
               <br/>
-              Jeder ist willkommen, auch wenn du nur mal reinschnuppern möchtest.
-              <br/>
-              Jeden <span className="font-semibold">Donnerstag</span> um 18:00 Uhr auf Discord. Nächstes Treffen:{" "}
+              Jeden <span className="font-semibold">Donnerstag</span> um 18:00 Uhr auf Jitsi. Nächstes Treffen:{" "}
               <span className="font-body-bold">{formatGermanDate(nextWeeklyMeeting)}</span>
             </p>
             <p className="mt-2 font-body text-pause-black/85">
               <a
-                href={DISCORD_WEEKLY_URL}
+                href={JITSI_WEEKLY_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="orange-link font-body-bold"
               >
-                Zum Discord-Server
+                Zum Jitsi-Meeting
               </a>
             </p>
             <div className="mt-5 flex flex-col gap-3 sm:flex-row">
