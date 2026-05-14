@@ -6,42 +6,34 @@ import { Download, ExternalLink } from "lucide-react";
 type LogoAsset = {
   file: string;
   label: string;
-  bg: "dark" | "checkered" | "orange";
 };
 
 const logos: LogoAsset[] = [
   {
-    file: "logo-wordmark.png",
-    label: "Wortmarke",
-    bg: "checkered",
+    file: "logo-wordmark-orange-bg.png",
+    label: "Wortmarke (oranger Hintergrund)",
   },
   {
     file: "logo-wordmark-dark-bg.png",
     label: "Wortmarke (dunkler Hintergrund)",
-    bg: "checkered",
   },
   {
     file: "logo-wordmark-white-bg.png",
     label: "Wortmarke (weißer Hintergrund)",
-    bg: "checkered",
+  },
+  {
+    file: "logo-wordmark-DE-white-bg.png",
+    label: "Wortmarke Deutschland (weißer Hintergrund)",
   },
   {
     file: "logo-wordmark-DE-orange-bg.png",
     label: "Wortmarke Deutschland (oranger Hintergrund)",
-    bg: "orange",
   },
   {
     file: "logo-icon-square-germany.png",
     label: "Icon Quadrat Deutschland",
-    bg: "checkered",
   },
 ];
-
-const bgClass: Record<LogoAsset["bg"], string> = {
-  dark: "bg-[#1a1a1a]",
-  checkered: "bg-[length:16px_16px] bg-[position:0_0,8px_8px]",
-  orange: "bg-[#FF9416]",
-};
 
 function LogoCard({ asset }: { asset: LogoAsset }) {
   const ext = asset.file.split(".").pop()?.toUpperCase();
@@ -52,11 +44,7 @@ function LogoCard({ asset }: { asset: LogoAsset }) {
   return (
     <div className="flex flex-col border border-gray-200 rounded-lg overflow-hidden">
       <div
-        className={`flex items-center justify-center p-8 ${
-          asset.bg === "checkered"
-            ? "bg-[linear-gradient(45deg,#e0e0e0_25%,transparent_25%),linear-gradient(-45deg,#e0e0e0_25%,transparent_25%),linear-gradient(45deg,transparent_75%,#e0e0e0_75%),linear-gradient(-45deg,transparent_75%,#e0e0e0_75%)] bg-[length:16px_16px] bg-[position:0_0,0_8px,8px_-8px,-8px_0]"
-            : bgClass[asset.bg]
-        }`}
+        className="flex items-center justify-center p-8 bg-[linear-gradient(45deg,#e0e0e0_25%,transparent_25%),linear-gradient(-45deg,#e0e0e0_25%,transparent_25%),linear-gradient(45deg,transparent_75%,#e0e0e0_75%),linear-gradient(-45deg,transparent_75%,#e0e0e0_75%)] bg-[length:16px_16px] bg-[position:0_0,0_8px,8px_-8px,-8px_0]"
         style={{ minHeight: "160px" }}
       >
         <Image
