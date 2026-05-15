@@ -185,6 +185,16 @@ export const STATIC_PRESS: PressItem[] = [
       "Ein chinesisches Gericht hat entschieden, dass Unternehmen künstliche Intelligenz nicht als Grund für Entlassungen nutzen dürfen. Der Fall eines Qualitätssicherungsbeauftragten, der durch KI ersetzt werden sollte, wird als wichtiges Signal für zukünftigen Arbeitnehmerschutz interpretiert.",
   },
   {
+    title: "Commerzbank setzt beim Stellenabbau stark auf KI",
+    source: "DIE ZEIT",
+    url: "https://www.zeit.de/wirtschaft/2026-05/commerzbank-stellenabbau-ki-unicredit-uebernahme-gxe",
+    language: "de",
+    category: "entlassung",
+    publishedAt: "2026-05-15",
+    excerpt:
+      "Commerzbank will rund 3.000 Stellen abbauen – auch um sich gegen eine mögliche Übernahme durch UniCredit zu behaupten. Vorstandschefin Bettina Orlopp: Ein großer Teil der Einsparungen hängt mit KI zusammen. „KI ist sehr kraftvoll in verschiedenen Bereichen\" – und habe sich schneller entwickelt als erwartet.",
+  },
+  {
     title: "KI verändert den Jobmarkt flächendeckend",
     source: "it-business / Indeed Outlook 2026",
     url: "https://www.it-business.de/ki-veraendert-den-jobmarkt-flaechendeckend-a-f7aed131c41aab41c4bbc99d812ac5dc/",
