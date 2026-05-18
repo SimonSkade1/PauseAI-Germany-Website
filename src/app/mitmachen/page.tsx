@@ -6,7 +6,6 @@ import Image from "next/image";
 import { Info } from "lucide-react";
 import { useMemo } from "react";
 
-const JITSI_WEEKLY_URL = "https://meet.jit.si/PauseAI-Deutschland";
 const DISCORD_URL = "https://discord.gg/buq56hhaz4";
 const WHATSAPP_URL = "https://chat.whatsapp.com/C7p9cdH41IE1MQwPHQLWCX"
 const CALENDLY_URL = "https://calendly.com/hauke-h-posteo/neues-meeting";
@@ -15,7 +14,7 @@ const BERLIN_TIMEZONE = "Europe/Berlin";
 const WEEKLY_MEETING_LABEL = "Donnerstag 18:00";
 const WEEKLY_MEETING_TITLE = "PauseAI Deutschland Community-Treffen";
 const WEEKLY_MEETING_DESCRIPTION = "Wöchentliches PauseAI Deutschland Community-Treffen.";
-const JITSI_INFO_TEXT = "Unser wöchentliches virtuelles Treffen findet per Jitsi statt. Kein Account nötig.";
+const DISCORD_MEETING_INFO_TEXT = "Unser wöchentliches virtuelles Treffen findet auf unserem Discord-Server statt.";
 
 function getBerlinWeekday(date: Date): number {
   const weekdayText = new Intl.DateTimeFormat("en-US", {
@@ -143,8 +142,8 @@ function buildWeeklyMeetingGoogleCalendarUrl(start: Date): string {
     action: "TEMPLATE",
     text: `${WEEKLY_MEETING_TITLE}`,
     dates: `${formatUtcForCalendar(start)}/${formatUtcForCalendar(end)}`,
-    details: `${WEEKLY_MEETING_DESCRIPTION}\n\n${JITSI_INFO_TEXT}\n\nJitsi: ${JITSI_WEEKLY_URL}`,
-    location: JITSI_WEEKLY_URL,
+    details: `${WEEKLY_MEETING_DESCRIPTION}\n\n${DISCORD_MEETING_INFO_TEXT}\n\nDiscord: ${DISCORD_URL}`,
+    location: DISCORD_URL,
     recur: "RRULE:FREQ=WEEKLY;WKST=SU;BYDAY=TH",
   });
 
@@ -167,8 +166,8 @@ function downloadWeeklyMeetingIcs(start: Date): void {
     `DTSTART:${formatUtcForCalendar(start)}`,
     `DTEND:${formatUtcForCalendar(end)}`,
     `SUMMARY:${WEEKLY_MEETING_TITLE}`,
-    `DESCRIPTION:${WEEKLY_MEETING_DESCRIPTION}\\n\\n${JITSI_INFO_TEXT}\\n\\nJitsi: ${JITSI_WEEKLY_URL}`,
-    `LOCATION:${JITSI_WEEKLY_URL}`,
+    `DESCRIPTION:${WEEKLY_MEETING_DESCRIPTION}\\n\\n${DISCORD_MEETING_INFO_TEXT}\\n\\nDiscord: ${DISCORD_URL}`,
+    `LOCATION:${DISCORD_URL}`,
     "RRULE:FREQ=WEEKLY;WKST=SU;BYDAY=TH",
     "END:VEVENT",
     "END:VCALENDAR",
@@ -296,17 +295,17 @@ export default function OnboardingPage() {
               Und zum Schluss gibt es natürlich immer die Möglichkeit, sich locker untereinander auszutauschen.
               Jeder ist willkommen, auch wenn du nur mal reinschnuppern möchtest; kein Fachwissen notwendig.
               <br/>
-              Jeden <span className="font-semibold">Donnerstag</span> um 18:00 Uhr auf Jitsi. Nächstes Treffen:{" "}
+              Jeden <span className="font-semibold">Donnerstag</span> um 18:00 Uhr auf Discord. Nächstes Treffen:{" "}
               <span className="font-body-bold">{formatGermanDate(nextWeeklyMeeting)}</span>
             </p>
             <p className="mt-2 font-body text-pause-black/85">
               <a
-                href={JITSI_WEEKLY_URL}
+                href={DISCORD_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="orange-link font-body-bold"
               >
-                Zum Jitsi-Meeting
+                Zum Discord-Server
               </a>
             </p>
             <div className="mt-5 flex flex-col gap-3 sm:flex-row">
