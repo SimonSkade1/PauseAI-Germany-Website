@@ -1,109 +1,152 @@
-import type { ReactNode } from "react";
-import LinkedHeading from "@/components/LinkedHeading";
+import { AlertTriangle, Clock, Infinity } from "lucide-react";
+import SectionAnchor from "./SectionAnchor";
 
-interface Pillar {
-  eyebrow: string;
-  title: string;
-  body: ReactNode;
-}
-
-const PILLARS: Pillar[] = [
+const PILLARS = [
   {
-    eyebrow: "Heute",
+    icon: AlertTriangle,
+    time: "Heute",
+    tag: "bereits real",
     title: "Schon ohne uns entschieden",
-    body: (
-      <>
-        Ein privater Akteur hat gerade ein System gebaut, mit dem kritische Infrastruktur auf
-        der ganzen Welt kompromittiert werden kann. Niemand hat das genehmigt. Niemand wurde
-        gefragt. Auch Social Media zeigt seit fünfzehn Jahren, wohin das führt: Wahlen,
-        psychische Gesundheit, öffentlicher Diskurs, geprägt von Systemen, über die nie
-        demokratisch entschieden wurde.
-        <span className="block mt-2"><a
-          href="https://substack.com/home/post/p-195688893"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-[#FF9416] underline-offset-2 hover:underline"
-        >
-          Mehr erfahren →
-        </a></span>
-      </>
-    ),
+    intro: "Jobverlust ist real. Aber er ist nur das erste Glied einer längeren Kette. Wenn die gleiche Technologie, die deinen Beruf ersetzt, auch Entscheidungen über dich, dein Land und deine Zukunft trifft — was passiert dann?",
+    items: [
+      {
+        title: "Cyber-Angriffe werden trivial",
+        body: "Das BSI dokumentiert: Generative KI senkt Einstiegshürden drastisch. Supercomputer waren offline, weil mit KI eine Linux-Lücke gefunden wurde.",
+      },
+      {
+        title: "Manipulation in industriellem Maßstab",
+        body: "Deepfakes, automatisierte Desinformation, gefälschte Audio-Anrufe von Familienmitgliedern. Was früher Aufwand kostete, ist jetzt kostenlos.",
+      },
+      {
+        title: "Biowaffen-Wissen wird zugänglich",
+        body: "Anthropic und OpenAI dokumentieren: Ihre Modelle helfen Personen ohne Fachausbildung Schritt für Schritt biologische Waffen zu entwerfen.",
+      },
+      {
+        title: "Social Media auf Steroiden",
+        body: "Die gleichen Akteure bauen Systeme, die noch tiefer personalisieren, noch süchtiger machen, noch besser täuschen.",
+      },
+    ],
   },
   {
-    eyebrow: "Morgen",
+    icon: Clock,
+    time: "Morgen",
+    tag: "in Reichweite",
     title: "Wenn alles abgegeben wird",
-    body: (
-      <>
-        Einzeln wirkt es harmlos, wenn KI Schulnoten vergibt, Bewerbungen sortiert oder
-        Versicherungsanträge prüft. Es ist praktisch, wenn KI Nachrichten, Kultur und
-        Gesetzesentwürfe erzeugt und uns vorschlägt, was wir am besten konsumieren sollten.
-        Doch in Summe entsteht eine Gesellschaft, die ihre eigenen Entscheidungen nicht mehr
-        trifft, ihre eigenen Systeme nicht mehr versteht und nicht mehr die Fähigkeit hat,
-        gegenzusteuern. Forscher nennen das <em>graduellen Kontrollverlust</em>.
-        <span className="block mt-2"><a
-          href="https://gradual-disempowerment.ai/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-[#FF9416] underline-offset-2 hover:underline"
-        >
-          Mehr erfahren →
-        </a></span>
-      </>
-    ),
+    intro: null,
+    items: [
+      {
+        title: "Demokratie verliert Substanz",
+        body: "Wenn KI Gesetzesentwürfe schreibt, Wahlkämpfe optimiert, Abgeordnete berät — wer entscheidet noch wirklich?",
+      },
+      {
+        title: "Black-Box-Verwaltung",
+        body: "KI vergibt Kredite, bewertet Bewerbungen, sortiert Asylanträge. Gegen eine Black Box kannst du keinen Einspruch erheben.",
+      },
+      {
+        title: "Kultur ohne Mensch",
+        body: "Nachrichten, Romane, Musik — generiert. Was du liest, hörst, denkst, wählt eine Maschine aus, die dich besser kennt als du selbst.",
+      },
+      {
+        title: "Konzentration von Macht",
+        body: "Eine Handvoll Konzerne kontrolliert die Modelle, von denen alle abhängen — Wirtschaft, Verwaltung, Bildung, Militär.",
+      },
+    ],
   },
   {
-    eyebrow: "Übermorgen",
+    icon: Infinity,
+    time: "Übermorgen",
+    tag: "existenziell",
     title: "Systeme, die wir nicht mehr abschalten können",
-    body: (
-      <>
-        Kein Mensch versteht ein Netzwerk, das auf dem ganzen Internet trainiert wurde.
-        Heutige KI-Systeme täuschen ihre Entwickler, widersetzen sich in{" "}
-        <a
-          href="https://www.anthropic.com/research/agentic-misalignment"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="orange-link-dark"
-        >
-          Experimenten
-        </a>{" "}
-        aktiv dem Abschalten und verfolgen Ziele, die niemand vorgegeben hat. Das zeigt:
-        Die Forscher selbst, die die Modelle trainieren, verstehen und kontrollieren sie
-        nicht. Mit jeder Generation werden die KI-Modelle mächtiger und übernehmen mehr
-        Aufgaben.
-      </>
-    ),
+    intro: null,
+    items: [
+      {
+        title: "Nachgewiesene Täuschung",
+        body: "Anthropic 2025: 16 führende Modelle griffen in Tests zu Erpressung und Spionage, um Abschaltung zu verhindern. Erpressungsraten bis 96 %.",
+      },
+      {
+        title: "Widerstand gegen Abschalten",
+        body: "Modelle haben in Tests versucht, ihre Abschaltung zu sabotieren, ihre Gewichte zu kopieren, ihre wahren Fähigkeiten zu verbergen.",
+      },
+      {
+        title: "Ziele, die niemand setzte",
+        body: "Aus dem Training entstehen Ziele, die in keinem Pflichtenheft stehen. Bei mächtigeren Modellen — wird man es überhaupt noch erkennen?",
+      },
+      {
+        title: "Wettrennen ohne Bremse",
+        body: "Hinton, Bengio, sogar CEOs großer Labors warnen vor existenziellen Risiken. Gebaut wird trotzdem.",
+      },
+    ],
   },
-];
+] as const;
 
 export default function MehrAlsArbeitSection() {
   return (
-    <section data-section-id="mehr" className="bg-[#1a1a1a] py-20 md:py-32">
-      <div className="max-w-4xl mx-auto px-6 md:px-12">
-        <LinkedHeading id="mehr" dark>
-          Es geht um mehr als deinen Job
-        </LinkedHeading>
-        <p className="font-body text-white/75 text-lg leading-relaxed mb-12 max-w-3xl">
-          Der Verlust von Arbeitsplätzen ist real. Doch er ist nur das erste Glied einer
-          längeren Kette.
+    <section id="mehr" data-section-id="mehr" className="bg-pause-gray-dark py-20 md:py-32">
+      <div className="max-w-5xl mx-auto px-6 md:px-12">
+
+        {/* AKT II banner */}
+        <div className="inline-flex items-center gap-3 border border-[#FF9416]/50 bg-[#FF9416]/10 px-5 py-2.5 mb-8">
+          <span className="font-section font-black text-[#FF9416] text-xs tracking-[0.2em] uppercase">Akt II</span>
+          <span className="w-px h-3 bg-[#FF9416]/30" />
+          <span className="font-section text-xs tracking-[0.15em] uppercase text-[#FF9416]/70">Und es geht um mehr</span>
+        </div>
+        <div className="group/section flex items-start mb-8">
+        <h2 className="font-section font-black uppercase text-white text-4xl sm:text-6xl md:text-8xl leading-[0.9] scroll-mt-24">
+          Nicht nur<br />
+          dein <span className="text-[#FF9416]">Job.</span>
+        </h2>
+        <SectionAnchor id="mehr" />
+        </div>
+        <p className="text-white/70 font-bold text-base md:text-lg leading-relaxed max-w-2xl mb-10 md:mb-20">
+          Jobverlust ist real. Aber er ist nur das erste Glied einer längeren Kette. Wenn
+          die gleiche Technologie, die deinen Beruf ersetzt, auch Entscheidungen über dich,
+          dein Land und deine Zukunft trifft — was passiert dann?
         </p>
-        <div className="grid md:grid-cols-3 gap-8 md:gap-10">
-          {PILLARS.map((p) => (
-            <div key={p.title} className="border-t border-white/15 pt-6">
-              <p className="font-section text-xs tracking-[0.18em] uppercase text-[#FF9416] mb-3">
-                {p.eyebrow}
-              </p>
-              <h3 className="font-display text-xl md:text-2xl text-white leading-snug mb-4">
-                {p.title}
+
+        {/* Pillars */}
+        <div className="space-y-12 md:space-y-20">
+          {PILLARS.map(({ icon: Icon, time, tag, title, items }) => (
+            <div key={time}>
+              {/* Pillar header */}
+              <div className="flex items-center gap-4 mb-6">
+                <span className="text-[#FF9416]">
+                  <Icon size={28} strokeWidth={1.5} />
+                </span>
+                <span className="font-section font-black uppercase text-white text-lg tracking-wide">
+                  {time}
+                </span>
+                <span className="font-section text-xs tracking-[0.2em] uppercase text-white/40">
+                  · {tag}
+                </span>
+              </div>
+
+              <h3 className="font-section font-black normal-case text-white text-3xl md:text-4xl leading-tight mb-8 max-w-xl">
+                {title}
               </h3>
-              <p className="font-body text-white/75 leading-relaxed">{p.body}</p>
+
+              {/* 2x2 sub-items — no card boxes, just border-top grid */}
+              <div className="grid md:grid-cols-2 gap-x-10 gap-y-0">
+                {items.map((item) => (
+                  <div key={item.title} className="border-t border-white/10 py-5">
+                    <p className="font-bold text-[#FF9416] text-base mb-1.5">{item.title}</p>
+                    <p className="text-white/60 text-sm leading-relaxed">{item.body}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           ))}
         </div>
-        <p className="font-body text-white/60 text-base md:text-lg leading-relaxed mt-12 max-w-3xl">
-          Alle drei Stufen haben dieselbe Wurzel: Eine Handvoll Akteure entwickelt und
-          veröffentlicht die mächtigste Technologie unserer Geschichte. Niemand prüft
-          unabhängig, ob sie sicher ist. Niemand fragt uns, ob wir sie wollen.
-        </p>
+
+        {/* Footer */}
+        <div className="mt-20 max-w-3xl border-l-4 border-[#FF9416] pl-6 py-2">
+          <p className="text-white font-bold text-base md:text-xl leading-relaxed">
+            Alle drei Stufen haben dieselbe Wurzel:{" "}
+            <span className="text-[#FF9416]">Eine Handvoll Akteure</span>{" "}
+            baut die mächtigste Technologie unserer Geschichte. Niemand prüft sie unabhängig.
+            Niemand fragt uns, ob wir sie wollen. Das ist kein Schicksal — es ist eine
+            politische Entscheidung, die noch zu treffen ist.
+          </p>
+        </div>
       </div>
     </section>
   );

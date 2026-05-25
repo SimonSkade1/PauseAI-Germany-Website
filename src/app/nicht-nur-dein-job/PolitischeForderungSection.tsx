@@ -1,25 +1,74 @@
-import LinkedHeading from "@/components/LinkedHeading";
+import { Globe, ShieldCheck, Users } from "lucide-react";
+import SectionAnchor from "./SectionAnchor";
+
+const FORDERUNGEN = [
+  {
+    num: "01",
+    icon: Globe,
+    title: "Verbindliche internationale Sicherheitsabkommen",
+    body: "Analog zu bestehenden Regeln für Atomwaffen, Biowaffen und Klimaschutz — die Entwicklung gefährlicher KI muss begrenzt werden.",
+  },
+  {
+    num: "02",
+    icon: ShieldCheck,
+    title: "Unabhängige Sicherheitsprüfung",
+    body: "Dass diese Systeme sicher sind — bevor sie gebaut und eingesetzt werden, nicht danach.",
+  },
+  {
+    num: "03",
+    icon: Users,
+    title: "Demokratische Mitsprache",
+    body: "Dass wir es entscheiden, ob wir solche Systeme überhaupt wollen, und welche Rolle sie in unserer Gesellschaft spielen sollen.",
+  },
+] as const;
 
 export default function PolitischeForderungSection() {
   return (
-    <section data-section-id="politische-forderung" className="bg-white py-20 md:py-32">
-      <div className="max-w-4xl mx-auto px-6 md:px-12">
-        <LinkedHeading id="politische-forderung">Was wir fordern</LinkedHeading>
-        <ol className="font-body-bold text-lg md:text-xl text-pause-black mb-10 leading-relaxed list-decimal pl-6 space-y-2">
-          <li>Ein verbindliches internationales Abkommen, das gefährliche KI-Entwicklung begrenzt.</li>
-          <li>Unabhängige Prüfung, dass sie sicher sind.</li>
-          <li>Demokratische Mitsprache darüber, ob wir sie überhaupt wollen.</li>
-        </ol>
-        <p className="font-body text-pause-black/75 text-base md:text-lg leading-relaxed mb-10">
-          Sicherheit muss bewiesen werden, <em>bevor</em> solche Systeme gebaut werden, nicht
-          danach. Niemand darf ein Atomkraftwerk bauen, bei dem unklar ist, ob es explodiert.
-          Bei Medikamenten, Flugzeugen, sogar bei Fahrstühlen muss gezeigt werden, dass sie
-          sicher sind. Es gibt keinen Grund, warum es bei der mächtigsten Technologie unserer
-          Zeit anders sein sollte.
-        </p>
-        <p className="font-body-bold text-base md:text-lg text-pause-black mb-10 leading-relaxed">
-          Diese Entwicklung ist nicht unvermeidlich. Wir setzen uns auf der ganzen Welt dagegen
-          ein.
+    <section id="politische-forderung" data-section-id="politische-forderung" className="bg-pause-gray-dark py-20 md:py-32">
+      <div className="max-w-5xl mx-auto px-6 md:px-12">
+        {/* Title */}
+        <div className="group/section flex items-start mb-10 md:mb-16">
+        <h2 className="font-section font-black uppercase text-white text-4xl sm:text-6xl md:text-8xl leading-[0.9] scroll-mt-24">
+          Was wir<br />
+          <span className="text-[#FF9416]">fordern.</span>
+        </h2>
+        <SectionAnchor id="politische-forderung" />
+        </div>
+
+        {/* Three demands */}
+        <div className="grid md:grid-cols-3 gap-0 divide-y md:divide-y-0 md:divide-x divide-white/10 mb-10 md:mb-16">
+          {FORDERUNGEN.map(({ num, icon: Icon, title, body }) => (
+            <div key={num} className="relative py-8 md:py-0 md:px-8 first:md:pl-0 last:md:pr-0">
+              {/* Icon + number */}
+              <div className="flex items-center justify-between mb-6">
+                <span className="text-[#FF9416]">
+                  <Icon size={32} strokeWidth={1.5} />
+                </span>
+                <span className="font-section font-black text-white/20 text-3xl leading-none">{num}</span>
+              </div>
+
+              <h3 className="font-section font-black normal-case text-white text-xl leading-tight mb-3">
+                {title}
+              </h3>
+              <p className="text-white/60 text-sm md:text-base leading-relaxed">{body}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Key statement */}
+        <div className="border-l-4 border-[#FF9416] pl-6 py-1 mb-8">
+          <p className="text-white font-bold text-lg md:text-xl leading-relaxed">
+            <span className="text-[#FF9416]">Sicherheit</span> muss bewiesen werden, bevor solche
+            Systeme gebaut werden — nicht danach.
+          </p>
+        </div>
+
+        {/* Body */}
+        <p className="text-white/60 text-base md:text-lg leading-relaxed max-w-3xl">
+          Niemand darf ein Atomkraftwerk bauen, bei dem unklar ist, ob es explodiert.
+          Medikamente brauchen Wirksamkeitsnachweise. Flugzeuge werden zertifiziert. Es gibt
+          keinen Grund, warum es ausgerechnet bei der mächtigsten Technologie unserer Zeit
+          anders sein sollte.
         </p>
       </div>
     </section>

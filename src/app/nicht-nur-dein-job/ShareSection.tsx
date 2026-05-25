@@ -30,7 +30,7 @@ export default function ShareSection() {
   const tgUrl = `https://t.me/share/url?url=${encodeURIComponent(SHARE_URL)}&text=${encodeURIComponent(SHARE_TEXT)}`;
 
   return (
-    <section data-section-id="teilen" className="bg-[#111] py-16 md:py-24 border-t border-white/10">
+    <section data-section-id="teilen" className="bg-pause-gray-dark py-16 md:py-24 border-t border-white/10">
       <div className="max-w-4xl mx-auto px-6 md:px-12">
         <p className="font-section text-sm tracking-[0.18em] uppercase text-[#FF9416] mb-4">
           Teile die Kampagne

@@ -87,21 +87,37 @@ export default function JobLossCounterSection() {
       id="counter"
       data-section-id="counter"
       ref={ref}
-      className="bg-white py-20 md:py-28 border-t border-pause-black/10"
+      className="bg-pause-gray-dark py-20 md:py-28"
     >
       <div className="max-w-4xl mx-auto px-6 md:px-12 text-center">
-        <p className="font-section text-sm tracking-[0.18em] uppercase text-pause-black/60 mb-4">
-          Seit Januar 2025 gab es
+        <p className="inline-flex items-center gap-2 bg-white/10 text-white/60 text-xs tracking-widest uppercase px-3 py-1.5 mb-8">
+          <a
+            href="https://jobloss.ai"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-white/80 transition-colors"
+          >
+            jobloss.ai
+          </a>
+          {lastUpdated && (
+            <>
+              <span>·</span>
+              <span>Stand: {DATE.format(new Date(lastUpdated))}</span>
+            </>
+          )}
         </p>
         <p
-          className="font-display text-6xl md:text-8xl text-[#FF9416] tabular-nums"
+          className="font-display text-[clamp(4rem,14vw,10rem)] leading-none text-[#FF9416] tabular-nums"
           aria-live="polite"
           data-testid="counter-value"
         >
           {count === null ? "…" : NUM.format(displayed)}
         </p>
-        <p className="font-body text-lg md:text-xl text-pause-black/70 mt-4 max-w-2xl mx-auto">
-          dokumentierte KI-bedingte Stellenstreichungen weltweit
+        <p className="font-display text-xl md:text-2xl lg:text-3xl font-black uppercase text-white tracking-wide mt-4">
+          KI-bedingte Stellenstreichungen
+        </p>
+        <p className="font-body text-sm text-white/50 mt-2">
+          Seit Januar 2025 weltweit.
         </p>
         {daily.length > 0 && (() => {
           let running = 0;
@@ -112,18 +128,6 @@ export default function JobLossCounterSection() {
             </div>
           );
         })()}
-        <p className="font-body text-xs text-pause-black/50 mt-6">
-          Quelle:{" "}
-          <a
-            href="https://jobloss.ai"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="orange-link"
-          >
-            jobloss.ai
-          </a>
-          {lastUpdated && ` · Stand: ${DATE.format(new Date(lastUpdated))}`}
-        </p>
       </div>
     </section>
   );

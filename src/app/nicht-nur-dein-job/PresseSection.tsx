@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import LinkedHeading from "@/components/LinkedHeading";
+import SectionAnchor from "./SectionAnchor";
 import {
   STATIC_PRESS,
   CATEGORY_LABELS,
@@ -32,10 +32,10 @@ function FilterChip({
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`font-section text-xs md:text-sm tracking-wider uppercase px-3.5 py-2 border transition-colors ${
+      className={`font-section text-xs tracking-wider uppercase px-3.5 py-2 border transition-colors ${
         active
           ? "border-[#FF9416] bg-[#FF9416] text-black"
-          : "border-pause-black/15 text-pause-black/70 hover:border-pause-black/40 hover:text-pause-black"
+          : "border-white/15 text-white/50 hover:border-white/40 hover:text-white/80"
       }`}
     >
       {label}
@@ -45,33 +45,33 @@ function FilterChip({
 
 function PressCard({ item }: { item: PressItem }) {
   return (
-    <article className="border border-pause-black/10 hover:border-pause-black/30 transition-colors bg-white">
+    <article className="border-t border-white/10 pt-6 hover:border-white/25 transition-colors">
       <a
         href={item.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="block p-6 h-full"
+        className="block h-full group"
       >
-        <div className="flex items-center gap-3 mb-3">
+        <div className="flex items-center gap-2 mb-3 flex-wrap">
           <span className="font-section text-xs tracking-wider uppercase text-[#FF9416]">
             {CATEGORY_LABELS[item.category]}
           </span>
-          <span className="text-pause-black/30">·</span>
-          <span className="font-body text-xs text-pause-black/50 uppercase">
+          <span className="text-white/20">·</span>
+          <span className="font-section text-xs text-white/40 uppercase tracking-wider">
             {item.language}
           </span>
-          <span className="text-pause-black/30">·</span>
-          <time className="font-body text-xs text-pause-black/50 tabular-nums" dateTime={item.publishedAt}>
+          <span className="text-white/20">·</span>
+          <time className="font-section text-xs text-white/40 tabular-nums tracking-wider uppercase" dateTime={item.publishedAt}>
             {DATE_FMT.format(new Date(item.publishedAt))}
           </time>
         </div>
-        <h3 className="font-body-bold text-lg leading-tight text-pause-black mb-2">
+        <h3 className="font-bold text-white text-base leading-snug mb-2 group-hover:text-white/90">
           {item.title}
         </h3>
-        <p className="font-body text-sm text-pause-black/70 leading-relaxed mb-3">
+        <p className="text-white/50 text-sm leading-relaxed mb-4">
           {item.excerpt}
         </p>
-        <p className="font-section text-xs uppercase tracking-wider text-pause-black/50">
+        <p className="font-section text-xs uppercase tracking-[0.15em] text-white/40 group-hover:text-[#FF9416] transition-colors">
           {item.source} →
         </p>
       </a>
@@ -92,17 +92,21 @@ export default function PresseSection() {
   }, [lang, cat]);
 
   return (
-    <section data-section-id="presse" className="bg-[#fafafa] py-20 md:py-32 border-t border-pause-black/10">
+    <section id="presse" data-section-id="presse" className="bg-pause-gray-dark py-20 md:py-32">
       <div className="max-w-5xl mx-auto px-6 md:px-12">
-        <LinkedHeading id="presse">Presse: bleib informiert</LinkedHeading>
-        <p className="font-body text-pause-black/75 text-base md:text-lg leading-relaxed mb-10 max-w-3xl">
-          Eine Auswahl von Berichten zu KI und Arbeitsmarkt aus deutschen und internationalen
-          Quellen.
-        </p>
+        {/* Title */}
+        <div className="group/section flex items-start mb-12">
+        <h2 className="font-section font-black uppercase text-white text-4xl sm:text-5xl md:text-7xl lg:text-8xl leading-[0.9] scroll-mt-24">
+          Presse:<br />
+          <span className="text-[#FF9416]">Bleib informiert.</span>
+        </h2>
+        <SectionAnchor id="presse" />
+        </div>
 
-        <div className="space-y-4 mb-10">
+        {/* Filters */}
+        <div className="space-y-3 mb-12">
           <div className="flex flex-wrap gap-2 items-center" role="group" aria-label="Sprache filtern">
-            <span className="font-section text-xs uppercase tracking-wider text-pause-black/50 mr-1 self-center">
+            <span className="font-section text-xs uppercase tracking-wider text-white/30 mr-1 self-center">
               Sprache:
             </span>
             {LANGUAGES.map((l) => (
@@ -115,7 +119,7 @@ export default function PresseSection() {
             ))}
           </div>
           <div className="flex flex-wrap gap-2 items-center" role="group" aria-label="Kategorie filtern">
-            <span className="font-section text-xs uppercase tracking-wider text-pause-black/50 mr-1 self-center">
+            <span className="font-section text-xs uppercase tracking-wider text-white/30 mr-1 self-center">
               Kategorie:
             </span>
             {CATEGORIES.map((c) => (
@@ -129,9 +133,10 @@ export default function PresseSection() {
           </div>
         </div>
 
+        {/* Cards */}
         {filtered.length === 0 ? (
-          <div className="text-center py-12 bg-white border border-pause-black/10">
-            <p className="font-body text-pause-black/60">
+          <div className="border-t border-white/10 pt-10 text-center">
+            <p className="text-white/50">
               Keine Artikel passen zu deinen Filtern.
             </p>
             <button
@@ -146,7 +151,7 @@ export default function PresseSection() {
             </button>
           </div>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10">
             {filtered.map((p) => (
               <PressCard key={p.url} item={p} />
             ))}

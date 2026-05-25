@@ -1,112 +1,77 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import LinkedHeading from "@/components/LinkedHeading";
-import { JOBLOSS_FALLBACK_DAILY, JOBLOSS_FALLBACK_SECTORS } from "@/data/jobloss";
-import type { LinePoint } from "@/components/charts/LineChart";
-
-const LineChart = dynamic(() => import("@/components/charts/LineChart"), {
-  ssr: false,
-  loading: () => (
-    <div className="h-72 bg-pause-black/[0.03] border border-pause-black/10 animate-pulse" aria-hidden />
-  ),
-});
+import { JOBLOSS_FALLBACK_SECTORS } from "@/data/jobloss";
+import SectionAnchor from "./SectionAnchor";
 
 const NUM = new Intl.NumberFormat("de-DE");
 
-function toCumulative(points: LinePoint[]): LinePoint[] {
-  let running = 0;
-  return points.map((p) => { running += p.value; return { date: p.date, value: running }; });
-}
-
 export default function JobLossChartSection() {
-  const [data, setData] = useState<LinePoint[]>(() => toCumulative(JOBLOSS_FALLBACK_DAILY));
+  const [sectors, setSectors] = useState(JOBLOSS_FALLBACK_SECTORS);
 
   useEffect(() => {
     fetch("/api/jobloss-count")
       .then((r) => r.json())
       .then((d) => {
-        if (Array.isArray(d.daily) && d.daily.length > 0) setData(toCumulative(d.daily));
+        if (Array.isArray(d.sectors) && d.sectors.length > 0) setSectors(d.sectors);
       })
-      .catch(() => {
-        // already set to fallback
-      });
+      .catch(() => {});
   }, []);
 
-  const totalSectors = JOBLOSS_FALLBACK_SECTORS.reduce((s, x) => s + x.value, 0);
+  const max = Math.max(...sectors.map((s) => s.value));
 
   return (
-    <section data-section-id="chart" className="bg-white py-20 md:py-32 border-t border-pause-black/10">
-      <div className="max-w-4xl mx-auto px-6 md:px-12">
-        <LinkedHeading id="chart">Entwicklung der KI-bedingten Entlassungen</LinkedHeading>
-        <p className="font-body text-pause-black/75 text-base md:text-lg leading-relaxed mb-10 max-w-3xl">
-          Die Plattform jobloss.ai erfasst Entlassungsmeldungen, in denen Unternehmen KI oder
-          Automatisierung als Begründung nennen. Quellen: Pressemitteilungen, Konzernmitteilungen
-          und seriöse Medienberichte.
-        </p>
-
-        <LineChart data={data} yLabel="Stellenstreichungen kumulativ" />
-
-        <div className="mt-16 grid md:grid-cols-2 gap-12 items-start">
-          <div>
-            <h3 className="font-section text-sm tracking-[0.18em] uppercase text-[#FF9416] mb-6">
-              Nach Branche
-            </h3>
-            <ul className="space-y-3">
-              {JOBLOSS_FALLBACK_SECTORS.map((s) => {
-                const pct = (s.value / totalSectors) * 100;
-                return (
-                  <li key={s.sector}>
-                    <div className="flex justify-between text-sm font-body text-pause-black mb-1">
-                      <span>{s.sector}</span>
-                      <span className="tabular-nums text-pause-black/60">
-                        {NUM.format(s.value)}
-                      </span>
-                    </div>
-                    <div className="h-2 bg-pause-black/[0.06] overflow-hidden rounded-sm">
-                      <div
-                        className="h-full bg-[#FF9416]"
-                        style={{ width: `${pct}%` }}
-                        role="progressbar"
-                        aria-valuenow={Math.round(pct)}
-                        aria-valuemin={0}
-                        aria-valuemax={100}
-                        aria-label={`${s.sector}: ${pct.toFixed(0)} Prozent`}
-                      />
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
+    <section id="chart" data-section-id="chart" className="bg-[#FF9416] py-16 md:py-28">
+      <div className="max-w-6xl mx-auto px-6 md:px-12">
+        <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-start">
+        {/* Left */}
+        <div>
+          <div className="group/section flex items-start mb-6 md:mb-8">
+          <h2 className="font-section font-black normal-case text-black text-3xl sm:text-4xl md:text-6xl lg:text-7xl leading-[1.02] scroll-mt-24">
+            Wo KI <span className="underline underline-offset-4 decoration-2">zuerst</span> zuschlägt.
+          </h2>
+          <SectionAnchor id="chart" dark={false} />
           </div>
-          <div>
-            <h3 className="font-section text-sm tracking-[0.18em] uppercase text-[#FF9416] mb-6">
-              Was die Daten nicht zeigen
-            </h3>
-            <p className="font-body text-pause-black/75 leading-relaxed mb-4">
-              Die offiziellen Zahlen sind eine Untergrenze. Sie erfassen Entlassungen, in denen
-              Unternehmen KI explizit als Grund nennen – nicht jene, in denen die Begründung
-              umformuliert wird.
-            </p>
-            <p className="font-body text-pause-black/75 leading-relaxed">
-              Sie erfassen auch nicht, wer gar nicht erst eingestellt wird, weil eine Software
-              das im nächsten Jahr tun können wird. Diese {"„"}stillen{"“"} Verluste werden in
-              keinem Dashboard auftauchen.
-            </p>
-          </div>
+          <p className="font-bold text-black/80 text-sm md:text-base leading-relaxed mb-3">
+            Auszug aus{" "}
+            <a href="https://jobloss.ai" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-black">
+              jobloss.ai
+            </a>{" "}
+            · KI-bedingte Entlassungen weltweit nach Branche, seit Januar 2025.
+          </p>
+          <p className="font-bold text-black/80 text-sm md:text-base leading-relaxed">
+            Was die Daten <em>nicht</em> zeigen: Stille Verluste — wer gar nicht erst eingestellt wurde.
+          </p>
         </div>
 
-        <p className="font-body text-sm text-pause-black/60 mt-10">
-          <a
-            href="https://jobloss.ai"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="orange-link font-body-bold"
-          >
-            Mehr Daten auf jobloss.ai →
-          </a>
-        </p>
+        {/* Right: bars */}
+        <div className="space-y-4 md:space-y-5">
+          {sectors.map((s) => {
+            const pct = (s.value / max) * 100;
+            return (
+              <div key={s.sector}>
+                <div className="flex justify-between items-baseline gap-2 mb-1.5">
+                  <span className="font-bold text-black text-xs md:text-sm leading-snug">{s.sector}</span>
+                  <span className="font-section font-black text-black tabular-nums text-base md:text-lg flex-shrink-0">
+                    {NUM.format(s.value)}
+                  </span>
+                </div>
+                <div className="h-2 bg-black/15 overflow-hidden">
+                  <div
+                    className="h-full bg-black"
+                    style={{ width: `${pct}%` }}
+                    role="progressbar"
+                    aria-valuenow={Math.round(pct)}
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                    aria-label={`${s.sector}: ${NUM.format(s.value)}`}
+                  />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        </div>
       </div>
     </section>
   );
