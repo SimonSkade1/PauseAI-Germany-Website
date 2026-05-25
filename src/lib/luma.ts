@@ -1,6 +1,6 @@
 // Add calendar IDs here as local groups create their own Luma calendars.
 export const CALENDAR_IDS = [
-  "cal-zalx0j0ZcHpAlEB", // PauseAI Germany (Markus)
+  "cal-B1ELepcLXLcAqMf", // PauseAI DE
 ];
 
 export type LumaEvent = {
