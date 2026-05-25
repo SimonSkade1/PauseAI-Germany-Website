@@ -8,7 +8,7 @@ import {
 } from "@/data/tally";
 
 export default function UmfrageEmbed() {
-  const [submitted, setSubmitted] = useState(true);
+  const [submitted, setSubmitted] = useState(false);
   const thankYouRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
