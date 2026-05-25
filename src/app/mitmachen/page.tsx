@@ -9,12 +9,13 @@ import { useMemo } from "react";
 const DISCORD_URL = "https://discord.gg/buq56hhaz4";
 const WHATSAPP_URL = "https://chat.whatsapp.com/C7p9cdH41IE1MQwPHQLWCX"
 const CALENDLY_URL = "https://calendly.com/hauke-h-posteo/neues-meeting";
+const GOOGLE_MEET_URL = "https://meet.google.com/hym-qejg-gcv";
 const WEEKLY_MEETING_DURATION_MS = 60 * 60 * 1000;
 const BERLIN_TIMEZONE = "Europe/Berlin";
 const WEEKLY_MEETING_LABEL = "Donnerstag 18:00";
 const WEEKLY_MEETING_TITLE = "PauseAI Deutschland Community-Treffen";
 const WEEKLY_MEETING_DESCRIPTION = "Wöchentliches PauseAI Deutschland Community-Treffen.";
-const DISCORD_MEETING_INFO_TEXT = "Unser wöchentliches virtuelles Treffen findet auf unserem Discord-Server statt.";
+const GOOGLE_MEET_INFO_TEXT = "Unser wöchentliches virtuelles Treffen findet per Google Meet statt.";
 
 function getBerlinWeekday(date: Date): number {
   const weekdayText = new Intl.DateTimeFormat("en-US", {
@@ -142,8 +143,8 @@ function buildWeeklyMeetingGoogleCalendarUrl(start: Date): string {
     action: "TEMPLATE",
     text: `${WEEKLY_MEETING_TITLE}`,
     dates: `${formatUtcForCalendar(start)}/${formatUtcForCalendar(end)}`,
-    details: `${WEEKLY_MEETING_DESCRIPTION}\n\n${DISCORD_MEETING_INFO_TEXT}\n\nDiscord: ${DISCORD_URL}`,
-    location: DISCORD_URL,
+    details: `${WEEKLY_MEETING_DESCRIPTION}\n\n${GOOGLE_MEET_INFO_TEXT}\n\nGoogle Meet: ${GOOGLE_MEET_URL}`,
+    location: GOOGLE_MEET_URL,
     recur: "RRULE:FREQ=WEEKLY;WKST=SU;BYDAY=TH",
   });
 
@@ -166,8 +167,8 @@ function downloadWeeklyMeetingIcs(start: Date): void {
     `DTSTART:${formatUtcForCalendar(start)}`,
     `DTEND:${formatUtcForCalendar(end)}`,
     `SUMMARY:${WEEKLY_MEETING_TITLE}`,
-    `DESCRIPTION:${WEEKLY_MEETING_DESCRIPTION}\\n\\n${DISCORD_MEETING_INFO_TEXT}\\n\\nDiscord: ${DISCORD_URL}`,
-    `LOCATION:${DISCORD_URL}`,
+    `DESCRIPTION:${WEEKLY_MEETING_DESCRIPTION}\\n\\n${GOOGLE_MEET_INFO_TEXT}\\n\\nGoogle Meet: ${GOOGLE_MEET_URL}`,
+    `LOCATION:${GOOGLE_MEET_URL}`,
     "RRULE:FREQ=WEEKLY;WKST=SU;BYDAY=TH",
     "END:VEVENT",
     "END:VCALENDAR",
@@ -295,17 +296,17 @@ export default function OnboardingPage() {
               Und zum Schluss gibt es natürlich immer die Möglichkeit, sich locker untereinander auszutauschen.
               Jeder ist willkommen, auch wenn du nur mal reinschnuppern möchtest; kein Fachwissen notwendig.
               <br/>
-              Jeden <span className="font-semibold">Donnerstag</span> um 18:00 Uhr auf Discord. Nächstes Treffen:{" "}
+              Jeden <span className="font-semibold">Donnerstag</span> um 18:00 Uhr per Google Meet. Nächstes Treffen:{" "}
               <span className="font-body-bold">{formatGermanDate(nextWeeklyMeeting)}</span>
             </p>
             <p className="mt-2 font-body text-pause-black/85">
               <a
-                href={DISCORD_URL}
+                href={GOOGLE_MEET_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="orange-link font-body-bold"
               >
-                Zum Discord-Server
+                Google Meet beitreten
               </a>
             </p>
             <div className="mt-5 flex flex-col gap-3 sm:flex-row">

@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import LinkedHeading from "@/components/LinkedHeading";
 
+const GOOGLE_MEET_URL = "https://meet.google.com/hym-qejg-gcv";
+
 export type EventData = {
   name: string;
   start_at: string;
@@ -46,7 +48,18 @@ function EventCard({ event }: { event: EventData }) {
         <p className="font-body text-sm text-pause-black/60 mt-2 leading-relaxed">{event.description}</p>
       )}
       <div className="flex flex-wrap gap-2 mt-4">
-        {lumaUrl ? (
+        {event.name.includes("Themenabend") ? (
+          <>
+            <a href={GOOGLE_MEET_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center border border-[#1a1a1a] bg-[#FF9416] px-4 py-2 font-section text-xs tracking-wider text-black transition-colors hover:bg-[#e88510]">
+              Google Meet beitreten →
+            </a>
+            {lumaUrl ? (
+              <a href={lumaUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center border border-[#1a1a1a] bg-white px-4 py-2 font-section text-xs tracking-wider text-black transition-colors hover:bg-[#FFFAF5]">
+                Mehr Details
+              </a>
+            ) : null}
+          </>
+        ) : lumaUrl ? (
           <a href={lumaUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center border border-[#1a1a1a] bg-[#FF9416] px-4 py-2 font-section text-xs tracking-wider text-black transition-colors hover:bg-[#e88510]">
             Mehr Details →
           </a>
