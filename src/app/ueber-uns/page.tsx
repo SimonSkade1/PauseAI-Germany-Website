@@ -13,7 +13,7 @@ function HeroSection() {
 
   const infoText = (
     <>
-      PauseAI Deutschland ist Teil einer <a href="https://pauseai.info" className="orange-link-dark font-bold" target="_blank" rel="noopener noreferrer">internationalen Bewegung</a>, die sich gegen die Entwicklung gefährlicher KI-Systeme einsetzt. Wir sind parteipolitisch unabhängig.
+      PauseAI Deutschland ist Teil einer <a href="https://pauseai.info" className="orange-link-dark font-bold inline-flex items-center gap-0.5" target="_blank" rel="noopener noreferrer">internationalen Bewegung<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M7 17L17 7M7 7h10v10"/></svg></a>, die sich gegen die Entwicklung gefährlicher KI-Systeme einsetzt. Wir sind parteipolitisch unabhängig.
       Unser Maßstab sind wissenschaftliche Erkenntnisse, demokratische Grundwerte und die Souveränität der Menschheit.
       Wir wollen nicht heutige KI abschaffen, sondern fordern ein globales Abkommen, das die Entwicklung unkontrollierbarer KI-Systeme verhindert.
     </>
