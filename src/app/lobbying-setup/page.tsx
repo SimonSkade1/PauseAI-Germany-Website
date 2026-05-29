@@ -3,8 +3,9 @@ import type { Metadata } from "next";
 import { ReactNode } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import CopyPromptButton from "./CopyPromptButton";
-import OutlineNav from "./OutlineNav";
+import Link from "next/link";
+import CopyButton from "@/components/CopyButton";
+import OutlineNav from "@/components/OutlineNav";
 import {
   Download,
   ExternalLink,
@@ -143,6 +144,7 @@ const jumpLinks = [
   { href: "#how", label: "How to use it" },
   { href: "#backups", label: "Backups & sync" },
   { href: "#tweak", label: "Refine the skills" },
+  { href: "#next", label: "Next: reach out" },
   { href: "#help", label: "Questions" },
 ];
 
@@ -473,7 +475,7 @@ export default function LobbyingSetupPage() {
                     >
                       <Download className="h-4 w-4 shrink-0" /> Download prompt
                     </a>
-                    <CopyPromptButton src={PROMPT_PATH} />
+                    <CopyButton src={PROMPT_PATH} label="Copy prompt" />
                     <a
                       href={PROMPT_PATH}
                       target="_blank"
@@ -489,6 +491,19 @@ export default function LobbyingSetupPage() {
 
               {/* How to use it */}
               <Section id="how" eyebrow="In practice" title="How to use it">
+                <div className="mb-5 max-w-3xl rounded-sm border-l-4 border-pause-orange bg-[#FFF6EC] p-4">
+                  <p className="font-body text-sm text-pause-black/85">
+                    Your first job once it is set up is reaching out to every
+                    politician. There is a dedicated{" "}
+                    <Link
+                      href="/initial-politician-outreach"
+                      className="orange-link font-body-bold"
+                    >
+                      step-by-step outreach guide
+                    </Link>{" "}
+                    for that (also linked as the next step below).
+                  </p>
+                </div>
                 <P>
                   You do not enter politicians by hand. Ask Claude to build your
                   contact list — typically it researches the body first into a
@@ -569,6 +584,29 @@ export default function LobbyingSetupPage() {
                   edits the skill for you. It gets more yours the longer you use
                   it.
                 </P>
+              </Section>
+
+              {/* Next step */}
+              <Section
+                id="next"
+                eyebrow="Next step"
+                title="Reach out to every politician"
+              >
+                <div className="max-w-3xl rounded-sm border-2 border-pause-orange bg-[#FFF6EC] p-6 md:p-8">
+                  <p className="mb-4 font-body text-pause-black/85">
+                    With the system in place, the natural first move is a
+                    personalized first email to every parliamentarian in your
+                    country. The outreach guide walks through building the contact
+                    list, generating a tailored opener for each person, and
+                    sending in safe, paced batches.
+                  </p>
+                  <Link
+                    href="/initial-politician-outreach"
+                    className="inline-flex items-center justify-center gap-2 border border-[#1a1a1a] bg-[#FF9416] px-5 py-2.5 font-section text-xs tracking-wider text-black transition-colors hover:bg-[#e88510]"
+                  >
+                    Open the outreach guide →
+                  </Link>
+                </div>
               </Section>
 
               {/* Help */}
