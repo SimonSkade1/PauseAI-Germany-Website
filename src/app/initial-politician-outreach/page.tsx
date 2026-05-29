@@ -339,6 +339,18 @@ export default function InitialOutreachPage() {
                   may weave in one short, accurate reference. Then export a CSV
                   with columns: email, name, salutation, personalization."
                 </PromptBox>
+                <div className="mb-4 max-w-3xl rounded-sm border-l-4 border-pause-orange bg-[#FFF6EC] p-4">
+                  <p className="font-body text-sm text-pause-black/85">
+                    Check the personalizations before sending — they will not all
+                    be good. Claude's openers can be generic, repetitive across
+                    people, subtly wrong about someone's role, or stretch for an
+                    AI angle that does not really fit. Read through them (the
+                    preview and test steps below help), and if a batch reads weak
+                    or templated, adjust the prompt and regenerate. It is worth a
+                    few iterations: the opener is the first thing every recipient
+                    reads.
+                  </p>
+                </div>
                 <P>
                   The CSV the script expects looks like this (one row per person):
                 </P>
