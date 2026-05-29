@@ -222,9 +222,11 @@ export default function InitialOutreachPage() {
                   (a 30-minute meeting, with a scheduling link).
                 </P>
                 <P>
-                  Here is a real example (translated, name removed). The first
-                  paragraph is the per-person opener; everything after it is the
-                  standard body:
+                  Below is the actual email Simon (PauseAI Germany) sent,
+                  translated to English. It is <strong>not</strong> a template to
+                  copy — you need to write your own; this only shows the shape and
+                  tone that worked. The first paragraph is the per-person opener;
+                  everything after it is the standard body:
                 </P>
                 <div className="mb-4 max-w-3xl rounded-md border border-pause-black/15 bg-[#FFFAF5] p-5 font-body text-sm leading-relaxed text-pause-black/85">
                   <p className="mb-3">Dear Mr. [Surname],</p>
@@ -268,19 +270,27 @@ export default function InitialOutreachPage() {
                     development stands, the most pressing safety questions, and
                     possible policy options. I am very happy to speak with your
                     staff as well. Feel free to propose a time for a 30-minute
-                    conversation, or book one directly here: [scheduling link].
+                    conversation.
                   </p>
                   <p className="mb-0 text-pause-black/55">
-                    Kind regards, [Name] · [add any lobbying-register disclosure
-                    your country requires]
+                    Kind regards,
+                    <br />
+                    Simon Skade · Head, PauseAI Germany
                   </p>
                 </div>
                 <P>
-                  Not sure what makes a strong cold email? See PauseAI's{" "}
-                  <ExtLink href="https://pauseai.info/email-builder">
-                    guidance on emailing lawmakers
-                  </ExtLink>
-                  .
+                  Simon's real email also ends with a one-line lobbying-register
+                  disclosure (required in Germany), and where relevant names
+                  AI-focused colleagues in the recipient's party he had already
+                  contacted. Include whatever your country requires.
+                </P>
+                <P>
+                  New to advocacy? The Torchbearer Community's{" "}
+                  <ExtLink href="https://dip.torchbearer.community/">
+                    Direct Institutional Plan training
+                  </ExtLink>{" "}
+                  walks you from your first email to your first meeting with
+                  policymakers, with templates and feedback.
                 </P>
               </Section>
 
