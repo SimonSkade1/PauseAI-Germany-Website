@@ -7,7 +7,7 @@ const PILLARS = [
     time: "Heute",
     tag: "bereits real",
     title: "Schon ohne uns entschieden",
-    intro: "Jobverlust ist real. Aber er ist nur das erste Glied einer längeren Kette. Wenn die gleiche Technologie, die deinen Beruf ersetzt, auch Entscheidungen über dich, dein Land und deine Zukunft trifft — was passiert dann?",
+    intro: "Jobverlust ist real. Aber er ist nur das erste Glied einer längeren Kette. Was passiert, wenn die gleiche Technologie, die deinen Beruf ersetzt, auch Entscheidungen über dich, dein Land und deine Zukunft trifft?",
     items: [
       {
         title: "Cyber-Angriffe werden trivial",
@@ -36,7 +36,7 @@ const PILLARS = [
     items: [
       {
         title: "Demokratie verliert Substanz",
-        body: "Wenn KI Gesetzesentwürfe schreibt, Wahlkämpfe optimiert, Abgeordnete berät — wer entscheidet noch wirklich?",
+        body: "Wenn KI Gesetzesentwürfe schreibt, Wahlkämpfe optimiert und Abgeordnete berät, wer entscheidet dann noch wirklich?",
       },
       {
         title: "Black-Box-Verwaltung",
@@ -44,11 +44,11 @@ const PILLARS = [
       },
       {
         title: "Kultur ohne Mensch",
-        body: "Nachrichten, Romane, Musik — generiert. Was du liest, hörst, denkst, wählt eine Maschine aus, die dich besser kennt als du selbst.",
+        body: "Nachrichten, Romane, Musik: alles generiert. Was du liest, hörst und denkst, wählt eine Maschine aus, die dich besser kennt als du selbst.",
       },
       {
         title: "Konzentration von Macht",
-        body: "Eine Handvoll Konzerne kontrolliert die Modelle, von denen alle abhängen — Wirtschaft, Verwaltung, Bildung, Militär.",
+        body: "Eine Handvoll Konzerne kontrolliert die Modelle, von denen alle abhängen: Wirtschaft, Verwaltung, Bildung, Militär.",
       },
     ],
   },
@@ -69,7 +69,7 @@ const PILLARS = [
       },
       {
         title: "Ziele, die niemand setzte",
-        body: "Aus dem Training entstehen Ziele, die in keinem Pflichtenheft stehen. Bei mächtigeren Modellen — wird man es überhaupt noch erkennen?",
+        body: "Aus dem Training entstehen Ziele, die in keinem Pflichtenheft stehen. Bei mächtigeren Modellen fragt sich: Wird man es überhaupt noch erkennen?",
       },
       {
         title: "Wettrennen ohne Bremse",
@@ -98,9 +98,9 @@ export default function MehrAlsArbeitSection() {
         <SectionAnchor id="mehr" />
         </div>
         <p className="text-white/70 font-bold text-base md:text-lg leading-relaxed max-w-2xl mb-10 md:mb-20">
-          Jobverlust ist real. Aber er ist nur das erste Glied einer längeren Kette. Wenn
-          die gleiche Technologie, die deinen Beruf ersetzt, auch Entscheidungen über dich,
-          dein Land und deine Zukunft trifft — was passiert dann?
+          Jobverlust ist real. Aber er ist nur das erste Glied einer längeren Kette. Was
+          passiert, wenn die gleiche Technologie, die deinen Beruf ersetzt, auch Entscheidungen
+          über dich, dein Land und deine Zukunft trifft?
         </p>
 
         {/* Pillars */}
@@ -143,7 +143,7 @@ export default function MehrAlsArbeitSection() {
             Alle drei Stufen haben dieselbe Wurzel:{" "}
             <span className="text-[#FF9416]">Eine Handvoll Akteure</span>{" "}
             baut die mächtigste Technologie unserer Geschichte. Niemand prüft sie unabhängig.
-            Niemand fragt uns, ob wir sie wollen. Das ist kein Schicksal — es ist eine
+            Niemand fragt uns, ob wir sie wollen. Das ist kein Schicksal, sondern eine
             politische Entscheidung, die noch zu treffen ist.
           </p>
         </div>

@@ -6,13 +6,13 @@ const FORDERUNGEN = [
     num: "01",
     icon: Globe,
     title: "Verbindliche internationale Sicherheitsabkommen",
-    body: "Analog zu bestehenden Regeln für Atomwaffen, Biowaffen und Klimaschutz — die Entwicklung gefährlicher KI muss begrenzt werden.",
+    body: "Analog zu bestehenden Regeln für Atomwaffen, Biowaffen und Klimaschutz muss die Entwicklung gefährlicher KI begrenzt werden.",
   },
   {
     num: "02",
     icon: ShieldCheck,
     title: "Unabhängige Sicherheitsprüfung",
-    body: "Dass diese Systeme sicher sind — bevor sie gebaut und eingesetzt werden, nicht danach.",
+    body: "Dass diese Systeme sicher sind, bevor sie gebaut und eingesetzt werden. Nicht danach.",
   },
   {
     num: "03",
@@ -59,7 +59,7 @@ export default function PolitischeForderungSection() {
         <div className="border-l-4 border-[#FF9416] pl-6 py-1 mb-8">
           <p className="text-white font-bold text-lg md:text-xl leading-relaxed">
             <span className="text-[#FF9416]">Sicherheit</span> muss bewiesen werden, bevor solche
-            Systeme gebaut werden — nicht danach.
+            Systeme gebaut werden. Nicht danach.
           </p>
         </div>
 

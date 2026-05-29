@@ -40,8 +40,8 @@ export default function HeroSection({ description }: { description: string }) {
           </h1>
 
           <p className="font-bold text-[#1a1a1a] text-sm md:text-lg leading-relaxed max-w-lg mb-2 md:mb-3">
-            Überall in Deutschland verlieren Menschen gerade ihre Arbeit an KI —
-            und das ist erst der Anfang einer Welle, die durch jedes Berufsfeld läuft.
+            Überall in Deutschland verlieren Menschen gerade ihre Arbeit an KI.
+            Das ist erst der Anfang einer Welle, die durch jedes Berufsfeld läuft.
           </p>
 
           <p className="font-bold text-[#1a1a1a] text-sm md:text-lg leading-relaxed max-w-lg mb-2 md:mb-4">

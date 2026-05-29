@@ -40,7 +40,7 @@ export default function JobLossChartSection() {
             · KI-bedingte Entlassungen weltweit nach Branche, seit Januar 2025.
           </p>
           <p className="font-bold text-black/80 text-sm md:text-base leading-relaxed">
-            Was die Daten <em>nicht</em> zeigen: Stille Verluste — wer gar nicht erst eingestellt wurde.
+            Was die Daten <em>nicht</em> zeigen: stille Verluste. Wer gar nicht erst eingestellt wurde, taucht in keiner Statistik auf.
           </p>
         </div>
 

@@ -7,7 +7,7 @@ const WAVES = [
     icon: Eye,
     time: "Heute",
     title: "Direkte Entlassungen",
-    body: "Microsoft kündigt 6.000 Stellen mit Verweis auf KI-Investitionen. Meta entlässt 8.000 Mitarbeiter — Zuckerberg sagt, Aufgaben für ganze Teams werden heute von einer einzigen Person erledigt. Snap kürzt 16 % der Belegschaft, weil 60 % des neuen Codes intern bereits von KI geschrieben wird.",
+    body: "Microsoft kündigt 6.000 Stellen mit Verweis auf KI-Investitionen. Meta entlässt 8.000 Mitarbeiter; Zuckerberg sagt, Aufgaben für ganze Teams würden heute von einer einzigen Person erledigt. Snap kürzt 16 % der Belegschaft, weil 60 % des neuen Codes intern bereits von KI geschrieben wird.",
     quote: "Wer kann, schreibt KI als Grund nicht mehr in die offizielle Begründung.",
     pad: "md:pr-10",
   },
@@ -16,7 +16,7 @@ const WAVES = [
     icon: BellOff,
     time: "Morgen",
     title: "Wer gar nicht erst eingestellt wird",
-    body: "Berufseinsteig, Praktika, Trainee-Stellen, Junior-Positionen — genau die Aufgaben, an denen man früher gelernt hat, übernimmt jetzt ein Modell. Eine ganze Generation steht vor verschlossenen Türen, ohne dass das jemals offiziell bekannt gemacht wurde.",
+    body: "Berufseinstieg, Praktika, Trainee-Stellen, Junior-Positionen: genau die Aufgaben, an denen man früher gelernt hat, übernimmt jetzt ein Modell. Eine ganze Generation steht vor verschlossenen Türen, ohne dass das je offiziell kommuniziert wurde.",
     quote: "Nur 32 % der jungen Menschen glauben, ein Studium sichere bessere Berufschancen. 21 % planen die Auswanderung.",
     pad: "md:px-10",
   },
@@ -26,7 +26,7 @@ const WAVES = [
     time: "Übermorgen",
     title: "Was bleibt, verändert sich",
     body: "Auch wer seinen Job behält, arbeitet zunehmend als Aufsicht einer Maschine: überwacht KI-Output, korrigiert Fehler, trägt die Verantwortung für Entscheidungen, die andere getroffen haben. Die eigene Kompetenz verkümmert.",
-    quote: "Und wenn dein Job morgen anders aussieht als heute — wer trägt das Risiko? Du.",
+    quote: "Und wenn dein Job morgen anders aussieht als heute: Wer trägt das Risiko? Du.",
     pad: "md:pl-10",
   },
 ] as const;
@@ -86,7 +86,7 @@ export default function ArbeitsmarktSection() {
           <strong className="text-white">
             36 % der deutschen Unternehmen planen 2026 Stellenabbau
           </strong>{" "}
-          — in der Industrie sogar 41 %.
+          In der Industrie sogar 41 %.
         </p>
       </div>
     </section>
