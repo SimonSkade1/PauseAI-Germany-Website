@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import UmfrageEmbed from "./UmfrageEmbed";
 
 export const metadata: Metadata = {
-  title: "Umfrage — Nicht nur dein Job | PauseAI Deutschland",
+  title: "Umfrage: Nicht nur dein Job | PauseAI Deutschland",
   description: "Erzähl uns, wie KI deinen Beruf verändert.",
   alternates: { canonical: "https://pause-ai.de/nicht-nur-dein-job/umfrage" },
   robots: { index: true, follow: true },
@@ -33,7 +33,7 @@ export default function UmfragePage() {
               Erzähl deine Geschichte.
             </h1>
             <p className="font-body text-xl md:text-2xl text-white/80 leading-relaxed max-w-3xl">
-              Anonym oder mit Namen – deine Geschichte zeigt der Politik, wie KI den Alltag
+              Ob anonym oder mit Namen: deine Geschichte zeigt der Politik, wie KI den Alltag
               tatsächlich verändert.
             </p>
           </div>
