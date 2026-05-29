@@ -192,21 +192,6 @@ export default function LobbyingSetupPage() {
                   you work. Everything lives in plain files on your machine that
                   you own and control.
                 </P>
-                <div className="mt-6 flex flex-wrap gap-3">
-                  <a
-                    href="#install"
-                    className="inline-flex items-center justify-center border border-[#1a1a1a] bg-[#FF9416] px-5 py-2.5 font-section text-xs tracking-wider text-black transition-colors hover:bg-[#e88510]"
-                  >
-                    Start with installation
-                  </a>
-                  <a
-                    href="#prompt"
-                    className="inline-flex items-center justify-center gap-2 border border-[#1a1a1a] bg-white px-5 py-2.5 font-section text-xs tracking-wider text-black transition-colors hover:bg-pause-gray-light"
-                  >
-                    <Download className="h-4 w-4 shrink-0" /> Jump to the setup
-                    prompt
-                  </a>
-                </div>
               </section>
 
               {/* Mobile jump nav */}
@@ -315,9 +300,11 @@ export default function LobbyingSetupPage() {
                       already active in your country so you can share one vault.
                     </li>
                     <li>
-                      You join the international PauseAI lobbying community (the
-                      Signal group), where organizers across countries compare
-                      notes on what works.
+                      You join the international{" "}
+                      <strong>treaty-advocacy lobbying group</strong> — a
+                      cross-org Signal group (PauseAI, Torchbearer, and other
+                      organizers) where people across countries compare notes on
+                      what works.
                     </li>
                     <li>
                       We help you practice talking to policymakers before your
@@ -464,8 +451,7 @@ export default function LobbyingSetupPage() {
                 <P>
                   With an empty vault open, paste the setup prompt below into
                   Claude Code (in Claudian, or by running <Cmd>claude</Cmd> in a
-                  terminal at the vault root). Read it through first so you know
-                  what you are agreeing to.
+                  terminal at the vault root).
                 </P>
                 <P>What it does, in order:</P>
                 <ul className="mb-5 max-w-3xl list-disc space-y-1.5 pl-6 font-body text-pause-black/85">
@@ -670,9 +656,10 @@ export default function LobbyingSetupPage() {
                     </a>
                     , or message Simon on Signal (username <Cmd>SimonSkade.01</Cmd>
                     ). Simon can also add you to the international{" "}
-                    <strong>PauseAI Signal lobbying group</strong>, where
-                    organizers across countries share what works. We are glad to
-                    help other organizers get this running.
+                    <strong>treaty-advocacy lobbying group</strong> (PauseAI,
+                    Torchbearer, and other organizers), where people across
+                    countries share what works. We are glad to help other
+                    organizers get this running.
                   </p>
                   <div className="mt-5 flex flex-wrap gap-3">
                     <a

@@ -4,7 +4,7 @@
 >
 > This prompt is country-agnostic. It was distilled from a working system that PauseAI Germany uses for outreach to members of the Bundestag, and an adapted Canadian version. The `.base` file syntax below is proven — paste it through unchanged; the *values* (parties, committees, chambers, district terms, data sources) get adapted to your country by Claude during setup.
 >
-> **Read this first so you know what you're agreeing to.** A few things to have ready before you send it:
+> A few things to have ready before you send it:
 >
 > 1. **Your name.** Claude will ask. It is used in email signatures, in the `members` field on meeting notes, and as a suffix on the three skill names (e.g. `process-inbox-yourname`).
 > 2. **Your scope.** Which bodies do you want to track? (e.g. the lower house only, or also the upper house / senate, regional parliaments, the EU Parliament, civil servants, journalists, academics.) You can start narrow and add later.

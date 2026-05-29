@@ -226,7 +226,7 @@ export default function InitialOutreachPage() {
                   for everyone. Write the standard body yourself and make it
                   genuinely good; it is the heart of the email. Keep it concise,
                   credible, and specific, and end with a clear, low-friction ask
-                  (a 30-minute meeting, with a scheduling link).
+                  (a 30-minute meeting).
                 </P>
                 <P>
                   Below is the actual email Simon (PauseAI Germany) sent,
@@ -481,7 +481,8 @@ python3 send_outreach.py --send --limit 60  # send the next 60, then stop`}</Cod
                     </a>{" "}
                     or message Simon on Signal (username <Cmd>SimonSkade.01</Cmd>).
                     He can also add you to the international{" "}
-                    <strong>PauseAI Signal lobbying group</strong>.
+                    <strong>treaty-advocacy lobbying group</strong> (PauseAI,
+                    Torchbearer, and others).
                   </p>
                   <div className="mt-5">
                     <Link
