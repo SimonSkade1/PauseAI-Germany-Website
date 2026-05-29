@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import OutlineNav from "@/components/OutlineNav";
 import CopyButton from "@/components/CopyButton";
+import CopyTextButton from "@/components/CopyTextButton";
 import { Download, ExternalLink, KeyRound, ShieldCheck } from "lucide-react";
 
 const SCRIPT_PATH = "/initial-outreach/send_outreach.py";
@@ -78,13 +79,18 @@ function ExtLink({ href, children }: { href: string; children: ReactNode }) {
   );
 }
 
-function PromptBox({ children }: { children: ReactNode }) {
+function PromptBox({ text }: { text: string }) {
   return (
     <div className="mb-4 max-w-3xl rounded-md border border-pause-black/15 bg-pause-gray-light p-4">
-      <p className="mb-2 font-section text-xs tracking-wider text-pause-black/45">
-        Prompt for Claude
+      <div className="mb-2 flex items-center justify-between gap-3">
+        <p className="font-section text-xs tracking-wider text-pause-black/45">
+          Prompt for Claude
+        </p>
+        <CopyTextButton text={text} label="Copy prompt" />
+      </div>
+      <p className="whitespace-pre-wrap font-body text-sm text-pause-black/85">
+        {text}
       </p>
-      <div className="font-body text-sm text-pause-black/85">{children}</div>
     </div>
   );
 }
@@ -99,6 +105,16 @@ const jumpLinks = [
   { href: "#after", label: "After sending" },
   { href: "#help", label: "Questions" },
 ];
+
+const STEP1_PROMPT = `Research every member of [my parliament / chamber] and create one CRM note per person. Use sub-agents to work through them in parallel. For each person capture: full name, verified official email (never guess from a pattern), party, committee(s), their role/position, and the correct formal salutation including any academic title (e.g. "Dear Dr. Müller"). Also note in one line whether they have publicly said anything about AI. Pull from the official parliament site and verified sources only.`;
+
+const PERSONALIZE_PROMPT = `For every politician in the CRM, write a personalized opening paragraph for the outreach email. Use sub-agents to work through them in parallel. For each person:
+
+1. From their CRM note (verify with a quick web search if needed), take their current role and main committee(s) or area of responsibility.
+2. Write 2–3 formal sentences in [my language]. Sentence one names their role and the concrete area they shape or are responsible for — vary the wording across people (e.g. "As …, you carry responsibility for …", "As a member of the … committee, you deal with …", "As chair of …, you have long worked on …") so the emails do not read as templated. Sentence two ties AI directly to that exact area: how AI is already used there and what new risks it raises — concrete to their field (defense → autonomous weapons and military AI; interior/justice → surveillance and security; research/tech → the trajectory of the technology itself; economy/labour → automation; and so on), no generic filler, no invented facts.
+3. End the paragraph with exactly: "As an AI safety researcher and head of a citizens' initiative, I would like to speak with you about the risks of near-future AI systems."
+
+If a person has verifiably said something notable about AI, you may weave in one short, accurate reference. Then export a CSV with columns: email, name, salutation, personalization.`;
 
 export default function InitialOutreachPage() {
   return (
@@ -194,16 +210,7 @@ export default function InitialOutreachPage() {
                   in one go — and it should use sub-agents to research many people
                   in parallel.
                 </P>
-                <PromptBox>
-                  "Research every member of [my parliament / chamber] and create
-                  one CRM note per person. Use sub-agents to work through them in
-                  parallel. For each person capture: full name, verified official
-                  email (never guess from a pattern), party, committee(s), their
-                  role/position, and the correct formal salutation including any
-                  academic title (e.g. 'Dear Dr. Müller'). Also note in one line
-                  whether they have publicly said anything about AI. Pull from the
-                  official parliament site and verified sources only."
-                </PromptBox>
+                <PromptBox text={STEP1_PROMPT} />
                 <P>
                   Emails must be the real, published addresses — a low bounce rate
                   matters. Tell Claude not to guess addresses from a pattern.
@@ -307,38 +314,7 @@ export default function InitialOutreachPage() {
                   they are responsible for, connect AI specifically to that field,
                   then close with your standard intro-and-ask sentence.
                 </P>
-                <PromptBox>
-                  "For every politician in the CRM, write a personalized opening
-                  paragraph for the outreach email. Use sub-agents to work through
-                  them in parallel. For each person:
-                  <br />
-                  <br />
-                  1. From their CRM note (verify with a quick web search if
-                  needed), take their current role and main committee(s) or area
-                  of responsibility.
-                  <br />
-                  2. Write 2–3 formal sentences in [my language]. Sentence one
-                  names their role and the concrete area they shape or are
-                  responsible for — vary the wording across people (e.g. 'As …,
-                  you carry responsibility for …', 'As a member of the …
-                  committee, you deal with …', 'As chair of …, you have long
-                  worked on …') so the emails do not read as templated. Sentence
-                  two ties AI directly to that exact area: how AI is already used
-                  there and what new risks it raises — concrete to their field
-                  (defense → autonomous weapons and military AI; interior/justice
-                  → surveillance and security; research/tech → the trajectory of
-                  the technology itself; economy/labour → automation; and so on),
-                  no generic filler, no invented facts.
-                  <br />
-                  3. End the paragraph with exactly: 'As an AI safety researcher
-                  and head of a citizens' initiative, I would like to speak with
-                  you about the risks of near-future AI systems.'
-                  <br />
-                  <br />
-                  If a person has verifiably said something notable about AI, you
-                  may weave in one short, accurate reference. Then export a CSV
-                  with columns: email, name, salutation, personalization."
-                </PromptBox>
+                <PromptBox text={PERSONALIZE_PROMPT} />
                 <div className="mb-4 max-w-3xl rounded-sm border-l-4 border-pause-orange bg-[#FFF6EC] p-4">
                   <p className="font-body text-sm text-pause-black/85">
                     Check the personalizations before sending — they will not all
