@@ -421,25 +421,25 @@ jane.doe@parliament.example,Jane Doe,Dear Dr. Doe,"As chair of the ... committee
               <Section id="send" eyebrow="Step 5" title="Test, then send in batches">
                 <P>
                   The send script reads your CSV, builds each email (salutation +
-                  personalization + your standard body + signature), and sends
-                  them one every few seconds. It runs entirely on your machine —
-                  Claude never touches your app password. Download it, open it in
-                  any editor, and fill in the <Cmd>CONFIG</Cmd> block at the top:
+                  personalized opener + the standard body), and sends them a few
+                  seconds apart. It runs entirely on your machine — Claude never
+                  touches your app password. Download it and open it in any
+                  editor: fill in the <Cmd>CONFIG</Cmd> block, and write your
+                  standard email (everything below the personalization, including
+                  your signature) into the <Cmd>build_email()</Cmd> function just
+                  beneath it — you can have Claude do that for you.
                 </P>
-                <Code>{`SENDER_EMAIL = ""          # the address you send from
-APP_PASSWORD = ""          # the 16-char app password from step 4 (keep secret)
-SENDER_NAME  = "Your Name"
-SUBJECT      = "Briefing on AI risks"
-CSV_PATH     = "outreach.csv"
-STANDARD_BODY = """..."""  # your standard email body (step 2)
-SIGNATURE     = """..."""
+                <Code>{`SENDER_EMAIL   = ""          # the address you send from
+APP_PASSWORD   = ""          # the 16-char app password from step 4 (keep secret)
+SENDER_NAME    = "Your Name"
+SUBJECT        = "Briefing on AI risks"
+CSV_PATH       = "outreach.csv"
+TEST_RECIPIENT = ""          # your own address, used by --test
+DELAY_SECONDS  = 6           # pause between sends
 
-SEND_INTERVAL_SECONDS = 6  # pace between emails
-MAX_TO_SEND  = None        # e.g. 60 to send only the next 60; None = all
-
-TEST_MODE      = True      # True = send to yourself instead of real recipients
-TEST_RECIPIENT = ""        # your own address
-TEST_COUNT     = 2         # how many test emails to send to yourself`}</Code>
+# Your actual email lives in build_email() just below the config: the
+# salutation and personalization are filled per person; you (or Claude)
+# write the standard body and signature there once.`}</Code>
                 <div className="mb-5 flex flex-wrap items-center gap-3">
                   <a
                     href={SCRIPT_PATH}
@@ -449,27 +449,22 @@ TEST_COUNT     = 2         # how many test emails to send to yourself`}</Code>
                     <Download className="h-4 w-4 shrink-0" /> Download script
                   </a>
                   <CopyButton src={SCRIPT_PATH} label="Copy script" />
-                  <a
-                    href={SCRIPT_PATH}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="orange-link font-body-bold inline-flex items-center gap-1 text-sm"
-                  >
-                    View raw
-                    <ExternalLink className="inline h-3.5 w-3.5 shrink-0" />
-                  </a>
                 </div>
                 <P>
-                  With <Cmd>TEST_MODE = True</Cmd>, run it and check the one or two
-                  emails that land in your own inbox:
+                  Then preview, test on yourself, and send — one flag at a time:
                 </P>
-                <Code>{`python3 send_outreach.py`}</Code>
+                <Code>{`python3 send_outreach.py --preview          # write every email to preview.txt (sends nothing)
+python3 send_outreach.py --test             # send a couple to your own address
+python3 send_outreach.py --send             # send for real (asks you to confirm)
+python3 send_outreach.py --send --limit 60  # send the next 60, then stop`}</Code>
                 <P>
-                  Happy with how they look? Set <Cmd>TEST_MODE = False</Cmd> and
-                  run again. For a first real run you might set{" "}
-                  <Cmd>MAX_TO_SEND = 60</Cmd> to send a first batch, check the
-                  early replies, then raise it. The 6-second spacing keeps you well
-                  under Gmail's sending limits and looks less like a blast.
+                  Every address it sends to is recorded in{" "}
+                  <Cmd>sent_emails.json</Cmd>, and already-sent contacts are
+                  skipped. So you can send a first batch with <Cmd>--limit</Cmd>,
+                  watch the early replies, then simply run <Cmd>--send</Cmd> again
+                  later to continue with whoever is left — no one is emailed twice,
+                  even if a run is interrupted. The few-second spacing keeps you
+                  well under Gmail's sending limits.
                 </P>
               </Section>
 
