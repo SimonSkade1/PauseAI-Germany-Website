@@ -139,6 +139,7 @@ function Step({
 
 const jumpLinks = [
   { href: "#what", label: "What you get" },
+  { href: "#start", label: "First: get in touch" },
   { href: "#install", label: "Installation" },
   { href: "#prompt", label: "Run the setup prompt" },
   { href: "#how", label: "How to use it" },
@@ -285,6 +286,45 @@ export default function LobbyingSetupPage() {
                   how PauseAI Germany runs each step, so you inherit a workflow
                   that already works.
                 </P>
+              </Section>
+
+              {/* First: get in touch */}
+              <Section
+                id="start"
+                eyebrow="Important · do this first"
+                title="First, get in touch with us"
+              >
+                <div className="max-w-3xl rounded-sm border-2 border-pause-orange bg-[#FFF6EC] p-6 md:p-8">
+                  <p className="mb-4 font-body text-pause-black/85">
+                    Before you set anything up, reach out — this step is not
+                    optional. Email{" "}
+                    <a
+                      href="mailto:simon@pauseai.info"
+                      className="orange-link font-body-bold"
+                    >
+                      simon@pauseai.info
+                    </a>{" "}
+                    or message Simon on Signal (username{" "}
+                    <Cmd>SimonSkade.01</Cmd>) and let us know you are planning to
+                    do political outreach with this system. Why it matters:
+                  </p>
+                  <ul className="mb-0 list-disc space-y-2 pl-6 font-body text-pause-black/85">
+                    <li>
+                      We coordinate outreach, so two people do not separately
+                      email the same parliament — and we connect you with anyone
+                      already active in your country so you can share one vault.
+                    </li>
+                    <li>
+                      You join the international PauseAI lobbying community (the
+                      Signal group), where organizers across countries compare
+                      notes on what works.
+                    </li>
+                    <li>
+                      We help you practice talking to policymakers before your
+                      first real meeting.
+                    </li>
+                  </ul>
+                </div>
               </Section>
 
               {/* Installation */}
