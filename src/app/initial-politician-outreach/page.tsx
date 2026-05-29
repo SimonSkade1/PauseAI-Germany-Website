@@ -481,8 +481,8 @@ python3 send_outreach.py --send --limit 60  # send the next 60, then stop`}</Cod
                     </a>{" "}
                     or message Simon on Signal (username <Cmd>SimonSkade.01</Cmd>).
                     He can also add you to the international{" "}
-                    <strong>treaty-advocacy lobbying group</strong> (PauseAI,
-                    Torchbearer, and others).
+                    <strong>treaty-advocacy lobbying group</strong> (open to
+                    anyone doing this kind of advocacy, not only PauseAI).
                   </p>
                   <div className="mt-5">
                     <Link

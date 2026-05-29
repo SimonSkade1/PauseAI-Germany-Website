@@ -12,7 +12,6 @@ import {
   Inbox,
   Mail,
   Database,
-  Terminal,
   Search,
   ClipboardList,
 } from "lucide-react";
@@ -276,13 +275,12 @@ export default function LobbyingSetupPage() {
               {/* First: get in touch */}
               <Section
                 id="start"
-                eyebrow="Important · do this first"
-                title="First, get in touch with us"
+                eyebrow="Start here"
+                title="First, say hello"
               >
                 <div className="max-w-3xl rounded-sm border-2 border-pause-orange bg-[#FFF6EC] p-6 md:p-8">
                   <p className="mb-4 font-body text-pause-black/85">
-                    Before you set anything up, reach out — this step is not
-                    optional. Email{" "}
+                    Before you dive in, we would love to hear from you. Email{" "}
                     <a
                       href="mailto:simon@pauseai.info"
                       className="orange-link font-body-bold"
@@ -290,25 +288,27 @@ export default function LobbyingSetupPage() {
                       simon@pauseai.info
                     </a>{" "}
                     or message Simon on Signal (username{" "}
-                    <Cmd>SimonSkade.01</Cmd>) and let us know you are planning to
-                    do political outreach with this system. Why it matters:
+                    <Cmd>SimonSkade.01</Cmd>) and let us know you are thinking
+                    about doing political outreach with this system. A few reasons
+                    it is worth it:
                   </p>
                   <ul className="mb-0 list-disc space-y-2 pl-6 font-body text-pause-black/85">
                     <li>
-                      We coordinate outreach, so two people do not separately
-                      email the same parliament — and we connect you with anyone
-                      already active in your country so you can share one vault.
+                      We can coordinate, so two people do not separately email the
+                      same parliament — and we will happily connect you with
+                      anyone already active in your country so you can share one
+                      vault.
                     </li>
                     <li>
-                      You join the international{" "}
-                      <strong>treaty-advocacy lobbying group</strong> — a
-                      cross-org Signal group (PauseAI, Torchbearer, and other
-                      organizers) where people across countries compare notes on
-                      what works.
+                      You can join the international{" "}
+                      <strong>treaty-advocacy lobbying group</strong>, a Signal
+                      group where organizers across countries compare notes on what
+                      works. It does not have to be only PauseAI people — anyone
+                      doing this kind of advocacy is welcome.
                     </li>
                     <li>
-                      We help you practice talking to policymakers before your
-                      first real meeting.
+                      We are happy to help you practice talking to policymakers
+                      before your first real meeting.
                     </li>
                   </ul>
                 </div>
@@ -527,7 +527,7 @@ export default function LobbyingSetupPage() {
                     >
                       step-by-step outreach guide
                     </Link>{" "}
-                    for that (also linked as the next step below).
+                    for that.
                   </p>
                 </div>
                 <P>
@@ -636,52 +636,16 @@ export default function LobbyingSetupPage() {
               </Section>
 
               {/* Help */}
-              <section id="help" className="scroll-mt-28 pb-20">
-                <div className="max-w-3xl rounded-sm border-2 border-[#1a1a1a] bg-[#FFFAF5] p-6 md:p-8">
-                  <div className="mb-3 flex items-center gap-2.5">
-                    <Terminal className="h-6 w-6 shrink-0 text-[#FF9416]" />
-                    <h2 className="font-section text-lg tracking-wide text-pause-black md:text-xl">
-                      Questions, or want a hand setting it up?
-                    </h2>
-                  </div>
-                  <p className="font-body text-pause-black/85">
-                    This system was built and is used by PauseAI Germany. Whether
-                    you get stuck, want a plan funded, need help with backups, or
-                    just want to compare notes: email{" "}
-                    <a
-                      href="mailto:simon@pauseai.info"
-                      className="orange-link font-body-bold"
-                    >
-                      simon@pauseai.info
-                    </a>
-                    , or message Simon on Signal (username <Cmd>SimonSkade.01</Cmd>
-                    ). Simon can also add you to the international{" "}
-                    <strong>treaty-advocacy lobbying group</strong> (PauseAI,
-                    Torchbearer, and other organizers), where people across
-                    countries share what works. We are glad to help other
-                    organizers get this running.
-                  </p>
-                  <div className="mt-5 flex flex-wrap gap-3">
-                    <a
-                      href={PROMPT_PATH}
-                      download="crm-setup-prompt.md"
-                      className="inline-flex items-center justify-center gap-2 border border-[#1a1a1a] bg-[#FF9416] px-5 py-2.5 font-section text-xs tracking-wider text-black transition-colors hover:bg-[#e88510]"
-                    >
-                      <Download className="h-4 w-4 shrink-0" /> Download setup
-                      prompt
-                    </a>
-                    <a
-                      href="https://pauseai.info"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-2 border border-[#1a1a1a] bg-white px-5 py-2.5 font-section text-xs tracking-wider text-black transition-colors hover:bg-pause-gray-light"
-                    >
-                      PauseAI Global
-                      <ExternalLink className="h-3.5 w-3.5 shrink-0" />
-                    </a>
-                  </div>
-                </div>
-              </section>
+              <Section id="help" eyebrow="Help" title="Questions?">
+                <P>
+                  Get in touch with us — see{" "}
+                  <a href="#start" className="orange-link font-body-bold">
+                    First, say hello
+                  </a>{" "}
+                  above for how to reach Simon. We are glad to help you get this
+                  running.
+                </P>
+              </Section>
             </div>
           </div>
         </div>
