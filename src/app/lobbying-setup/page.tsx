@@ -347,13 +347,9 @@ export default function LobbyingSetupPage() {
                   </P>
                   <Code>{`claude`}</Code>
                   <P>
-                    On first launch it walks you through login. Use your{" "}
-                    <strong>Claude subscription account</strong>, not an API key,
-                    so it draws on your subscription quota. Important: make sure{" "}
-                    <Cmd>ANTHROPIC_API_KEY</Cmd> is <em>not</em> set in your shell
-                    — if it is, Claude Code burns metered API credit instead.
-                    Check with <Cmd>echo $ANTHROPIC_API_KEY</Cmd> (it should print
-                    nothing).
+                    On first launch it walks you through login. Log in with your{" "}
+                    <strong>Claude subscription account</strong> (not an API key)
+                    so it draws on your subscription rather than metered credit.
                   </P>
                 </Step>
 
