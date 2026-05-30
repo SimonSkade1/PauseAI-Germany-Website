@@ -542,15 +542,24 @@ export default function LobbyingSetupPage() {
                   </li>
                   <li>
                     <Cmd>/meeting-preparation-[name]</Cmd> — before a meeting:
-                    research everyone and write a short brief.
+                    research everyone and write a short brief. The calls to action
+                    it suggests are often hit-or-miss, so judge them yourself.
                   </li>
                   <li>
                     <Cmd>/politician-follow-up-[name]</Cmd> — after a meeting:
-                    draft the follow-up email.
+                    draft the follow-up email. Always read it over and improve it
+                    before sending.
                   </li>
                 </ul>
                 <P>
                   (<Cmd>[name]</Cmd> is your first name, set during setup.)
+                </P>
+                <P>
+                  You will want to{" "}
+                  <a href="#tweak" className="orange-link font-body-bold">
+                    tune
+                  </a>{" "}
+                  these skills over time.
                 </P>
               </Section>
 
