@@ -32,7 +32,7 @@ export default function FloatingCTA() {
         href="/nicht-nur-dein-job/umfrage"
         className="inline-flex items-center justify-center bg-[#FF9416] px-5 py-3 font-section text-sm tracking-wider text-black shadow-lg transition-colors hover:bg-[#e88510]"
       >
-        Erzähl deine Geschichte →
+        Erhebe deine Stimme →
       </Link>
     </div>
   );

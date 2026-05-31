@@ -37,19 +37,20 @@ export default function UmfrageCTASection() {
         {/* Title */}
         <div className="group/section flex items-start mb-10">
         <h2 className="font-section font-black uppercase text-black text-4xl sm:text-5xl md:text-7xl lg:text-8xl leading-[0.9] scroll-mt-24">
-          Erzähl uns<br />
-          <span className="text-white">deine</span> Geschichte.
+          Erhebe<br />
+          <span className="text-white">deine</span> Stimme.
         </h2>
         <SectionAnchor id="umfrage-cta" dark={false} />
         </div>
 
         {/* Body */}
-        <p className="font-bold text-black/80 text-base md:text-lg leading-relaxed max-w-lg mb-3">
-          Wir sammeln Geschichten aus ganz Deutschland: Angestellte, Selbstständige,
+        <p className="font-bold text-black/80 text-base md:text-lg leading-relaxed max-w-lg mb-2">
+          Wir sammeln Stimmen aus ganz Deutschland: Angestellte, Selbstständige,
           Arbeitsuchende, Azubis, Student:innen, Schüler:innen, Eltern, Rentner:innen.
-          Was passiert gerade bei <em>dir</em>?
         </p>
-
+        <p className="font-bold text-black text-base md:text-lg mb-6">
+          Egal ob betroffen oder besorgt: deine Stimme zählt.
+        </p>
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 mb-8">
@@ -57,7 +58,7 @@ export default function UmfrageCTASection() {
             href="/nicht-nur-dein-job/umfrage"
             className="inline-flex items-center justify-center bg-[#1a1a1a] text-white px-8 py-4 min-h-[52px] font-section font-bold text-base tracking-wide transition-colors hover:bg-black"
           >
-            Erzähl deine Geschichte →
+            Erhebe deine Stimme →
           </Link>
           <a
             href="https://www.pause-ai.de/#was-du-tun-kannst"

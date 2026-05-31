@@ -49,8 +49,9 @@ export default function HeroSection({ description }: { description: string }) {
             Spiel als unsere Jobs: unsere Selbstbestimmung, unsere Demokratie, unsere Existenz.
           </p>
 
-          <p className="font-black text-[#1a1a1a] text-sm md:text-lg mb-5 md:mb-10">
-            Du bist nicht allein. Und du bist nicht machtlos.
+         
+          <p className="font-bold text-[#1a1a1a] text-sm md:text-lg mb-5 md:mb-10">
+            Egal ob betroffen oder besorgt: deine Stimme zählt.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
@@ -58,7 +59,7 @@ export default function HeroSection({ description }: { description: string }) {
               href="/nicht-nur-dein-job/umfrage"
               className="inline-flex items-center justify-center bg-[#1a1a1a] text-white px-7 py-3.5 md:py-4 text-base font-bold tracking-wide hover:bg-black transition-colors"
             >
-              Erzähl deine Geschichte →
+              Erhebe deine Stimme →
             </Link>
             <Link
               href="#counter"

@@ -6,7 +6,7 @@ import UmfrageEmbed from "./UmfrageEmbed";
 
 export const metadata: Metadata = {
   title: "Umfrage: Nicht nur dein Job | PauseAI Deutschland",
-  description: "Erzähl uns, wie KI deinen Beruf verändert.",
+  description: "Egal ob betroffen oder besorgt: deine Stimme zählt.",
   alternates: { canonical: "https://pause-ai.de/nicht-nur-dein-job/umfrage" },
   robots: { index: true, follow: true },
 };
@@ -30,11 +30,10 @@ export default function UmfragePage() {
               Aktuelle Kampagne
             </p>
             <h1 className="font-display text-5xl md:text-7xl lg:text-[5.5rem] leading-[1.02] mb-8">
-              Erzähl deine Geschichte.
+              Erhebe deine Stimme.
             </h1>
             <p className="font-body text-xl md:text-2xl text-white/80 leading-relaxed max-w-3xl">
-              Ob anonym oder mit Namen: deine Geschichte zeigt der Politik, wie KI den Alltag
-              tatsächlich verändert.
+              Egal ob betroffen oder besorgt: deine Stimme zählt und zeigt der Politik, was auf dem Spiel steht. 
             </p>
           </div>
         </section>

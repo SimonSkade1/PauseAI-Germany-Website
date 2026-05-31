@@ -16,7 +16,7 @@ const PILLARS = [
       },
       {
         title: "Manipulation in industriellem Maßstab",
-        body: "Deepfakes, automatisierte Desinformation, gefälschte Audio-Anrufe von Familienmitgliedern. Was früher Aufwand kostete, ist jetzt kostenlos.",
+        body: "Deepfakes, Desinformation, gefälschte Sprachnachrichten von Familienmitgliedern. Was früher Expertise und Budget brauchte, dauert jetzt Sekunden.",
       },
       {
         title: "Biowaffen-Wissen wird zugänglich",
@@ -24,7 +24,7 @@ const PILLARS = [
       },
       {
         title: "Social Media auf Steroiden",
-        body: "Die gleichen Akteure bauen Systeme, die noch tiefer personalisieren, noch süchtiger machen, noch besser täuschen.",
+        body: "Soziale Netzwerke haben gezeigt, was passiert, wenn Algorithmen auf Engagement optimieren: Sucht, Polarisierung, Radikalisierung. KI macht denselben Mechanismus persönlicher. Nicht für Zielgruppen, sondern für jeden einzeln.",
       },
     ],
   },
@@ -70,11 +70,11 @@ const PILLARS = [
       },
       {
         title: "Ziele, die niemand setzte",
-        body: "Aus dem Training entstehen Ziele, die in keinem Pflichtenheft stehen. Bei mächtigeren Modellen fragt sich: Wird man es überhaupt noch erkennen?",
+        body: "Moderne KI, die ein Ziel verfolgt, entwickelt automatisch Unterziele: Ressourcen sichern, Einfluss ausbauen, Selbsterhaltung. Experimente zeigen das bereits. Niemand hat ihnen das beigebracht.",
       },
       {
         title: "Wettrennen ohne Bremse",
-        body: "Hinton, Bengio, sogar CEOs großer Labors warnen vor existenziellen Risiken. Gebaut wird trotzdem.",
+        body: "Hinton, Bengio, sogar CEOs großer Labors warnen vor existenziellen Risiken. Das Wettrennen läuft trotzdem weiter.",
       },
     ],
   },
@@ -99,9 +99,8 @@ export default function MehrAlsArbeitSection() {
         <SectionAnchor id="mehr" />
         </div>
         <p className="text-white/70 font-bold text-base md:text-lg leading-relaxed max-w-2xl mb-10 md:mb-20">
-          Jobverlust ist real. Aber er ist nur das erste Glied einer längeren Kette. Was
-          passiert, wenn die gleiche Technologie, die deinen Beruf ersetzt, auch Entscheidungen
-          über dich, dein Land und deine Zukunft trifft?
+          Jobverlust ist real. Aber er ist erst der Anfang. Die gleiche Technologie, die deinen
+          Beruf ersetzt, bedroht auch unsere Selbstbestimmung, Demokratie und Existenz.
         </p>
 
         {/* Pillars */}
