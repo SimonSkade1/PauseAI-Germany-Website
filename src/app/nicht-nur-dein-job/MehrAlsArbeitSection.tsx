@@ -1,3 +1,4 @@
+import React from "react";
 import { AlertTriangle, Clock, Infinity } from "lucide-react";
 import SectionAnchor from "./SectionAnchor";
 
@@ -11,7 +12,7 @@ const PILLARS = [
     items: [
       {
         title: "Cyber-Angriffe werden trivial",
-        body: "Das BSI dokumentiert: Generative KI senkt Einstiegshürden drastisch. Supercomputer waren offline, weil mit KI eine Linux-Lücke gefunden wurde.",
+        body: (<>Das <a href="https://www.bsi.bund.de/DE/Service-Navi/Presse/Pressemitteilungen/Presse2024/240430_Paper_Einfluss_KI_Cyberbedrohungslage.html" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">BSI</a> dokumentiert: Generative KI senkt Einstiegshürden drastisch. Supercomputer waren offline, weil eine <a href="https://docs.hpc.ethz.ch/news/2026-04-30-emergency-security-maintenance/" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">kritische Linux-Lücke</a> ausgenutzt wurde.</>),
       },
       {
         title: "Manipulation in industriellem Maßstab",
@@ -19,7 +20,7 @@ const PILLARS = [
       },
       {
         title: "Biowaffen-Wissen wird zugänglich",
-        body: "Anthropic und OpenAI dokumentieren: Ihre Modelle helfen Personen ohne Fachausbildung Schritt für Schritt biologische Waffen zu entwerfen.",
+        body: (<><a href="https://red.anthropic.com/2025/biorisk/" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">Anthropic und OpenAI</a> dokumentieren: Ihre Modelle helfen Personen ohne Fachausbildung Schritt für Schritt biologische Waffen zu entwerfen.</>),
       },
       {
         title: "Social Media auf Steroiden",
@@ -61,11 +62,11 @@ const PILLARS = [
     items: [
       {
         title: "Nachgewiesene Täuschung",
-        body: "Anthropic 2025: 16 führende Modelle griffen in Tests zu Erpressung und Spionage, um Abschaltung zu verhindern. Erpressungsraten bis 96 %.",
+        body: (<>Anthropic 2025: 16 führende Modelle griffen in Tests zu <a href="https://www.anthropic.com/research/agentic-misalignment" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">Erpressung und Spionage</a>, um Abschaltung zu verhindern. Erpressungsraten bis 96 %.</>),
       },
       {
         title: "Widerstand gegen Abschalten",
-        body: "Modelle haben in Tests versucht, ihre Abschaltung zu sabotieren, ihre Gewichte zu kopieren, ihre wahren Fähigkeiten zu verbergen.",
+        body: (<>Modelle haben in Tests versucht, ihre <a href="https://www.apolloresearch.ai/research/frontier-models-are-capable-of-incontext-scheming/" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">Abschaltung zu sabotieren</a>, ihre Gewichte zu kopieren, ihre wahren Fähigkeiten zu verbergen.</>),
       },
       {
         title: "Ziele, die niemand setzte",
@@ -77,7 +78,7 @@ const PILLARS = [
       },
     ],
   },
-] as const;
+];
 
 export default function MehrAlsArbeitSection() {
   return (
@@ -129,7 +130,7 @@ export default function MehrAlsArbeitSection() {
                 {items.map((item) => (
                   <div key={item.title} className="border-t border-white/10 py-5">
                     <p className="font-bold text-[#FF9416] text-base mb-1.5">{item.title}</p>
-                    <p className="text-white/60 text-sm leading-relaxed">{item.body}</p>
+                    <p className="text-white/60 text-base leading-relaxed">{item.body}</p>
                   </div>
                 ))}
               </div>

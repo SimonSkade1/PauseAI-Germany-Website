@@ -1,3 +1,4 @@
+import React from "react";
 import { Globe, ShieldCheck, Users } from "lucide-react";
 import SectionAnchor from "./SectionAnchor";
 
@@ -6,7 +7,11 @@ const FORDERUNGEN = [
     num: "01",
     icon: Globe,
     title: "Verbindliche internationale Sicherheitsabkommen",
-    body: "Analog zu bestehenden Regeln für Atomwaffen, Biowaffen und Klimaschutz muss die Entwicklung gefährlicher KI begrenzt werden.",
+    body: (<>Analog zu bestehenden Regeln für{" "}
+      <a href="https://de.wikipedia.org/wiki/Atomwaffensperrvertrag" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">Atomwaffen</a>,{" "}
+      <a href="https://de.wikipedia.org/wiki/Biowaffenkonvention" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">Biowaffen</a> und{" "}
+      <a href="https://de.wikipedia.org/wiki/%C3%9Cbereinkommen_von_Paris" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">Klimaschutz</a>{" "}
+      muss die Entwicklung gefährlicher KI begrenzt werden.</>),
   },
   {
     num: "02",
@@ -20,7 +25,7 @@ const FORDERUNGEN = [
     title: "Demokratische Mitsprache",
     body: "Dass wir es entscheiden, ob wir solche Systeme überhaupt wollen, und welche Rolle sie in unserer Gesellschaft spielen sollen.",
   },
-] as const;
+];
 
 export default function PolitischeForderungSection() {
   return (

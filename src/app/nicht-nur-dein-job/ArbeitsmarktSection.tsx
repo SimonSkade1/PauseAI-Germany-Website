@@ -1,5 +1,12 @@
+import React from "react";
 import { Eye, BellOff, Layers } from "lucide-react";
 import SectionAnchor from "./SectionAnchor";
+
+const A = ({ href, children }: { href: string; children: React.ReactNode }) => (
+  <a href={href} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">
+    {children}
+  </a>
+);
 
 const WAVES = [
   {
@@ -7,7 +14,13 @@ const WAVES = [
     icon: Eye,
     time: "Heute",
     title: "Direkte Entlassungen",
-    body: "Microsoft kündigt 6.000 Stellen mit Verweis auf KI-Investitionen. Meta entlässt 8.000 Mitarbeiter; Zuckerberg sagt, Aufgaben für ganze Teams würden heute von einer einzigen Person erledigt. Snap kürzt 16 % der Belegschaft, weil 60 % des neuen Codes intern bereits von KI geschrieben wird.",
+    body: (
+      <>
+        <A href="https://www.euronews.com/business/2025/05/14/microsoft-slashes-6000-jobs-as-it-clears-the-way-for-ai-investments">Microsoft kündigt 6.000 Stellen</A> mit Verweis auf KI-Investitionen.{" "}
+        <A href="https://thenextweb.com/news/meta-layoffs-8000-zuckerberg-ai-reality-may-2026">Meta entlässt 8.000 Mitarbeiter</A>; Zuckerberg sagt, Aufgaben für ganze Teams würden heute von einer einzigen Person erledigt.{" "}
+        <A href="https://www.cnbc.com/2026/04/15/snap-stock-layoffs-16-percent-workforce.html">Snap kürzt 16 % der Belegschaft</A>, weil 65 % des neuen Codes intern bereits von KI geschrieben wird.
+      </>
+    ),
     quote: "Wer kann, schreibt KI als Grund nicht mehr in die offizielle Begründung.",
     pad: "md:pr-10",
   },
@@ -17,7 +30,11 @@ const WAVES = [
     time: "Morgen",
     title: "Wer gar nicht erst eingestellt wird",
     body: "Berufseinstieg, Praktika, Trainee-Stellen, Junior-Positionen: genau die Aufgaben, an denen man früher gelernt hat, übernimmt jetzt ein Modell. Eine ganze Generation steht vor verschlossenen Türen, ohne dass das je offiziell kommuniziert wurde.",
-    quote: "Nur 32 % der jungen Menschen glauben, ein Studium sichere bessere Berufschancen. 21 % planen die Auswanderung.",
+    quote: (
+      <>
+        Nur <A href="https://www.forschung-und-lehre.de/zeitfragen/jugend-in-deutschland-2026-ein-fuenftel-will-auswandern-7606">32 % der jungen Menschen</A> glauben, ein Studium sichere bessere Berufschancen. 21 % planen die Auswanderung.
+      </>
+    ),
     pad: "md:px-10",
   },
   {
@@ -29,7 +46,7 @@ const WAVES = [
     quote: "Und wenn dein Job morgen anders aussieht als heute: Wer trägt das Risiko? Du.",
     pad: "md:pl-10",
   },
-] as const;
+];
 
 export default function ArbeitsmarktSection() {
   return (
@@ -79,12 +96,14 @@ export default function ArbeitsmarktSection() {
 
         {/* Footer stat — centered */}
         <p className="text-white/60 text-base md:text-lg leading-relaxed mt-16 text-center max-w-3xl mx-auto">
-          Und das ist konservativ gerechnet. Bundesdigitalminister Wissberger
+          Und das ist konservativ gerechnet. Bundesdigitalminister{" "}
+          <a href="https://www.zdfheute.de/wirtschaft/wildberger-digitalminister-arbeitsmarkt-kuenstliche-intelligenz-jobverluste-grundeinkommen-100.html" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">Wildberger</a>{" "}
           warnt offen vor Jobverlusten „auch in hochqualifizierten Berufen wie
-          Informatik und Mathematik". Das ifo-Beschäftigungsbarometer ist auf
-          dem tiefsten Stand seit Mai 2020 gefallen.{" "}
+          Informatik und Mathematik". Das{" "}
+          <a href="https://www.ifo.de/en/facts/2026-04-29/job-cuts-intensify-germany-april-2026" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">ifo-Beschäftigungsbarometer</a>{" "}
+          ist auf dem tiefsten Stand seit Mai 2020 gefallen.{" "}
           <strong className="text-white">
-            36 % der deutschen Unternehmen planen 2026 Stellenabbau
+            <a href="https://www.iwkoeln.de/presse/pressemitteilungen/michael-groemling-jedes-dritte-unternehmen-plant-2026-stellen-abzubauen.html" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">36 %</a> der deutschen Unternehmen planen 2026 Stellenabbau
           </strong>{" "}
           In der Industrie sogar 41 %.
         </p>
