@@ -125,7 +125,7 @@ export default function TestimonialsSection() {
         {/* Heading */}
         <div className="group/section flex items-start mb-14">
         <h2 id="stimmen" className="font-section font-black normal-case text-white text-4xl md:text-5xl leading-[1.08] scroll-mt-24">
-          Echte Geschichten.{" "}
+          Echte Stimmen.{" "}
           <span className="text-[#FF9416]">Echte Menschen.</span>
         </h2>
         <SectionAnchor id="stimmen" />
@@ -163,7 +163,7 @@ export default function TestimonialsSection() {
               <p className="text-white/50 text-sm mt-0.5">{t.location}</p>
             )}
           </div>
-          <span className="sr-only">{`Geschichte ${activeIndex + 1} von ${total}`}</span>
+          <span className="sr-only">{`Stimme ${activeIndex + 1} von ${total}`}</span>
         </div>
 
         {/* Nav + share row */}

@@ -43,7 +43,7 @@ export default function UmfrageEmbed() {
         className="border-t border-pause-black/10 pt-12"
       >
         <h2 className="font-display text-3xl md:text-5xl text-pause-black leading-tight mb-6">
-          Danke, dass du deine Geschichte mit uns geteilt hast! 🙏 🎉
+          Danke, dass du deine Geschichte, Erfahrung, Meinung mit uns geteilt hast! 🙏 🎉
         </h2>
         <p className="font-body text-pause-black/75 text-lg leading-relaxed mb-10 max-w-2xl">
           Mit dir gemeinsam bauen wir den Druck auf, der eine menschliche Zukunft möglich macht.
@@ -78,7 +78,7 @@ export default function UmfrageEmbed() {
         width="100%"
         height="700"
         frameBorder={0}
-        title="Erzähl deine Geschichte – PauseAI"
+        title="Erhebe deine Stimme – PauseAI"
         data-testid="tally-iframe"
         className="block w-full min-h-[700px] border-0"
       />

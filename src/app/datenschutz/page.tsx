@@ -473,7 +473,7 @@ export default function Datenschutz() {
               </p>
               <p className="font-body text-pause-black/80 mt-2 text-justify">
                 Im Rahmen des Formulars werden folgende personenbezogene Daten erhoben: Name oder Vorname, Stadt
-                bzw. Postleitzahl, frei formulierte Geschichte, optional hochgeladene Fotos und Videos sowie – sofern
+                bzw. Postleitzahl, frei formulierter Text, optional hochgeladene Fotos und Videos sowie – sofern
                 Sie der Kontaktaufnahme zustimmen – Ihre E-Mail-Adresse. Die Angabe der mit * gekennzeichneten
                 Felder ist erforderlich; alle weiteren Angaben sind freiwillig.
               </p>

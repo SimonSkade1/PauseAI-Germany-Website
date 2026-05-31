@@ -5,7 +5,7 @@ import { Copy, Check, Share2 } from "lucide-react";
 
 const SHARE_URL = "https://pause-ai.de/nicht-nur-dein-job";
 const SHARE_TEXT =
-  "Nicht nur dein Job – wenn wir die Kontrolle über KI verlieren, steht weit mehr auf dem Spiel: unsere Selbstbestimmung, unsere Demokratie, unsere Existenz. Aber diese Entwicklung ist nicht unvermeidlich! Erfahre mehr und erzähle deine Geschichte:";
+  "Nicht nur dein Job! Wenn wir die Kontrolle über KI verlieren, steht weit mehr auf dem Spiel: unsere Selbstbestimmung, unsere Demokratie, unsere Existenz. Aber diese Entwicklung ist nicht unvermeidlich! Erfahre mehr und erheben deine Stimme:";
 
 export default function ShareSection() {
   const [copied, setCopied] = useState(false);

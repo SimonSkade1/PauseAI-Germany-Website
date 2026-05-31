@@ -7,7 +7,7 @@ import SectionAnchor from "./SectionAnchor";
 
 const SHARE_URL = "https://pause-ai.de/nicht-nur-dein-job";
 const SHARE_TEXT =
-  "Nicht nur dein Job – wenn wir die Kontrolle über KI verlieren, steht weit mehr auf dem Spiel: unsere Selbstbestimmung, unsere Demokratie, unsere Existenz. Aber diese Entwicklung ist nicht unvermeidlich! Erfahre mehr und erzähle deine Geschichte:";
+  "Nicht nur dein Job! Wenn wir die Kontrolle über KI verlieren, steht weit mehr auf dem Spiel: unsere Selbstbestimmung, unsere Demokratie, unsere Existenz. Aber diese Entwicklung ist nicht unvermeidlich! Erfahre mehr und erhebe deine Stimme:";
 
 export default function UmfrageCTASection() {
   const [copied, setCopied] = useState(false);
@@ -45,8 +45,8 @@ export default function UmfrageCTASection() {
 
         {/* Body */}
         <p className="font-bold text-black/80 text-base md:text-lg leading-relaxed max-w-lg mb-2">
-          Wir sammeln Stimmen aus ganz Deutschland: Angestellte, Selbstständige,
-          Arbeitsuchende, Azubis, Student:innen, Schüler:innen, Eltern, Rentner:innen.
+          Wir sammeln Eindrücke, Erfahrungen, Meinungen aus ganz Deutschland: Angestellte, Selbstständige,
+          Arbeitsuchende, Azubis, Student:innen, Schüler:innen, Eltern, Rentner:innen, ALLE.
         </p>
         <p className="font-bold text-black text-base md:text-lg mb-6">
           Egal ob betroffen oder besorgt: deine Stimme zählt.
