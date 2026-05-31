@@ -149,7 +149,7 @@ export default function TestimonialsSection() {
                   <p key={i} className={emphasised ? "font-bold" : "text-white/80"}>
                     {isFirst && <span className="text-[#FF9416] text-4xl leading-none mr-1 font-serif">„</span>}
                     {para}
-                    {isLast && "}"}
+                    {isLast && ""}
                   </p>
                 );
               });
