@@ -111,8 +111,7 @@ const STEP1_PROMPT = `Research every member of [my parliament / chamber] and cre
 const PERSONALIZE_PROMPT = `For every politician in the CRM, write a personalized opening paragraph for the outreach email. Use sub-agents to work through them in parallel. For each person:
 
 1. From their CRM note (verify with a quick web search if needed), take their current role and main committee(s) or area of responsibility.
-2. Write 2–3 formal sentences in [my language]. Sentence one names their role and the concrete area they shape or are responsible for — vary the wording across people (e.g. "As …, you carry responsibility for …", "As a member of the … committee, you deal with …", "As chair of …, you have long worked on …") so the emails do not read as templated. Sentence two ties AI directly to that exact area: how AI is already used there and what new risks it raises — concrete to their field (defense → autonomous weapons and military AI; interior/justice → surveillance and security; research/tech → the trajectory of the technology itself; economy/labour → automation; and so on), no generic filler, no invented facts.
-3. End the paragraph with exactly: "As an AI safety researcher and head of a citizens' initiative, I would like to speak with you about the risks of near-future AI systems."
+2. Write two formal sentences in [my language]. Sentence one names their role and the concrete area they shape or are responsible for — vary the wording across people (e.g. "As …, you carry responsibility for …", "As a member of the … committee, you deal with …", "As chair of …, you have long worked on …") so the emails do not read as templated. Sentence two ties AI directly to that exact area: how AI is already used there and what new risks it raises — concrete to their field (defense → autonomous weapons and military AI; interior/justice → surveillance and security; research/tech → the trajectory of the technology itself; economy/labour → automation; and so on), no generic filler, no invented facts. Do not add a self-introduction or an ask — that sentence is the same for everyone and lives in the standard body.
 
 If a person has verifiably said something notable about AI, you may weave in one short, accurate reference. Then export a CSV with columns: email, name, salutation, personalization.`;
 
@@ -229,6 +228,14 @@ export default function InitialOutreachPage() {
                   (a 30-minute meeting).
                 </P>
                 <P>
+                  One sentence belongs in your first paragraph: a brief
+                  self-introduction and your ask (Simon's was "As an AI safety
+                  researcher and head of a citizens' initiative, I would like to
+                  speak with you about the risks of near-future AI systems."). It
+                  depends on who you are, so add it to your body yourself — Claude
+                  leaves it out of the per-person openers.
+                </P>
+                <P>
                   Below is the actual email Simon (PauseAI Germany) sent,
                   translated to English. It is <strong>not</strong> a template to
                   copy — you need to write your own; this only shows the shape and
@@ -311,8 +318,9 @@ export default function InitialOutreachPage() {
                   Now have Claude write the per-person opener for everyone, again
                   with sub-agents in parallel, and export a CSV. Each opener
                   follows the same shape as the example: name their role and what
-                  they are responsible for, connect AI specifically to that field,
-                  then close with your standard intro-and-ask sentence.
+                  they are responsible for, then connect AI specifically to that
+                  field. Your own intro-and-ask sentence (from step 2) follows it
+                  in the body.
                 </P>
                 <PromptBox text={PERSONALIZE_PROMPT} />
                 <div className="mb-4 max-w-3xl rounded-sm border-l-4 border-pause-orange bg-[#FFF6EC] p-4">
@@ -331,15 +339,23 @@ export default function InitialOutreachPage() {
                   The CSV the script expects looks like this (one row per person):
                 </P>
                 <Code>{`email,name,salutation,personalization
-jane.doe@parliament.example,Jane Doe,Dear Dr. Doe,"As chair of the ... committee, you ... AI ... As an AI safety researcher and head of a citizens' initiative, I would like to speak with you about the risks of near-future AI systems."`}</Code>
-                <P>
-                  Optional, more advanced: have Claude add a closing line naming
-                  one or two AI-focused politicians in the recipient's own party
-                  that you have already contacted ("I have already reached out to
-                  your colleagues X and Y") — a nice signal that the topic is
-                  moving in their group. Keep that in a separate column if you use
-                  it.
-                </P>
+jane.doe@parliament.example,Jane Doe,Dear Dr. Doe,"As chair of the ... committee, you ... AI ..."`}</Code>
+                <details className="mb-4 max-w-3xl rounded-sm border border-pause-black/15 bg-pause-black/[0.02] p-4">
+                  <summary className="cursor-pointer font-section text-sm text-pause-black/70">
+                    Optional, advanced — probably not important
+                  </summary>
+                  <p className="mt-3 font-body text-sm text-pause-black/85">
+                    You can have Claude add a closing line naming one or two
+                    AI-focused politicians in the recipient's own party that you
+                    have already contacted ("I have already reached out to your
+                    colleagues X and Y"). That is because otherwise you may often
+                    get recommended further to the politicians responsible for
+                    that topic, and saying it up front can head that off. It only
+                    works if you know who a given person tends to forward you to —
+                    which you can often guess after a bit of research. Keep it in
+                    a separate column if you use it.
+                  </p>
+                </details>
               </Section>
 
               {/* Step 4 */}
