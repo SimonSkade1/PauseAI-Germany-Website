@@ -251,23 +251,22 @@ export default function InitialOutreachPage() {
                       protection, and the federal police. AI systems are
                       increasingly used across all of these areas and at the same
                       time create novel risks, and assessing them requires an
-                      up-to-date picture of where the technology stands. As an AI
-                      safety researcher and head of a citizens' initiative, I
-                      would like to speak with you about the risks of near-future
-                      AI systems.
+                      up-to-date picture of where the technology stands.
                     </span>{" "}
                     <span className="text-pause-black/45">
                       ← personalized opener
                     </span>
                   </p>
                   <p className="mb-3">
-                    For the past four years I have researched AI safety, including
-                    as a fellow of the SERI MATS research program in Berkeley and
-                    as a grantee of the Long-Term Future Fund. Today I lead the
-                    citizens' initiative PauseAI Germany, which recently organized
-                    an appeal in which 152 German professors, including Fields
-                    Medalist Peter Scholze, called for an international AI safety
-                    agreement.
+                    As an AI safety researcher and head of a citizens' initiative,
+                    I would like to speak with you about the risks of near-future
+                    AI systems. For the past four years I have researched AI
+                    safety, including as a fellow of the SERI MATS research program
+                    in Berkeley and as a grantee of the Long-Term Future Fund.
+                    Today I lead the citizens' initiative PauseAI Germany, which
+                    recently organized an appeal in which 152 German professors,
+                    including Fields Medalist Peter Scholze, called for an
+                    international AI safety agreement.
                   </p>
                   <p className="mb-3">
                     Behind the AI progress of recent years lies a robust trend:
