@@ -54,8 +54,8 @@ export default function NichtNurDeinJobPage() {
         <HeroSection description={DESCRIPTION} />
         <JumpBar />
         <JobLossCounterSection />
-        <ArbeitsmarktSection />
         <TestimonialsSection />
+        <ArbeitsmarktSection />
         <JobLossChartSection />
         <MehrAlsArbeitSection />
         <PolitischeForderungSection />
