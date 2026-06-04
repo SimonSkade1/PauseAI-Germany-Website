@@ -39,7 +39,11 @@ function EventCard({ event }: { event: EventData }) {
     </>
   );
 
-  const lumaUrl = event.url ? `https://lu.ma/${event.url}` : null;
+  const lumaUrl = event.url
+    ? event.url.startsWith("http")
+      ? event.url
+      : `https://lu.ma/${event.url}`
+    : null;
 
   const body = (
     <div className="flex-1 flex flex-col justify-center p-4 md:p-6 min-w-0">
