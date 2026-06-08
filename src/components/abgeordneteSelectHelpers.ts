@@ -28,19 +28,26 @@ export const TEMPLATE_FILE_BY_CHAMBER: Record<Chamber, string> = {
   mep_mythos: "mail_mep_mythos.txt",
 };
 
+const PREVIEW_MAX_CHARS = 120;
+
+function buildPreview(body: string): string {
+  const text = body
+    .split("\n")
+    .filter((l) => l.trim() && !l.includes("{{"))
+    .join(" ")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (text.length <= PREVIEW_MAX_CHARS) return text;
+  return text.slice(0, PREVIEW_MAX_CHARS).replace(/\s+\S*$/, "") + "…";
+}
+
 export function parseTemplateMeta(raw: string): { subject: string; preview: string } {
   const m = raw.match(/^(?:Subject|Betreff):(.*)\r?\n\r?\n([\s\S]*)/i);
   if (!m) {
-    const preview = raw.split("\n").filter((l) => l.trim() && !l.includes("{{")).slice(0, 5).join(" ");
-    return { subject: "", preview };
+    return { subject: "", preview: buildPreview(raw) };
   }
   const subject = m[1].trim();
-  const preview = m[2]
-    .split("\n")
-    .filter((l) => l.trim() && !l.includes("{{"))
-    .slice(0, 5)
-    .join(" ");
-  return { subject, preview };
+  return { subject, preview: buildPreview(m[2]) };
 }
 
 export const CSV_PATH_BY_CHAMBER: Record<Chamber, string> = {
