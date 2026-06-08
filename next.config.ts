@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       { source: "/kampagne", destination: "/nicht-nur-dein-job", permanent: false },
+      { source: "/contactlawmakers", destination: "/mailtool", permanent: true },
     ];
   },
   env: {
