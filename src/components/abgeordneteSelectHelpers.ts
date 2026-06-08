@@ -28,7 +28,7 @@ export const TEMPLATE_FILE_BY_CHAMBER: Record<Chamber, string> = {
   mep_mythos: "mail_mep_mythos.txt",
 };
 
-const PREVIEW_MAX_CHARS = 120;
+const PREVIEW_MAX_CHARS = 260;
 
 function buildPreview(body: string): string {
   const text = body

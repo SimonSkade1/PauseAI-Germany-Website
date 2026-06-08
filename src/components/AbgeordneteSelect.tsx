@@ -484,7 +484,7 @@ export default function AbgeordneteSelect({
                 <div className="font-section text-sm font-medium text-pause-black mb-1">
                   {templateMeta[c]?.subject ?? "…"}
                 </div>
-                <div className="text-xs text-pause-black/70 line-clamp-2 h-8 leading-4">
+                <div className="text-xs text-pause-black/70 line-clamp-4 h-16 leading-4">
                   {templateMeta[c]?.preview ?? ""}
                 </div>
               </button>
