@@ -185,10 +185,18 @@ const newsletters: Resource[] = [
 
 const videos: Resource[] = [
   {
-    title: "Karl Olsberg's YouTube Kanal",
-    href: "https://www.youtube.com/@KarlOlsbergAutor",
+    title: "Karl Olsberg: Wenn irgendwer es baut, sterben wir alle",
+    href: "https://www.youtube.com/watch?v=taNuIZX6vHk",
     external: true,
     language: "DE",
+    description: "15min"
+  },
+  {
+    title: "Karl Olsberg: KI 2027 außer Kontrolle: Ein erschreckend realistisches Szenario",
+    href: "https://www.youtube.com/watch?v=x01dcYkr5qw",
+    external: true,
+    language: "DE",
+    description: "15min"
   },
   {
     title: "Kurzgesagt: Superintelligenz",
@@ -207,6 +215,13 @@ const videos: Resource[] = [
   {
     title: "Why AI Is Our Ultimate Test and Greatest Invitation | Tristan Harris | TED",
     href: "https://www.youtube.com/watch?v=6kPHnl-RsVI",
+    external: true,
+    language: "EN",
+    description: "15min"
+  },
+  {
+    title: "This May Be Humanity’s Hardest Challenge",
+    href: "https://www.youtube.com/watch?v=7wy3xyoXYt8",
     external: true,
     language: "EN",
     description: "15min"
@@ -246,28 +261,28 @@ const podcasts: Resource[] = [
   {
     title: "Experte: KI wird später keine Kontrolle durch Menschen mehr zulassen",
     href: "https://www.deutschlandfunk.de/forschende-fordern-sicherheitsstandards-fuer-ki-interview-k-h-blaesius-100.html",
-    description: "Interview mit Karl Hans Bläsius im Deutschlandfunk (18.2.2026).",
+    description: "Interview mit Karl Hans Bläsius im Deutschlandfunk (18.2.2026) ~ 5 min",
     external: true,
     language: "DE",
   },
   {
     title: "Godfather of AI: They Keep Silencing Me But I’m Trying to Warn Them!",
     href: "https://www.youtube.com/watch?v=giT0ytynSqg",
-    description: "Interview mit Geoffrey Hinton, Turing-Award-Preisträger und Mitbegründer der modernen KI.  (16.6.2025).",
+    description: "Interview mit Geoffrey Hinton, Turing-Award-Preisträger und Mitbegründer der modernen KI (16.6.2025) ~ 90 min",
     external: true,
     language: "EN",
   },
   {
     title: "AI is MUTATING: And We Don't Know What It is Doing | Connor Leahy",
     href: "https://www.youtube.com/watch?v=rf2KFVcKQdQ",
-    description: "Aktuelles Interview mit Connor Leahy (10.3.2026).",
+    description: "Aktuelles Interview mit Connor Leahy (10.3.2026) ~ 90 min",
     external: true,
     language: "EN",
   },
   {
     title: "Why Superhuman AI Would Kill Us All - Eliezer Yudkowsky",
     href: "https://www.youtube.com/watch?v=nRvAt4H7d7E",
-    description: "Aktuelles Interview mit Eliezer Yudkowsky (25.10.2025).",
+    description: "Aktuelles Interview mit Eliezer Yudkowsky (25.10.2025) ~ 90 min",
     external: true,
     language: "EN",
   },
@@ -297,21 +312,21 @@ const podcasts: Resource[] = [
 const articles: Resource[] = [
   {
     title: "DER SPIEGEL Titelstory: Die Todesmaschine",
-    href: "https://www.spiegel.de/ausland/kuenstliche-intelligenz-regulierung-dringend-noetig-um-toedliche-risiken-zu-vermeiden-a-c0a9b62d-5872-40ef-a503-8d3213d21aac",
+    href: "https://archive.ph/oQdif",
     description: "Der Aufstieg von künstlicher Intelligenz ist so gefährlich wie die Erfindung der Atombombe. KI-Pioniere warnen: Die Menschheit muss die Maschinen einhegen, solange sie das noch kann. (03.03.2026)",
     external: true,
     language: "DE",
   },
   {
     title: "DER SPIEGEL Kolumne: KI-Schöpfer warnen vor tödlichen Gefahren der Technik. Warum ignorieren wir sie?",
-    href: "https://www.spiegel.de/ausland/ki-schoepfer-warnen-vor-toedlichen-gefahren-der-technik-warum-ignorieren-wir-sie-kolumne-a-6df9e814-33b6-4251-9e7f-129df15eff3b",
+    href: "https://archive.ph/bMeRw",
     description: "Künstliche Intelligenz könnte eines Tages die perfekte Waffe in den Händen von Diktatoren und Terroristen sein – oder sich gegen die Menschheit wenden. Wer das für Sci­ence-Fic­tion hält, hat das Wesen der neuen Technik nicht verstanden. (08.02.2026)",
     external: true,
     language: "DE",
   },
   {
     title: "DER SPIEGEL Interview: »Als mir klar wurde, dass die Zukunft meiner Kinder bedroht ist, musste ich handeln«",
-    href: "https://www.spiegel.de/netzwelt/web/kuenstliche-intelligenz-gruendervater-warnt-vor-kontrollverlust-sollten-den-stecker-ziehen-koennen-a-634f4958-a1fe-4c3e-8d51-bf187902c5fc",
+    href: "https://archive.ph/dGMI5",
     description: "Der Informatiker Yoshua Bengio gilt als einer der wichtigsten KI-Forscher der Welt und wichtiger Gründervater der Technik. Heute hält er seine Schöpfung für brandgefährlich – und warnt vor dem Kontrollverlust. (14.11.2025)",
     external: true,
     language: "DE",
@@ -330,7 +345,7 @@ const articles: Resource[] = [
   },
   {
     title: "The Case for Slowing Down AI (Sigal Samuel)",
-    href: "https://www.vox.com/the-highlight/23621198/artificial-intelligence-chatgpt-openai-existential-risk-china-ai-safety-technology",
+    href: "https://archive.ph/t88nw",
     external: true,
     language: "EN",
   },
@@ -572,11 +587,11 @@ export default function InformierenPage() {
 
         {/* Sections */}
         <ResourceSection title="Unsere Aktionen" items={internalLinks} />
-        <ResourceSection title="Wichtige Websites" items={importantWebsites} />
-        <ResourceSection title="Newsletter" items={newsletters} />
         <ResourceSection title="Videos" items={videos} />
-        <ResourceSection title="Podcasts" items={podcasts} />
         <ResourceSection title="Artikel" items={articles} />
+        <ResourceSection title="Podcasts" items={podcasts} />
+        <ResourceSection title="Newsletter" items={newsletters} />
+        <ResourceSection title="Wichtige Websites" items={importantWebsites} />
         <ResourceSection title="Bücher" items={books} />
         <ResourceSection
           title="Wissenschaftliche Arbeiten"
