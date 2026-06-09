@@ -365,9 +365,16 @@ const articles: Resource[] = [
 
 const books: Resource[] = [
   {
-    title: "Kontroll-Illusion",
+    title: "Kontroll-Illusion: Warum KI unsere Existenz bedroht",
     href: "https://www.ki-risiken.de/kontroll-illusion/",
-    description: "Warum KI unsere Existenz bedroht (Karl Olsberg, 2025)",
+    description: "Karl Olsberg, 2025",
+    external: true,
+    language: "DE",
+  },
+  {
+    title: "KI und Krieg: Welche Risiken entstehen, wenn der Mensch die Kontrolle verliert?",
+    href: "https://link.springer.com/book/10.1007/978-3-662-72526-9",
+    description: "Karl Hans Bläsius, 2026",
     external: true,
     language: "DE",
   },
