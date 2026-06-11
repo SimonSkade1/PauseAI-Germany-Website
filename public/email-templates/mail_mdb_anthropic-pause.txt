@@ -1,0 +1,24 @@
+Subject: Risiken sich selbst verbessernder KI: Eine nationale und globale Sicherheitsfrage
+
+{{anrede}} {{recipientName}},
+
+mein Name ist {{senderName}} und ich komme aus Ihrem Wahlkreis. Ich schreibe Ihnen wegen einer Entwicklung, die ich für eine der wichtigsten unserer Zeit halte.
+
+Das KI-Unternehmen Anthropic hat vor Kurzem öffentlich gemacht, dass inzwischen über 80 Prozent des Codes für seine eigenen KI-Systeme nicht mehr von Menschen, sondern von der KI selbst geschrieben wird. Das ist der Einstieg in das, was Fachleute rekursive Selbstverbesserung nennen: KI entwickelt KI, am Ende könnten Systeme ihre eigenen, immer leistungsfähigeren Nachfolger selbst entwerfen.
+
+Anthropic benennt die Gefahren selbst: Diese Entwicklung erhöhe das Risiko, dass Menschen die Kontrolle über die Systeme verlieren, und am Ende könne womöglich niemand mehr nachvollziehen, wohin sie läuft. Zugleich sagt das Unternehmen, es wäre gut, die Option zu haben, die Entwicklung zu verlangsamen oder zu pausieren. Gebremst wird aber nicht, der Wettlauf läuft mit vollem Tempo weiter. Ein einzelnes Unternehmen wird ihn nicht von sich aus anhalten. Deshalb ist die Politik gefragt.
+
+Dass der Nationale Sicherheitsrat am 9. Juni ein KI-Sicherheitsinstitut beschlossen hat, ist ein wichtiger erster Schritt, angesichts des Tempos aber nicht ausreichend. Auch der europäische AI Act regelt einzelne Anwendungen, nicht dieses Szenario einer sich selbst beschleunigenden Spitzenentwicklung. Und auch die G7-Digitalministererklärung vom 29. Mai bleibt durchgehend entwicklungsfreundlich und geht auf die existenziellen Risiken, die die Unternehmen selbst benennen, gar nicht ein.
+
+Ich bitte Sie, sich für eine verbindliche internationale Regulierung von KI-Systemen mit katastrophalem Potenzial einzusetzen, vergleichbar mit den Regelwerken für Atom-, Bio- und Chemiewaffen.
+
+Falls Sie weitere Informationen wünschen: Die Bürgerbewegung PauseAI Deutschland (https://www.pause-ai.de/) vermittelt gerne Fachleute, die Sie hierzu briefen.
+
+Über eine kurze Rückmeldung würde ich mich sehr freuen.
+
+Mit freundlichen Grüßen
+{{senderName}}
+
+Quellen:
+https://www.deutschlandfunk.de/anthropic-fuer-weltweite-pause-bei-ki-entwicklung-102.html
+https://www.anthropic.com/institute/recursive-self-improvement 

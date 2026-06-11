@@ -1,6 +1,6 @@
 export type Row = Record<string, string>;
 export type WizardStep = 1 | 2 | 3 | 4 | 5;
-export type Chamber = "bundestag" | "europarl" | "buergersprechstunde" | "mdb_mythos" | "mep_mythos";
+export type Chamber = "bundestag" | "europarl" | "buergersprechstunde" | "mdb_mythos" | "mep_mythos" | "mdb_anthropic";
 export type Coord = { lat: number; lon: number };
 export type CoordMap = Record<string, Coord>;
 export type RowInfo = {
@@ -26,6 +26,7 @@ export const TEMPLATE_FILE_BY_CHAMBER: Record<Chamber, string> = {
   buergersprechstunde: "mail_mdb_buergersprechstunde.txt",
   mdb_mythos: "mail_mdb_mythos.txt",
   mep_mythos: "mail_mep_mythos.txt",
+  mdb_anthropic: "mail_mdb_anthropic-pause.txt",
 };
 
 const PREVIEW_MAX_CHARS = 260;
@@ -56,6 +57,7 @@ export const CSV_PATH_BY_CHAMBER: Record<Chamber, string> = {
   buergersprechstunde: "/data/BTAbgeordnete_with_bundesland.csv",
   mdb_mythos: "/data/BTAbgeordnete_with_bundesland.csv",
   mep_mythos: "/data/EUAbgeordnete.csv",
+  mdb_anthropic: "/data/BTAbgeordnete_with_bundesland.csv",
 };
 
 export const FILTER_FIELDS_BY_CHAMBER: Record<Chamber, FilterField[]> = {
@@ -64,6 +66,7 @@ export const FILTER_FIELDS_BY_CHAMBER: Record<Chamber, FilterField[]> = {
   buergersprechstunde: ["first", "last", "full", "birthYear", "party", "district", "email"],
   mdb_mythos: ["first", "last", "full", "birthYear", "party", "district", "email"],
   mep_mythos: ["party"],
+  mdb_anthropic: ["first", "last", "full", "birthYear", "party", "district", "email"],
 };
 
 const FILTER_FIELD_LABELS: Record<FilterField, string> = {

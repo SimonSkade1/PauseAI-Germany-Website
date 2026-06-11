@@ -30,7 +30,7 @@ type MailDraft = { recipient: string };
 type ParliamentGroup = "bundestag" | "europarl";
 
 const CHAMBER_GROUPS: Record<ParliamentGroup, Chamber[]> = {
-  bundestag: ["mdb_mythos", "bundestag", "buergersprechstunde"],
+  bundestag: ["mdb_anthropic", "mdb_mythos", "bundestag", "buergersprechstunde"],
   europarl: ["mep_mythos", "europarl"],
 };
 
@@ -58,7 +58,7 @@ export default function AbgeordneteSelect({
   const [templateMeta, setTemplateMeta] = useState<Partial<Record<Chamber, { subject: string; preview: string }>>>({});
 
   useEffect(() => {
-    (["bundestag", "europarl", "buergersprechstunde", "mdb_mythos", "mep_mythos"] as const).forEach((c) => {
+    (["bundestag", "europarl", "buergersprechstunde", "mdb_mythos", "mep_mythos", "mdb_anthropic"] as const).forEach((c) => {
       fetch(`/email-templates/${TEMPLATE_FILE_BY_CHAMBER[c]}`)
         .then((r) => r.text())
         .then((text) => setTemplateMeta((prev) => ({ ...prev, [c]: parseTemplateMeta(text) })))
@@ -111,7 +111,7 @@ export default function AbgeordneteSelect({
 
   // Load PLZ -> Wahlkreis mapping (Bundestag only)
   useEffect(() => {
-    if (chamber !== "bundestag" && chamber !== "buergersprechstunde" && chamber !== "mdb_mythos") {
+    if (chamber !== "bundestag" && chamber !== "buergersprechstunde" && chamber !== "mdb_mythos" && chamber !== "mdb_anthropic") {
       setPlzMapping({});
       return;
     }
@@ -213,7 +213,7 @@ export default function AbgeordneteSelect({
   }, []);
 
   const plzWkNumbers = useMemo(() => {
-    if (chamber !== "bundestag" && chamber !== "buergersprechstunde" && chamber !== "mdb_mythos") return null;
+    if (chamber !== "bundestag" && chamber !== "buergersprechstunde" && chamber !== "mdb_mythos" && chamber !== "mdb_anthropic") return null;
     const value = search.trim().replace(/\s+/g, "");
     if (!/^\d{4,5}$/.test(value)) return null;
     const wahlkreise = plzMapping[value] ?? [];
@@ -277,7 +277,7 @@ export default function AbgeordneteSelect({
   const filtered = useMemo(() => {
     if (!rowsWithInfo.length) return [] as RowWithInfo[];
 
-    const numericPlzSearch = (chamber === "bundestag" || chamber === "buergersprechstunde" || chamber === "mdb_mythos") && /^\d{4,5}$/.test(normalizedSearch);
+    const numericPlzSearch = (chamber === "bundestag" || chamber === "buergersprechstunde" || chamber === "mdb_mythos" || chamber === "mdb_anthropic") && /^\d{4,5}$/.test(normalizedSearch);
     const query = search.trim().toLowerCase();
 
     if (isEuroparlPlzSearch) {
@@ -587,7 +587,7 @@ export default function AbgeordneteSelect({
                                 )}
                               </div>
                             )}
-                            {(chamber === "bundestag" || chamber === "buergersprechstunde" || chamber === "mdb_mythos") &&
+                            {(chamber === "bundestag" || chamber === "buergersprechstunde" || chamber === "mdb_mythos" || chamber === "mdb_anthropic") &&
                               (item.info.bundesland || item.info.district) && (
                                 <div className="text-xs text-gray-600 mt-1">
                                   {bundestagSubtitle(item.info)}
