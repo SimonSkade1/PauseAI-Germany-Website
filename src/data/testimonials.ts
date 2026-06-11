@@ -46,4 +46,103 @@ export const STATIC_TESTIMONIALS: Testimonial[] = [
     "Eine Bekannte Dame war Texterin und hat Webseiten konzeptioniert. Seit 2024 ist die Auftragslage extrem eingebrochen. Als Sie bei einem langjährigen Kunden nachgefragt hat, wo denn die Aufträge bleiben, wurde ihr eröffnet, daß man eine KI mit ihren Texten gefüttert hatte und sie nicht länger benötigt werden. Sie kann nunmehr nicht mehr von ihrem Beruf leben. Sie gibt jetzt Workshops über Aufklärung und Risiken in Verbindung mit KI. Doch fragt sie sich wie lange das noch geht.",
     approved: true,
   },
+  {
+    name: "Henrik Jacobsen",
+    location: "Osnabrück",
+    story:
+      "Ich sorge mich stark um die Zukunft meiner Freunde und meiner Familie. Die großen KI-Fimen in den USA werben damit möglichst schnell eine Superintelligenz schaffen zu wollen. Auch wenn niemand weiß, ob eine starke Allgemeine KI in den nächsten Jahren möglich sein wird, halte ich es für absolut unverantwortlich, diese Entwicklung politisch aber auch gesellschaftlich zu dulden. Alle Expertinnen und Experten sind sich einig, dass wir eine solche Technologie aktuell nicht kontrollieren können und diese Firmen mit der Zukunft der gesamten Menschheit spielen.",
+    approved: true,
+  },
+  {
+    name: "Pia",
+    location: "Osnabrück",
+    story:
+      "KI bringt einfach mit den aktuellen Regulationen viel mehr Risiken als Vorteile mit sich. Besonders große Sorgen mache ich mir um die autonomen Waffen, die mit KI möglich sind.",
+    approved: true,
+  },
+  {
+    name: "Lennard",
+    story:
+      "Zuallererst und am größten ist die Sorge nach weiter grassierender Ungleichheit und Verarmung - trotz Effizienzgewinnen.\n\nDieses wahrscheinliche Szenario, dass sich eine vergleichsweise kleine Gruppe ein Werkzeug geschaffen hat, um mit dem Wissen und der Kreativität anderer enorme Macht und später dann auch Reichtum anzuhäufen, gehört asap kontrolliert. Solange es noch geht. Demokratische Institutionen sind offensichtlich nicht ganz so stabil, wie wir uns das immer eingeredet haben.\n\nAnsonsten der übliche technische Kram: Besorgnis über die digitale Sicherheit unserer modernen Welt. Seien es Banken, Behörden aber auch Infrastruktur und Energieversorgung. Kriegsführung, Überwachung und irgendwann auch Stagnation in der Forschung. Letzteres vor allem durch AI-Slop und -Inzucht. Ich glaube nicht, dass wir in der geistigen Spitze der Menschheit dümmer werden werden.\n\nMeinen eigenen Job sehe ich auf absehbare Zeit übrigens nicht gefährdet, allerdings würde ich in naher Zukunft als Berufseinsteiger nicht mehr so einfach eine vergleichbare Stelle finden.",
+    approved: true,
+  },
+  {
+    name: "Christian Fischer",
+    story:
+      "Ich beobachte die Entwicklung von KI seit über 2 Jahren und frage mich, was macht sie mit uns Menschen und den nachfolgenden Generationen? Wem nützt sie? Wem schadet sie? Wer kontrolliert sie (wenn überhaupt)? Zu welchem Zweck? Wer trägt die Verantwortung der Konsequenzen? Die Entwicklung geht schneller voran, als wir die entscheidenden Fragen beantworten können. Das halte ich für höchst bedenklich. Deshalb finde ich das Bemühen und die Forderung, die Entwicklung zu pausieren für enorm wichtig und absolut Wert zu unterstützen.",
+    approved: true,
+  },
+  {
+    name: "Simon Skade",
+    story:
+      "Ich habe 3,5 Jahre an KI-Sicherheit geforscht und denke es ist relativ wahrscheinlich dass die Menschheit aussterben wird wenn wir kein internationales KI-Sicherheitsabkommen abschließen. Wir können die Entwicklung unkontrollierbarer KI noch stoppen, aber dafür müssen wir aufwachen und aktiv werden.",
+    approved: true,
+  },
+  {
+    name: "Karen",
+    location: "Dresden",
+    story:
+      "Es hat mich sehr schockiert, zu erfahren, dass KI-Experten wie Geoffrey Hinton KI für eine existenzielle Bedrohung für die Menschheit halten. Obwohl viele Entwickler der Technologie selbst sich Sorgen darüber machen, investieren KI-Firmen kaum Ressourcen in Sicherheit - sondern oft sogar in Lobbyarbeit gegen gesetzliche Regulierung. Es gibt immer noch kein Gesetz, das unabhängige Sicherheitsüberprüfungen vorschreibt, bevor ein neues Modell oder System zum Einsatz kommt. Schon jetzt sehen wir katastrophale Folgen: Chatbots, die Leute mit psychischen Erkrankungen noch weiter in die Krise treiben bis hin zum Suizid, und Bildgeneratoren, die Leute entkleiden. Obwohl solche Verhaltensweisen mit angemessenen Sicherheitsmaßnahmen größtenteils verhindert werden könnten, tragen die KI-Firmen für ihr verantwortungsloses Vorgehen keine Konsequenzen! Da habe ich wenig Vertrauen, dass das besser wird, sobald KI Fähigkeiten erreicht, mit denen sie der Menschheit als Ganzes gefährlich werden kann.\n\nIch erwarte, dass die Welt sich immer schneller verändern wird, und da ist es kaum abzuschätzen, wie die Zukunft aussehen wird. Deshalb bin ich auch verunsichert, welcher Berufs- und Lebensweg für mich Sinn ergibt. Gerade bei langfristigen Projekten ist es unmöglich zu wissen, ob sie sich auszahlen werden.",
+    approved: true,
+  },
+  {
+    name: "Stefan",
+    story:
+      "Ich bin davon überzeugt, dass bereits die heutigen KI-Modelle unsere kritische Infrastruktur wie Stromnetz, Wassernetz, Finanzsystem und Internet lahmlegen könnten. Und es könnte bereits morgen passieren.",
+    approved: true,
+  },
+  {
+    name: "Hauke Harders",
+    location: "Freiburg",
+    story:
+      "Ich studiere Politikwissenschaften und möchte langfristig gerne in einem Ministerium arbeiten. Meine Mutter hat mich letztens gefragt, ob ich mir Sorgen mache, dass mein potentieller Job durch KI ersetzt wird und ich konnte nur antworten, dass ich darauf hoffe, dass die Behörden KI nicht so schnell einsetzen wie es die Unternehmen tun werden. So hoffe ich, einen Job zu finden nach meinem Master.\n\nBei meinen Brüdern bin ich froh, dass sie mit Physiotherapie und Landwirtschaft in Bereichen arbeiten, wo die Aufgaben nicht nur am Rechner erledigt werden. Trotz eines langen Studiums werde ich der in meiner Familie sein, dessen Job am gefährdetsten ist.",
+    approved: true,
+  },
+  {
+    name: "Patric Rommel",
+    location: "Schlierbach",
+    story:
+      "Ich beobachte mit Sorge, wie rapide sich die Fähigkeiten von KI-Systemen entwickeln, und verhältnismäßig klein die öffentliche Diskussion darum ist. Unabhängig davon wie sich die Technologie kurzfristig entwickelt, halte ich es mittelfristig für fast sicher, dass sie enorme gesellschaftliche Veränderungen bringen wird. Um diese zu bewältigen, ist es dringend notwendig, dass es zu einem viel umfangreicheren öffentlichen Diskurs dazu kommt, wie wir damit umgehen wollen. Wie sieht unsere Zukunft als Menschen in einer Welt aus, in der es Maschinen gibt die uns kognitiv weit überlegen sind? Wie können wir die Entwicklung dieser Technologie zu unserem Wohle lenken? Dürfen wir zulassen, dass einige wenige Firmen aus den USA in einer solchen Geschwindigkeit eine solch mächtige Technologie auf die Menschheit loslässt, bevor die gesellschaftlichen Rahmenbedingungen geschaffen sind, diese Veränderungen aufzufangen und zu kanalisieren?\n\nUnd all das setzt voraus, dass diese Technologie von uns beherrschbar bleibt. Daran zweifeln inzwischen immer mehr auch sehr prominente Experten und Wissenschaftler. Die Technologie-Konzerne spielen mit dem Feuer, und wir brauchen dringend mehr Augen, die sich auf das richten, was dort geschieht.",
+    approved: true,
+  },
+  {
+    name: "Henning",
+    story:
+      "Es geht ja nicht darum, dass manche Jobs momentan stärker in Gefahr sind, als andere - sondern dass langfristig alle Tätigkeiten durch Maschinen übernommen werden können. Wenn durch Menschen keine Wertschöpfung mehr passiert, wie kann man das Geld verdienen? Unser gesamtes Wirtschaftssystem ist nicht darauf ausgelegt. Und wie Menschen damit zurecht kommen, nicht mehr klar eine Aufgabe/Sinn/Zweck zu haben, wissen wir überhaupt nicht.",
+    approved: true,
+  },
+  {
+    name: "Jens",
+    location: "Bonn",
+    story:
+      "Ich habe ein KI-Abo, das ich bei der Arbeit benutze, und merke, wie übermenschlich intelligent die neuen, großen Modelle inzwischen geworden sind, und wie sie von Monat zu Monat intelligenter werden. Einerseits bin ich manchmal euphorisch, weil ich mit der KI viel lerne und sich die Produktivität und Qualität meiner Arbeit mindestens verdoppelt hat. Andererseits mache mich mir Sorgen, wie es in Zukunft weitergeht.\n\nWer sich der KI verweigert, fällt im Wettbewerb zurück. Dadurch machen wir uns immer mehr von KI abhängig.\n\nEs spricht im Moment alles dafür, dass die Fähigkeiten der KI weiter schnell wachsen werden. Ich kann mir nur schwer vorstellen, wie es der Menschheit gelingen soll, diese Geister, die wir gerufen haben, dauerhaft zu kontrollieren.\n\nMeine aktuelle Stelle ist befristet. Und ich erwarte, dass es schwierig werden wird, eine neue Stelle zu finden.",
+    approved: true,
+  },
+  {
+    name: "Jan Czerny",
+    location: "Denzlingen",
+    story:
+      "Ich bin Vater von zwei Söhnen und mache mir große Sorgen um deren Zukunft und um die Perspektive für die gesamte Menschheit falls eine künstliche Superintelligenz entsteht welche nicht kontrollierbar ist!",
+    approved: true,
+  },
+  {
+    name: "Omar Kohl",
+    story:
+      "Der Gedanke dass das Wohlergehen meiner Kinder auf dem Spiel steht und ihnen vielleicht nur ein kurzes Leben bevorsteht erfüllt mich mit Trauer und Machtlosigkeit.",
+    approved: true,
+  },
+  {
+    name: "Ben Mor Fuchs",
+    location: "Freiburg",
+    story:
+      "Ich arbeite in der Überwachung von Software und Anlagen in der Pharma- und Medizintechnik. Viele Kunden planen, KI einzusetzen, um diese Aufgaben zu automatisieren. Um meine eigene berufliche Zukunft mache ich mir dabei keine Sorgen – wohl aber um das Ergebnis.\n\nEinerseits begrüße ich das: Mit gleichen Ressourcen ließen sich mehr Qualitätssicherungsmaßnahmen durchführen.\n\nAndererseits lassen sich KIs leichter dazu bringen, notwendige Schritte 'wegzuargumentieren' wo ein Mensch auf der Umsetzung bestehen würde.\n\nIch befürchte, dass ökonomische Interessen die Qualitätssicherung verdrängen.\n\nDas betrifft uns alle: Schlechtere Produktqualität bedeutet schlechtere Behandlung von Patienten und vermeidbares Leid.",
+    approved: true,
+  },
+  {
+    name: "Evander",
+    location: "Würzburg",
+    story:
+      "Mein Hintergrund ist Sonderpädagogik. Ich arbeite mit Menschen, da, wo der menschliche Faktor zählt. Mein Beruf gilt als der, der am spätesten automatisiert wird. Beruhigt hat mich das nie.\n\nDenn im Moment schützt uns nur unsere Körperlichkeit. Bürojobs werden längst automatisiert, die Robotik hängt noch hinterher. Aber sobald KI die Software der Robotik löst, und daran wird gearbeitet, fällt auch dieser Schutz. Erst ersetzt KI das Denken, dann die Hände.\n\nAm Ende kann kaum ein Mensch noch etwas beitragen. Und wer nichts mehr beiträgt, auf den ist auch niemand mehr angewiesen. Früher konnte eine Bevölkerung streiken oder protestieren. Wenn Arbeit, Polizei und Militär automatisiert sind, bleibt davon nichts.\n\nSo entsteht Macht, die auf niemanden mehr angewiesen ist. Genau das ist die Gefahr, nicht die Automatisierung selbst. Aktuell steuern wir genau darauf zu. Aber wir stehen an einem Scheideweg, und noch können wir den Kurs ändern.\n\nIch bin optimistisch, dass wir das schaffen, wenn wir uns informieren, das Thema ernst nehmen und uns als Menschheit koordinieren. Der wichtigste Schritt ist eine Pause. Sie gibt uns die Zeit, innezuhalten und gemeinsam zu entscheiden, welche Zukunft wir eigentlich wollen. Noch können wir umsteuern, aber jetzt ist der Zeitpunkt.",
+    approved: true,
+  },
 ];

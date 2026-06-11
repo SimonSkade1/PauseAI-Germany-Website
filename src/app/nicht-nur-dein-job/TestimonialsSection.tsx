@@ -131,43 +131,8 @@ export default function TestimonialsSection() {
         <SectionAnchor id="stimmen" />
         </div>
 
-        {/* Quote */}
-        <div
-          className="transition-opacity duration-200"
-          style={{ opacity: visible ? 1 : 0 }}
-          aria-live="polite"
-          aria-atomic="true"
-        >
-          <blockquote className="text-white text-lg md:text-xl leading-relaxed space-y-5 mb-10">
-            {(() => {
-              const paragraphs = t.story.split(/\n\n+/);
-              return paragraphs.map((para, i) => {
-                const isFirst = i === 0;
-                const isLast = i === paragraphs.length - 1;
-                const emphasised = isLast && paragraphs.length > 1;
-                return (
-                  <p key={i} className={emphasised ? "font-bold" : "text-white/80"}>
-                    {isFirst && <span className="text-[#FF9416] text-4xl leading-none mr-1 font-serif">„</span>}
-                    {para}
-                    {isLast && ""}
-                  </p>
-                );
-              });
-            })()}
-          </blockquote>
-
-          {/* Attribution */}
-          <div className="border-l-2 border-[#FF9416] pl-4">
-            <p className="font-section font-black text-white text-lg">{t.name}</p>
-            {t.location && (
-              <p className="text-white/50 text-sm mt-0.5">{t.location}</p>
-            )}
-          </div>
-          <span className="sr-only">{`Stimme ${activeIndex + 1} von ${total}`}</span>
-        </div>
-
-        {/* Nav + share row */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between mt-10 pt-6 border-t border-white/10 gap-6">
+        {/* Share + nav row (above the quote so the controls never jump) */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-10 pb-6 border-b border-white/10 gap-6">
           {/* Share links */}
           <div className="flex flex-wrap items-center gap-3">
             <span className="font-section text-xs uppercase tracking-wider text-white/40 mr-1">
@@ -191,45 +156,60 @@ export default function TestimonialsSection() {
 
           {/* Pagination */}
           {total > 1 && (
-            <div className="flex items-center gap-4">
+            <div className="flex items-center justify-between md:justify-end gap-4">
               <button
                 type="button"
                 onClick={() => goTo(activeIndex - 1)}
-                className="w-24 h-10 flex items-center justify-center border border-white/20 text-white/60 hover:border-white/50 hover:text-white transition-colors cursor-pointer text-lg"
+                className="w-20 md:w-24 h-10 flex items-center justify-center border border-white/20 text-white/60 hover:border-white/50 hover:text-white transition-colors cursor-pointer text-lg shrink-0"
                 aria-label="Vorherige Stimme"
               >
                 ←
               </button>
-              <div className="flex gap-2 items-center" role="group" aria-label="Stimme auswählen">
-                {testimonials.map((_, index) => (
-                  <button
-                    key={index}
-                    type="button"
-                    onClick={() => goTo(index)}
-                    className="flex items-center justify-center cursor-pointer py-2"
-                    aria-label={`Stimme ${index + 1}`}
-                    aria-pressed={index === activeIndex}
-                  >
-                    <span
-                      className={`block rounded-full transition-all duration-300 ${
-                        index === activeIndex
-                          ? "w-6 h-3 bg-[#FF9416]"
-                          : "w-3 h-3 bg-white/20 hover:bg-white/40"
-                      }`}
-                    />
-                  </button>
-                ))}
-              </div>
+              <span className="font-section text-sm tracking-wider text-white/60 tabular-nums" aria-live="polite">
+                {activeIndex + 1} / {total}
+              </span>
               <button
                 type="button"
                 onClick={() => goTo(activeIndex + 1)}
-                className="w-24 h-10 flex items-center justify-center bg-[#FF9416] text-black hover:bg-[#e88510] transition-colors cursor-pointer text-lg"
+                className="w-20 md:w-24 h-10 flex items-center justify-center bg-[#FF9416] text-black hover:bg-[#e88510] transition-colors cursor-pointer text-lg shrink-0"
                 aria-label="Nächste Stimme"
               >
                 →
               </button>
             </div>
           )}
+        </div>
+
+        {/* Quote */}
+        <div
+          className="transition-opacity duration-200"
+          style={{ opacity: visible ? 1 : 0 }}
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          <blockquote className="text-white text-lg md:text-xl leading-relaxed space-y-5 mb-10">
+            {(() => {
+              const paragraphs = t.story.split(/\n\n+/);
+              return paragraphs.map((para, i) => {
+                const isFirst = i === 0;
+                return (
+                  <p key={i} className="text-white/80">
+                    {isFirst && <span className="text-[#FF9416] text-4xl leading-none mr-1 font-serif">„</span>}
+                    {para}
+                  </p>
+                );
+              });
+            })()}
+          </blockquote>
+
+          {/* Attribution */}
+          <div className="border-l-2 border-[#FF9416] pl-4">
+            <p className="font-section font-black text-white text-lg">{t.name}</p>
+            {t.location && (
+              <p className="text-white/50 text-sm mt-0.5">{t.location}</p>
+            )}
+          </div>
+          <span className="sr-only">{`Stimme ${activeIndex + 1} von ${total}`}</span>
         </div>
       </div>
     </section>
