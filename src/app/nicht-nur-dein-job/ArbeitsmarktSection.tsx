@@ -32,7 +32,7 @@ const WAVES = [
     body: "Berufseinstieg, Praktika, Trainee-Stellen, Junior-Positionen: genau die Aufgaben, an denen man früher gelernt hat, übernimmt jetzt ein Modell. Eine ganze Generation steht vor verschlossenen Türen, ohne dass das je offiziell kommuniziert wurde.",
     quote: (
       <>
-        Nur <A href="https://www.forschung-und-lehre.de/zeitfragen/jugend-in-deutschland-2026-ein-fuenftel-will-auswandern-7606">32 % der jungen Menschen</A> glauben, ein Studium sichere bessere Berufschancen. 21 % planen die Auswanderung.
+        Nur <A href="https://www.forschung-und-lehre.de/zeitfragen/jugend-in-deutschland-2026-ein-fuenftel-will-auswandern-7606">32 % der jungen Menschen</A> glauben, ein Studium sichere bessere Berufschancen.
       </>
     ),
     pad: "md:px-10",
