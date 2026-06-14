@@ -7,14 +7,19 @@ import LocalGroupSignupForm from "./LocalGroupSignupForm";
 const SHEET_ID = "1PN3uxPjiViTTSIYQj9xj5pcBce28Z-UCY5PkOOoo200";
 const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv`;
 
-function parseCSVLine(line: string): string[] {
-  const fields: string[] = [];
+// Parses an entire CSV document into rows of fields. Handles quoted fields
+// that contain commas, escaped quotes ("") and line breaks (which happen when
+// someone presses Enter inside a Google Sheets cell) so a single odd cell can't
+// corrupt the rest of the document.
+function parseCSV(text: string): string[][] {
+  const rows: string[][] = [];
+  let fields: string[] = [];
   let current = "";
   let inQuotes = false;
-  for (let i = 0; i < line.length; i++) {
-    const ch = line[i];
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
     if (ch === '"') {
-      if (inQuotes && line[i + 1] === '"') {
+      if (inQuotes && text[i + 1] === '"') {
         current += '"';
         i++;
       } else {
@@ -23,25 +28,36 @@ function parseCSVLine(line: string): string[] {
     } else if (ch === "," && !inQuotes) {
       fields.push(current.trim());
       current = "";
+    } else if (ch === "\n" && !inQuotes) {
+      fields.push(current.trim());
+      rows.push(fields);
+      fields = [];
+      current = "";
     } else {
       current += ch;
     }
   }
-  fields.push(current.trim());
-  return fields;
+  // Flush the final field/row if the file doesn't end with a newline.
+  if (current.length > 0 || fields.length > 0) {
+    fields.push(current.trim());
+    rows.push(fields);
+  }
+  return rows;
 }
 
-async function fetchGroups(): Promise<LocalGroup[]> {
+async function fetchGroups(): Promise<{ groups: LocalGroup[]; failed: boolean }> {
   const res = await fetch(CSV_URL, { cache: "no-store" });
-  if (!res.ok) throw new Error(`Failed to fetch groups: ${res.status}`);
-  const text = (await res.text()).replace(/\r/g, "");
-  const lines = text.trim().split("\n").slice(1); // skip header row
-  if (process.env.NODE_ENV === "development") {
-    console.log("[lokalgruppen] CSV columns:", parseCSVLine(text.split("\n")[0]));
+  if (!res.ok) {
+    // Don't take the whole page down if the sheet is unreachable (e.g. a 401
+    // when its sharing isn't set to "Anyone with the link"). Render the rest of
+    // the page and show a warning instead of the groups.
+    return { groups: [], failed: true };
   }
-  return lines
-    .map((line) => {
-      const f = parseCSVLine(line).map((v) => v.replace(/\r/g, ""));
+  const text = (await res.text()).replace(/\r/g, "");
+  const rows = parseCSV(text);
+  const [, ...dataRows] = rows;
+  const groups = dataRows
+    .map((f) => {
       return {
         id: f[0],
         city: f[1],
@@ -58,12 +74,14 @@ async function fetchGroups(): Promise<LocalGroup[]> {
         lumaUrl: f[11] || undefined,
       } satisfies LocalGroup;
     })
+    // Skip incomplete rows (e.g. a half-filled sheet row) instead of crashing.
     .filter((g) => g.id && g.city)
     .sort((a, b) => a.city.localeCompare(b.city, "de"));
+  return { groups, failed: false };
 }
 
 export default async function LokalGruppenPage() {
-  const groups = await fetchGroups();
+  const { groups, failed } = await fetchGroups();
 
   return (
     <>
@@ -81,6 +99,16 @@ export default async function LokalGruppenPage() {
             Gruppe in deiner Nähe und werde Teil der Bewegung.
           </p>
         </section>
+
+        {failed && (
+          <section className="mx-auto max-w-5xl px-6 md:px-10">
+            <div className="rounded-sm border border-[#FF9416] bg-[#FFF6EC] p-4 font-body text-sm text-pause-black/85">
+              Die Liste der Lokalgruppen konnte gerade nicht geladen werden. Bitte
+              versuche es später noch einmal — der Rest der Seite funktioniert
+              weiterhin.
+            </div>
+          </section>
+        )}
 
         <LocalGroupsClient groups={groups} />
 
