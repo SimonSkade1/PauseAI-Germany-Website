@@ -47,6 +47,19 @@ export const STATIC_TESTIMONIALS: Testimonial[] = [
     approved: true,
   },
   {
+    name: "Nicole",
+    location: "Esslingen",
+    story:
+    `
+    Ich bin Art Direktorin, habe aber auch schon im Projektmanagement und Front-End-Development gearbeitet. Aus technischer Sicht finde ich die Entwicklung irgendwo natürlich super spannend, und auch im Projektmanagement gibt es durchaus Bereiche, in denen man durch Prozessautomatisierung sehr viel gewinnt. Doch vor allem in den Bereichen Design und Kunst sehe ich sehr viele Probleme. Das fängt schon bei den ethischen an, denn die Arbeit von Millionen von Menschen wird gestohlen, um Modelle zu trainieren, die genau diese Menschen dann ersetzen.
+
+Meine eigene Stelle sehe ich zwar aktuell noch nicht als vollständig automatisierbar, da Strategie, Markenführung und komplexe Systeme weiterhin menschliches Zutun brauchen. Aber auch das kann sich in Anbetracht des aktuellen Tempos schnell ändern und gerade viele Juniortätigkeiten werden jetzt schon zunehmend von KI übernommen, wodurch die Einstiegsebene in den Beruf nach und nach wegbricht. 
+
+Deutlich größere Sorgen mache ich mir allerdings über die aktuelle Geschwindigkeit, mit der diese Systeme entwickelt werden. Am Ende geht es nicht nur darum, welche Jobs verschwinden, sondern was passiert, wenn KI uns tatsächlich überlegen wird und anfängt, eigene Ziele zu verfolgen, denn genau davor warnen inzwischen viele führende Wissenschaftler.
+    `,
+    approved: true,
+  },
+  {
     name: "Henrik Jacobsen",
     location: "Osnabrück",
     story:
@@ -143,6 +156,56 @@ export const STATIC_TESTIMONIALS: Testimonial[] = [
     location: "Würzburg",
     story:
       "Mein Hintergrund ist Sonderpädagogik. Ich arbeite mit Menschen, da, wo der menschliche Faktor zählt. Mein Beruf gilt als der, der am spätesten automatisiert wird. Beruhigt hat mich das nie.\n\nDenn im Moment schützt uns nur unsere Körperlichkeit. Bürojobs werden längst automatisiert, die Robotik hängt noch hinterher. Aber sobald KI die Software der Robotik löst, und daran wird gearbeitet, fällt auch dieser Schutz. Erst ersetzt KI das Denken, dann die Hände.\n\nAm Ende kann kaum ein Mensch noch etwas beitragen. Und wer nichts mehr beiträgt, auf den ist auch niemand mehr angewiesen. Früher konnte eine Bevölkerung streiken oder protestieren. Wenn Arbeit, Polizei und Militär automatisiert sind, bleibt davon nichts.\n\nSo entsteht Macht, die auf niemanden mehr angewiesen ist. Genau das ist die Gefahr, nicht die Automatisierung selbst. Aktuell steuern wir genau darauf zu. Aber wir stehen an einem Scheideweg, und noch können wir den Kurs ändern.\n\nIch bin optimistisch, dass wir das schaffen, wenn wir uns informieren, das Thema ernst nehmen und uns als Menschheit koordinieren. Der wichtigste Schritt ist eine Pause. Sie gibt uns die Zeit, innezuhalten und gemeinsam zu entscheiden, welche Zukunft wir eigentlich wollen. Noch können wir umsteuern, aber jetzt ist der Zeitpunkt.",
+    approved: true,
+  },
+  {
+    name: "Kai-Uwe Berroth",
+    location: "Albeck",
+    story:
+    `
+    Ich habe vor 10 Jahren nochmals berufsbegleitend einen Master in Datenauswertung mit Hilfe von KI gemacht, weil ich im Rahmen der Industrie 4.0 davon ausging, dass Facharbeiter langsam durch Roboter ersetzt werden, und früher oder später in die Prozessbegleitung drängen werden. Mittlerweile kann man fest eher die Verdrängung meiner Kollegen durch KI befürchten. Inzwischen bin ich als Betriebsrat unter anderem für Regulation von KI-Systeme bei einem Unternehmen der Halbleiterbranche tätig.
+
+Aber ich befürchte, dass wir im aktuellen Wettrüsten die Kontrolle über die ersten KIs verloren haben und trotzdem weiterhin Richtung AGI forschen.
+
+Wir dürfen nicht noch intelligentere KIs erforschen - statt desen sollten wir uns auf die Nutzbarmachung der aktuellen Sprachmodelle und alternativen Algorithmen zu LLMs beschränken.
+    `,
+    approved: true,
+  },
+  {
+    name: "Dominic Maier",
+    location: "",
+    story:
+      `Computer, die perfekt viele verschiedene Sprachen sprechen. KI, die Goldmedaillen bei Mathematik Olympiaden gewinnt. Das war vor 10 Jahren noch Science Fiction. Heute ist es Realität. 
+
+KI hat noch viele Schwächen, kann aber immer komplexere und längere Aufgaben immer autonomer übernehmen. 
+
+Schon fragt sich mancher Schüler: "Warum noch lernen, wenn KI doch alle Aufgaben (besser) lösen kann?". In den KI-Unternehmen wird bereits ein Großteil des Codes autonom durch KI geschrieben. Bald werden sich Programmierer fragen: Was ist meine Ausbildung noch wert? Das ganze, vielleicht jahrzehntelange Lernen und Üben? Ärzte, Anwälte und viele andere werden folgen. 
+
+KI nimmt nach und nach den Kern unserer Arbeit weg. Das was es vielleicht interessant und herausfordernd macht, das was uns das Gefühl vermittelt "etwas beitragen zu können". 
+
+Dort wo KI besser ist, wird sie uns langfristig ersetzen. Und die Unternehmen investieren hunderte Milliarden, um zu erreichen, dass KI bei allen wirtschaftlich wertvollen Tätigkeiten dem Menschen überlegen ist. Durch die Robotik werden handwerkliche Berufe davon auch nicht ausgenommen sein. 
+
+Damit wird ein enormer Teil unseres gesellschaftlichen Systems und menschlichen Selbstverständnisses untergraben. Hinzu kommt „gradual disempowerment": Wer Arbeit und Entscheidungen an KI abgibt, gibt langfristig auch Einfluss und Kompetenz als Bürger ab. 
+
+Was mir aber noch weit mehr Sorgen bereitet, ist die von den Unternehmen angestrebte Entwicklung einer (sich selbst verbessernden) Superintelligenz.
+
+Wer so etwas kontrollieren könnte, hätte unvorstellbare Macht. 
+
+Aber wie können wir etwas kontrollieren, das ungleich intelligenter und schneller ist als wir? Wie kann man es zuverlässig auf menschliche Werte ausrichten? Dafür hat die Wissenschaft keine Antwort. Es ist so, als ob eine Katze einen Menschen kontrollieren wollte. 
+
+So eine Superintelligenz kann unglaublich gefährlich werden, mit katastrophalen Folgen für die Menschheit. Nicht umsonst warnen seit Jahren KI-Forscher von höchstem akademischem Rang (Turing- und Nobelpreisträger) massiv. 
+
+Schon heute zeigen Modelle in Tests Selbsterhaltung, Täuschung, Drohungen, Versuche vom Server auszubrechen etc. Dies ist aktuell im großen Maßstab noch ungefährlich, da die Modelle noch nicht leistungsfähig genug sind. 
+
+Wenn die Entwicklung so weitergeht, kann allerdings schnell eine kritische Grenze überschritten sein.
+
+CEOs und Wissenschaftler der KI-Unternehmen geben teils zweistellige Wahrscheinlichkeiten dafür an, dass eine Superintelligenz sogar zur Auslöschung der Menschheit führen könnte. 
+
+Trotzdem entwickeln sie weiter - jeder überzeugt, es sicherer zu machen als die anderen, und keiner bereit aufzuhören, solange die anderen weitermachen.
+
+Ich finde es ungeheuerlich, dass diese Unternehmen nach eigenen Aussagen und denen unabhängiger Experten mit dem Leben aller Menschen auf der Erde spielen, dieses Problem von der Politik zugleich aber nicht einmal ernsthaft wahrgenommen wird. 
+
+Den Bau einer Superintelligenz international zu verhindern oder zumindest zu pausieren ist im Gegenteil das derzeit dringlichste und wichtigste politische Ziel weltweit.`,
     approved: true,
   },
 ];
