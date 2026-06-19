@@ -56,6 +56,10 @@ export default function AbgeordneteSelect({
   const [chamber, setChamber] = useState<Chamber | null>(null);
   const [mailDraft, setMailDraft] = useState<MailDraft>({ recipient: "" });
   const [templateMeta, setTemplateMeta] = useState<Partial<Record<Chamber, { subject: string; preview: string }>>>({});
+  // Anonymous per-draft id used to de-duplicate email tracking: every copy/open
+  // action for one selected recipient is folded into a single Convex record.
+  // A fresh id is minted on each recipient selection (see the list onClick).
+  const [draftId, setDraftId] = useState<string | null>(null);
 
   useEffect(() => {
     (["bundestag", "europarl", "buergersprechstunde", "mdb_mythos", "mep_mythos", "mdb_anthropic"] as const).forEach((c) => {
@@ -558,6 +562,7 @@ export default function AbgeordneteSelect({
                           }`}
                           onClick={() => {
                             setSelected(item);
+                            setDraftId(crypto.randomUUID());
                             onSelect?.(item.row);
                             setMailDraft((prev) => ({ ...prev, recipient: item.info.email || "" }));
                             goToStep(4, { ignoreGuards: true });
@@ -624,8 +629,10 @@ export default function AbgeordneteSelect({
           <div className="space-y-4 bg-white p-2 md:p-3">
             {selected && selectedInfo ? (
               <EmailTemplateViewer
+                draftId={draftId ?? ""}
                 templateFile={chamber ? TEMPLATE_FILE_BY_CHAMBER[chamber] : "mail_mdb_appell.txt"}
-                chamber={chamber ?? "unknown"}
+                campaign={chamber ?? "unknown"}
+                parliamentGroup={parliamentGroup ?? "unknown"}
                 initialRecipientName={selectedInfo.last || selectedInfo.full}
                 initialRecipientEmail={mailDraft.recipient || selectedInfo.email}
                 initialRecipientAnrede={selectedInfo.anrede}

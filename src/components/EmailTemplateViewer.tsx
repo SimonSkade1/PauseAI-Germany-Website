@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 
 type Props = {
+  draftId?: string;
   templateFile?: string;
-  chamber?: string;
+  campaign?: string;
+  parliamentGroup?: string;
   initialRecipientName?: string;
   initialRecipientEmail?: string;
   initialRecipientAnrede?: string;
@@ -23,8 +25,10 @@ type Props = {
 };
 
 export default function EmailPreviewPage({
+  draftId = '',
   templateFile = 'mail_mdb_appell.txt',
-  chamber = 'unknown',
+  campaign = 'unknown',
+  parliamentGroup = 'unknown',
   initialRecipientName = '',
   initialRecipientEmail = '',
   initialRecipientAnrede = '',
@@ -170,27 +174,37 @@ export default function EmailPreviewPage({
     }
   }, [editableRecipient, editableSubject, editableBody, onDraftChange]);
 
-  const openMailComposer = async () => {
-    // Fire-and-forget: record the click for aggregate stats by calling the
-    // Convex public mutation HTTP endpoint directly. This deliberately does
-    // not use useMutation/ConvexProvider so the page still works in
-    // environments where NEXT_PUBLIC_CONVEX_URL isn't set. If the URL is
-    // missing, we simply skip tracking. If the request fails, we swallow
-    // the error so the compose action always proceeds.
+  // Fire-and-forget aggregate tracking. Records one action for the current
+  // mail draft by calling the Convex public mutation HTTP endpoint directly.
+  // This deliberately does not use useMutation/ConvexProvider so the page still
+  // works in environments where NEXT_PUBLIC_CONVEX_URL isn't set. We skip
+  // tracking when the URL or draftId is missing, and swallow any error so the
+  // user action always proceeds. The server folds every action for the same
+  // draftId into a single record, so this can be called freely per button.
+  const recordEngagement = (
+    action: 'copy_recipient' | 'copy_subject' | 'copy_body' | 'open',
+    extra?: { mailTarget?: string },
+  ) => {
     const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL;
-    if (convexUrl) {
-      fetch(`${convexUrl}/api/mutation`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          path: 'emailTracking:recordEmailSendClick',
-          args: { templateFile, chamber, mailTarget },
-          format: 'json',
-        }),
-      }).catch((err) => {
-        console.warn('Email tracking failed (non-fatal):', err);
-      });
-    }
+    if (!convexUrl || !draftId) return;
+    fetch(`${convexUrl}/api/mutation`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      // keepalive lets the request survive the page/app navigation that
+      // immediately follows the "open" action (e.g. window.location = mailto).
+      keepalive: true,
+      body: JSON.stringify({
+        path: 'emailTracking:recordEmailEngagement',
+        args: { draftId, templateFile, campaign, parliamentGroup, action, ...extra },
+        format: 'json',
+      }),
+    }).catch((err) => {
+      console.warn('Email tracking failed (non-fatal):', err);
+    });
+  };
+
+  const openMailComposer = async () => {
+    recordEngagement('open', { mailTarget });
 
     const to = editableRecipient || '';
     const subject = editableSubject || '';
@@ -326,6 +340,9 @@ export default function EmailPreviewPage({
         document.body.removeChild(ta);
       }
       setCopyState((s) => ({ ...s, [key]: 'ok' }));
+      recordEngagement(
+        key === 'recipient' ? 'copy_recipient' : key === 'subject' ? 'copy_subject' : 'copy_body',
+      );
     } catch (err) {
       console.error('Copy failed:', err);
       setCopyState((s) => ({ ...s, [key]: 'error' }));

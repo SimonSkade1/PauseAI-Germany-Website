@@ -53,14 +53,29 @@ export default defineSchema({
     .index("by_suggestion_id", ["suggestionId"])
     .index("by_suggestion_and_voter", ["suggestionId", "voterToken"]),
 
-  emailSendClicks: defineTable({
+  // One record per mail "draft" (one selected recipient). All trackable actions
+  // for that draft — copying the recipient/subject/body and opening the mail
+  // composer — accumulate into the same row, de-duplicated via the anonymous
+  // random `draftId`. Stores no personal data (no sender, recipient, or IP), so
+  // aggregate counts stay collectable without GDPR consent.
+  emailEngagements: defineTable({
+    draftId: v.string(),
     templateFile: v.string(),
-    chamber: v.string(),
-    mailTarget: v.string(),
-    clickedAt: v.number(),
+    // `campaign` is the specific email variant chosen (e.g. "mdb_anthropic"),
+    // `parliamentGroup` is the parliament it rolls up to ("bundestag" | "europarl").
+    campaign: v.string(),
+    parliamentGroup: v.string(),
+    mailTarget: v.optional(v.string()),
+    copiedRecipient: v.boolean(),
+    copiedSubject: v.boolean(),
+    copiedBody: v.boolean(),
+    openedComposer: v.boolean(),
+    createdAt: v.number(),
+    updatedAt: v.number(),
   })
+    .index("by_draft_id", ["draftId"])
     .index("by_template", ["templateFile"])
-    .index("by_clicked_at", ["clickedAt"]),
+    .index("by_created_at", ["createdAt"]),
 
 
 });
