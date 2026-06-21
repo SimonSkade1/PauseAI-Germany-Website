@@ -9,7 +9,6 @@ export type RowInfo = {
   full: string;
   birthYear: string;
   party: string;
-  bundesland: string;
   district: string;
   email: string;
   anrede: string;
@@ -52,12 +51,12 @@ export function parseTemplateMeta(raw: string): { subject: string; preview: stri
 }
 
 export const CSV_PATH_BY_CHAMBER: Record<Chamber, string> = {
-  bundestag: "/data/BTAbgeordnete_with_bundesland.csv",
+  bundestag: "/data/BTAbgeordnete.csv",
   europarl: "/data/EUAbgeordnete.csv",
-  buergersprechstunde: "/data/BTAbgeordnete_with_bundesland.csv",
-  mdb_mythos: "/data/BTAbgeordnete_with_bundesland.csv",
+  buergersprechstunde: "/data/BTAbgeordnete.csv",
+  mdb_mythos: "/data/BTAbgeordnete.csv",
   mep_mythos: "/data/EUAbgeordnete.csv",
-  mdb_anthropic: "/data/BTAbgeordnete_with_bundesland.csv",
+  mdb_anthropic: "/data/BTAbgeordnete.csv",
 };
 
 export const FILTER_FIELDS_BY_CHAMBER: Record<Chamber, FilterField[]> = {
@@ -84,7 +83,6 @@ const ROW_INFO_KEYS: Record<Exclude<keyof RowInfo, "full">, string[]> = {
   last: ["LastName", "Nachname", "last", "lastname", "family_name"],
   birthYear: ["BirthYear", "birthYear", "geburtsjahr"],
   party: ["Partei", "party", "Party", "partei"],
-  bundesland: ["Bundesland", "bundesland"],
   district: ["Wahlkreis", "district", "Wahlkreisnummer", "WahlkreisNummer"],
   email: ["Email", "email", "E-Mail", "E_MAIL", "mail"],
   anrede: ["Anrede", "anrede", "Anrede/Geschlecht", "Geschlecht", "geschlecht", "gender"],
@@ -262,9 +260,7 @@ export function partyColor(p?: string): string {
 }
 
 export function bundestagSubtitle(info: RowInfo): string {
-  return [info.bundesland, info.district ? `Wahlkreis: ${info.district}` : ""]
-    .filter(Boolean)
-    .join(" • ");
+  return info.district ? `Wahlkreis: ${info.district}` : "";
 }
 
 export function europarlSubtitle(info: RowInfo): string {

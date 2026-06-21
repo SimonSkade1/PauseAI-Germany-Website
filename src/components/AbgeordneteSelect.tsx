@@ -593,7 +593,7 @@ export default function AbgeordneteSelect({
                               </div>
                             )}
                             {(chamber === "bundestag" || chamber === "buergersprechstunde" || chamber === "mdb_mythos" || chamber === "mdb_anthropic") &&
-                              (item.info.bundesland || item.info.district) && (
+                              item.info.district && (
                                 <div className="text-xs text-gray-600 mt-1">
                                   {bundestagSubtitle(item.info)}
                                 </div>
