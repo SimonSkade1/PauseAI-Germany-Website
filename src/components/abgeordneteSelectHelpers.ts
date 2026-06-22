@@ -15,9 +15,10 @@ export type RowInfo = {
   region: string;
   city: string;
   postalCode: string;
+  state: string;
 };
 export type RowWithInfo = { row: Row; info: RowInfo };
-export type FilterField = "first" | "last" | "full" | "birthYear" | "party" | "district" | "email";
+export type FilterField = "first" | "last" | "full" | "birthYear" | "party" | "district" | "email" | "state";
 
 export const TEMPLATE_FILE_BY_CHAMBER: Record<Chamber, string> = {
   bundestag: "mail_mdb_appell.txt",
@@ -60,12 +61,12 @@ export const CSV_PATH_BY_CHAMBER: Record<Chamber, string> = {
 };
 
 export const FILTER_FIELDS_BY_CHAMBER: Record<Chamber, FilterField[]> = {
-  bundestag: ["first", "last", "full", "birthYear", "party", "district", "email"],
+  bundestag: ["first", "last", "full", "birthYear", "party", "district", "email", "state"],
   europarl: ["party"],
-  buergersprechstunde: ["first", "last", "full", "birthYear", "party", "district", "email"],
-  mdb_mythos: ["first", "last", "full", "birthYear", "party", "district", "email"],
+  buergersprechstunde: ["first", "last", "full", "birthYear", "party", "district", "email", "state"],
+  mdb_mythos: ["first", "last", "full", "birthYear", "party", "district", "email", "state"],
   mep_mythos: ["party"],
-  mdb_anthropic: ["first", "last", "full", "birthYear", "party", "district", "email"],
+  mdb_anthropic: ["first", "last", "full", "birthYear", "party", "district", "email", "state"],
 };
 
 const FILTER_FIELD_LABELS: Record<FilterField, string> = {
@@ -76,6 +77,7 @@ const FILTER_FIELD_LABELS: Record<FilterField, string> = {
   party: "Parteien",
   district: "Wahlkreis",
   email: "E-Mail",
+  state: "Bundesland",
 };
 
 const ROW_INFO_KEYS: Record<Exclude<keyof RowInfo, "full">, string[]> = {
@@ -89,6 +91,7 @@ const ROW_INFO_KEYS: Record<Exclude<keyof RowInfo, "full">, string[]> = {
   region: ["zuständige bundesländer", "zustaendige bundeslaender", "region"],
   city: ["büro in deutschland stadt", "buero in deutschland stadt", "stadt", "city"],
   postalCode: ["büro in deutschland plz", "buero in deutschland plz", "plz", "postalcode"],
+  state: ["Bundesland", "bundesland", "state"],
 };
 
 const FULL_NAME_KEYS = ["Name", "FullName", "full", "name"];
@@ -226,6 +229,8 @@ export function valueForFilterField(info: RowInfo, key: string): string {
       return info.district;
     case "email":
       return info.email;
+    case "state":
+      return info.state;
     default:
       return "";
   }
@@ -260,7 +265,12 @@ export function partyColor(p?: string): string {
 }
 
 export function bundestagSubtitle(info: RowInfo): string {
-  return info.district ? `Wahlkreis: ${info.district}` : "";
+  return [
+    info.district ? `Wahlkreis: ${info.district}` : "",
+    info.state ? (info.district ? info.state : `Landesliste ${info.state}`) : "",
+  ]
+    .filter(Boolean)
+    .join(" • ");
 }
 
 export function europarlSubtitle(info: RowInfo): string {

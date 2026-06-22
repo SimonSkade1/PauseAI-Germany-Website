@@ -509,7 +509,7 @@ export default function AbgeordneteSelect({
                     placeholder={
                       chamber === "europarl" || chamber === "mep_mythos"
                         ? "Suche nach Name, Partei, PLZ, Stadt oder Bundesland..."
-                        : "Suche nach Name, Partei, PLZ, Stadt..."
+                        : "Suche nach Name, Partei, PLZ, Bundesland..."
                     }
                     className="flex-1 border border-zinc-300 bg-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#ffbf73]"
                   />
@@ -593,7 +593,7 @@ export default function AbgeordneteSelect({
                               </div>
                             )}
                             {(chamber === "bundestag" || chamber === "buergersprechstunde" || chamber === "mdb_mythos" || chamber === "mdb_anthropic") &&
-                              item.info.district && (
+                              (item.info.district || item.info.state) && (
                                 <div className="text-xs text-gray-600 mt-1">
                                   {bundestagSubtitle(item.info)}
                                 </div>
